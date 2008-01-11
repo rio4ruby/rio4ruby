@@ -199,17 +199,11 @@ module RIO
       # gives states the ability to create new rio objects
       # (should this be here???)
       def new_rio(arg0,*args,&block)
-        #return arg0 if arg0.nil? # watch out for dir.read! if you remove this line
-        nrio = Rio.rio(arg0,*args,&block)
-        #nrio.fs = self.fs
-        nrio
+        Rio.rio(arg0,*args,&block)
       end
       def new_rio_cx(*args)
         n = new_rio(*args)
-        #p "new_rio_cx 1: #{n.cx.inspect}"
         n.cx = self.cx.bequeath(n.cx)
-        #p "new_rio_cx 2: #{n.cx.inspect}"
-        #n.fs = self.fs
         n
       end
       def clone_rio()
@@ -217,7 +211,6 @@ module RIO
         cp.cx = self.cx.clone
         cp.ioh = self.ioh.clone unless self.ioh.nil?
         cp.rl = self.rl.clone
-        #cp.fs = self.fs
         cp
       end
       

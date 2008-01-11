@@ -128,11 +128,11 @@ module RIO
       # * Files and directories are returned as Rios
       # * The types of entries is also affected by IF::GrandeEntry#files and IF::GrandeEntry#dirs.
       #    rio('adir').files['*.txt'] # array of all .txt files
-      #    rio('adir').dirs(/^\./) # array of all dot directories
+      #    rio('adir').dirs[/^\./] # array of all dot directories
       # * Recursion is enabled using IF::GrandeEntry#all
       #    rio('adir').all.files['*.[ch]'] # array of c source files in adir and its subdirecories
       #    rio('adir').all.dirs[/^\.svn/]  # array of subversion directories in adir and subdirectories
-      # * IF::GrandeEntry#files and IF::GrandeEntry#dirs act independetly of each other. 
+      # * IF::GrandeEntry#files and IF::GrandeEntry#dirs act independently of each other. 
       #   Specifying both will cause both to be returned. 
       #   The argument list to IF::Grande#[] will be applied to the closest.
       #    rio('adir').files('*.rb').dirs['ruby*'] # array of .rb files and 
@@ -329,9 +329,12 @@ module RIO
       #
       def delete() target.delete(); self end
 
+      # See IF::Grande#delete
+      def unlink() target.unlink(); self end
+
       # For a file IF::Grande#delete! calls FileUtils#rm. 
-      # For a directory IF::Grande#delete! calls FileUtils#rmtree
-      # Returns the Rio. If the rio does not exist, simply return itself.
+      # For a directory IF::Grande#delete! calls FileUtils#rmtree.
+      # Returns the Rio. If the rio does not exist, simply returns itself.
       #
       #  rio('afile,txt').delete! # delete f.txt
       #  rio('adir').delete! # delete adir
@@ -346,7 +349,7 @@ module RIO
       # * To delete anything except a populated directory use IF::Grande#delete
       # * To delete anything use IF::Grande#delete!
       #
-      # In all cases, deleting something that does not exist is considered successful
+      # In all cases, deleting something that does not exist is considered successful.
       #
       def delete!() target.delete!(); self end
 
@@ -383,7 +386,7 @@ module RIO
       #  rio('src.txt.gz').gzip > rio('dst.txt')
       #
       # Copying to an array
-      #  rio('afile') > ary # each line of the file becomes and element of the ary
+      #  rio('afile') > ary # each line of the file becomes an element of the ary
       #  rio('afile').chomp > ary # same thing with lines chomped
       #  rio('afile.gz').gzip.chomp > ary # same thing from a gzipped file
       #
@@ -409,7 +412,7 @@ module RIO
       #
       # Copy the first and 8th through 10th columns of the first ten rows of a gzipped csv 
       # file on a web site into a local gzipped csv file that uses semi-colons as separators
-      #  rio('http://domain/file.csv.gz').columns(0,7..9).gzip.csv[0..9] > rio('localfile.csv.gz').csv(';').gzip
+      #  rio('http://host/file.csv.gz').columns(0,7..9).gzip.csv[0..9] > rio('localfile.csv.gz').csv(';').gzip
       #
       # See also IF::Grande#>>, IF::Grande#|
       #
@@ -426,8 +429,9 @@ module RIO
 
       # Grande Pipe Operator
       # 
-      # The Rio pipe operator is actually an alternative syntax for calling the copy-to operator, designed to 
-      # allow several copy operation to be performed in one line of code, with behaviour that mimics
+      # The Rio pipe operator is actually an alternative syntax for calling the IF::Grande#> (copy-to) 
+      # operator, designed to 
+      # allow several copy operation to be performed in one line of code, with behavior that mimics
       # the pipe operator commonly available in shells.
       #
       # If +destination+ is a +cmdio+, a <tt>cmdpipe</tt> Rio is returned, and none of the commands are run.
@@ -528,7 +532,7 @@ module RIO
       # For example the code:
       #
       #  destination < source
-      #  # is like
+      # is like
       #  source.each { |element| destination << element }
       #
       # for any of the following definitions of src and dst
@@ -630,6 +634,9 @@ module RIO
       # 
       # +skip+ can be used in two ways.
       #
+      #
+      # ==== skip with no arguments
+      #
       # If called with no arguments it reverses the polarity of the
       # next non-skip grande selection method that is called. That is,
       # it turns +lines+, +records+, +rows+, +files+, +dirs+ and +entries+
@@ -642,6 +649,8 @@ module RIO
       # Note that it only affects the next selection method seen -- and may be
       # used more than once. If no grande selection method is seen, +skip+ is
       # ignored.
+      #
+      # ==== skip with arguments
       #
       # When called with arguments it acts like IF::GrandeEntry#skipentries for directory 
       # Rios and like IF::GrandeStream#skiprecords for stream Rios.
@@ -674,7 +683,7 @@ module RIO
       # IF::Grande#split has two distinct behaviors depending on 
       # whether or not it is called with an argument.
       #
-      # ==== split-with-no-aruments:
+      # ==== split with no aruments:
       #
       # Returns an array of Rios, one for each path element. 
       # (Note that this behavior differs from File#split.)
@@ -693,7 +702,7 @@ module RIO
       #
       # See also IF::Path#join, IF::Path#/, IF::Path#splitpath
       #
-      # ==== split-with-an-argument:
+      # ==== split with an argument:
       #
       # This causes String#split(arg) to be called on every line
       # before it is returned. An array of the split lines is
