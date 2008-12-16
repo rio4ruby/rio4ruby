@@ -43,7 +43,7 @@ module RIO
             @cx = context
           end
           def cx() @cx end
-          def _calc_csv_columns()
+          def _calc_csv_columns(num_cols)
             require 'rio/arraynge'
             ycols = cx['col_args']
             ncols = cx['nocol_args']
@@ -53,12 +53,16 @@ module RIO
               cx['csv_columns'] = nil
             else
               ncols = [] if ncols.nil?
-              ycols = [(0..1000)] if ycols.nil? or ycols.empty?
+              ycols = [(0..-1)] if ycols.nil? or ycols.empty?
+              ncols = Arraynge.ml_arraynge(num_cols,ncols)
+              ycols = Arraynge.ml_arraynge(num_cols,ycols)
+              #p "ccc: ncols=#{ncols.inspect} ycols=#{ycols.inspect}"
               cx['csv_columns'] = Arraynge.ml_diff(ycols,ncols)
             end
           end
           def _trim(fields)
-            _calc_csv_columns()
+            _calc_csv_columns(fields.size-1)
+
             return fields if cx['csv_columns'].nil?
             case fields
             when ::CSV::Row
@@ -68,9 +72,13 @@ module RIO
             end
           end
           def _trim_row(row)
-            _calc_csv_columns()
+            #p "ncols=#{cx['nocol_args'].inspect} ycols=#{cx['col_args'].inspect}"
+            _calc_csv_columns(row.size-1)
+            #p cx['csv_columns']
             return row if cx['csv_columns'].nil?
-            cols = _trim_col(row.size-1,cx['csv_columns'])
+
+            #cols = _trim_col(row.size-1,cx['csv_columns'])
+            cols = cx['csv_columns']
             case row
             when ::CSV::Row
               hdrs = cols.map{|idx| row.headers[idx]}.flatten
@@ -83,7 +91,7 @@ module RIO
           end
           def _trim_col(mx,cols)
             cols.map do |el|
-              (el.is_a?(::Range) and el.max > mx) ? (el.min..mx) : el
+              (el.is_a?(::Range) and el.max > mx ? el.min..mx : el)
             end
           end
           def each_line(*args,&block)
