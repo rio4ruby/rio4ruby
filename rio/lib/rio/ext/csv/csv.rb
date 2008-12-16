@@ -177,9 +177,6 @@ module RIO
               else
                 ario.putrec(el.parse_csv(*ario.cx['csv_args']))
               end
-              #p el
-              #ario << el
-              #ario.putrec(el)
             }.copying_done(ario)
             ario
           }
@@ -187,71 +184,16 @@ module RIO
 
         def to_rec_(raw_rec)
           if ::CSV::Row === raw_rec
-            #p 'OKOKOKOK'
             unless cx['field_args'].nil?
               cx['csv_columns'] ||= []
-              #p raw_rec
               cx['csv_columns'] += fields_to_columns(raw_rec.headers,cx['field_args'])
               cx['field_args'] = nil
             end
           end
           raw_rec
-#           case cx['stream_itertype']
-#           when 'lines' 
-#             _trim(raw_rec).to_csv(*cx['csv_args'])
-#           when 'records'
-#             case raw_rec
-#             when ::Array then _trim(raw_rec)
-#             else _trim(raw_rec.fields)
-#             end
-#           when 'rows'
-#             _trim_row(raw_rec)
-#           else
-#             _trim(raw_rec)
-#           end
         end
 
         private
-#         def _trim_row(row)
-#           return row if cx['csv_columns'].nil?
-#           return case row
-#                  when ::CSV::Row
-#                    #p "HERE: headers: #{row.headers.inspect} row: #{row.inspect}"
-#                    hdrs = cx['csv_columns'].map{|idx| row.headers[idx]}.flatten
-#                    flds = row.fields(*cx['csv_columns'])
-#                    row.class.new(hdrs,flds,row.header_row?)
-#                  else
-#                    #p 'THERE'
-#                    flds = cx['csv_columns'].map{|idx| row[idx]}.flatten
-#                    ::CSV::Row.new([],flds)
-#                  end
-#         end
-#         def _trim(fields)
-#           #p "_trim(#{fields.inspect})"
-#           #p cx['csv_columns']
-#           return fields if cx['csv_columns'].nil?
-#           return case fields
-#                  when ::CSV::Row
-#                    fields.fields(*cx['csv_columns'])
-#                  else
-#                    cx['csv_columns'].map{|idx| fields[idx]}.flatten
-#                  end
-#         end
-#         #         def to_rec_(raw_rec)
-#         #           return raw_rec
-#         #_init_cols_from_line(raw_rec) if @recno == 0
-#         #p "#{callstr('to_rec_',raw_rec.inspect,@recno)} ; itertype=#{cx['stream_itertype']}"
-#         #           case cx['stream_itertype']
-#         #           when 'lines' 
-#         #             raw_rec
-#         #           when 'records'
-#         #             _l2record(raw_rec)
-#         #           when 'rows'
-#         #             _l2row(raw_rec)
-#         #           else
-#         #             _l2record(raw_rec)
-#         #           end
-#         #         end
 
         def fields_to_columns(row,flds)
           cols = []

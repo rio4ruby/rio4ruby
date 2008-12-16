@@ -48,7 +48,8 @@ module RIO
       r.map{|s| s}
     end
     def self.flatten_single(r)
-      r.min == r.max ? r.min : r
+      max = r.exclude_end? ? r.end-1 : r.end
+      r.begin == max ? r.begin : r
     end
     def self.flatten_singles(rl)
       rl.map{|r| flatten_single(r) }
@@ -58,17 +59,17 @@ module RIO
       reduced_list = reduce(rl)
       flatten_singles(reduced_list)
     end
+    def self.ml_arraynge(mx,ml)
+      ml.map{|rng| (rng.is_a?(::Range) ? arraynge(mx,rng) : rng)}
+    end
     def self.arraynge(mx,rng)
-      puts "#{mx}: #{rng}"
+      #p "arraynge(#{mx},#{rng})"
       begr = rng.begin
-      endr = rng.end
-      endr = mx if rng.end > mx
-      if rng.end < 0
-        endr = mx + rng.end + 1
-      end
-      if rng.begin < 0
-        begr = mx + rng.begin + 1
-      end
+      mxlim = (rng.exclude_end? ? mx.succ : mx)
+      endr = (rng.end > mxlim ? mxlim : rng.end)
+      endr = mx + rng.end + 1 if rng.end < 0
+      begr = mx + rng.begin + 1 if rng.begin < 0
+      return (1..0) if begr < 0 or endr <0
       rng.exclude_end? ? (begr...endr) : (begr..endr)
     end
     def self.ml_expand(ml)
@@ -78,7 +79,7 @@ module RIO
     end
     def self.reduce(rl)
       return rl if rl.empty?
-      rl = rl.sort {|a,b| a.min <=> b.min}
+      rl = rl.sort {|a,b| a.begin <=> b.begin}
       #p rl
       (1...rl.size).inject([rl[0]]) do |ans,i|
         ans[0...ans.size-1] + reduce_ranges(ans[-1],rl[i])
@@ -88,8 +89,10 @@ module RIO
     def self.reduce_ranges(r1,r2)
       # requires that r2.min >= r1.min
       #puts("reduce_ranges(#{r1},#{r2})")
-      if (r1.min..r1.max.succ).include?(r2.min)
-        r1.include?(r2.max) ? [r1] : [(r1.min..r2.max)]
+      max1 = r1.exclude_end? ? r1.end-1 : r1.end
+      if (r1.begin..max1.succ).include?(r2.begin)
+        max2 = r2.exclude_end? ? r2.end-1 : r2.end
+        r1.include?(max2) ? [r1] : [(r1.begin..max2)]
       else
         [r1,r2]
       end
@@ -124,11 +127,13 @@ module RIO
     end
     def self.diff1(r1,r2)
       ans = []
-      if !r1.include?(r2.min) and !r1.include?(r2.max)
-        ans << r1 unless r2.include?(r1.min)
+      max2 = r2.exclude_end? ? r2.end-1 : r2.end
+      if !r1.include?(r2.begin) and !r1.include?(max2)
+        ans << r1 unless r2.include?(r1.begin)
       else
-        ans << (r1.min...r2.min) if r1.include?(r2.min) and r1.min != r2.min
-        ans << (r2.max.succ..r1.max) if r1.include?(r2.max) and r1.max != r2.max
+        max1 = r1.exclude_end? ? r1.end-1 : r1.end
+        ans << (r1.begin...r2.begin) if r1.include?(r2.begin) and r1.begin != r2.begin
+        ans << (max2.succ..max1) if r1.include?(max2) and max1 != max2
       end
       ans
     end
