@@ -43,6 +43,26 @@ module RIO
             @cx = context
           end
           def cx() @cx end
+          def _calc_csv_fields(row)
+            num_cols = row.size-1
+
+            require 'rio/arraynge'
+            ycols = _fields_to_columns(row,cx['col_args']) unless cx['col_args'].nil?
+            ncols = _fields_to_columns(row,cx['nocol_args'])  unless cx['nocol_args'].nil?
+            #p "ycols=#{ycols.inspect} ncols=#{ncols.inspect}"
+            if ncols and ncols.empty?
+              cx['csv_columns'] = []
+            elsif ycols.nil? and ncols.nil?
+              cx['csv_columns'] = nil
+            else
+              ncols = [] if ncols.nil?
+              ycols = [(0..-1)] if ycols.nil? or ycols.empty?
+              ncols = Arraynge.ml_arraynge(num_cols,ncols)
+              ycols = Arraynge.ml_arraynge(num_cols,ycols)
+              #p "ccf: ncols=#{ncols.inspect} ycols=#{ycols.inspect}"
+              cx['csv_columns'] = Arraynge.ml_diff(ycols,ncols)
+            end
+          end
           def _calc_csv_columns(num_cols)
             require 'rio/arraynge'
             ycols = cx['col_args']
@@ -73,8 +93,17 @@ module RIO
           end
           def _trim_row(row)
             #p "ncols=#{cx['nocol_args'].inspect} ycols=#{cx['col_args'].inspect}"
-            _calc_csv_columns(row.size-1)
-            #p cx['csv_columns']
+            # unless cx['fields_args'].nil?
+#               ftc = _fields_to_columns(row,cx['fields_args'])
+#               p "ftc=#{ftc.inspect}"
+#               unless ftc.empty?
+#                 cx['csv_columns'] ||= []
+#                 cx['csv_columns'] += ftc
+#               end
+#             end
+#             p "csv_columns=#{cx['csv_columns'].inspect}"
+
+            _calc_csv_fields(row)
             return row if cx['csv_columns'].nil?
 
             #cols = _trim_col(row.size-1,cx['csv_columns'])
@@ -93,6 +122,23 @@ module RIO
             cols.map do |el|
               (el.is_a?(::Range) and el.max > mx ? el.min..mx : el)
             end
+          end
+          def _fields_to_columns(row,flds)
+            cols = []
+            flds.each do |fld|
+              case fld
+              when Range
+                ibeg = fld.begin.is_a?(Integer) ? fld.begin : row.index(fld.begin)
+                iend = fld.end.is_a?(Integer) ? fld.end : row.index(fld.end)
+                rng = fld.exclude_end? ? (ibeg...iend) : (ibeg..iend)
+                cols << rng
+              when Integer
+                cols << fld
+              else
+                cols << row.index(fld)
+              end
+            end
+            cols.flatten
           end
           def each_line(*args,&block)
             self.each(*args) do |raw_rec|
@@ -122,7 +168,8 @@ module RIO
       end
       module Input
         def add_csv_filter
-          #_calc_csv_columns()
+          begin
+          end
           begin
             if cx['headers_args']
               cx['csv_args'][0] ||= {}

@@ -76,9 +76,17 @@ module RIO
             cx['headers_args'] = true
           else
             cx['headers_args'] = args[0]
+            cx['headers'] = cx['headers_args']
           end
           cxx('csv',true,&block) 
         end
+        def headers?()
+          unless cx['headers']
+            cx['headers'] = self.records[0]
+          end
+          cxx?('headers') 
+        end 
+
         def columns(*ranges,&block)
           if skipping?
             cx['skipping'] = false
@@ -103,13 +111,13 @@ module RIO
             skipfields(*args,&block)
           else
             @cnames = nil
-            cx['field_args'] = ranges.flatten
+            cx['fields_args'] = ranges.flatten
             cxx('fields',true,&block)
           end
         end
         def skipfields(*ranges,&block)
           @cnames = nil
-          cx['nofield_args'] = ranges.flatten
+          cx['nofields_args'] = ranges.flatten
           cxx('fields',true,&block)
         end
         def fields?() 
@@ -195,23 +203,6 @@ module RIO
 
         private
 
-        def fields_to_columns(row,flds)
-          cols = []
-          flds.each do |fld|
-            case fld
-            when Range
-              ibeg = fld.begin.is_a?(Integer) ? fld.begin : row.index(fld.begin)
-              iend = fld.end.is_a?(Integer) ? fld.end : row.index(fld.end)
-              rng = fld.exclude_end? ? (ibeg...iend) : (ibeg..iend)
-              cols << rng
-            when Integer
-              cols << fld
-            else
-              cols << row.index(fld)
-            end
-          end
-          cols.flatten
-        end
         private
         def _rec_to_s_proc(*csv_args)
           proc { |a|
