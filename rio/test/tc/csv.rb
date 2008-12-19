@@ -20,6 +20,7 @@ class TC_csv < Test::RIO::TestCase
     @src_name = 'src1.csv'
     @dst_name = 'dst.csv'
     @records,@strings,@lines,@string = create_test_csv_data(@src_name,3, 3, ',', $/, true)
+    rio(@src_name).puts!(@string)
   end
   def test_nocsv_lines
     rio(@src_name) > rio(@dst_name)
