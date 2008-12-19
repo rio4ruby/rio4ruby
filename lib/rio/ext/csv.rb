@@ -58,12 +58,12 @@ if RUBY_VERSION[0,3] >= '1.9'
   require 'csv'
   require 'rio/ext/csv/csv'
   $USE_FASTER_CSV = true
-  p 'FASTER CSV 1.9'
+  #p 'FASTER CSV 1.9'
 else
   begin 
     CSV.const_defined?('Reader')
     require 'rio/ext/csv/csv-legacy'
-    p 'LEGACY CSV'
+    #p 'LEGACY CSV'
   rescue NameError
     begin
       require 'faster_csv'
@@ -71,11 +71,11 @@ else
       end
       require 'rio/ext/csv/csv'
       $USE_FASTER_CSV = true
-      p 'FASTER CSV'
+      #p 'FASTER CSV'
     rescue LoadError
       require 'csv'
       require 'rio/ext/csv/csv-legacy'
-      p 'LEGACY CSV'
+      #p 'LEGACY CSV'
     end
   end
 end
