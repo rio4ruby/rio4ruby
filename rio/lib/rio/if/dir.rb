@@ -1,6 +1,6 @@
 #--
 # =============================================================================== 
-# Copyright (c) 2005,2006,2007,2008 Christopher Kleckner
+# Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.
@@ -85,7 +85,7 @@ module RIO
       # Returns the filenames found by expanding the pattern given in string, 
       # either as an array or as parameters to the block. In both cases the filenames
       # are expressed as a Rio.
-      # Note that this pattern is not a regexp (it’s closer to a shell glob). 
+      # Note that this pattern is not a regexp (itï¿½s closer to a shell glob). 
       # See File::fnmatch for details of file name matching and the meaning of the flags parameter.
       #
       #
@@ -95,7 +95,7 @@ module RIO
       # Calls ::Dir#rmdir
       #
       # Deletes the directory referenced by the Rio. 
-      # Raises a subclass of SystemCallError if the directory isn’t empty.
+      # Raises a subclass of SystemCallError if the directory isnï¿½t empty.
       # Returns the Rio. If the directory does not exist, just returns the Rio.
       #
       # See also #rmtree, IF::Grande#delete, IF::Grande#delete!
