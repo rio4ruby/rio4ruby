@@ -92,9 +92,9 @@ class Tempdir < Pathname #:nodoc: all
   def initialize(*args)
     require 'fileutils'
 
-    tmpname = createtmp(*args) do |tmpname|
-      unless File.exist?(tmpname)
-        Dir.mkdir(tmpname, 0700)
+    tmpname = createtmp(*args) do |tname|
+      unless File.exist?(tname)
+        Dir.mkdir(tname, 0700)
       end
     end
 

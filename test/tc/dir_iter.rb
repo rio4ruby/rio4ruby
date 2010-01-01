@@ -6,7 +6,7 @@ end
 
 if ENV['TEST_RIO'] == 'gem'
   require 'rubygems'
-  require_gem 'rio'
+  require 'rio'
 else
   require 'rio'
 end
