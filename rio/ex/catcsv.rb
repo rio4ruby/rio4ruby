@@ -20,13 +20,13 @@ class CatCSVOptions
     options = OpenStruct.new
     options.outfile = nil
     
-    opts = OptionParser.new do |opts|
-      opts.banner = "Usage: #{$0} [options] csv_directory"
+    opts = OptionParser.new do |op|
+      op.banner = "Usage: #{$0} [options] csv_directory"
       
-      opts.separator ""
-      opts.separator "Specific options:"
+      op.separator ""
+      op.separator "Specific options:"
       
-      opts.on("-o", "--output [OUTPUT_FILE]", "Specify the output CSV file") do |ofile|
+      op.on("-o", "--output [OUTPUT_FILE]", "Specify the output CSV file") do |ofile|
         options.outfile = ofile
       end
       

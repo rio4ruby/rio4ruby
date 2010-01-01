@@ -19,18 +19,18 @@ class TC_RIO_expand_path < Test::RIO::TestCase
     self.class.once unless @@once
   end
 
-  def test_expand_path_from_cwd
-    require 'tmpdir'
+#  def test_expand_path_from_cwd
+#    require 'tmpdir'
 
-    tmp = rio(::Dir.tmpdir)
-    tmp.chdir do
-      rel = rio('groovy')
-      exp = rio(tmp,rel)
-      ans = rel.expand_path
-      assert_kind_of(RIO::Rio,ans)
-      assert_equal(exp,ans)
-    end
-  end
+#    tmp = rio(::Dir.tmpdir)
+#    tmp.chdir do
+#      rel = rio('groovy')
+#      exp = rio(tmp,rel)
+#      ans = rel.expand_path
+#      assert_kind_of(RIO::Rio,ans)
+#      assert_equal(exp,ans)
+#    end
+#  end
 
   def test_expand_path_from_base_rio
     srel = 'groovy'

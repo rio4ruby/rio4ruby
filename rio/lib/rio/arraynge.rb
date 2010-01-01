@@ -1,5 +1,5 @@
 #--
-# =============================================================================== 
+# ===============================================================================
 # Copyright (c) 2005,2006,2007,2008 Christopher Kleckner
 # All rights reserved
 #
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Rio; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# =============================================================================== 
+# ===============================================================================
 #++
 #
 # To create the documentation for Rio run the command
@@ -39,29 +39,36 @@ module RIO
     def self.ml_to_ranges(rl)
       rl.map{|el| (Range === el) ? el : (el..el)}
     end
+
     def self.ml_to_singles(rl)
       rl.inject([]) do  |ary,el|
         ary + (Range === el ? el.map{|rel| rel } : [el])
       end
     end
+
     def self.range_to_singles(r)
       r.map{|s| s}
     end
+
     def self.flatten_single(r)
       max = r.exclude_end? ? r.end-1 : r.end
       r.begin == max ? r.begin : r
     end
+
     def self.flatten_singles(rl)
       rl.map{|r| flatten_single(r) }
     end
+
     def self.ml_reduce(ml)
       rl = ml_to_ranges(ml)
       reduced_list = reduce(rl)
       flatten_singles(reduced_list)
     end
+
     def self.ml_arraynge(mx,ml)
       ml.map{|rng| (rng.is_a?(::Range) ? arraynge(mx,rng) : rng)}
     end
+
     def self.arraynge(mx,rng)
       #p "arraynge(#{mx},#{rng})"
       begr = rng.begin
@@ -72,11 +79,13 @@ module RIO
       return (1..0) if begr < 0 or endr <0
       rng.exclude_end? ? (begr...endr) : (begr..endr)
     end
+
     def self.ml_expand(ml)
       rl = ml_to_ranges(ml)
       reduced_list = reduce(rl)
       ml_to_singles(reduced_list)
     end
+
     def self.reduce(rl)
       return rl if rl.empty?
       rl = rl.sort {|a,b| a.begin <=> b.begin}
@@ -97,18 +106,21 @@ module RIO
         [r1,r2]
       end
     end
+
     def self.ml_diff(ml1,ml2)
       rl1 = ml_to_ranges(ml_reduce(ml1))
       rl2 = ml_to_ranges(ml_reduce(ml2))
       dl = diff(rl1,rl2)
       flatten_singles(dl)
     end
+
     def self.ml_diff2(ml1,ml2)
       el1 = ml_expand(ml1)
       el2 = ml_expand(ml2)
       dl = el1 - el2
       ml_reduce(dl)
     end
+
     def self.diff(rl1,rl2)
       rd1 = reduce(rl1)
       rd2 = reduce(rl2)
@@ -118,6 +130,7 @@ module RIO
       end
       ans
     end
+
     def self.difflist(r,rl2)
       rl2.inject([r]) do |ans,r2|
         (0...ans.size).inject([]) do |newans,n|
@@ -125,6 +138,7 @@ module RIO
         end
       end
     end
+
     def self.diff1(r1,r2)
       ans = []
       max2 = r2.exclude_end? ? r2.end-1 : r2.end
@@ -139,6 +153,5 @@ module RIO
     end
   end
 end
-
 
 __END__
