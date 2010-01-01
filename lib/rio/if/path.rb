@@ -1,6 +1,6 @@
 #--
 # =============================================================================== 
-# Copyright (c) 2005,2006,2007,2008 Christopher Kleckner
+# Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.
@@ -80,9 +80,9 @@ module RIO
       # Converts a pathname to an absolute pathname. 
       # Relative paths are referenced from the current working directory of the process 
       # unless dir_string is given, in which case it will be used as the starting point. 
-      # The given pathname may start with a ``~’’, which expands to the process owner’s 
+      # The given pathname may start with a ``~ï¿½ï¿½, which expands to the process ownerï¿½s 
       # home directory (the environment variable HOME must be set correctly). 
-      # ``~user’’ expands to the named user’s home directory.
+      # ``~userï¿½ï¿½ expands to the named userï¿½s home directory.
       #
       # Returns a Rio representing the returned path
       #

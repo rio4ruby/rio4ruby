@@ -1,6 +1,6 @@
 #--
 # =============================================================================== 
-# Copyright (c) 2005,2006,2007,2008 Christopher Kleckner
+# Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.
@@ -207,7 +207,7 @@ module RIO
       # data is reached, readpartial returns with the data. If EOF is reached,
       # readpartial raises EOFError.
       #
-      # When readpartial doesn’t blocks, it returns or raises immediately. If
+      # When readpartial doesnï¿½t blocks, it returns or raises immediately. If
       # the buffer is not empty, it returns the data in the buffer. Otherwise
       # if the stream has some content, it returns the data in the
       # stream. Otherwise if the stream is reached to EOF, it raises EOFError.

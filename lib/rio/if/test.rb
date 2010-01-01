@@ -1,6 +1,6 @@
 #--
 # =============================================================================== 
-# Copyright (c) 2005,2006,2007,2008 Christopher Kleckner
+# Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.
@@ -124,8 +124,8 @@ module RIO
 
       # Calls File#ftype
       #
-      # Identifies the type of the named file; the return string is one of 'file’, 'directory’, 
-      # 'characterSpecial’, 'blockSpecial’, 'fifo’, 'link’, 'socket’, or 'unknown’.
+      # Identifies the type of the named file; the return string is one of 'fileï¿½, 'directoryï¿½, 
+      # 'characterSpecialï¿½, 'blockSpecialï¿½, 'fifoï¿½, 'linkï¿½, 'socketï¿½, or 'unknownï¿½.
       def ftype(*args) target.ftype(*args) end
 
       # Calls File#stat
