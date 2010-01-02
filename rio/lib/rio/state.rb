@@ -68,7 +68,7 @@ module RIO
       kiosyms << :==
       kiosyms << :eql?
       kiosyms << :load
-      #kiosyms << :to_a
+      kiosyms << :to_a
       #kiosyms << :split
       #kiosyms << :sub
       #kiosyms << :sub!
@@ -76,6 +76,11 @@ module RIO
       #kiosyms << :gsub!
       #kiosyms << :chop
       #kiosyms << :getc
+
+      # In 1.8 #to_a is inherited from Object
+      # For 1.9 we create this -- only to delete it immediatly.
+      # So we end up in the same state for both ruby versions.
+      def to_a() end
 
       KIOSYMS = kiosyms
       @@kernel_cleaned ||= KIOSYMS.each { |sym| undef_method(sym) } 
@@ -91,7 +96,7 @@ module RIO
 
       attr_accessor :cx
 
-      include Enumerable
+      # include Enumerable
       # Context handling
       include Cx::Methods
       include RIO::Ext::Cx

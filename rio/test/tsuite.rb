@@ -9,7 +9,7 @@ $trace_states = true
 class Tsuite
     def self.suite
         suite = Test::Unit::TestSuite.new("TSuite")
-        suite << TC_RIO_closeoneof.suite
+        suite << TC_RIO_lines.suite
         return suite
     end
 end
