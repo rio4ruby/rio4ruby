@@ -36,5 +36,9 @@
 
 module RIO
   class Base < ::Object #:nodoc: all
+    def to_a() 
+      super 
+    end
+    undef_method :to_a
   end
 end
