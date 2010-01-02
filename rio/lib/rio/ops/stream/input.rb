@@ -126,7 +126,7 @@ module RIO
         # implemented in terms of an underlying iterator like each_line (see RIO::RecType::*)
         def each_(*args,&block)
           selrej,rangetops = create_selrej()
-          want_ma = block.arity > 1
+          want_ma = (!block.nil? && block.arity > 1)
           catch(:stop_iter) do
             each_rec_ do |raw_rec|
               _got_rec(raw_rec)
