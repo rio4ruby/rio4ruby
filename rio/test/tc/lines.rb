@@ -49,8 +49,6 @@ class TC_RIO_lines < Test::Unit::TestCase
       assert_equal(expa,rio('basic.txt').lines[/2/])
       assert_equal(expa,rio('basic.txt').lines(/2/).to_a)
       
-      expa = ["L0: 0:0\nL1: 3:2\nL2: 6:4\nL3: 9:6\n", "L4: 12:8\nL5: 15:10\nL6: 18:12\nLin", "e Z\n"]
-      assert_equal(expa,rio('basic.txt').bytes(32).to_a)
       
 #      expa = [["15", "10"], ["18", "12"]]
 #      assert_equal(expa,rio('basic.txt').lines(/(\d\d):(\d\d)/).to_a)

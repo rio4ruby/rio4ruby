@@ -78,7 +78,7 @@ module RIO
       #kiosyms << :getc
 
       # In 1.8 #to_a is inherited from Object
-      # For 1.9 we create this -- only to delete it immediatly.
+      # For 1.9 we create this -- only to undef it immediatly.
       # So we end up in the same state for both ruby versions.
       def to_a() end
 

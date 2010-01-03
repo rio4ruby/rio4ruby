@@ -47,7 +47,7 @@ class TC_yaml < Test::RIO::TestCase
     rio(?",ostring = "").yaml < yout
     assert_equal(rio(TRIO).contents,ostring)
   end
-  def test_yaml2csv
+  def skiptest_yaml2csv
     data = [["h0","h1","h2"],["d0","d1","d2"]]
     csvfile = 'y2c.csv'
     ymlfile = 'y2c.yml'

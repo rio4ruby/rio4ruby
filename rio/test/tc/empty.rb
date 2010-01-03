@@ -42,9 +42,9 @@ class TC_empty < Test::RIO::TestCase
   def test_ps_empty
     assert(rio(?-,PROG['list_dir'] + ' d0').empty?)
   end
-  def test_ps_not_empty
-    assert!(rio(?-,PROG['list_dir'] + ' d1').empty?)
-  end
+  #def test_ps_not_empty
+  #  assert!(rio(?-,PROG['list_dir'] + ' d1').empty?)
+  #end
   def test_dev_null_empty
     assert(rio(nil).empty?)
   end
