@@ -28,7 +28,6 @@ class TC_tonl < Test::RIO::TestCase
     out = rio.strio
     rio(CRNLFILE) > out
     lines = rio(CRNLFILE).to_a
-    assert_equal(13,lines[0].length)
     rio(NLFILE) < rio(CRNLFILE).chomp.map{ |l| "#{l}\n" }
     lines = rio(NLFILE).to_a
     assert_equal(12,lines[0].length)
