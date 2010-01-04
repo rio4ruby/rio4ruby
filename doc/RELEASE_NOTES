@@ -21,6 +21,10 @@ Suggested Reading
 * RIO::Doc::HOWTO
 * RIO::Rio
 =
+== New for version 0.4.4
+* Usable for 1.8 code being ported to 1.9.
+* This release does not address encoding issues required by Ruby 1.9
+
 == New for version 0.4.3
 * Minor bug fixes.
 * Release before Branch in development for Ruby 1.9.
