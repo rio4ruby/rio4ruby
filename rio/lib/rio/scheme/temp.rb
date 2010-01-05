@@ -114,8 +114,19 @@ module RIO
           @prefix = file_prefix || DFLT_PREFIX
           @tmpdir = temp_dir || DFLT_TMPDIR
           require 'tempfile'
-          @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
-          super(@tf.path)
+          
+          # FIXME: Temporary fix for jruby 1.4 - make tmpdir absolute
+           tmpdir_rio = rio(@tmpdir).abs
+          # p "Tempfile.new(#{@prefix},#{tmpdir_rio})"
+          
+          @tf = ::Tempfile.new( @prefix.to_s, tmpdir_rio.to_s)
+
+          # FIXME: Temporary fix for jruby 1.4 - fix slashes
+          pth =  @tf.path
+          pth.gsub!("\\","/")
+          #
+ 
+          super(pth)
         end
         def file_rl() 
         RIO::File::RL.new(self.uri,{:fs => self.fs})

@@ -156,11 +156,13 @@ class TC_copydir < Test::RIO::TestCase
     assert(dst.file?)
     assert_equal(src,dst.readlines)
   end
+  unless $jruby
   def test_tofile
     dst = rio('dst').delete!.touch
     exp = ($mswin32 ? Errno::ENOENT : Errno::ENOTDIR)
     assert_raise(exp) {
       @d0 > dst
     }
+  end
   end
 end
