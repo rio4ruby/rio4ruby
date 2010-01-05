@@ -15,7 +15,7 @@ require 'tc/base2'
 require 'tc/clearsel'
 require 'tc/closeoncopy'
 require 'tc/closeoneof'
-require 'tc/cmdpipe' unless $mswin32
+require 'tc/cmdpipe' unless $mswin32 || $jruby
 require 'tc/copy'
 require 'tc/copy-from'
 require 'tc/copy-to'
@@ -58,7 +58,7 @@ require 'tc/overload'
 require 'tc/pa'
 require 'tc/paths'
 require 'tc/pid'
-require 'tc/piper' unless $mswin32
+require 'tc/piper' unless $mswin32 || $jruby
 require 'tc/qae'
 require 'tc/qae_riovar'
 require 'tc/readline'
@@ -72,9 +72,9 @@ require 'tc/skiplines'
 require 'tc/split'
 require 'tc/splitpath'
 require 'tc/splitlines'
-require 'tc/symlink' unless $mswin32
-require 'tc/symlink0' unless $mswin32
-require 'tc/symlink1' unless $mswin32
+require 'tc/symlink' unless $mswin32 || $jruby
+require 'tc/symlink0' unless $mswin32 || $jruby
+require 'tc/symlink1' unless $mswin32 || $jruby
 require 'tc/temp'
 require 'tc/tempdir'
 require 'tc/tempfile'

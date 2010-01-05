@@ -1,11 +1,13 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/ruby -KU
+# encoding: UTF-8
 Dir.chdir File.dirname(__FILE__)
 $devlib=File.expand_path('../lib/')
 $:.unshift $devlib unless $:[0] == $devlib
-
 $mswin32 = (RUBY_PLATFORM =~ /mswin32/)
+$jruby = (RUBY_PLATFORM =~ /java/)
 
 require 'rio'
+p "[#{RUBY_PLATFORM}] - Ruby(#{RUBY_VERSION}) - Rio(#{RIO::VERSION})"
 
 $trace_states = false
 require 'optparse'
