@@ -34,11 +34,9 @@
 #
 
 
-require 'uri'
+require 'rio/alturi'
 require 'rio/local'
-require 'rio/uri/file'
 require 'rio/rl/chmap'
-require 'rio/rl/fs2url'
 
 module RIO
   module RL
@@ -101,14 +99,14 @@ module RIO
         nil 
       end
 
-      def fs2url(pth) RL.fs2url(pth) end
-      def url2fs(pth) RL.url2fs(pth) end
-      def escape(pth,esc=RL::ESCAPE)
-        RL.escape(pth,esc)
-      end
-      def unescape(pth)
-        RL.unescape(pth)
-      end
+      #def fs2url(pth) RL.fs2url(pth) end
+      #def url2fs(pth) RL.url2fs(pth) end
+      #def escape(pth,esc=RL::ESCAPE)
+      #  RL.escape(pth,esc)
+      #end
+      #def unescape(pth)
+      #  RL.unescape(pth)
+      #end
 
       def callstr(func,*args)
         self.class.to_s+'['+self.to_s+']'+'.'+func.to_s+'('+args.join(',')+')'

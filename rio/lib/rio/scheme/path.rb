@@ -34,65 +34,65 @@
 #
 
 
-require 'rio/rl/path'
-require 'rio/ioh'
-module RIO
-  module Path #:nodoc: all
-    RESET_STATE = RIO::RL::PathBase::RESET_STATE
+# require 'rio/rl/path'
+# require 'rio/ioh'
+# module RIO
+#   module Path #:nodoc: all
+#     RESET_STATE = RIO::RL::PathBase::RESET_STATE
 
-    class RL < RIO::RL::PathBase 
-      def file_rl()
-        RIO::File::RL.new(self.uri, {:fs => self.fs})
-      end
-      def dir_rl()
-        RIO::Dir::RL.new(self.uri, {:fs => self.fs})
-      end
-    end
-  end
-  module File
-    RESET_STATE = RIO::RL::PathBase::RESET_STATE
+#     class RL < RIO::RL::PathBase 
+#       def file_rl()
+#         RIO::File::RL.new(self.uri, {:fs => self.fs})
+#       end
+#       def dir_rl()
+#         RIO::Dir::RL.new(self.uri, {:fs => self.fs})
+#       end
+#     end
+#   end
+#   module File
+#     RESET_STATE = RIO::RL::PathBase::RESET_STATE
 
-    class RL < RIO::Path::RL
-      def open(m)
-        IOH::Stream.new(fs.file.open(self.fspath,m.to_s))
-      end
-      def file_rl()
-        self
-      end
-    end
-  end
-  module Dir
-    RESET_STATE = RIO::RL::PathBase::RESET_STATE
+#     class RL < RIO::Path::RL
+#       def open(m)
+#         IOH::Stream.new(fs.file.open(self.fspath,m.to_s))
+#       end
+#       def file_rl()
+#         self
+#       end
+#     end
+#   end
+#   module Dir
+#     RESET_STATE = RIO::RL::PathBase::RESET_STATE
 
-    class RL < RIO::Path::RL
-      def open()
-        IOH::Dir.new(fs.dir.open(self.fspath))
-      end
-      def dir_rl()
-        self
-      end
-    end
-  end
-  require 'rio/stream'
-  require 'rio/stream/open'
-  require 'rio/ops/symlink'
-  module Path
-    module Stream
-      module Ops
-        include RIO::Ops::Path::Str
-      end
+#     class RL < RIO::Path::RL
+#       def open()
+#         IOH::Dir.new(fs.dir.open(self.fspath))
+#       end
+#       def dir_rl()
+#         self
+#       end
+#     end
+#   end
+#   require 'rio/stream'
+#   require 'rio/stream/open'
+#   require 'rio/ops/symlink'
+#   module Path
+#     module Stream
+#       module Ops
+#         include RIO::Ops::Path::Str
+#       end
 
-      class Open < RIO::Stream::Open
-        include RIO::Ops::Path::Status
-        include RIO::Ops::Path::URI
-        include RIO::Ops::Path::Query
-        def stream_state(cl)
-          next_state = super
-          next_state.extend(RIO::Ops::Symlink::Existing) if symlink?
-          next_state.extend(Ops)
-        end
-      end
-    end
-  end
-end
+#       class Open < RIO::Stream::Open
+#         include RIO::Ops::Path::Status
+#         include RIO::Ops::Path::URI
+#         include RIO::Ops::Path::Query
+#         def stream_state(cl)
+#           next_state = super
+#           next_state.extend(RIO::Ops::Symlink::Existing) if symlink?
+#           next_state.extend(Ops)
+#         end
+#       end
+#     end
+#   end
+# end
 __END__

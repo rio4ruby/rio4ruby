@@ -86,15 +86,6 @@ module RIO
           self
         end
 
-        def get()
-          until self.eof?
-            raw_rec = self._get_rec
-            return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
-          end
-          self.close if closeoneof?
-          nil
-#          (closeoneof? ? self.on_eof_close{ nil } : nil)
-        end
         def get_type(itertype,&block)
           old_itertype = cx['stream_itertype']
           _set_itertype(itertype)
@@ -114,13 +105,58 @@ module RIO
         def getrec()
           get_type('records') { get() }
         end
+        def get()
+          until self.eof?
+            raw_rec = self._get_rec
+            return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
+          end
+          #loop do
+          #  raw_rec = self._get_rec
+          #  return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
+          #  break if self.eof?
+          #end
+          self.close if closeoneof?
+          nil
+#          (closeoneof? ? self.on_eof_close{ nil } : nil)
+        end
+
         private
 
         def _ss_like_array(selrej)
           selrej.only_one_fixnum? and !dir_iter?
         end
 
+        def get1()
+          begin
+            loop do
+              raw_rec = _got_rec(@cursor.next)
+              return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
+            end
+          rescue StopIteration
+            @cursor = nil
+            self.close if closeoneof?
+          end
+          nil
+        end
         protected
+
+        # iterate over the records, yielding only with matching records
+        # implemented in terms of an underlying iterator like each_line (see RIO::RecType::*)
+        def each_enum_(*args,&block)
+          selrej,rangetops = create_selrej()
+          want_ma = (!block.nil? && block.arity > 1)
+          enu = io_enum
+          begin
+            loop do
+              raw_rec = _got_rec(enu.next)
+              rangetops = check_passed_ranges2(selrej,@recno) if rangetops and @recno > rangetops[0]
+              as = selrej.match?(raw_rec,@recno)
+              yield(*([to_rec_(raw_rec)] + (want_ma ? [as] : []))) if as
+            end
+          rescue StopIteration
+            closeoneof? ? self.close : self
+          end
+        end
 
         # iterate over the records, yielding only with matching records
         # implemented in terms of an underlying iterator like each_line (see RIO::RecType::*)
@@ -179,7 +215,7 @@ module RIO
         private
 
         def _got_rec(el=nil)
-          @recno += 1 unless el.nil?
+          @recno += 1 if el
           el
         end
 
@@ -200,6 +236,10 @@ module RIO
           [selrej,selrej.rangetops]
         end
 
+        def check_passed_ranges2(selrej,recno)
+          raise StopIteration if selrej.remove_passed_ranges(recno).never?
+          selrej.rangetops
+        end
         def check_passed_ranges(selrej,recno)
           throw :stop_iter if selrej.remove_passed_ranges(recno).never?
           selrej.rangetops

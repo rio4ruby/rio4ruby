@@ -39,22 +39,19 @@ module RIO
     module Path
       module Create
         def join(*args) 
-          before = self.rl.to_s
-          arl = self.rl
-          nrio = new_rio(arl,*args) 
-          after = self.rl.to_s
-          #p "b=#{before} a=#{after}"
-          nrio
+          rtn_rio {
+            uri.clone.join(*args)
+          }
         end
         #alias :catpath :join
-        def join!(*args) 
-          rl.join(*args)
-          softreset
+        def join!(*args)
+          rtn_reset {
+            uri.join(*args)
+          }
         end
         #alias :catpath! :join!
         def /(arg)
-          ans = join(arg)
-          return ans
+          join(arg)
         end
 
         def getwd(*args,&block) 

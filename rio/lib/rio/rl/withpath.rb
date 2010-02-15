@@ -111,27 +111,22 @@ end
 module RIO
   module RL
     class WithPath < RIO::RL::Base
-      SCHEME = URI::REGEXP::PATTERN::SCHEME
-      HOST = URI::REGEXP::PATTERN::HOST
+      #SCHEME = URI::REGEXP::PATTERN::SCHEME
+      #HOST = URI::REGEXP::PATTERN::HOST
 
       # returns the path as the file system sees it. Spaces are spaces and not
       # %20 etc. This is the path that would be passed to the fs object.
       # For windows RLs this includes the '//host' part and the 'C:' part
       # returns a String
-      def fspath() 
-        RL.url2fs(self.urlpath)
+      def fspath()
+        uri.netpath
       end
 
       def fspath=(fpth)
         #p "FSPATH= #{fpth} => #{RL.fs2url(fpth)}"
-        case fpth
-        when %r{^//(#{HOST})(/.*)?$}
-          self.host = $1
-          self.urlpath = RL.fs2url($2||'')
-        else
-          self.urlpath = RL.fs2url(fpth)
-        end
+        uri.netpath = fpth
       end
+      
       def is_root?(upth)
         upth =~ %r%^(/?[a-zA-Z]:)?/% or upth =~ %r%^//(#{HOST})%
       end
@@ -139,24 +134,21 @@ module RIO
       # The value of urlpath() with any trailing slash removed
       # returns a String
       def path_no_slash() 
-        pth = self.urlpath
-        #p "path_no_slash: #{is_root?(pth)} #{pth}"
-        is_root?(pth) ? pth : pth.sub(/\/$/,'')
+        path.sub(%r{/*$},'')
       end
       # The value of fspath() with any trailing slash removed
       # returns a String
       def fspath_no_slash() 
-        pth = self.fspath
-        #p "path_no_slash: #{is_root?(pth)} #{pth}"
-        is_root?(pth) ? pth : pth.sub(/\/$/,'')
+        fspath.sub(%r{/*$},'')
       end
       def pathdepth()
         pth = self.path_no_slash
-        is_root?(pth) ? 0 : pth.count('/')
+        #is_root?(pth) ? 0 : pth.count('/')
+        pth.count('/')
       end
 
       def _uri(arg)
-        arg.kind_of?(::URI) ? arg.clone : ::URI.parse(arg.to_s)
+        arg.kind_of?(::Alt::URI) ? arg.clone : ::Alt::URI.parse(arg.to_s)
       end
       # returns the absolute path. combines the urlpath with the
       # argument, or the value returned by base() to create an
@@ -169,9 +161,9 @@ module RIO
         #p "abs: base_uri=#{base_uri.inspect}"
         #p "abs: path_uri=#{path_uri.inspect}"
         if path_uri.scheme == 'file' and base_uri.scheme != 'file'
-          abs_uri = base_uri.merge(path_uri.path)
+          abs_uri = path_uri.abs(base_uri)
         else
-          abs_uri = base_uri.merge(path_uri)
+          abs_uri = path_uri.abs(base_uri)
         end
         #p "abs: abs_uri=#{abs_uri.inspect}"
         _build(abs_uri,{:fs => self.fs})
@@ -232,15 +224,16 @@ module RIO
       # like File#dirname
       # returns a RL
       def dirname() 
-        new_rl = self.clone
-        #p "dirname: fspath_no_slash(#{self.fspath_no_slash} dn(#{fs.dirname(self.fspath_no_slash)})"
-        pth = self.fspath_no_slash
-        if pth =~ %r{^//(#{HOST})(/.*)}
-          new_rl.fspath = "//#{$1}#{fs.dirname($2)}"
-        else
-          new_rl.fspath = fs.dirname(pth)
-        end
-        new_rl
+        #u = uri.clone
+        #u.path = fs.dirname(uri.path).sub(%r{/*$},'/')
+        #puts
+        #if uri.scheme == 'file'
+        #  u.host = self.host
+        #else
+        #  u.scheme = uri.scheme
+        #  u.host = uri.host
+        #end
+        RIO::RL::Builder.build(uri.dirname)
       end
         
       # returns the tail portion of the path minus the extension
@@ -249,7 +242,7 @@ module RIO
         #p callstr('basename',ext)
         base_rl = self.abs
         base_rl.fspath = fs.dirname(base_rl.fspath_no_slash)
-        path_str = fs.basename(self.fspath_no_slash,ext)
+        path_str = fs.basename(self.path,ext)
         _build(path_str,{:base => base_rl.uri, :fs => self.fs})
       end
       def build_arg0_(path_str)
@@ -279,15 +272,16 @@ module RIO
 
       def uri_from_string_(str)
         #p "uri_from_string(#{str})"
-        case str
-        when %r%^file://(#{HOST})?(/.*)?$% then ::URI.parse(str)
-        when %r/^[a-zA-Z]:/ then 
-          ::URI.parse(str)
-        when %r/^#{SCHEME}:/ then ::URI.parse(str)
+        ::Alt::URI.parse(str)
+        #case str
+        #when %r%^file://(#{HOST})?(/.*)?$% then ::URI.parse(str)
+        #when %r/^[a-zA-Z]:/ then 
+        #  ::URI.parse(str)
+        #when %r/^#{SCHEME}:/ then ::URI.parse(str)
         #when %r{^/} then ::URI.parse('file://'+str+( ( str[-1,0] == '/' ) ? "" : "/"))
-        when %r{^/} then ::URI.parse('file://'+RL.fs2url(str))
-        else ::URI.parse(str)
-        end
+        #when %r{^/} then ::URI.parse('file://'+RL.fs2url(str))
+        #else ::URI.parse(str)
+        #end
       end
     end
   end

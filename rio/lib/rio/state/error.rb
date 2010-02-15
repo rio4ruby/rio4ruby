@@ -40,13 +40,7 @@ module RIO
   module State
     class Error < Base
       attr_accessor :obj,:msg,:sym
-      def initialize
-        super
-        @obj = nil
-        @msg = nil
-        @sym = nil
-#        self.send(sym,*args) #unless obj == self
-      end
+      fwd :data,:obj,:msg,:sym
       def check?() true end
       def when_missing(sym,*args) self end
       def method_missing(sym,*args,&block)
@@ -57,12 +51,9 @@ module RIO
       end
       def self.error(emsg,obj,sym,*args)
         require 'rio/exception'
-        state = new
-        state.obj = obj
-        state.sym = sym
         msg = sprintf("%s[%s].%s(%s)",obj.class.to_s,obj.to_s,sym.to_s,args.join(','))
         msg += "\n  "+emsg unless emsg.nil? or emsg.empty?
-        state.msg = msg
+        state = new(obj: obj, sym: sym, msg: msg)
         state
 #        raise CantHandle.new(obj,sym,*args),emsg
       end

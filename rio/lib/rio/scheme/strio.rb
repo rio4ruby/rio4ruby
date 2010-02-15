@@ -34,7 +34,7 @@
 #
 
 
-require 'rio/rl/ioi'
+require 'rio/rrl/ioi'
 require 'stringio'
 require 'rio/stream'
 require 'rio/stream/open'
@@ -43,28 +43,31 @@ module RIO
   module StrIO #:nodoc: all
     RESET_STATE = 'StrIO::Stream::Open'
 
-    class RL < RL::IOIBase 
+    class RRL < ::RIO::RRL::IOIBase 
       RIOSCHEME = 'strio'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].to_s.freeze
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
       attr_accessor :str
-      def initialize(str="")
+      def initialize(u,str="")
+        alturi = ::Alt::URI.parse(u.to_s)
+        super(alturi)
+        self.query ||= str
         @str = str
-        super
       end
-
-      def opaque() sprintf('0x%08x',@str.object_id) end
-
-      # must be able to process both
-      # parse('rio:strio',string)
-      # parse('rio:strio:0xHEXIOS')
-      SPLIT_RE = %r|0x([0-9a-fA-F]+)$|
-      def self.splitrl(s)
-        sub,opq,whole = split_riorl(s)
-        if bm = SPLIT_RE.match(opq)
-          oid = bm[1].hex
-          str = ObjectSpace._id2ref(oid)
-          [str]
-        end
+      def self.parse(*a)
+        u = a.shift.sub(/^rio:/,'')
+        new(u,*a)
+      end
+      def query=(arg)
+        uri.query = if arg.nil?
+                       nil 
+                     else
+                       sio = (::StringIO === arg ? arg : ::StringIO.new(arg))
+                       sprintf('0x%08x',sio.object_id)
+                     end
+        arg
+      end
+      def query
+        uri.query.nil? ? nil :  ObjectSpace._id2ref(uri.query.hex)
       end
 
       def open(m,*args)
@@ -77,8 +80,9 @@ module RIO
         def string=(p1) ioh.string = p1 end
       end
       class Open < RIO::Stream::Open
-        def string=(p1) rl.str = p1 end
-        def string() rl.str end
+        def string=(p1) rl.query = p1 end
+        def stringio() rl.query end
+        def string() stringio.string end
         def stream_state(*args) super.extend(Ops) end
       end
     end

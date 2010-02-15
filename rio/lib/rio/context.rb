@@ -32,7 +32,11 @@
 # * RIO::Doc::EXAMPLES
 # * RIO::Rio
 #
-
+module RIO
+  module Cx
+    autoload :Methods,'rio/context/methods'
+  end
+end
 
 module RIO
   module Cx #:nodoc: all
@@ -82,6 +86,15 @@ module RIO
       def []=(key,val)
         @values[key] = val
         @explicit[key] = true
+      end
+      def to_h
+        vary = {}
+        @values.each { |k,v|
+          name = k
+          name += '_' unless @explicit[k]
+          vary[name] = v
+        }
+        vary
       end
       def inspect()
         str = sprintf('#<Cx:0x%08x ',self.object_id)

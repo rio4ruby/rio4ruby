@@ -34,13 +34,15 @@
 #
 
 
-require 'rio/ops/path'
-require 'rio/ops/dir'
-require 'rio/filter/closeoneof'
-require 'rio/ioh'
+#require 'rio/ops/path'
+#require 'rio/ops/dir'
+#require 'rio/filter/closeoneof'
+#require 'rio/ioh'
+
 module RIO
   module Dir #:nodoc: all
     class Base < State::Base
+      fwd :data,:ioh
       include Ops::Path::Str
       def open?() !ioh.nil? end
     end

@@ -38,9 +38,13 @@ require 'rio/state'
 require 'rio/ops/path'
 require 'rio/ops/symlink'
 require 'rio/cp'
-module RIO
 
+module RIO
+  
   module Path #:nodoc: all
+
+
+
     # Empty: 
     #  nil? or empty? => Emp
     #  else => Sin
@@ -51,12 +55,12 @@ module RIO
       private
 
       def _assume_cwd()
-        self.rl = Path::RL.new('.')
+        self.rl = Path::RRL.new('.')
         self.softreset
       end
       def _assume_stdio()
         require 'rio/scheme/stdio'
-        self.rl = RIO::StdIO::RL.new
+        self.rl = RIO::StdIO::RRL.new
         self.softreset
       end
 

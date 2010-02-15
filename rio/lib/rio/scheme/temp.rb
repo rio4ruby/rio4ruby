@@ -34,115 +34,95 @@
 #
 
 require 'tmpdir'
+require 'rio/rrl/base'
+
 module RIO
   module Temp #:nodoc: all
     RESET_STATE = 'Temp::Reset'
 
-    require 'rio/rl/base'
-    class RL < RL::Base 
+    class RRL < ::RIO::RRL::Base 
       RIOSCHEME = 'temp'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].to_s.freeze
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
       DFLT_PREFIX = 'rio'
       DFLT_TMPDIR = ::Dir::tmpdir
-      attr_reader :prefix,:tmpdir
-      def initialize(file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-        #puts "initialize(#{file_prefix.inspect},#{temp_dir.inspect})"
-        @prefix = file_prefix || DFLT_PREFIX
-        @tmpdir = temp_dir || DFLT_TMPDIR
-        super
+      def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
+        alturi = case u
+                 when ::Alt::URI::Base then u
+                 else ::Alt::URI.parse(u.to_s)
+                 end
+        super(alturi)
+        self.path = temp_dir
+        self.query = file_prefix
       end
-      #def path() nil end
-      def scheme() self.class.const_get(:RIOSCHEME) end
-      def opaque()
-        td = self.escape(@tmpdir.to_s)
-        td += '/' unless td.nil? or td.empty? or (td != '/' and td[-1] == ?/)
-        td + self.escape(@prefix)
-      end
-      
-      SPLIT_RE = %r|(?:(.*)/)?([^/]*)$|.freeze
-      def self.splitrl(s)
-        sub,opq,whole = split_riorl(s)
-        if opq.nil? or opq.empty?
-          []
-        elsif bm = SPLIT_RE.match(opq)
-          tdir = bm[1] unless bm[1].nil? or bm[1].empty?
-          tpfx = bm[2] unless bm[2].nil? or bm[2].empty?
-          [tpfx,tdir]
-        else
-          []
-        end
-      end
+
+      extend Forwardable
+      def_delegators :uri, :path=, :path, :query, :query=, :scheme
+      alias :prefix :query
+      alias :tmpdir :path
+
     end
     module Dir
-      require 'rio/rl/path'
-      RESET_STATE = RIO::RL::PathBase::RESET_STATE
+      require 'rio/rrl/path'
+      RESET_STATE = RIO::RRL::PathBase::RESET_STATE
       require 'tmpdir'
-      class RL < RIO::RL::PathBase 
+      class RRL < RIO::RRL::PathBase 
         RIOSCHEME = 'tempdir'
-        DFLT_PREFIX = Temp::RL::DFLT_PREFIX
-        DFLT_TMPDIR = Temp::RL::DFLT_TMPDIR
-        attr_reader :prefix,:tmpdir,:tmprl
-        def initialize(file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-          #puts "initialize(#{file_prefix.inspect},#{temp_dir.inspect})"
-          @prefix = file_prefix || DFLT_PREFIX
-          @tmpdir = temp_dir || DFLT_TMPDIR
+        DFLT_PREFIX = Temp::RRL::DFLT_PREFIX
+        DFLT_TMPDIR = Temp::RRL::DFLT_TMPDIR
+
+        def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
+          @self.query = file_prefix
+          self.path = temp_dir
+
           require 'rio/tempdir'
-          @td = ::Tempdir.new( @prefix.to_s, @tmpdir.to_s)
-          super(@td.to_s)
+          td = ::Tempdir.new( @prefix.to_s, @tmpdir.to_s)
+          super(td.to_s)
         end
+        extend Forwardable
+        def_delegators :uri, :path=, :path, :query, :query=
+        alias :prefix :query
+        alias :tmpdir :path
+
         def dir_rl() 
-          #p "temp:dir_rl: #{self.uri.inspect}"
-          RIO::Dir::RL.new(self.uri, {:fs => self.fs})
-          #self 
-        end
-        SPLIT_RE = Temp::RL::SPLIT_RE
-        def self.splitrl(s)
-          Temp::RL.splitrl(s)
+          RIO::Dir::RRL.new(self.uri, {:fs => self.fs})
         end
       end
     end
     module File
-      require 'rio/rl/path'
+      require 'rio/rrl/path'
       RESET_STATE = 'Temp::Stream::Open'
-      class RL < RIO::RL::PathBase 
+      class RRL < RIO::RRL::PathBase 
         RIOSCHEME = 'tempfile'
-        DFLT_PREFIX = Temp::RL::DFLT_PREFIX
-        DFLT_TMPDIR = Temp::RL::DFLT_TMPDIR
-        attr_reader :prefix,:tmpdir,:tmprl
-        def initialize(file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-          #puts "initialize(#{file_prefix.inspect},#{temp_dir.inspect})"
-          @prefix = file_prefix || DFLT_PREFIX
-          @tmpdir = temp_dir || DFLT_TMPDIR
+        DFLT_PREFIX = Temp::RRL::DFLT_PREFIX
+        DFLT_TMPDIR = Temp::RRL::DFLT_TMPDIR
+
+        def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'tempfile'
           
           # FIXME: Temporary fix for jruby 1.4 - make tmpdir absolute
-           tmpdir_rio = rio(@tmpdir).abs
-          # p "Tempfile.new(#{@prefix},#{tmpdir_rio})"
-          
-          @tf = ::Tempfile.new( @prefix.to_s, tmpdir_rio.to_s)
+          #tmpdir_rio = rio(@tmpdir).abs
+          @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
 
           # FIXME: Temporary fix for jruby 1.4 - fix slashes
           pth =  @tf.path
           pth.gsub!("\\","/")
           #
  
-          super(pth)
+          super(::Alt::URI.parse(pth))
+          self.query = file_prefix
+          self.path = temp_dir
         end
+        extend Forwardable
+        def_delegators :uri, :path=, :path, :query, :query=
         def file_rl() 
-        RIO::File::RL.new(self.uri,{:fs => self.fs})
-          #self 
+          RIO::File::RRL.new(self.uri,{:fs => self.fs})
         end
         def open(mode='ignored')
-          #p callstr('open',mode)
           @tf
         end
         def close 
           super
           @tf = nil
-        end
-        SPLIT_RE = Temp::RL::SPLIT_RE
-        def self.splitrl(s)
-          Temp::RL.splitrl(s)
         end
       end
     end
@@ -159,7 +139,7 @@ module RIO
 
       def check?() true end
       def mkdir(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::Dir::RL.new(prefix, tmpdir)
+        self.rl = RIO::Temp::Dir::RRL.new(prefix, tmpdir)
         become 'Dir::Existing'
       end
 #      def mkdir()
@@ -169,7 +149,7 @@ module RIO
         self.mkdir.chdir(&block)
       end
       def file(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::File::RL.new(prefix, tmpdir)
+        self.rl = RIO::Temp::File::RRL.new(prefix, tmpdir)
         become 'Temp::Stream::Open'
       end
       def scheme() rl.scheme() end
@@ -182,7 +162,6 @@ module RIO
       def open?() false end
       def closed?() true end
       def when_missing(sym,*args)
-        #p @rl.scheme
         if @tempobj.nil?
           file()
         else
@@ -196,15 +175,7 @@ module RIO
         def iostate(sym)
           mode_('w+').open_.inout()
         end
-#        def inout() stream_state('Temp::Stream::InOut') end
       end
-#      require 'rio/stream'
-#      class InOut < RIO::Stream::InOut
-#        def base_state() 'Temp::Stream::Close' end
-#      end
-#      class Close < RIO::Stream::Close
-#        def base_state() 'Temp::Reset' end
-#      end
 
     end
   end

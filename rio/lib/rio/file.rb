@@ -34,9 +34,11 @@
 #
 
 
-require 'rio/state'
-require 'rio/ops/path'
-require 'rio/ops/file'
+#require 'rio/state'
+#require 'rio/ops/path'
+#require 'rio/ops/file'
+
+
 
 module RIO
 

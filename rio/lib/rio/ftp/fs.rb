@@ -34,7 +34,7 @@
 #
 
 require 'net/ftp'
-require 'uri'
+require 'rio/alturi'
 require 'rio/fs/native'
 require 'rio/ftp/conncache'
 

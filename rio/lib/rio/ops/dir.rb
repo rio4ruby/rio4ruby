@@ -36,7 +36,7 @@
 
 require 'rio/grande'
 require 'rio/cp'
-require 'rio/ops/either'
+#require 'rio/ops/either'
 
 module RIO
 #   module Impl
@@ -241,6 +241,7 @@ module RIO
           else
             # KIT: should this be RL.fs2url(ent) ???
             if indir
+
               new_rio_cx(indir.rl,ent)
             else
               new_rio_cx(ent)
@@ -264,7 +265,7 @@ module RIO
               _add_recurse_iter_cx(erio).each(&block) if rsel.match?(erio)
             end
             
-          rescue ::Errno::ENOENT, ::URI::InvalidURIError => ex
+          rescue ::Errno::ENOENT => ex
             $stderr.puts(ex.message+". Skipping.")
           end
         end

@@ -43,6 +43,9 @@ module RIO
           #p callstr('get_',sep_string.inspect)
           self.ior.gets(sep_string)
         end
+        def io_enum
+          self.ior.to_enum
+        end
         def each_rec_(&block) 
           ih = self.ior
           ih.each_line { |line|
@@ -56,7 +59,7 @@ module RIO
         def put_(rec,*args)
           #p callstr('put_',rec,*args)
           #p self.ioh.ios
-          self.ioh.print(rec.to_s)
+          self.iow.print(rec.to_s)
         end  
       end
     end

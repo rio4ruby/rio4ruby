@@ -52,34 +52,37 @@ module RIO
       def callstr(func,*args)
         self.class.to_s+'['+self.to_s+']'+'.'+func.to_s+'('+args.join(',')+')'
       end
-      def handle() @ios end
+      def ior() ios end
+      def iow() ios end
+      def handle() ios end
       def open?() not closed? end
     end
+
+
+
+
     class Stream < Base
       #attr_reader :iostack
       attr_accessor :hindex
       def initialize(iosp,*args)
         super
-        #@iostack = [@ios]
-        #@hindex = -1
       end
       def initialize_copy(*args)
         #p callstr('ioh_stream:initialize_copy',*args)
         super
-        #@iostack = @iostack.map { |io| io.nil? || io.equal?(@ios) ? io : io.clone }
       end
       def copy_blksize() 
-        if @ios.respond_to? :stat
-          sz = @ios.stat.blksize
+        if ios.respond_to? :stat
+          sz = ios.stat.blksize
           sz = nil if sz.nil? || sz == 0
         end
         sz || 512 
       end
 
-      def handle() @ios end
+      def handle() ios end
       def close()  handle.close unless self.closed? end
-      def closed?() handle.nil? or handle.closed? end
-      def eof?() closed? or handle.eof? end
+      def closed?() ios.nil? or ios.closed? end
+      def eof?()  ios.nil? or ios.closed? or ios.eof? end
       def copy_stream(dst)
         #p callstr('copy_stream',dst)
         blksize = _stream_blksize(handle,dst)
@@ -108,6 +111,9 @@ module RIO
                               :fileno,
                               :close_read,:close_write,
                               :fsync,:sync,:sync=,:fcntl,:ioctl)
+      def set_encoding(*args)
+        handle.set_encoding(*args)
+      end
 
       def method_missing(sym,*args,&block)
         #p callstr('method_missing',sym,*args)
@@ -131,15 +137,20 @@ module RIO
         s
       end
     end
+
+
+
+
+
     class Dir < Base
       def close
-        #p "#{callstr('close')} ios=#{@ios}"
-        unless @ios.nil?
-          @ios.close
-          @ios = nil
+        #p "#{callstr('close')} ios=#{ios}"
+        unless ios.nil?
+          ios.close
+          ios = nil
         end
       end
-      def closed?() @ios.nil? end
+      def closed?() ios.nil? end
       def each(&block)
         while filename = handle.read
           yield filename

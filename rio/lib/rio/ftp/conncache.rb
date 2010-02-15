@@ -35,7 +35,7 @@
 
 
 require 'net/ftp'
-require 'uri'
+require 'rio/alturi'
 require 'singleton'
 
 module RIO

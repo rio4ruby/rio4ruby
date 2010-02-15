@@ -38,12 +38,12 @@ module RIO
   module HTTP #:nodoc: all
     RESET_STATE = 'HTTP::Stream::Open'
     
-    require 'rio/rl/uri'
-    class RL < RIO::RL::URIBase
-      def self.splitrl(s) 
-        sub,opq,whole = split_riorl(s)
-        [whole] 
-      end
+    require 'rio/rrl/withpath'
+    class RRL < RIO::RRL::URIBase
+      #def self.splitrl(s) 
+      #  sub,opq,whole = split_riorl(s)
+      #  [whole] 
+      #end
       require 'open-uri'
       def open(*args)
         IOH::Stream.new(self.uri.open)

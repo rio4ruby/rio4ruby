@@ -91,9 +91,7 @@ module RIO
         protected
 
         def cpto_obj_(obj)
-          #p "cpto_obj_(#{obj.inspect})"
           self.each do |el|
-            #p el
             obj << el
           end
         end
@@ -106,12 +104,10 @@ module RIO
 
         def cpfrom_obj_(obj)
           obj.each do |el|
-            #p el
             self << el
           end
         end
         def cpfrom_array_(ary)
-          #p "CPFROM_ARRAY_ #{ary.inspect}"
           ary.inject(self) { |anio,el| anio << el }
         end
       end
@@ -161,22 +157,17 @@ module RIO
           cpto_obj_(arg)
         end
         def cpto_string_(arg)
-          #p "cpto_string_(#{arg})"
           cpto_obj_(arg)
         end
 
         def cpto_rio_(arg,sym)
-          #p callstr('cpto_rio_',arg.inspect)
-
           ario = ensure_rio(arg)
-          #p ario
           ario = ario.join(self.filename) if ario.dir?
+
           ario.cpclose {
             ario = ario.iostate(sym)
             self.copying(ario).each { |el|
-#              p el
               ario.putrec(el)
-#              ario << el
             }.copying_done(ario)
             ario
           }
@@ -203,13 +194,9 @@ module RIO
           self
         end
         def cpfrom_rio_(arg)
-          #p callstr('cpfrom_rio_',arg.inspect)
           ario = ensure_rio(arg)
-          #p ario.cx
 
           ario.copying(self).each { |el|
-            #p el
-            #self << el
             self.putrec(el)
           }.copying_done(self)
         end

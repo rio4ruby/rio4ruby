@@ -41,7 +41,7 @@ module RIO
 
         protected
 
-        def process_pipe_arg_(npiper)
+        def process_pipe_arg0_(npiper)
           end_rio = npiper.rios[-1]
           case end_rio.scheme
           when 'cmdio'
@@ -59,18 +59,29 @@ module RIO
           end
         end
 
+        def process_pipe_arg_(ario)
+          case ario.scheme
+          when 'cmdio'
+            new_rio(:cmdpipe,ario)
+          when 'cmdpipe'
+            new_rio(:cmdpipe,ario)
+          else
+            new_rio(:cmdpipe,ario)
+          end
+        end
+
       end
       module Input
         include Util
         def |(arg)
-          #p "#{self} | #{arg}"
           ario = ensure_cmd_rio(arg)
-          #cp = Rio.new(self.rl)
-          #cp.cx = self.cx.clone
-          #cp.ioh = self.ioh.clone unless self.ioh.nil?
-          cp = clone_rio()
-          npiper = Piper::Base.new(cp,ario)
-          process_pipe_arg_(npiper)
+          #p 'HERE ario.cx=',arg.cx
+          #p 'HERE self.cx=',self.cx
+
+          nrio = new_rio(:cmdpipe,self.clone_rio,ario)
+          end_rio = nrio.rl.query[-1]
+          has_output_dest = end_rio.scheme != 'cmdio'
+          has_output_dest ? nrio.run :  nrio
         end
       end
     end

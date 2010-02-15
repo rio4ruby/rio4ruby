@@ -39,6 +39,17 @@ module RIO
   module Stream
 
     class Base < State::Base
+      def initialize(*args)
+        super
+      end
+      def initialize_copy(other)
+        super
+        data.ioh = other.data.ioh
+      end
+      fwd :data,:ioh
+      alias :ior :ioh
+      alias :iow :ioh
+
       def iostate(*args) self end
       def stream?() true end
       def recno() nil end

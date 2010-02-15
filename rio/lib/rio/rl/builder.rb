@@ -34,9 +34,10 @@
 #
 
 
-require 'uri'
+require 'rio/alturi'
 require 'rio/local'
 require 'rio/rl/base'
+require 'rio/rrl/base'
 require 'stringio'
 
 module RIO
@@ -65,23 +66,33 @@ module RIO
           when %r|^//|
             a[0] = 'rio:file:'+a[0]
           when %r|^/|
-            a[0] = 'file://'+a[0]
+            #a[0] = 'file://'+a[0]
+              #p "IN BUILDER #{a.inspect}"
             return Factory.instance.riorl_class('file').new(*a)
           else
             return Factory.instance.riorl_class('path').new(*a)
           end
         when RIO::Rio
+          #p "BUILD: a[0]=#{a[0].inspect} a[0].rl=#{a[0].rl.inspect}"
           a[0] = a[0].rl
           return build(*a)
         when RL::Base
-          #p "HERE a=#{a.inspect}"
+          #p "BUILD: RL::Base a=#{a.inspect}"
           a0 = a.shift.clone
           cl = Factory.instance.riorl_class(a0.scheme)
           o = cl.new(a0,*a) unless cl.nil?
           return o
           #          return (a.empty? ? a0 : a0.join(*a))
-        when ::URI
+        when ::RIO::RRL::Base
+          #p "BUILD: RRL::Base a=#{a.inspect}"
+          a0 = a.shift.uri
+          cl = Factory.instance.riorl_class(a0.scheme)
+          o = cl.new(a0,*a) unless cl.nil?
+          return o
+          #          return (a.empty? ? a0 : a0.join(*a))
+        when ::Alt::URI::Base
           a0 = a.shift
+          #p "SCHEME is #{a0.scheme}"
           cl = Factory.instance.riorl_class(a0.scheme)
           o = cl.new(a0,*a) unless cl.nil?
           return o
@@ -108,6 +119,7 @@ module RIO
         a0 = a.shift
         sch = Base.subscheme(a0)
         cl = Factory.instance.riorl_class(sch)
+        #p "cl=#{cl}"
         cl.parse(a0,*a)  unless cl.nil?
 
       end

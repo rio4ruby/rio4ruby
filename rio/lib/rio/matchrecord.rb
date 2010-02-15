@@ -202,7 +202,7 @@ module RIO
         end
         def match?(val,recno)
           # !@list.nil? && (@list.empty? || @list.detect { |sel| sel.match?(val,recno) } || false) && true
-          return false if @list.nil?
+          return false unless @list
           return true if @list.empty?
           as = nil
           al = @list.detect { |sel| as = sel.match?(val,recno)
@@ -268,9 +268,11 @@ module RIO
         end
         def match?(val,recno)
           #p "match?(#{val},#{recno}) #{self.inspect}"
-          return @always unless @always.nil?
+          return @always if @always
+          #return @always unless @always.nil?
           as = nil
-          ok = ((!@sel.nil? && (as = @sel.match?(val,recno))) && !(!@rej.nil? && @rej.match?(val,recno)))
+          #ok = ((!@sel.nil? && (as = @sel.match?(val,recno))) && !(!@rej.nil? && @rej.match?(val,recno)))
+          ok = ((@sel && (as = @sel.match?(val,recno))) && !(@rej && @rej.match?(val,recno)))
           return (ok ? as : ok)
         end
       end

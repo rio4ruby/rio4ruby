@@ -47,12 +47,17 @@ require 'rio/if/internal'
 require 'rio/if/basic'
 
 module RIO
-  class Rio
-    require 'rio/if/grande'
-    require 'rio/if/grande_entry'
-    require 'rio/if/grande_stream'
-    
+  module IF
+    #autoload :Grande,           'rio/if/grande' 
+    require 'rio/if/grande' 
+
+    #autoload :GrandeEntry,      'rio/if/grande_entry' 
+    require 'rio/if/grande_entry' 
+    #autoload :GrandeStream,     'rio/if/grande_stream' 
+    require 'rio/if/grande_stream' 
+    #autoload :Test,             'rio/if/test'
     require 'rio/if/test'
+
     require 'rio/if/path'
     require 'rio/if/fileordir'
     require 'rio/if/file'
@@ -61,4 +66,5 @@ module RIO
     require 'rio/if/temp'
     require 'rio/if/string'
   end
+
 end

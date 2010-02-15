@@ -34,6 +34,15 @@
 #
 
 
+
+module RIO
+  module Ops
+    module Stream
+      autoload :Input,'rio/ops/stream/input'
+      autoload :Output,'rio/ops/stream/output'
+    end
+  end
+end
 module RIO
   module Impl
     module U

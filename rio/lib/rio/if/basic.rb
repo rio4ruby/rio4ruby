@@ -46,19 +46,25 @@ module RIO
 
     # Equality - calls to_s on _other_ and compares its return value 
     # with the value returned by Rio#to_s
-    def ==(other) target == other end
+    def ==(other) 
+      begin
+        target == other.to_str
+      rescue NoMethodError
+        target == other.to_s
+      end
+    end
 
     # Equality (for case statements) same as Rio#==
-    def ===(other) target === other end
+    def ===(other) self == other end
 
     # Rios are hashed based on their String representation
-    def hash() target.hash end
+    def hash() self.to_str.hash end
 
     # Returns true if their String representations are eql?
-    def eql?(other) target.eql?(other) end
+    #def eql?(other) self.eql?(other) end
 
     # Match - invokes _other_.=~, passing the value returned by Rio#to_str
-    def =~(other) target =~ other end
+    def =~(other) other =~ self.to_str end
       
   end
 end

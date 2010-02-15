@@ -34,13 +34,20 @@
 #
 
 
+#require 'rio/context'
+#require 'rio/context/methods'
+#require 'rio/ext'
+#require 'rio/filter'
+#require 'rio/fs/native'
+#require 'rio/fwd'
+
 require 'rio/exception/state'
-require 'rio/context'
-require 'rio/context/methods'
-require 'rio/ext'
+require 'rio/state/data'
 require 'rio/symantics'
-require 'rio/filter'
-require 'rio/fs/native'
+module RIO
+  autoload :Cx,'rio/context'
+  autoload :Ext,'rio/ext'
+end
 
 module RIO
 
@@ -91,50 +98,41 @@ module RIO
       attr_accessor :try_state
       #attr_accessor :handled_by
 
-      attr_accessor :rl
-      attr_accessor :ioh
-
-      attr_accessor :cx
-
       # include Enumerable
       # Context handling
       include Cx::Methods
       include RIO::Ext::Cx
 
       
-      def initialize(rl=nil,cx=nil,ioh=nil)
-        cx ||= self.class.default_cx
-        _init(rl,cx,ioh)
-        #        @handled_by = self.class.to_s
+      attr_reader :data
+      def initialize(iv)
+        #p "State#initialize(#{iv.keys.inspect})"
+        @data = State::Data.new
+        iv.keys.each do |k|
+          @data[k] = iv[k]
+        end
+        @data.cx ||= self.class.default_cx
       end
       
-      def _init(riorl,cntx,iohandle=nil)
-        @rl = riorl
-        @cx = cntx
-        @ioh = iohandle
-#        raise Exception::FailedCheck.new(self) unless check?
-        self
-      end
-      private :_init
-
-      def initialize_copy(*args)
-        #p callstr('initialize_copy',args[0].inspect)
+      def initialize_copy(other)
         super
-        @rl = @rl.clone unless @rl.nil?
-        @cx = @cx.clone unless @cx.nil?
-        @ioh = @ioh.clone unless @ioh.nil?
-        # @fs = @fs
+        data.rl = other.data.rl 
+        data.cx = other.data.cx
       end
+
+      extend Forwardable
+      def_instance_delegators(:rl,:path,:netpath,:to_s,:fspath,:length)
+
+      extend RIO::Fwd
+      fwd :data,:rl,:cx
 
       def self.default_cx
          Cx::Vars.new( { 'closeoneof' => true, 'closeoncopy' => true } )
       end
       def self.new_other(other)
-        new(other.rl,other.cx,other.ioh)
+        new(other.data)
       end
 
-      alias :ior :ioh
-      alias :iow :ioh
 
 
 
@@ -149,12 +147,7 @@ module RIO
         #p "BECOME #{new_class}: #{cx['ss_type']}"
         return self if new_class == self.class
 
-        begin
-          new_state = try_state[new_class,*args]
-        rescue Exception::FailedCheck => ex
-          p "not a valid "+new_class.to_s+": "+ex.to_s+" '"+self.to_s+"'"
-          raise
-        end
+        new_state = try_state[new_class,*args]
         became(new_state)
         new_state
       end
@@ -177,7 +170,7 @@ module RIO
       def when_missing(sym,*args) gofigure(sym,*args) end
 
 
-      def base_state() Factory.instance.reset_state(@rl) end
+      def base_state() Factory.instance.reset_state(rl) end
 
       def softreset 
         #p "softreset(#{self.class}) => #{self.base_state}"
@@ -207,18 +200,18 @@ module RIO
       def to_rl() self.rl.rl end
       def fs() self.rl.fs end
 
-      extend Forwardable
-      def_instance_delegators(:rl,:path,:to_s,:fspath,:urlpath,:length)
+      #def_instance_delegators(:uri,:path,:netpath,:to_s,:fspath,:length)
 
-      def ==(other) @rl == other end
+      def ==(other) rl == other end
       def ===(other) self == other end
       def =~(other) other =~ self.to_str end
-      def to_url() @rl.url end
-      def to_uri() @rl.uri end
-      alias to_str to_s
+      def to_url() rl.url end
+      def to_uri() rl.uri end
+      def uri() rl.uri end
+      alias :to_str :to_s
 
-      def hash() @rl.to_s.hash end
-      def eql?(other) @rl.to_s.eql?(other.to_s) end
+      def hash() rl.to_s.hash end
+      #def eql?(other) @rl.to_s.eql?(other.to_s) end
 
       def stream?() false end
 
@@ -236,7 +229,7 @@ module RIO
       def clone_rio()
         cp = Rio.new(self.rl)
         cp.cx = self.cx.clone
-        cp.ioh = self.ioh.clone unless self.ioh.nil?
+        #cp.ioh = self.ioh.clone unless self.ioh.nil?
         cp.rl = self.rl.clone
         cp
       end
@@ -250,7 +243,7 @@ module RIO
       end
       def ensure_cmd_rio(arg)
         case arg
-        when ::String then new_rio(:cmdio,arg)
+        when ::String then new_rio("cmdio:"+arg)
         when ::Fixnum then new_rio(arg)
         when Rio then arg.clone
         else ensure_rio(arg)

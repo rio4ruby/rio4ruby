@@ -33,48 +33,84 @@
 # * RIO::Rio
 #
 
+#require 'rio/stream'
+#require 'rio/stream/open'
+require 'rio/fibpipe'
+require 'rio/rrl/ioi'
+require 'rio/rrl/chmap'
 
 module RIO
   module CmdIO #:nodoc: all
-    require 'rio/rl/ioi'
-    RESET_STATE = 'Stream::Duplex::Open'
+     RESET_STATE = 'Stream::Duplex::Open'
 
-    class RL < RL::SysIOBase 
+    class RRL < RRL::SysIOBase 
       RIOSCHEME = 'cmdio'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].to_s.freeze
-      attr_reader :cmd
-      def initialize(cmd="")
-        case cmd
-        when self.class then @cmd = cmd.cmd
-        else @cmd = cmd
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
+      
+      attr_reader :ior,:iow
+      def initialize(u,*a)
+        super(u)
+        com = case c = a.shift
+              when self.class then c.cmd
+              else c
+              end
+        unless com.nil?
+          self.path = com
+          self.query = a
         end
-        super
       end
-      def opaque() 
-        URI.escape(@cmd,RIO::RL::ESCAPE)
+      extend Forwardable
+      def_delegators :uri, :path=, :path
+      def query
+        uri.query
       end
+      def query=(args)
+        uri.query = args
+      end
+      def self.parse(*a)
+        u = a.shift.sub(/^rio:/,'')
+        new(u,*a)
+      end
+      alias :cmd :path
+      alias :args :query
+      def fib_proc(m)
+        #fibproc
+        #p "CMD=#{cmd},args=#{args.inspect}"
+        if m.allows_write?
+          Cmd::FibPipeProc.new([cmd,args],m.to_s)
+        else
+          Cmd::FibSourceProc.new([cmd,args],m.to_s)
+        end
+      end
+
       def to_s()
-        @cmd
+        [cmd,args].flatten.join(' ')
       end
       def open(m)
-        #p "opening #{@cmd}"
-        #raise RuntimeError, "Should Not Open"
-        super(::IO.popen(@cmd,m.to_s))
+        p "CMDIO#open cmd=#{cmd.inspect},args=#{args.inspect} m=#{m}"
+        poarg = args.nil? ? cmd : [cmd,args].flatten
+        io = IO.popen(poarg,m.to_s)
+        super(io)
       end
 
-      # must be able to process
-      # parse('rio:cmdio',cmd)
-      # parse('rio:cmdio:escaped_cmd')
-      SPLIT_RE = %r|(?:(.+))$|.freeze
-      def self.splitrl(s)
-        sub,opq,whole = split_riorl(s)
-        if bm = SPLIT_RE.match(opq)
-          escaped_cmd = bm[1]
-          cmd = URI.unescape(escaped_cmd)
-          [cmd]
-        end
-      end
 
+    end
+  end
+  module Stream
+    module Duplex
+      class Open < RIO::Stream::Open
+        include Piper::Cp::Input
+        #def cmd() rl.path end
+        #def cmd_args() rl.query end
+        #def cmd_str() [cmd,cmd_args].flatten.join(' ') end
+        #def |(arg)
+        #  #p "CMDIO#| #{self}|#{arg}"
+        #  nrio = new_rio(:cmdpipe,self,arg)
+        #  end_rio = nrio.rl.query[-1]
+        #  p "CmdIO#end_rio=#{end_rio}"
+        #  nrio
+        #end
+      end
     end
   end
 end

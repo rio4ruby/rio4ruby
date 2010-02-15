@@ -36,16 +36,15 @@
 
 module RIO
   module StdErr #:nodoc: all
-    require 'rio/rl/ioi'
-    RESET_STATE = RL::IOIBase::RESET_STATE
+    require 'rio/rrl/ioi'
+    RESET_STATE = RRL::IOIBase::RESET_STATE
     
-    class RL < RL::SysIOBase 
+    class RRL < RRL::SysIOBase 
       RIOSCHEME = 'stderr'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].freeze
-      def initialize()
-        super($stderr)
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].freeze
+      def initialize(u)
+        super(::Alt::URI.parse(u))
       end
-      def opaque() '' end
       def open(*args)
         #self.ios = $stderr
         super($stderr)

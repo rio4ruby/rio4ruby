@@ -34,14 +34,14 @@
 #
 
 
-require 'rio/ioh'
-require 'rio/stream/base'
-require 'rio/ops/stream'
-require 'rio/ops/path'
+#require 'rio/ioh'
+#require 'rio/stream/base'
+#require 'rio/ops/stream'
+#require 'rio/ops/path'
 require 'rio/cp'
-require 'rio/piper/cp'
-require 'rio/util'
-
+#require 'rio/piper/cp'
+#require 'rio/util'
+require 'rio/ops'
 
 module RIO
   module Stream
@@ -160,6 +160,7 @@ module RIO
 
     class Close < State::Base
       include Ops::Stream::Status
+      fwd :data,:ioh
 
       def check?() true end
       def close() 

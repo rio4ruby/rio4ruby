@@ -36,6 +36,7 @@
 
 module RIO
   module Exception #:nodoc: all
+    autoload :CantHandle, 'rio/exception/state'
     class Base < StandardError; end
   end
 end

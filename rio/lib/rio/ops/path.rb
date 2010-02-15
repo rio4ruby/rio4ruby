@@ -35,6 +35,16 @@
 
 
 #require 'rio/impl/path'
+require 'rio/ops/create'
+require 'rio/ops/construct'
+module RIO
+  module Ops
+    module Path
+      autoload :Create, 'rio/ops/create'
+    end
+  end
+end
+
 module RIO
   module Ops #:nodoc: all
     module Path
@@ -95,7 +105,9 @@ module RIO
         end
         alias :absolute? :abs?
         def route_from(other)
-          new_rio(rl.abs.route_from(ensure_rio(other).rl.abs))
+          this_uri = rl.uri.abs
+          other_uri = ensure_rio(other).rl.uri.abs
+          new_rio(this_uri.route_from(other_uri))
         end
         def rel(other=nil)
           if other.nil?
@@ -114,6 +126,7 @@ module RIO
           new_rio(rl.merge(ensure_rio(other).rl))
         end
         def base()
+          #p "BASE: " + rl.class.to_s
           new_rio(rl.base())
         end
         def setbase(b)
@@ -125,9 +138,15 @@ module RIO
 
       end
       module Query
+        def normalize
+          rtn_rio {
+            uri.normalize
+          }
+        end
+
         def expand_path(*args)
           args[0] = args[0].to_s unless args.empty?
-          new_rio(RL.fs2url(fs.expand_path(self.to_s,*args)))
+          new_rio(fs.expand_path(self.to_s,*args))
         end
         def extname(*args) 
           en = fs.extname(rl.path_no_slash,*args) 
@@ -135,9 +154,18 @@ module RIO
         end
         def splitpath()
           require 'rio/to_rio'
-          parts = self.rl.split
+          sparts,bparts = self.rl.split
+          parts = []
+          (0...sparts.length).each do |n|
+            parts << new_rio(sparts[n], {:base => bparts[n]})
+          end
+          parts.extend(ToRio::Array)
+          #parts.each do |part|
+          #  p "part=#{part.uri} abs=#{part.abs.uri}"
+          #end
           # map to rios and extend the array with to_array
-          parts.map { |arl| new_rio(arl) }.extend(ToRio::Array)
+          #parts.map { |arl| new_rio(arl) }.extend(ToRio::Array)
+          #parts.map { |arl| new_rio(arl) }
         end
         def basename(*args)
           unless args.empty?
@@ -150,11 +178,15 @@ module RIO
           new_rio(rl.filename)
         end
         def dirname(*args)
-          new_rio(rl.dirname)
+          new_rio(uri.dirname)
         end
 
         def sub(re,arg)
-          new_rio(softreset.to_s.sub(re,arg.to_s))
+          rtn_rio { 
+            softreset
+            uri.ref.sub(re,arg.to_s)
+          }
+          #new_rio(softreset.to_s.sub(re,arg.to_s))
         end
         def gsub(re,arg)
           new_rio(softreset.to_s.gsub(re,arg.to_s))
@@ -167,11 +199,11 @@ module RIO
         private
 
         def _path_with_basename(arg)
-          old =  rl.path_no_slash
+          old =  rl.path
           old[0,old.length-basename.length-ext?.length]+arg.to_s+ext?
         end
         def _path_with_filename(arg)
-          old =  rl.path_no_slash
+          old =  rl.path
           old[0,old.length-filename.length]+arg.to_s
         end
         def _path_with_ext(ex)
@@ -180,7 +212,7 @@ module RIO
         end
         def _path_with_dirname(arg)
           old =  rl.path_no_slash
-          arg.to_s + old[-(old.length-dirname.length),old.length]
+          arg.to_s + old[-(old.length-dirname.length+1),old.length]
         end
       end
       module Change
@@ -205,7 +237,7 @@ module RIO
           if cx['rename']
             must_exist.filename = arg
           else
-            rl.urlpath = _path_with_filename(arg)
+            uri.filename = arg.to_s
             softreset
           end
         end
@@ -214,7 +246,7 @@ module RIO
           if cx['rename']
             must_exist.basename = arg
           else
-            rl.urlpath = _path_with_basename(arg)
+            uri.basename = arg.to_s
             softreset
           end
         end
@@ -225,7 +257,7 @@ module RIO
           if cx['rename']
             must_exist.extname = arg
           else
-            rl.urlpath = _path_with_ext(arg)
+            uri.extname = arg.to_s
             softreset
           end
         end
@@ -234,7 +266,7 @@ module RIO
           if cx['rename']
             must_exist.dirname = arg
           else
-            rl.path = _path_with_dirname(arg)
+            uri.dirname = arg.to_s
             softreset
           end
         end
@@ -243,8 +275,6 @@ module RIO
     end 
   end
 end
-require 'rio/ops/create'
-require 'rio/ops/construct'
 module RIO
   module Ops
     module Path
@@ -262,7 +292,7 @@ module RIO
               fs.symlink(self,dst) 
             else
               #p "symlink(#{dst.route_to(self)},#{dst})"
-              fs.symlink(dst.route_to(self),dst.to_s) 
+              fs.symlink(dst.route_to(self).to_s,dst.to_s) 
             end
             dst.reset
           } 

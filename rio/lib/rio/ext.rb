@@ -34,12 +34,20 @@
 #
 
 
-require 'rio/ext/csv'
-require 'rio/ext/splitlines'
-require 'rio/ext/yaml'
+#require 'rio/ext/csv'
+#require 'rio/ext/splitlines'
+#require 'rio/ext/yaml'
 #require 'rio/ext/zipfile'
 
 require 'rio/util'
+module RIO
+  module Ext
+    autoload :CSV, 'rio/ext/csv'
+    autoload :YAML, 'rio/ext/yaml'
+    autoload :SplitLines, 'rio/ext/splitlines'
+  end
+end
+
 module RIO
   module Ext #:nodoc: all
     @@extensions = {}

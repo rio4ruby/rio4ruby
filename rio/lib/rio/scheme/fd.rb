@@ -36,29 +36,26 @@
 
 module RIO
   module FD #:nodoc: all
-    require 'rio/rl/ioi'
-    RESET_STATE = RL::IOIBase::RESET_STATE
+    require 'rio/rrl/ioi'
+    RESET_STATE = RRL::IOIBase::RESET_STATE
 
-    class RL < RL::SysIOBase
+    class RRL < RRL::SysIOBase
       RIOSCHEME = 'fd'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].freeze
-      def initialize(fd)
-        @fd = fd
-        super
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].freeze
+      attr_reader :fd
+      def initialize(u,*args)
+        super(::Alt::URI.parse(u.to_s))
+        self.query ||= args.shift
+      end
+      def query=(arg)
+        uri.query = arg.nil? ? nil : arg.to_s
+        arg
+      end
+      def query
+        uri.query.nil? ? nil :  uri.query.to_i
       end
       def open(m,*args)
-        super(::IO.new(@fd,m.to_s))
-      end
-      def opaque() "#{@fd}" end
-      # must be able to process
-      # parse('rio:fd:<number>')
-      SPLIT_RE = %r|(\d+)$|
-      def self.splitrl(s)
-        sub,opq,whole = split_riorl(s)
-        if bm = SPLIT_RE.match(opq)
-          fd = bm[1].to_i
-          [fd]
-        end
+        super(::IO.new(self.query,m.to_s))
       end
     end
   end

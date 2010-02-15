@@ -34,9 +34,9 @@
 #
 
 
-require 'rio/cp'
-require 'rio/piper/cp'
-require 'rio/ops/either'
+#require 'rio/cp'
+#require 'rio/piper/cp'
+#require 'rio/ops/either'
 
 # module RIO
 #   module Impl

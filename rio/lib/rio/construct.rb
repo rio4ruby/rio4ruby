@@ -33,9 +33,9 @@
 # * RIO::Rio
 #
 
+require 'rio/ops/construct'
 
 module RIO
-  require 'rio/ops/construct'
   include Ops::Construct
 
   module_function(*RIO::CONSTRUCTOR_SYMS)

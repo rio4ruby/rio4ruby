@@ -33,6 +33,7 @@
 # * RIO::Rio
 #
 
+require 'rio/context/cxx.rb'
 
 module RIO
   module Filter #:nodoc: all
@@ -54,7 +55,6 @@ end
 module RIO
   module Cx
     module Methods
-      require 'rio/context/cxx.rb'
       def self.make_filter_methods(sym)
         module_eval %{
           def #{sym}(arg=true,&block)

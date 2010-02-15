@@ -36,27 +36,26 @@
 
 module RIO
   module SysIO #:nodoc: all
-    require 'rio/rl/ioi'
-    RESET_STATE = RL::IOIBase::RESET_STATE
+    require 'rio/rrl/ioi'
+    RESET_STATE = RRL::IOIBase::RESET_STATE
 
-    class RL < RL::SysIOBase
+    class RRL < RRL::SysIOBase
       RIOSCHEME = 'sysio'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].to_s.freeze
-      def opaque() sprintf('0x%08x',self.ios.object_id) end
-      def open(*args)
-        super(*args)
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
+      def initialize(u,arg=nil)
+        super(::Alt::URI.parse(u),arg)
+        self.query ||= ios unless ios.nil?
       end
-      # must be able to process both
-      # parse('rio:sysio',ios)
-      # parse('rio:sysio:0xHEXIOS')
-      SPLIT_RE = %r|0x([0-9a-fA-F]+)$|
-      def self.splitrl(s)
-        sub,opq,whole = split_riorl(s)
-        if bm = SPLIT_RE.match(opq)
-          oid = bm[1].hex
-          ios = ObjectSpace._id2ref(oid)
-          [ios]
-        end
+      def query=(arg)
+        uri.query = arg.nil? ? nil : sprintf('0x%08x',arg.object_id)
+        arg
+      end
+      def query
+        uri.query.nil? ? nil :  ObjectSpace._id2ref(uri.query.hex)
+      end
+
+      def open(*args)
+        super(self.ios)
       end
     end
   end

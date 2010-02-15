@@ -34,7 +34,7 @@
 #
 
 
-require 'rio/rl/uri'
+require 'rio/alturi'
 require 'rio/rl/withpath'
 require 'rio/rl/pathmethods'
 
@@ -48,10 +48,10 @@ module RIO
         #p callstr('init_from_args_',arg0.inspect,args)
         vuri,vbase,vfs = nil,nil,nil
         case arg0
-        when RIO::Rio, URIBase, ::URI
+        when RIO::Rio, URIBase, ::Alt::URI::Base, ::Alt::URI::File
           return super
         when ::String 
-          vuri = uri_from_string_(RL.fs2url(arg0)) || ::URI.parse(RL.fs2url(arg0))
+          vuri = uri_from_string_(arg0) || ::Alt::URI.parse(arg0)
         else
           raise(ArgumentError,"'#{arg0}'[#{arg0.class}] can not be used to create a Rio")
         end
@@ -76,15 +76,15 @@ module RIO
 
       def join(*args)
         return self if args.empty?
-        join_(args.map{ |arg| RL.fs2url(arg.to_s)})
+        join_(args.map{ |arg| arg.to_s})
       end
-      def fspath() 
-        if use_host?
-          '//' + uri.host + RL.url2fs(self.urlpath)
-        else 
-          RL.url2fs(self.urlpath)
-        end
-      end
+      #def fspath() 
+      #  if use_host?
+      #    '//' + uri.host + RL.url2fs(self.urlpath)
+      #  else 
+      #    RL.url2fs(self.urlpath)
+      #  end
+      #end
 #      def fspath=(pt)
 #        if pt =~ %r|^//(#{HOST})(/.*)?$|
 #          @host = $1

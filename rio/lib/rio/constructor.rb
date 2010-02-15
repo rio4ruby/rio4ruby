@@ -35,7 +35,7 @@
 
 #
 
-require 'rio'
+#require 'rio'
 
 module RIO
   # Rio Constructor 
@@ -205,7 +205,7 @@ module RIO
   #
   # <tt>rio(:null)</tt>
   #
-  # This rio behaves like the Unix file /dev/null, but does depend on it -
+  # This rio behaves like the Unix file /dev/null, but does not depend on it -
   # and thus will work on non-Unix systems. Reading behaves as if reading from
   # an empty file, and writing to it discards anything written.
   #

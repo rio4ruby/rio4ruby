@@ -67,34 +67,3 @@ if $0 == __FILE__
 end
 
 __END__
-
-require 'test/unit'
-
-class TC_Handle < Test::Unit::TestCase
-  def test_handle
-    assert_nothing_raised { 
-      h = Handle.new()
-    }
-    h = Handle.new()
-    assert_nil(h.v)
-    object = String.new("Zippy")
-    h = FwdHandle.new(object,$stdout)
-    s = "Hello World\n"
-
-    rtn = h.fwd_rtn(:write,s)
-    assert_equal(rtn,s.length)
-
-    rtn = h.fwd_rtn_obj(:write,s)
-    assert_same(rtn,object)
-
-    rtn = h.fwd_rtn_new(:write,s)
-    assert_equal(object.class,rtn.class)
-    assert_not_same(object,rtn)
-    assert_equal(rtn,s.length.to_s)
-
-    rtn = h.write(s)
-    p rtn
-#    assert_equal(sdocdir,docdir.to_s)
-#    assert_instance_of(RIO::Rio,doc,"catpath does not return an FS")
-  end
-end

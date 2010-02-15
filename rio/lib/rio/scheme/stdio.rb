@@ -33,29 +33,28 @@
 # * RIO::Rio
 #
 
+require 'rio/rrl/ioi'
 
 module RIO
   module StdIO #:nodoc: all
-    require 'rio/rl/ioi'
-    RESET_STATE = RL::IOIBase::RESET_STATE
+    RESET_STATE = RRL::IOIBase::RESET_STATE
 
-    class RL < RL::SysIOBase 
+    class RRL < RRL::SysIOBase 
       RIOSCHEME = 'stdio'
-      RIOPATH = RIO::RL::CHMAP.invert[RIOSCHEME].to_s.freeze
-      attr_reader :scheme
-      def initialize(sch=RIOSCHEME)
-        @scheme = sch
-        #super
+      RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
+      def initialize(u)
+        super(u)
       end
-      def opaque() '' end
+      extend Forwardable
+      def_delegators :uri, :path=, :path
       require 'rio/iomode'
       def open(m)
         case 
         when m.primarily_read? 
-          @scheme = 'stdin'
+          uri.scheme = 'stdin'
           return super($stdin.clone)
         when m.primarily_write? 
-          @scheme = 'stdout'
+          uri.scheme = 'stdout'
           return super($stdout.clone)
         else 
           raise ArgumentError,sprintf("Can not %s a %s with mode '%s'",'open',self.class,m)
@@ -63,7 +62,7 @@ module RIO
         nil
       end
       def close()
-        @scheme = RIOSCHEME
+        uri.scheme = RIOSCHEME
         self.ios = nil
       end
     end

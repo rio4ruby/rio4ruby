@@ -33,11 +33,12 @@
 # * RIO::Rio
 #
 
-
 require 'rio/version'
-require 'rio/base'
-require 'rio/def'
-require 'rio/exception'
+unless RUBY_VERSION > "1.9"
+  raise LoadError, "This version of Rio(#{RIO::VERSION}) requires Ruby 1.9+. Ruby version is #{RUBY_VERSION}"
+end
+#require 'rio/def'
+#require 'rio/exception'
 
 require 'forwardable'
 
@@ -48,12 +49,12 @@ require 'rio/constructor'
 require 'rio/construct'
 
 require 'rio/const'
+require 'rio/local'
+require 'rio/factory'
 
 module RIO
   class Rio #:doc:
-    require 'rio/local'
     include Local
-    require 'rio/factory'
     protected
 
     attr_reader :state
@@ -62,11 +63,14 @@ module RIO
 
     # See RIO.rio
     def initialize(*args)
-      @state = Factory.instance.create_state(*args)
+      if args[0].instance_of? RIO::Handle
+        @state = args[0]
+      else
+        @state = Factory.instance.create_state(*args)
+      end
     end
 
     def initialize_copy(*args)
-      #p callstr("initialize_copy",args[0].inspect)
       super
       @state = Factory.instance.clone_state(@state)
     end
@@ -100,12 +104,6 @@ module RIO
     #
     def to_s() target.to_s end
 
-    alias :to_str :to_s
-    def dup
-      #p callstr('dup',self)
-      self.class.new(self.to_rl)
-    end
-    
     def method_missing(sym,*args,&block) #:nodoc:
       #p callstr('method_missing',sym,*args)
       
@@ -140,7 +138,7 @@ module RIO
     
     if USE_IF
       include Enumerable
-      require 'rio/if'
+     require 'rio/if'
       include RIO::IF::Grande
       require 'rio/ext/if'
       include RIO::IF::Ext

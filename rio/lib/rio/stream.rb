@@ -35,17 +35,24 @@
 
 
 require 'rio/stream/base'
+module RIO
+  autoload :Ops, 'rio/ops'
+  module Stream
+    autoload :Open, 'rio/stream/open'
+    autoload :Duplex, 'rio/stream/duplex'
+  end
+end
+require 'rio/filter'
 require 'rio/ops/path'
 require 'rio/ops/stream'
 require 'rio/ops/stream/input'
 require 'rio/ops/stream/output'
 require 'rio/ext'
-
 require 'rio/filter/gzip'
 #require 'rio/filter/yaml'
 #require 'rio/filter/chomp'
 #require 'rio/filter/strip'
-require 'rio/filter/closeoneof'
+#require 'rio/filter/closeoneof'
 
 module RIO
 
@@ -60,10 +67,13 @@ module RIO
     end
 
     class IOBase < Base
+
+
       # Mixin the appropriate ops
       include Ops::Path::Str
       include Ops::Stream::Status
       include Ops::Stream::Manip
+
       
       def check?() open? end
       def when_missing(sym,*args) 
@@ -76,6 +86,8 @@ module RIO
       end
       def setup
         ioh.sync = sync? if cx.has_key?('sync')
+
+        ioh.set_encoding(*enc?) if cx.has_key?(:enc_args)
         self
       end
       def add_filter(mod)
@@ -102,6 +114,7 @@ module RIO
         super
         @recno = -1
         @get_selrej,@get_rangetops = create_selrej()
+        # @cursor = io_enum
         self
       end
     end

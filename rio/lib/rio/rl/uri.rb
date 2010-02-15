@@ -38,13 +38,13 @@ require 'rio/rl/base'
 require 'rio/rl/withpath'
 require 'rio/fs/url'
 require 'rio/fs/native'
-require 'rio/uri/file'
+require 'rio/alturi'
 
 module RIO
   module RL
     class URIBase < WithPath
-      SCHEME = URI::REGEXP::PATTERN::SCHEME
-      HOST = URI::REGEXP::PATTERN::HOST
+      #SCHEME = URI::REGEXP::PATTERN::SCHEME
+      #HOST = URI::REGEXP::PATTERN::HOST
 
       attr_accessor :uri
       def initialize(u,*args)
@@ -56,7 +56,7 @@ module RIO
         init_from_args_(u,*args)
         super
         unless self.absolute? or @base
-          @base = ::URI::parse('file://'+RL.fs2url(fs.getwd)+'/')
+          @base = ::Alt::URI::create(:scheme => 'file', :path => fs.getwd+'/')
         end
         @uri.path = '/' if @uri.absolute? and @uri.path == ''
       end
@@ -68,10 +68,10 @@ module RIO
           return _init_from_arg(arg0.rl)
         when URIBase
           vuri,vbase,vfs = arg0.uri,arg0.base,arg0.fs
-        when ::URI 
+        when ::Alt::URI::Base 
           vuri = arg0
         when ::String 
-          vuri = uri_from_string_(arg0) || ::URI.parse(arg0)
+          vuri = uri_from_string_(arg0) || ::Alt::URI.parse(arg0)
         else
           raise(ArgumentError,"'#{arg0}'[#{arg0.class}] can not be used to create a Rio")
         end
@@ -79,15 +79,8 @@ module RIO
         [vuri,vbase,vfs]
       end
       def init_from_args_(arg0,*args)
-        #p "init_from_args_(#{arg0.inspect})"
-        #p callstr('init_from_args_',arg0.inspect,args)
         vuri,vbase,vfs = self.arg0_info_(arg0,*args)
-        #p vuri,vbase
-        #p vuri
         @uri = vuri
-        #p 'HERE'
-        #p vuri
-        #p args unless args.nil? || args.empty?
         self.join(*args)
         @base = vbase unless @base or vbase.nil?
         fs = vfs if vfs 
@@ -99,10 +92,10 @@ module RIO
           arg.abs.to_uri
         when URIBase
           arg.abs.uri
-        when ::URI 
+        when ::Alt::URI::Base
           arg if arg.absolute?
         when ::String 
-          uri_from_string_(arg) || ::URI.parse([RL.fs2url(::Dir.getwd+'/'),arg].join('/').squeeze('/'))
+          uri_from_string_(arg) || ::Alt::URI.parse([RL.fs2url(::Dir.getwd+'/'),arg].join('/').squeeze('/'))
         else
           raise(ArgumentError,"'#{arg}' is not a valid base path")
         end
@@ -151,10 +144,7 @@ module RIO
         end
       end
       def path=(pth)
-        case scheme
-        when 'file','path' then self.fspath = pth
-        else self.urlpath = pth
-        end
+        uri.path = pth
       end
       def scheme() uri.scheme end
       def host() uri.host end
@@ -164,12 +154,16 @@ module RIO
         u.query = nil
         u.to_s.sub(/^#{SCHEME}:/,'')
       end
+      def self.parse(*a)
+        parms = splitrl(a.shift) || []
+        new(*(parms+a))
+      end
       def pathroot()
         u = uri.clone
-        u.query = nil
+        #u.query = nil
         case scheme
         when 'file'
-          if self.urlpath =~ %r%^(/[a-zA-Z]):% then $1+':/'
+          if self.urlpath =~ %r'^(/[a-zA-Z]):' then $1+':/'
           else '/'
           end
         else

@@ -51,4 +51,4 @@ module RIO
   end
 end
 
-require 'rio'
+#require 'rio'

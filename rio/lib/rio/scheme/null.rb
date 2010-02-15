@@ -34,15 +34,15 @@
 #
 
 
-require 'rio/rl/ioi'
+require 'rio/rrl/ioi'
 require 'rio/stream'
 require 'rio/stream/open'
 
 module RIO
   module Null #:nodoc: all
-    RESET_STATE = RL::IOIBase::RESET_STATE
+    RESET_STATE = RRL::IOIBase::RESET_STATE
 
-    class RL < RL::IOIBase 
+    class RRL < RRL::IOIBase 
       RIOSCHEME = 'null'
 
       def open(m,*args)

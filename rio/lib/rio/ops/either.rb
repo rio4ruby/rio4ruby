@@ -34,7 +34,7 @@
 #
 
 
-require 'rio/exception'
+#require 'rio/exception'
 require 'fileutils'
 module RIO
   module Impl
@@ -71,10 +71,9 @@ module RIO
             softreset.rename(*args,&block)
           else
             rtn_reset { 
-              dst = ensure_rio(args.shift)
+              dst = args.shift.to_s
               #p "rename: #{self} => #{dst}"
-              fs.mv(self,dst,*args) 
-              dst.reset
+              fs.mv(uri.path,dst,*args) unless uri.path == dst
             } 
           end
         end
@@ -83,27 +82,34 @@ module RIO
             softreset.rename(*args,&block)
           else
             rtn_reset { 
-              dst = ensure_rio(args.shift)
-              #p "rename!: #{self} => #{dst}"
-              fs.mv(self,dst,*args) unless self == dst 
-              dst.reset
-              self.rl = dst.rl.clone
+              cpath = uri.path
+              uri.path = args.shift.to_s
+              #p "rename!: #{cpath} => #{uri.path}"
+              fs.mv(cpath,uri.path,*args) unless uri.path == cpath
             } 
           end
         end
         alias :mv :rename
+        def dirname=(arg)
+          dst = ::Alt::URI.create(path: uri.path)
+          dst.dirname = arg.to_s
+          rename!(dst.path)
+        end
         def basename=(arg)
-          rename!(_path_with_basename(arg))
+          dst = ::Alt::URI.create(path: uri.path)
+          dst.basename = arg.to_s
+          rename!(dst.path)
         end
         def filename=(arg)
-          rename!(_path_with_filename(arg))
+          dst = ::Alt::URI.create(path: uri.path)
+          dst.filename = arg.to_s
+          rename!(dst.path)
         end
-        def extname=(ex)
-          rename!(_path_with_ext(ex))
-          cx['ext'] = ex
-        end
-        def dirname=(arg)
-          rename!(_path_with_dirname(arg))
+        def extname=(arg)
+          dst = ::Alt::URI.create(path: uri.path)
+          dst.extname = arg.to_s
+          rename!(dst.path)
+          cx['ext'] = arg
         end
 
         def ss_type?

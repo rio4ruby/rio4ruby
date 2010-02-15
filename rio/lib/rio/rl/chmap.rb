@@ -34,9 +34,7 @@
 #
 
 
-require 'uri'
 require 'rio/local'
-require 'rio/uri/file'
 
 module RIO
   module RL
