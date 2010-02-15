@@ -40,7 +40,7 @@ class TC_RIO_expand_path < Test::RIO::TestCase
     exp = File.expand_path(srel,sbase)
     ans = rel.expand_path(base)
     assert_kind_of(RIO::Rio,ans)
-    assert_equal(exp,ans)
+    assert_equal(exp,ans.to_s)
   end
 
   def test_expand_path_from_base_string
@@ -51,7 +51,7 @@ class TC_RIO_expand_path < Test::RIO::TestCase
     exp = File.expand_path(srel,sbase)
     ans = rel.expand_path(sbase)
     assert_kind_of(RIO::Rio,ans)
-    assert_equal(exp,ans)
+    assert_equal(exp,ans.to_s)
   end
 
   def test_expand_path_from_tilde
@@ -63,7 +63,7 @@ class TC_RIO_expand_path < Test::RIO::TestCase
     exp = File.expand_path(srel,sbase)
     ans = rel.expand_path(sbase)
     assert_kind_of(RIO::Rio,ans)
-    assert_equal(exp,ans)
+    assert_equal(exp,ans.to_s)
   end
 
 end

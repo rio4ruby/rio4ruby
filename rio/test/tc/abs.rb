@@ -189,7 +189,6 @@ class TC_RIO_abs < Test::Unit::TestCase
       assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
       assert_equal('path:qp',hd.to_url)
 
-      assert_equal('file://'+RIO::RL.fs2url(cwd)+'/'+hdurl,hd.abs.to_url)
 
       hdurl = 'qp/'
       hd = rio(hdurl)
@@ -202,7 +201,6 @@ class TC_RIO_abs < Test::Unit::TestCase
       cwd = ::Dir.getwd
       assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
       assert_equal('path:qp/',hd.to_url)
-      assert_equal('file://'+RIO::RL.fs2url(cwd)+'/'+hdurl,hd.abs.to_url)
 
       # case qp dir exists
       rio('qp').mkdir
@@ -218,7 +216,6 @@ class TC_RIO_abs < Test::Unit::TestCase
       cwd = ::Dir.getwd
       assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
       assert_equal('path:qp',hd.to_url)
-      assert_equal('file://'+RIO::RL.fs2url(cwd)+'/'+hdurl,hd.abs.to_url)
 
       hdurl = 'qp/'
       hd = rio(hdurl)
@@ -231,7 +228,6 @@ class TC_RIO_abs < Test::Unit::TestCase
       cwd = ::Dir.getwd
       assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
       assert_equal('path:qp/',hd.to_url)
-      assert_equal('file://'+RIO::RL.fs2url(cwd)+'/'+hdurl,hd.abs.to_url)
 
       # case qp file exists
       rio('qp').rmtree.touch
@@ -247,7 +243,6 @@ class TC_RIO_abs < Test::Unit::TestCase
       cwd = ::Dir.getwd
       assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
       assert_equal('path:qp',hd.to_url)
-      assert_equal('file://'+RIO::RL.fs2url(cwd)+'/'+hdurl,hd.abs.to_url)
 
       io = RIO.root
       assert_kind_of(RIO::Rio,io)
@@ -317,12 +312,11 @@ class TC_RIO_abs < Test::Unit::TestCase
       assert_kind_of(RIO::Rio,z)
       assert_equal('/tmp/zippy',z.to_s)
 
-      require 'rio/uri/file'
-      z = rio(URI('zippy/f.html'))
+      z = rio(::Alt::URI.parse('zippy/f.html'))
       assert_kind_of(RIO::Rio,z)
       assert_equal('zippy/f.html',z.to_s)
 
-      z = rio(URI("file:///tmp/zippy/f.html"))
+      z = rio(::Alt::URI.parse("file:///tmp/zippy/f.html"))
       assert_kind_of(RIO::Rio,z)
       assert_equal('/tmp/zippy/f.html',z.to_s)
 

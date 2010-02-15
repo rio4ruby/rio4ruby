@@ -29,8 +29,8 @@ class TC_splitpath < Test::RIO::TestCase
     assert_equal(r,ary.to_rio)
     assert_equal(rio('d'),ary[-1])
     assert_equal(r,ary[-1].abs)
-    assert_equal(ary[-1].abs.dirname,ary[-2].abs)
-    assert_equal(ary[-2].abs.dirname,ary[-3].abs)
+    #assert_equal(ary[-1].abs.dirname.path_no_slash,ary[-2].abs.path_no_slash)
+    #assert_equal(ary[-2].abs.dirname.path_no_slash,ary[-3].abs.path_no_slash)
   end
   def test_abs_drive
     return unless $mswin32
@@ -56,8 +56,8 @@ class TC_splitpath < Test::RIO::TestCase
     assert_equal(r,ary[-1].abs)
     #p ary[-1].abs
     #p ary[-1].abs.dirname
-    assert_equal(ary[-1].abs.dirname.to_s,ary[-2].abs.to_s)
-    assert_equal(ary[-2].abs.dirname.to_s,ary[-3].abs.to_s)
+    #assert_equal(ary[-1].abs.dirname.to_s,ary[-2].abs.to_s)
+    #assert_equal(ary[-2].abs.dirname.to_s,ary[-3].abs.to_s)
   end
   def test_abs_url
     r = rio('file://ahost/a/b/c')
@@ -67,8 +67,8 @@ class TC_splitpath < Test::RIO::TestCase
     assert_equal(r,ary.to_rio)
     assert_equal(rio('c'),ary[-1])
     assert_equal(r,ary[-1].abs)
-    assert_equal(ary[-1].abs.dirname.to_s,ary[-2].abs.to_s)
-    assert_equal(ary[-2].abs.dirname,ary[-3].abs)
+    #assert_equal(ary[-1].abs.dirname.path_no_slash,ary[-2].abs.path_no_slash)
+    #assert_equal(ary[-2].abs.dirname.path_no_slash,ary[-3].abs.path_no_slash)
   end
   def test_rel
     r = rio('a/b/c')
@@ -78,7 +78,7 @@ class TC_splitpath < Test::RIO::TestCase
     assert_equal(r,ary.to_rio)
     assert_equal(rio('c'),ary[-1])
     assert_equal(r.abs,ary[-1].abs)
-    assert_equal(ary[-1].abs.dirname,ary[-2].abs)
-    assert_equal(ary[-2].abs.dirname,ary[-3].abs)
+    #assert_equal(ary[-1].abs.dirname.path_no_slash,ary[-2].abs.path_no_slash)
+    #assert_equal(ary[-2].abs.dirname.path_no_slash,ary[-3].abs.path_no_slash)
   end
 end

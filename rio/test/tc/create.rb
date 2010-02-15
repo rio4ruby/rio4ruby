@@ -18,10 +18,6 @@ class TC_RIO_create < Test::Unit::TestCase
     assert_kind_of(RIO::Rio,ario)
     assert_equal('/',ario.to_s)
 
-    ario = RIO.cwd
-    assert_kind_of(RIO::Rio,ario)
-    cwd = RIO::RL.fs2url(::Dir.getwd)
-    assert_equal("#{cwd}",ario.urlpath)
 
     ario = RIO.cwd
     assert_kind_of(RIO::Rio,ario)
@@ -77,12 +73,11 @@ class TC_RIO_create < Test::Unit::TestCase
     assert_kind_of(RIO::Rio,ario)
     assert_equal('/tmp/goofy',ario.to_s)
 
-    require 'rio/uri/file'
-    ario = rio(URI('goofy/f.html'))
+    ario = rio(::Alt::URI.parse('goofy/f.html'))
     assert_kind_of(RIO::Rio,ario)
     assert_equal('goofy/f.html',ario.to_s)
 
-    ario = rio(URI("file:///tmp/goofy/f.html"))
+    ario = rio(::Alt::URI.parse("file:///tmp/goofy/f.html"))
     assert_kind_of(RIO::Rio,ario)
     assert_equal('/tmp/goofy/f.html',ario.to_s)
 
@@ -94,7 +89,7 @@ class TC_RIO_create < Test::Unit::TestCase
     assert_kind_of(RIO::Rio,ario)
     assert_equal('/tmp/goofy/f.html',ario.to_s)
 
-    u = URI('goofy/f.html')
+    u = ::Alt::URI.parse('goofy/f.html')
 
     ario = rio("file:///tmp/",u)
     assert_kind_of(RIO::Rio,ario)

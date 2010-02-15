@@ -170,7 +170,7 @@ class TC_RIO_symlink0 < Test::Unit::TestCase
       assert!(alink.file?)
       assert(alink.symlink?)
       
-      ::FileUtils.touch(alink)
+      ::FileUtils.touch(alink.to_s)
       assert(afile.file?,"created a file via a symlink")
       assert(alink.exist?,"created a file via a symlink, link exists")
       assert(alink.symlink?,"created a file via a symlink, link is a symlink")

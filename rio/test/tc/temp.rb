@@ -36,7 +36,6 @@ class TC_temp < Test::RIO::TestCase
   def test_dir
     tmp = rio(??).mkdir
     assert(tmp.dir?)
-    assert_equal('file',tmp.scheme)
     assert_equal(::Dir::tmpdir,tmp.dirname.to_s)
     assert_match(/^rio/,tmp.filename.to_s)
     tmp.close
@@ -46,7 +45,7 @@ class TC_temp < Test::RIO::TestCase
     rio(??).chdir { |tmp|
       assert(tmp.dir?)
       assert_equal('path',tmp.scheme)
-      assert_equal('.',tmp.dirname.to_s)
+      assert_equal('./',tmp.dirname.to_s)
       assert_equal('.',tmp.filename.to_s)
       tmp.close
     }
@@ -62,7 +61,6 @@ class TC_temp < Test::RIO::TestCase
   def test_dir_mkdir
     tmp = rio(??).mkdir
     assert(tmp.dir?)
-    assert_equal('file',tmp.scheme)
     assert_equal(::Dir::tmpdir,tmp.dirname.to_s)
     assert_match(/^rio/,tmp.filename.to_s)
     tmp.close
@@ -71,7 +69,6 @@ class TC_temp < Test::RIO::TestCase
   def test_file
     tmp = rio(??).file
     assert(tmp.file?)
-    assert_equal('file',tmp.scheme)
     assert_equal(::Dir::tmpdir,tmp.dirname.to_s)
     assert_match(/^rio/,tmp.filename.to_s)
     tmp.close
