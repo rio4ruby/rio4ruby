@@ -291,7 +291,10 @@ module RIO
 
     def _change_state(new_state_class,current_state,rio_handle)
       # wipe out the reference to this proc so GC can get rid of rsc
-      current_state.try_state = proc { p "try_state for "+current_state.to_s+" used already??" }
+      current_state.try_state = proc { 
+        p "try_state for "+current_state.to_s+" used already??" 
+        nil
+      }
       new_state = new_state_class.new_other(current_state)
       new_state.try_state = try_state_proc(new_state,rio_handle)
       

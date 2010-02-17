@@ -116,8 +116,10 @@ module RIO
       
       def initialize_copy(other)
         super
-        data.rl = other.data.rl 
-        data.cx = other.data.cx
+        @data = State::Data.new
+        data.rl = other.data.rl.clone if other.data.rl
+        data.cx = other.data.cx.clone if other.data.cx
+        data.ioh = other.data.ioh.clone if other.data.ioh
       end
 
       extend Forwardable
@@ -125,6 +127,9 @@ module RIO
 
       extend RIO::Fwd
       fwd :data,:rl,:cx
+      fwd :data,:ioh
+      alias :ior :ioh
+      alias :iow :ioh
 
       def self.default_cx
          Cx::Vars.new( { 'closeoneof' => true, 'closeoncopy' => true } )
@@ -164,11 +169,14 @@ module RIO
 
         obj = when_missing(sym,*args)
         raise RuntimeError,"when_missing returns nil" if obj.nil?
+        #p obj,sym,args
         obj.__send__(sym,*args,&block) #unless obj == self
       end
       
       def when_missing(sym,*args) gofigure(sym,*args) end
-
+#wording of evalutation
+# tell her what it is
+# 
 
       def base_state() Factory.instance.reset_state(rl) end
 

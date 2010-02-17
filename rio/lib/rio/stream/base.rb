@@ -44,11 +44,11 @@ module RIO
       end
       def initialize_copy(other)
         super
-        data.ioh = other.data.ioh
+        #data.ioh = other.data.ioh
       end
-      fwd :data,:ioh
-      alias :ior :ioh
-      alias :iow :ioh
+      #fwd :data,:ioh
+      #alias :ior :ioh
+      #alias :iow :ioh
 
       def iostate(*args) self end
       def stream?() true end

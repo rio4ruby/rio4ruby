@@ -39,11 +39,15 @@ module RIO
   module State
 
     class Data
+      attr :store
       def initialize(h={})
         @store = {}
         h.each do |k,v|
           @store[k] = v
         end
+      end
+      def initialize_copy(other)
+        @store = other.store.clone
       end
       extend Forwardable
       def_delegators :@store,:[],:[]=,:keys

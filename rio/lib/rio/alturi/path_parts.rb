@@ -2,6 +2,7 @@ module Alt
   module URI
     module Ops
       module PathParts
+        
         def dirname
           dn = self.path[*_dn_pos(self.path)]
           dn.empty? ? "." : dn
@@ -13,7 +14,7 @@ module Alt
           self.path[*_fn_pos(self.path)]
         end
         def extname
-          self.path[*_en_pos(self.path)]
+          self.path[*_en_pos(self.path,self.ext)]
         end
         def dirname=(val)
           pth = self.path
@@ -35,16 +36,20 @@ module Alt
           filename
         end
         def extname=(val)
+          # p "extname=(#{val})"
           pth = self.path
-          pth[*_en_pos(pth)] = val
+          pth[*_en_pos(pth,self.ext)] = val
           self.path = pth
+          self.ext = val
           extname
         end
 
         private
 
-        def _en_pos(path)
-          en = ::File.extname(path)
+        def _en_pos(path,extnm=nil)
+          # p "en_pos(#{path},#{extnm.inspect})"
+          en = extnm || ::File.extname(path)
+          # p "en = #{en.inspect}"
           [path.rindex(en),en.length]
         end
         def _bn_pos(path,exnam=nil)

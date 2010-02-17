@@ -5,6 +5,7 @@ if $0 == __FILE__
 end
 
 require 'rio'
+# $trace_states = true
 require 'test/unit'
 #require 'test/unit/testsuite'
 

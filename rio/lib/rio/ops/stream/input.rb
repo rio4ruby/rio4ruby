@@ -175,7 +175,8 @@ module RIO
                 end
               end
             end
-            return closeoneof? ? self.close : self
+            #return closeoneof? ? self.close : self
+            throw :stop_iter
           end
           closeoneof? ? self.close : self
         end
@@ -194,7 +195,7 @@ module RIO
               rangetops = check_passed_ranges(selrej,@recno) if rangetops and @recno > rangetops[0]
               yield to_rec_(raw_rec) if selrej.match?(raw_rec,@recno)
             end
-            return self
+            throw :stop_iter
           }
           closeoneof? ? self.close : self
         end

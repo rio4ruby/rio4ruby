@@ -127,6 +127,13 @@ require 'rio/alturi/path_parts'
 module Alt
   module URI
     class Base
+      attr_writer :ext
+      def initialize
+        @ext = nil
+      end
+      def ext()
+        @ext || ::File.extname(self.path)
+      end
       def normalize
         self
       end
@@ -145,6 +152,7 @@ module Alt
       attr_reader :parts
       def initialize(parts=nil)
         @parts = parts || Alt::URI::Gen::URIParts.new
+        super()
       end
       def initialize_copy(other)
         super
@@ -210,6 +218,7 @@ module Alt
         @parts = parts || Alt::URI::Gen::URIParts.new
         @parts.scheme ||= 'file'
         @parts.host ||= ""
+        super()
       end
       def initialize_copy(other)
         super
@@ -275,6 +284,7 @@ module Alt
         @parts = parts || Alt::URI::Gen::URIParts.new
         @parts.scheme ||= 'http'
         @parts.host ||= ""
+        super()
       end
       def initialize_copy(other)
         super
