@@ -43,7 +43,9 @@ module RIO
       puts "PASS" + (msg.nil? ? "" : ": #{msg}")
     end
     def nok(a,b,msg=nil)
-      puts "FAIL" + (msg.nil? ? "" : ": #{msg}")
+      calla = caller.grep(/^#{Regexp.escape($0)}/)
+      calls = " " + (calla[0] || "")
+      puts "FAIL" + (msg.nil? ? "" : ": #{msg}") + calls
       puts "   exp: #{a.inspect}"
       puts "   was: #{b.inspect}"
     end
