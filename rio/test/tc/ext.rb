@@ -116,21 +116,21 @@ class TC_ext < Test::RIO::TestCase
   def test_documented_example
     ario = rio('afile.txt')
     assert_equal('.txt',ario.ext?)
-    assert_equal('afile',ario.ext('.txt').basename)
+    assert_equal(rio('afile'),ario.ext('.txt').basename)
     assert_equal('.txt',ario.ext?)
-    assert_equal('afile.txt',ario.ext('.zip').basename)
+    assert_equal(rio('afile.txt'),ario.ext('.zip').basename)
     assert_equal('.zip',ario.ext?)
-    assert_equal('afile.txt',ario.basename('.tar'))
+    assert_equal(rio('afile.txt'),ario.basename('.tar'))
     assert_equal('.tar',ario.ext?)
-    assert_equal('afile',ario.ext.basename)
+    assert_equal(rio('afile'),ario.ext.basename)
     assert_equal('.txt',ario.ext?)
-    assert_equal('afile.txt',ario.noext.basename)
+    assert_equal(rio('afile.txt'),ario.noext.basename)
     assert_equal('',ario.ext?)
 
     ario = rio('afile.tar.gz')
     assert_equal('.gz',ario.ext?)
-    assert_equal('afile.tar',ario.basename)
-    assert_equal('afile',ario.ext('.tar.gz').basename)
+    assert_equal(rio('afile.tar'),ario.basename)
+    assert_equal(rio('afile'),ario.ext('.tar.gz').basename)
     assert_equal('.tar.gz',ario.ext?)
   end
 end

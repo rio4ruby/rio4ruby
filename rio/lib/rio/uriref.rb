@@ -127,6 +127,7 @@ module RIO
     def_delegators :ref, :to_s, :normalize, :absolute?, :length
     fwd :ref, :dirname,:basename,:filename,:extname
     fwd :ref, :netpath,:fspath
+    fwd :ref, :ext
     def inspect()
       sprintf '#<URIRef:0x%0x @ref="%s" @base="%s">',self.object_id,@ref.to_s,@base.to_s
     end

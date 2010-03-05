@@ -42,9 +42,11 @@ class TC_gzip < Test::RIO::TestCase
     rio(?").gzip < src > ans
     assert_equal(str,ans.string)
     
-    ans.string = ""
-    src | rio(?").gzip | ans
-    assert_equal(str,ans.string)
+    # using files in the middle of a pipe not supported by fiber implementation
+    # of pipes
+    #ans.string = ""
+    #src | rio(?").gzip | ans
+    #assert_equal(str,ans.string)
     
   end
 

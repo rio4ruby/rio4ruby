@@ -246,6 +246,7 @@ module RIO
           if cx['rename']
             must_exist.basename = arg
           else
+            uri.ext = cx['ext'] if cx.has_key?('ext')
             uri.basename = arg.to_s
             softreset
           end
@@ -257,6 +258,7 @@ module RIO
           if cx['rename']
             must_exist.extname = arg
           else
+            uri.ext = cx['ext'] if cx.has_key?('ext')
             uri.extname = arg.to_s
             softreset
           end

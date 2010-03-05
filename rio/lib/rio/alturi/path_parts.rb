@@ -7,33 +7,21 @@ module Alt
           dn = self.path[*_dn_pos(self.path)]
           dn.empty? ? "." : dn
         end
-        def basename(exnam=nil)
-          self.path[*_bn_pos(self.path,exnam)]
-        end
         def filename
           self.path[*_fn_pos(self.path)]
         end
+        def basename(exnam=nil)
+          exnam ||= self.ext
+          self.path[*_bn_pos(self.path,exnam)]
+        end
         def extname
           self.path[*_en_pos(self.path,self.ext)]
-        end
-        def dirname=(val)
-          pth = self.path
-          pth = "./" + pth if dirname == "."
-          pth[*_dn_pos(pth)] = val
-          self.path = pth.squeeze("/")
-          dirname
         end
         def basename=(val)
           pth = self.path
           pth[*_bn_pos(pth)] = val
           self.path = pth
           basename
-        end
-        def filename=(val)
-          pth = self.path
-          pth[*_fn_pos(pth)] = val
-          self.path = pth.squeeze("/")
-          filename
         end
         def extname=(val)
           # p "extname=(#{val})"
@@ -42,6 +30,19 @@ module Alt
           self.path = pth
           self.ext = val
           extname
+        end
+        def dirname=(val)
+          pth = self.path
+          pth = "./" + pth if dirname == "."
+          pth[*_dn_pos(pth)] = val
+          self.path = pth.squeeze("/")
+          dirname
+        end
+        def filename=(val)
+          pth = self.path
+          pth[*_fn_pos(pth)] = val
+          self.path = pth.squeeze("/")
+          filename
         end
 
         private

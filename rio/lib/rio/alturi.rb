@@ -127,12 +127,18 @@ require 'rio/alturi/path_parts'
 module Alt
   module URI
     class Base
-      attr_writer :ext
       def initialize
         @ext = nil
       end
+      def initialize_copy(other)
+        @ext = other.ext
+        super
+      end
       def ext()
-        @ext || ::File.extname(self.path)
+        @ext
+      end
+      def ext=(arg)
+        @ext = arg
       end
       def normalize
         self

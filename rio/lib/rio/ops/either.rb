@@ -95,18 +95,20 @@ module RIO
           dst.dirname = arg.to_s
           rename!(dst.path)
         end
-        def basename=(arg)
-          dst = ::Alt::URI.create(path: uri.path)
-          dst.basename = arg.to_s
-          rename!(dst.path)
-        end
         def filename=(arg)
           dst = ::Alt::URI.create(path: uri.path)
           dst.filename = arg.to_s
           rename!(dst.path)
         end
+        def basename=(arg)
+          dst = ::Alt::URI.create(path: uri.path)
+          dst.ext = cx['ext'] if cx.has_key?('ext')
+          dst.basename = arg.to_s
+          rename!(dst.path)
+        end
         def extname=(arg)
           dst = ::Alt::URI.create(path: uri.path)
+          dst.ext = cx['ext'] if cx.has_key?('ext')
           dst.extname = arg.to_s
           rename!(dst.path)
           cx['ext'] = arg
