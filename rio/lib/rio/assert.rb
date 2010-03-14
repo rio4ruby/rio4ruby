@@ -44,7 +44,9 @@ module RIO
     end
     def nok(a,b,msg=nil)
       calla = caller.grep(/^#{Regexp.escape($0)}/)
-      calls = " " + (calla[0] || "")
+      #calla = caller
+      #calls = " " + (calla[0] || "")
+      calls = calla.join("\n") + "\n"
       puts "FAIL" + (msg.nil? ? "" : ": #{msg}") + calls
       puts "   exp: #{a.inspect}"
       puts "   was: #{b.inspect}"
@@ -53,6 +55,10 @@ module RIO
     def assert(a,msg=nil)
       assert_equal(true,a,msg)
     end
+    def assert!(a,msg="negative assertion")
+      assert((!(a)),msg)
+    end
+    
     def assert_equal(a,b,msg=nil)
       if a == b
         ok(a,b,msg)
@@ -87,6 +93,13 @@ module RIO
         ok(nil,a)
       else
         nok(nil,a)
+      end
+    end
+    def assert_not_nil(a,msg=nil)
+      if a.nil?
+        nok(nil,a,msg)
+      else
+        ok(nil,a,msg)
       end
     end
     def assert_same(a,b,msg=nil)

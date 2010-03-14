@@ -109,7 +109,9 @@ module Alt
           @store = other.store.dup
           @encoding = other.encoding
         end
-
+        def ==(other)
+          @store == other.store
+        end
         def store
           @store
         end
@@ -153,8 +155,10 @@ module Alt
           Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
         end
         def _do_unesc(str)
-          ustr = Alt::URI::Escape.unescape(str)
-          @encoding ? ustr.force_encoding(@encoding) : ustr
+          if str
+            ustr = Alt::URI::Escape.unescape(str)
+            @encoding ? ustr.force_encoding(@encoding) : ustr
+          end
         end
         def path=(val)
           @store[:path] = nil_or(val,"") { |v| 
@@ -192,7 +196,7 @@ module Alt
         end
 
         def userinfo=(val)
-          @store[:userinfo] = nil_or(val) { |v| do_esc(v,:userinfo) }
+          @store[:userinfo] = nil_or(val) { |v| _do_esc(v,:userinfo) }
         end
 
         def port=(val)

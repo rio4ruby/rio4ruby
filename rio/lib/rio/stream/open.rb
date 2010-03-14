@@ -35,12 +35,12 @@
 
 
 #require 'rio/ioh'
-#require 'rio/stream/base'
+require 'rio/stream/base'
 #require 'rio/ops/stream'
 #require 'rio/ops/path'
 require 'rio/cp'
-#require 'rio/piper/cp'
-#require 'rio/util'
+require 'rio/piper/cp'
+require 'rio/util'
 require 'rio/ops'
 
 module RIO

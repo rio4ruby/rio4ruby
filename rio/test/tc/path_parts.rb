@@ -99,7 +99,7 @@ class TC_path_parts < Test::RIO::TestCase
 
   def run_path_tests_exp(paths,sym)
     paths.each do |pstr|
-      p pstr,sym
+      #p pstr,sym
       r = rio(pstr)
       assert_equal(@@exp[r.to_s][sym],r.__send__(sym).to_s,"rio('#{pstr}').#{sym} failed")
     end

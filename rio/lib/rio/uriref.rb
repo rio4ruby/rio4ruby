@@ -13,6 +13,12 @@ module RIO
       raise ArgumentError, "Either uri(#{u}) or base(#{b.inspect}) must be absolute" unless
         @ref.absolute? or @base.absolute?
     end
+    def initialize_copy(other)
+      super
+      @ref = other.ref.clone
+      @base = other.base.clone
+    end
+    def ==(other) ref == other.ref end
     def self.build(u,b=nil)
       uref = case u
              when ::Alt::URI::Base then u
@@ -21,23 +27,7 @@ module RIO
              end
       ubase = case b
               when nil
-                if uref.absolute?
-                  uref
-                else
-                  buri = ::Alt::URI::Gen::URIParts.new
-                  buri.scheme = 'file'
-                  if uref.authority
-                    buri.authority = uref.authority
-                    buri.path = uref.path
-                  elsif uref.path.start_with?("/") or uref.path =~ %r{^[a-zA-Z]:}
-                    buri.path = uref.path
-                    buri.authority = ""
-                  else
-                    buri.path = ::Dir.getwd + "/"
-                    buri.authority = ""
-                  end
-                  ::Alt::URI::File.new(buri)
-                end
+                uref.absolute? ? uref : base_from_uref(uref)
               when ::Alt::URI::Base 
                 b
               else
@@ -45,34 +35,25 @@ module RIO
               end
       new(uref,ubase)
     end
-    def self.fileX(pth,b=nil)
-      #p "self.file #{pth} b=#{b.inspect}"
-
-      uref = case pth
-          when ::Alt::URI::Base then pth
-          else path_str_to_uri(pth.to_s)
-          end
-      ubase = case b
-             when ::Alt::URI::Base then b
-             when nil 
-               if uref.absolute? 
-                 uref 
-               else
-                 ::Alt::URI.create(:scheme => 'file', :authority => "", :path => ::Dir.getwd + "/")
-               end
-             else base_str_to_uri(b.to_s)
-             end
-            
-      new(uref,ubase)
-    end
-    def initialize_copy(other)
-      super
-      @ref = other.ref.clone
-      @base = other.base.clone
-    end
     def base
       @base
     end
+    def self.base_from_uref(uref)
+      buri = ::Alt::URI::Gen::URIParts.new
+      buri.scheme = 'file'
+      if uref.authority
+        buri.authority = uref.authority
+        buri.path = uref.path
+      elsif uref.path.start_with?("/") or uref.path =~ %r{^[a-zA-Z]:}
+        buri.path = uref.path
+        buri.authority = ""
+      else
+        buri.path = ::Dir.getwd + "/"
+        buri.authority = ""
+      end
+      ::Alt::URI::File.new(buri)
+    end
+
     def self.path_str_to_uri(pth)
       case
       when pth.start_with?("//")
@@ -105,6 +86,7 @@ module RIO
       end
     end
     def rel(b=nil)
+      # p "uriref (#{self}).rel(#{b.inspect})"
       if b.nil?
        self.class.build(ref.rel(base),base)
       else
@@ -112,10 +94,13 @@ module RIO
       end
     end
     def route_from(b)
-      self.class.build(abs.ref,b).rel
+      # p "uriref (#{self}).route_from(#{b.inspect})"
+      #self.class.build(abs.ref,b).rel
+      self.class.build(abs.ref.route_from(b.ref),b)
     end
     def route_to(b)
-      self.class.build(b,abs.ref).rel
+      #self.class.build(b,abs.ref).rel
+      self.class.build(self.abs.ref.route_to(b.ref),self.ref)
     end
     def join(*args)
       ref.join(*args)

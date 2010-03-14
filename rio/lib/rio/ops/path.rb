@@ -100,10 +100,15 @@ module RIO
             new_rio(rl.abs(ensure_rio(base).to_s))
           end
         end
-        def abs?
-          rl.abs?
+        def absolute?
+          #p "ops/path.rb absolute?"
+          rl.absolute?
         end
-        alias :absolute? :abs?
+        alias :abs? :absolute?
+        #def abs?
+        #  p "ops/path.rb abs?"
+        #  rl.abs?
+        #end
         def route_from(other)
           this_uri = rl.uri.abs
           other_uri = ensure_rio(other).rl.uri.abs

@@ -141,11 +141,18 @@ module RIO
 
       def_delegators :uri,:netpath, :netpath=, :fspath, :fspath=
       def_delegators :uri, :abs, :rel, :route_to, :route_from
-      def_delegators :uri, :absolute?
       def_delegators :uri, :join, :rel, :route_to, :route_from
       fwd :uri, :dirname, :basename, :extname, :filename
       fwd :uri, :scheme, :authority, :path, :query, :fragment, :host, :port, :userinfo, :netpath
-      alias :abs? :absolute?
+      def absolute?
+        #p 'rrl/withpath.rb absolute?'
+        uri.absolute?
+      end
+      # Marty Cell 319-210-3284
+      #def abs?
+      #  p 'rrl/withpath.rb abs?'
+      #  uri.absolute?
+      #nd
       #fwd :uri, :base
       def base
         #p "IN BASE: uri=#{uri.inspect}" 

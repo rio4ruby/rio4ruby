@@ -74,6 +74,10 @@ module RIO
       def dir_rl()
         RIO::Dir::RRL.new(self.uri, {:fs => self.fs})
       end
+      #def absolute?
+      #  p "Path::RRL (rrl/path.rb) absolute?"
+      #  false
+      #end
     end
   end
   module File

@@ -124,7 +124,7 @@ class TC_riorl < Test::RIO::TestCase
     rios.each do |k,r|
       #pinfo(fmt,pathinfo(r))
       assert_equal(rinfo[k][0],r.scheme)
-      assert_equal(rinfo[k][1],r.opaque)
+      #assert_equal(rinfo[k][1],r.opaque)
       assert_equal(rinfo[k][2],r.path)
       assert_equal(rinfo[k][3],r.fspath)
       assert_equal(rinfo[k][4],r.to_s)

@@ -39,23 +39,23 @@ class TC_RIO_abs < Test::Unit::TestCase
       hdurl = 'http://localhost'
       hduri = ::URI.parse(hdurl)
       hd = rio(hduri)
-      assert_equal('/',hd.path)
-      assert_equal('/',hd.fspath)
+      assert_equal('',hd.path)
+      assert_equal('',hd.fspath)
       assert_equal('http',hd.scheme)    
       assert_equal('localhost',hd.host)
       assert_equal(true,hd.abs?)
       assert_equal(true,hd.absolute?)
-      assert_equal(hdurl+'/',hd.abs.to_url)
+      assert_equal(hdurl,hd.abs.to_url)
 
       hdurl = 'http://localhost'
       hd = rio(hdurl)
-      assert_equal('/',hd.path)
-      assert_equal('/',hd.fspath)
+      assert_equal('',hd.path)
+      assert_equal('',hd.fspath)
       assert_equal('http',hd.scheme)    
       assert_equal('localhost',hd.host)
       assert_equal(true,hd.abs?)
       assert_equal(true,hd.absolute?)
-      assert_equal(hdurl+'/',hd.abs.to_url)
+      assert_equal(hdurl,hd.abs.to_url)
 
       hdurl = 'http://localhost/rio/hw.html'
       hd = rio(hdurl)
@@ -94,28 +94,29 @@ class TC_RIO_abs < Test::Unit::TestCase
       hdurl = 'file://localhost'
       hduri = ::URI.parse(hdurl)
       hd = rio(hduri)
-      assert_equal('/',hd.path)
-      assert_equal('/',hd.fspath)
+      assert_equal('',hd.path)
+      assert_equal('',hd.fspath)
       assert_equal('file',hd.scheme)    
       assert_equal('localhost',hd.host)
       assert_equal(true,hd.abs?)
       assert_equal(true,hd.absolute?)
-      assert_equal(hdurl+'/',hd.to_url)
-      assert_equal(hdurl+'/',hd.abs.to_url)
+      assert_equal(hdurl,hd.to_url)
+      assert_equal(hdurl,hd.abs.to_url)
 
       hdurl = 'file://localhost'
       hd = rio(hdurl)
-      assert_equal('/',hd.path)
-      assert_equal('/',hd.fspath)
+      assert_equal('',hd.path)
+      assert_equal('',hd.fspath)
       assert_equal('file',hd.scheme)    
       assert_equal('localhost',hd.host)
       assert_equal(true,hd.abs?)
       assert_equal(true,hd.absolute?)
-      assert_equal(hdurl+'/',hd.to_url)
-      assert_equal(hdurl+'/',hd.abs.to_url)
+      assert_equal(hdurl,hd.to_url)
+      assert_equal(hdurl,hd.abs.to_url)
 
       hdurl = 'file:///'
       hduri = ::URI.parse(hdurl)
+      puts hduri
       hd = rio(hduri)
       assert_equal('/',hd.path)
       assert_equal('/',hd.fspath)

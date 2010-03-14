@@ -45,7 +45,7 @@ module RIO
         return rl
       end
       def self.build(*a)
-        #puts "build: #{a.inspect}" 
+        # puts "build: #{a.inspect}" 
         a.flatten!
         a.push('') if a.empty?
         case a[0]
@@ -65,8 +65,10 @@ module RIO
           when %r|^//|
             a[0] = 'rio:file:'+a[0]
           when %r|^/|
-            return Factory.instance.riorl_class('file').new(*a)
+              a[0] = 'file://'+a[0]
+#            return Factory.instance.riorl_class('file').new(*a)
           else
+            #a[0] = 'path:'+a[0]
             return Factory.instance.riorl_class('path').new(*a)
           end
         when RIO::Rio
@@ -78,6 +80,11 @@ module RIO
           o = cl.new(a0,*a) unless cl.nil?
           return o
         when ::Alt::URI::Base
+          a0 = a.shift
+          cl = Factory.instance.riorl_class(a0.scheme)
+          o = cl.new(a0,*a) unless cl.nil?
+          return o
+        when ::RIO::URIRef
           a0 = a.shift
           cl = Factory.instance.riorl_class(a0.scheme)
           o = cl.new(a0,*a) unless cl.nil?

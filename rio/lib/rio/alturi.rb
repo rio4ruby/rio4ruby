@@ -76,7 +76,6 @@ module Alt
   end
 end
 
-
 module Alt
   module URI
     module Ops
@@ -90,19 +89,19 @@ module Alt
         end
 
         def absolute?
-          @parts.absolute?
+          parts.absolute?
         end
 
         def relative?
-          @parts.relative?
+          parts.relative?
         end
 
         def abs(base)
-          Alt::URI::Factory.from_parts(@parts.abs(base.parts))
+          Alt::URI::Factory.from_parts(parts.abs(base.parts))
         end
 
         def rel(base)
-          Alt::URI::Factory.from_parts(@parts.rel(base.parts))
+          Alt::URI::Factory.from_parts(parts.rel(base.parts))
         end
         def route_from(other)
           self.rel(other)
@@ -111,10 +110,11 @@ module Alt
           other.rel(self)
         end
         def join(*a)
+          #p "A=#{a.inspect}"
           pthstr = a.map(&:to_s).join('/')
           #p "DODODODOD",a.map{ |ar| ar.is_a?(::String) ? "#{ar.encoding} #{ar}" : "#{ar}" }
           #p pthstr.encoding,pthstr
-          newpth = (self.path + (!a.empty? ? '/' : '') + pthstr).squeeze('/')
+          newpth = (self.path + (a.empty? || self.path.empty? ? '' : '/') + pthstr).squeeze('/')
           #p "NEWPATH:",newpth.encoding,newpth
           self.path = newpth
         end
@@ -127,18 +127,19 @@ require 'rio/alturi/path_parts'
 module Alt
   module URI
     class Base
-      def initialize
+      attr_reader :parts
+      attr_accessor :ext
+      def initialize(parts)
+        @parts = parts
         @ext = nil
       end
       def initialize_copy(other)
         @ext = other.ext
         super
+        @parts = other.parts.dup
       end
-      def ext()
-        @ext
-      end
-      def ext=(arg)
-        @ext = arg
+      def ==(other) 
+        @parts == other.parts 
       end
       def normalize
         self
@@ -155,14 +156,12 @@ module Alt
     class Generic < ::Alt::URI::Base
       extend Forwardable
       extend Builders
-      attr_reader :parts
       def initialize(parts=nil)
-        @parts = parts || Alt::URI::Gen::URIParts.new
-        super()
+        prts = parts || Alt::URI::Gen::URIParts.new
+        super(prts)
       end
       def initialize_copy(other)
         super
-        @parts = other.parts.dup
       end
       def normalize
         
@@ -173,11 +172,11 @@ module Alt
       end
       include Ops::Generic
       
-      def_delegators :@parts, :uri,:authority,:scheme,:path,:fragment
-      def_delegators :@parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=,:query
-      def_delegators :@parts, :userinfo,:host
-      def_delegators :@parts, :userinfo=,:host=,:port=, :port
-      def_delegators :@parts, :to_s
+      def_delegators :parts, :uri,:authority,:scheme,:path,:fragment
+      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=,:query
+      def_delegators :parts, :userinfo,:host
+      def_delegators :parts, :userinfo=,:host=,:port=, :port
+      def_delegators :parts, :to_s
       
 
       def sub(re,arg)
@@ -188,14 +187,14 @@ module Alt
 
       def netpath
         case self.scheme
-        when nil,'file' then @parts.netpath
+        when nil,'file' then parts.netpath
         else path
         end
       end
 
       def netpath=(val)
         case self.scheme
-        when 'file' then @parts.netpath=(val)
+        when 'file' then parts.netpath=(val)
         else path = val
         end
       end
@@ -203,10 +202,10 @@ module Alt
       alias :fspath= :netpath=
 
       #      def abs(base)
-      #        Alt::URI::Generic.new(@parts.abs(base.parts))
+      #        Alt::URI::Generic.new(parts.abs(base.parts))
       #      end
       #      def rel(base)
-      #        Alt::URI::Generic.new(@parts.rel(base.parts))
+      #        Alt::URI::Generic.new(parts.rel(base.parts))
       #      end
     end
 
@@ -219,31 +218,29 @@ module Alt
       extend Forwardable
       extend Builders
 
-      attr_reader :parts
       def initialize(parts=nil)
-        @parts = parts || Alt::URI::Gen::URIParts.new
-        @parts.scheme ||= 'file'
-        @parts.host ||= ""
-        super()
+        prts = parts || Alt::URI::Gen::URIParts.new
+        prts.scheme ||= 'file'
+        prts.host ||= ""
+        super(prts)
       end
       def initialize_copy(other)
         super
-        @parts = other.parts.dup
       end
       include Ops::Generic
 
-      def_delegators :@parts, :uri,:authority,:scheme,:path
-      def_delegators :@parts, :uri=,:authority=,:scheme=,:path=
-      def_delegators :@parts, :host
-      def_delegators :@parts, :host=
-      def_delegators :@parts, :to_s, :netpath=
+      def_delegators :parts, :uri,:authority,:scheme,:path
+      def_delegators :parts, :uri=,:authority=,:scheme=,:path=
+      def_delegators :parts, :host
+      def_delegators :parts, :host=
+      def_delegators :parts, :to_s, :netpath=
 
       def normalize
         hst = self.host if self.host and !(self.host == 'localhost' or self.host.empty?)
         ::Alt::URI.create(:host => hst, :path => self.path)
       end
       def netpath
-        @parts.netpath
+        parts.netpath
       end
       def fspath
         normalize.netpath
@@ -251,7 +248,7 @@ module Alt
       alias :fspath= :netpath=
 
       def host=(val)
-        @parts.host = (val || "")
+        parts.host = (val || "")
       end
 
       def authority=(val)
@@ -259,19 +256,19 @@ module Alt
       end
 
       def scheme=(val)
-        @parts.scheme = (val || 'file')
+        parts.scheme = (val || 'file')
       end
 
       def path=(val)
-        @parts.path = val.nil? ? val : val.sub(Regexp.new(%{^([a-zA-Z]:)}),'/\1')
+        parts.path = val.nil? ? val : val.sub(Regexp.new(%{^([a-zA-Z]:)}),'/\1')
       end
 
       def path
-        @parts.path.sub(Regexp.new(%{^/([a-zA-Z]:)}),'\1')
+        parts.path.sub(Regexp.new(%{^/([a-zA-Z]:)}),'\1')
       end
 
       def uri=(val)
-        @parts.uri = val
+        parts.uri = val
         self.scheme ||=nil
         self.host ||=nil
       end
@@ -285,30 +282,28 @@ module Alt
       extend Forwardable
       extend Builders
 
-      attr_reader :parts
       def initialize(parts=nil)
-        @parts = parts || Alt::URI::Gen::URIParts.new
-        @parts.scheme ||= 'http'
-        @parts.host ||= ""
-        super()
+        prts = parts || Alt::URI::Gen::URIParts.new
+        prts.scheme ||= 'http'
+        prts.host ||= ""
+        super(prts)
       end
       def initialize_copy(other)
         super
-        @parts = other.parts.dup
       end
       include Ops::Generic
 
-      def_delegators :@parts, :uri,:authority,:scheme,:path,:query,:fragment
-      def_delegators :@parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=
-      def_delegators :@parts, :host,:port
-      def_delegators :@parts, :host=,:port=
-      def_delegators :@parts, :to_s
+      def_delegators :parts, :uri,:authority,:scheme,:path,:query,:fragment
+      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=
+      def_delegators :parts, :host,:port
+      def_delegators :parts, :host=,:port=
+      def_delegators :parts, :to_s
       def netpath
-        @parts.path
+        parts.path
       end
 
       def netpath=(val)
-        @parts.path = val
+        parts.path = val
       end
       alias :fspath :path
       alias :fspath= :path=
@@ -321,11 +316,11 @@ module Alt
       end
 
       def host=(val)
-        @parts.host = (val || "")
+        parts.host = (val || "")
       end
 
       def scheme=(val)
-        @parts.scheme = (val || 'http')
+        parts.scheme = (val || 'http')
       end
 
     end

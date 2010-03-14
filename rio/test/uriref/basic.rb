@@ -24,22 +24,6 @@ class RIO::URIRef::BasicTest < Test::Unit::TestCase
     assert_nil(u.base)
   end
 
-  def test_alturi_uriref_build
-    alturi = Alt::URI::File.new
-    u = RIO::URIRef.build(alturi)
-    assert_kind_of(Alt::URI::Base,u.ref)
-    assert_same(alturi,u.ref)
-    assert_equal(alturi,u.ref)
-  end
-
-  def test_uriref_uriref_build
-    alturi = Alt::URI::File.new
-    ui = RIO::URIRef.build(alturi)
-    u = RIO::URIRef.build(ui)
-    assert_kind_of(Alt::URI::Base,u.ref)
-    assert_same(alturi,u.ref)
-    assert_equal(alturi,u.ref)
-  end
 
   def test_starts_with_slash_slash_path_str_to_uri
     pth = "//ahost/a/b/c"
