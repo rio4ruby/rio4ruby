@@ -6,10 +6,6 @@ end
 require "test/unit"
 require 'alturi'
 
-require "test/unit"
-require 'alturi'
-require "test/unit"
-
 class Alt::URI::RFC_Test < Test::Unit::TestCase
 
   BSTR = "http://a/b/c/d;p?q"
