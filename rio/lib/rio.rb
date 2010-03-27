@@ -104,6 +104,13 @@ module RIO
     #
     def to_s() target.to_s end
 
+    alias :to_str :to_s
+    def dup
+      #p callstr('dup',self)
+      self.class.new(self.rl)
+    end
+    
+
     def method_missing(sym,*args,&block) #:nodoc:
       #p callstr('method_missing',sym,*args)
       

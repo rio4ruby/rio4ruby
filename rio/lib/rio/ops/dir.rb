@@ -239,7 +239,6 @@ module RIO
             ent.cx = self.cx.bequeath(ent.cx)
             ent
           else
-            # KIT: should this be RL.fs2url(ent) ???
             if indir
 
               new_rio_cx(indir.rl,ent)
@@ -251,7 +250,6 @@ module RIO
         def handle_ent_(ent,indir,sel,&block)
           begin
             erio = ent_to_rio_(ent,indir)
-            #p "handle_ent_1: #{erio.cx.inspect}"
             if stream_iter?
               # case for iterating files in a directory (e.g. rio('adir').lines) 
               _add_stream_iter_cx(erio).each(&block) if erio.file? and sel.match?(erio)
