@@ -1,10 +1,10 @@
 #!/usr/local/bin/ruby
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
-  $:.unshift File.expand_path('../lib/rio/')
+  $:.unshift File.expand_path('../lib/')
 end
 require "test/unit"
-require 'alturi'
+require 'rio/alturi'
 
 
 class Alt::URI::GenericTest < Test::Unit::TestCase

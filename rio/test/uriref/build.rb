@@ -1,13 +1,13 @@
 #!/usr/local/bin/ruby
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
-  $:.unshift File.expand_path('../lib/rio/')
+  $:.unshift File.expand_path('../lib/')
 end
 require 'pp'
 require "test/unit"
-require 'uriref'
+require 'rio/uriref'
 
-class RIO::URIRef::BasicTest < Test::Unit::TestCase
+class RIO::URIRef::BuildTest < Test::Unit::TestCase
   
   def setup
     super

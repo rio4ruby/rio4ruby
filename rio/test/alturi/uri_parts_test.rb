@@ -1,11 +1,11 @@
 #!/usr/local/bin/ruby
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
-  $:.unshift File.expand_path('../lib/rio/')
+  $:.unshift File.expand_path('../lib/')
 end
 require "test/unit"
-require 'alturi/uri_parts'
-require 'alturi/cached_fields'
+require 'rio/alturi/uri_parts'
+require 'rio/alturi/cached_fields'
 
 class Alt::URI::Gen::URIPartsTest < Test::Unit::TestCase
   def setup
