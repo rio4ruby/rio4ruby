@@ -246,9 +246,9 @@ module Alt
             @store[:userinfo] = @store[:host] = @store[:port] = nil
           else
             Alt::URI::Parse::RE_AUTHORITY.match(val) { |m|
-              self.host = m[:host]
-              self.port = m[:port]
-              @store[:userinfo] = m[:userinfo]
+              self.host = m[2]
+              self.port = m[3]
+              @store[:userinfo] = m[1]
             }
           end
         end
@@ -258,12 +258,21 @@ module Alt
             @store.clear
             @store[:path] = ""
           else
+            #Alt::URI::Parse::RE_GENERIC.match(val) { |m|
+            #  p "URI_PARTS: #{m.inspect}"
+            #  self.scheme = m[:scheme]
+            #  self.authority = m[:authority]
+            #  @store[:path] = m[:path]
+            #  @store[:query] = m[:query]
+            #  @store[:fragment] = m[:fragment]
+            #}
             Alt::URI::Parse::RE_GENERIC.match(val) { |m|
-              self.scheme = m[:scheme]
-              self.authority = m[:authority]
-              @store[:path] = m[:path]
-              @store[:query] = m[:query]
-              @store[:fragment] = m[:fragment]
+              #p "URI_PARTS: #{m.inspect}"
+              self.scheme = m[1]
+              self.authority = m[2]
+              @store[:path] = m[3]
+              @store[:query] = m[4]
+              @store[:fragment] = m[5]
             }
           end
         end
@@ -276,9 +285,13 @@ module Alt
             self.authority = nil
             self.path = ""
           else
+            #Alt::URI::Parse::RE_GENERIC.match(val) { |m|
+            #  self.authority = m[:authority]
+            #  self.path = m[:path]
+            #}
             Alt::URI::Parse::RE_GENERIC.match(val) { |m|
-              self.authority = m[:authority]
-              self.path = m[:path]
+              self.authority = m[2]
+              self.path = m[3]
             }
           end
         end
