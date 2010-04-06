@@ -5,17 +5,10 @@ if $0 == __FILE__
 end
 require "test/unit"
 require 'rio/alturi/uri_parts'
-require 'rio/alturi/cached_fields'
 
-class Alt::URI::Gen::URIPartsTest < Test::Unit::TestCase
-  def setup
-    super
-  end
-
-  def teardown
-    super
-  end
-
+module Alt::URI::UnitTest
+  module URIParts
+    module Tests
   def test_initialize
     u = Alt::URI::Gen::URIParts.new
     assert_equal("",u.path)
@@ -392,7 +385,14 @@ class Alt::URI::Gen::URIPartsTest < Test::Unit::TestCase
     assert_equal('../uri/', rel.to_s)
   end
 
+    end
+    
+    class TestCase < Test::Unit::TestCase
+      include Tests
+    end
 
-
+  end
 end
+
+
 

@@ -6,16 +6,10 @@ end
 require "test/unit"
 require 'rio/alturi'
 
-class Alt::URI::PathPartsTest < Test::Unit::TestCase
-  
-  def setup
-    super
-  end
-  
-  def teardown
-    super
-  end
 
+module Alt::URI::UnitTest
+  module PathParts
+    module Tests
   def test_rel_dirname
     u = Alt::URI.create(:path => 'a/b/c.txt')
     assert_equal("a/b",u.dirname)
@@ -214,6 +208,12 @@ class Alt::URI::PathPartsTest < Test::Unit::TestCase
 #    assert_equal('/loc/other_stuff', u.path)
 
 #  end
+    end
+    
+    class TestCase < Test::Unit::TestCase
+      include Tests
+    end
 
-
+  end
 end
+

@@ -6,17 +6,9 @@ end
 require "test/unit"
 require 'rio/alturi'
 
-
-class Alt::URI::HTTPTest < Test::Unit::TestCase
-  
-  def setup
-    super
-  end
-  
-  def teardown
-    super
-  end
-
+module Alt::URI::UnitTest
+  module HTTP
+    module Tests
   def test_initialize
     u = Alt::URI::HTTP.new
     assert_equal("",u.path)
@@ -366,6 +358,12 @@ class Alt::URI::HTTPTest < Test::Unit::TestCase
     assert_equal('http://ahost:80/loc/dev/rio/', rel.to_s)
   end
 
+    end
+    
+    class TestCase < Test::Unit::TestCase
+      include Tests
+    end
 
-
+  end
 end
+

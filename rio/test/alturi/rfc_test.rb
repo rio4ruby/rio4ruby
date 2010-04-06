@@ -6,8 +6,9 @@ end
 require "test/unit"
 require 'rio/alturi'
 
-class Alt::URI::RFC_Test < Test::Unit::TestCase
-
+module Alt::URI::UnitTest
+  module RFCTest
+    module Tests
   BSTR = "http://a/b/c/d;p?q"
   BASE = ::Alt::URI.parse(BSTR)
 
@@ -75,4 +76,13 @@ class Alt::URI::RFC_Test < Test::Unit::TestCase
       assert_equal(RFC_URIS[i][1],ans.to_s)
     end
   end
+    end
+    
+    class TestCase < Test::Unit::TestCase
+      include Tests
+    end
+
+  end
 end
+
+

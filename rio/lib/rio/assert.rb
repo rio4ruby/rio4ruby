@@ -109,6 +109,13 @@ module RIO
         nok(a,b)
       end
     end
+    def assert_instance_of(a,b,msg=nil)
+      if b.instance_of?(a)
+        ok(a,b)
+      else
+        nok(a,b)
+      end
+    end
     def assert_match(a,b,msg=nil)
       if a =~ b
         ok(a,b)
