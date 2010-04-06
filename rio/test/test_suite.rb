@@ -14,7 +14,6 @@ require 'test/unit/ui/console/testrunner'
 
 require 'alturi/test_suite'
 require 'uriref/test_suite'
-#require 'legacy/test_suite'
 
 class RIO::TestSuite
     def self.suite
