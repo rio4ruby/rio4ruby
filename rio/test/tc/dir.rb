@@ -3,7 +3,6 @@ if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
   $:.unshift File.expand_path('../lib/')
 end
-
 require 'rio'
 require 'tc/testcase'
 class TC_dir < Test::Unit::TestCase
@@ -22,6 +21,8 @@ class TC_dir < Test::Unit::TestCase
     while ent = d.read
       ans << ent
     end
+    #$trace_states = true
+    #p @rents,ans.sort
     assert_equal(@rents,ans)
     assert(d.closed?)
   end
