@@ -57,6 +57,9 @@ module RIO
     # Equality (for case statements) same as Rio#==
     def ===(other) self == other end
 
+    # Comparison for sorting; compare as strings.
+    def <=>(other) self.to_str <=> other.to_str end
+
     # Rios are hashed based on their String representation
     def hash() self.to_str.hash end
 

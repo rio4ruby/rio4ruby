@@ -21,9 +21,7 @@ class TC_dir < Test::Unit::TestCase
     while ent = d.read
       ans << ent
     end
-    #$trace_states = true
-    #p @rents,ans.sort
-    assert_equal(@rents,ans)
+    assert_equal(@rents.sort,ans.sort)
     assert(d.closed?)
   end
   def test_rewind
@@ -32,13 +30,13 @@ class TC_dir < Test::Unit::TestCase
     while ent = d.read
       ans << ent
     end
-    assert_equal(@rents,ans)
+    assert_equal(@rents.sort,ans.sort)
     assert!(d.closed?)
     d.rewind
     while ent = d.read
       ans << ent
     end
-    assert_equal(@rents+@rents,ans)
+    assert_equal((@rents+@rents).sort,ans.sort)
     d.close
   end
   def test_seek
