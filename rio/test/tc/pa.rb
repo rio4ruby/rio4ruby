@@ -41,14 +41,14 @@ class TC_RIO_pa < Test::Unit::TestCase
         ent.files { |el| ans << el }
       end
       exp = ["d1/d10/f0.txt","d1/d10/f1.txt","d1/d10/f2.emp","d1/f0.txt"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
       ario = rio('d1')
       ans = []
       ario.each do |ent|
         ent.files(/x/) { |el| ans << el }
       end
       exp = ["d1/d10/f0.txt", "d1/d10/f1.txt", "d1/f0.txt"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ario = rio('d1')
       ans = ario[/x/]
@@ -63,46 +63,46 @@ class TC_RIO_pa < Test::Unit::TestCase
       ans = []
       rio('d1').all.files('*.?x?').lines(/L2/) { |el| ans << el }
       exp = ["L2:d1/d10/d000/f100.txt\n", "L2:d1/d10/f0.txt\n", "L2:d1/d10/f1.txt\n", "L2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = []
       rio('d1').all.files('*.?x?').lines(2) { |el| ans << el }
       exp = ["L2:d1/d10/d000/f100.txt\n", "L2:d1/d10/f0.txt\n", "L2:d1/d10/f1.txt\n", "L2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = []
 
       rio('d1').all.files('*.?x?').lines(2...3) { |el| ans << el }
       exp = ["L2:d1/d10/d000/f100.txt\n", "L2:d1/d10/f0.txt\n", "L2:d1/d10/f1.txt\n", "L2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
       
       ans = rio('d1').all.files('*.?x?').lines(/L1/).to_a
       exp = ["L1:d1/d10/d000/f100.txt\n", "L1:d1/d10/f0.txt\n", "L1:d1/d10/f1.txt\n", "L1:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files('*.?x?').lines[/L1/]
       exp = ["L1:d1/d10/d000/f100.txt\n", "L1:d1/d10/f0.txt\n", "L1:d1/d10/f1.txt\n", "L1:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.lines(/L1/).files['*.?x?']
       exp = ["L1:d1/d10/d000/f100.txt\n", "L1:d1/d10/f0.txt\n", "L1:d1/d10/f1.txt\n", "L1:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files('*.?x?').lines[1]
       exp = ["L1:d1/d10/d000/f100.txt\n", "L1:d1/d10/f0.txt\n", "L1:d1/d10/f1.txt\n", "L1:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files('*.?x?').lines[1...2]
       exp = ["L1:d1/d10/d000/f100.txt\n", "L1:d1/d10/f0.txt\n", "L1:d1/d10/f1.txt\n", "L1:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.lines(/L0/).files[/f0/]
       exp = ["L0:d1/d10/f0.txt\n", "L0:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.lines(/L0/).files[]
       exp = ["L0:d1/d10/d000/f100.txt\n", "L0:d1/d10/f0.txt\n", "L0:d1/d10/f1.txt\n", "L0:d1/d10/f2.emp\n", "L0:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files(/f0/).lines[/L0/]
       exp = ["L0:d1/d10/f0.txt\n", "L0:d1/f0.txt\n"]
@@ -143,12 +143,12 @@ class TC_RIO_pa < Test::Unit::TestCase
              "L0:d1/d10/f1.txt\n", "L1:d1/d10/f1.txt\n", "L2:d1/d10/f1.txt\n", 
              "L0:d1/d10/f2.emp\n", "L1:d1/d10/f2.emp\n", "L2:d1/d10/f2.emp\n", 
              "L0:d1/f0.txt\n", "L1:d1/f0.txt\n", "L2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all[]
       exp = ["d1/d10", "d1/d10/d000", "d1/d10/d000/f100.txt", "d1/d10/d100", 
              "d1/d10/f0.txt", "d1/d10/f1.txt", "d1/d10/f2.emp", "d1/d11", "d1/f0.txt"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files('*.emp').lines[]
       exp = ["L0:d1/d10/f2.emp\n", "L1:d1/d10/f2.emp\n", "L2:d1/d10/f2.emp\n"]

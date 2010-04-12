@@ -35,25 +35,29 @@ class TC_each_break < Test::Unit::TestCase
     @l3 = @f3.readlines
     @d1 = rio(@dir,'d1')
     @d2 = rio(@dir,'d2')
+
     @e1 = %w[d1/f1].map { |ent| rio(@dir,ent) }
-    @e2 = %w[d2/f1 d2/f2].map { |ent| rio(@dir,ent) }
-    @files = [@f1,@f2,@f3]
+
+    @e2 = []
+    ::Dir.chdir('dir') do |d|
+      @e2 += ::Dir.entries('d2').
+        reject{|el| el =~ /^\.\.?$/}.
+        map { |ent| rio(@dir,'d2',ent) }
+    end
+    #rio(@dir,'d2').entries
+    @e3 = %w[d2/f1 d2/f2].map { |ent| rio(@dir,ent) }
+    #p @e2,@e3
+    # @files = [@f1,@f2,@f3]
+    @files = ::Dir.entries('dir').
+      reject{|el| el =~ /^\.\.?$/}.
+      select{|el| ::File.file?('dir/' + el)}.
+      map { |ent| rio(@dir,ent) }
     @dirs = [@d1,@d2]
-    @ents = @dirs + @files
+    @ents = ::Dir.entries('dir').
+      reject{|el| el =~ /^\.\.?$/}.
+      map { |ent| rio(@dir,ent) }
+    #p @files,@dirs,@ents
   end
-  def test_nobreak_dir
-    ans = []
-    @d1.each { |ent| ans << ent }
-    assert(@d1.closed?)
-    assert_equal(@e1,ans)
-
-    ans = []
-    @d2.each { |ent| ans << ent }
-    assert(@d2.closed?)
-    assert_equal(@e2,ans)
-
-  end
-
   def test_nobreak_dir_sel
     ans = []
     @dir.entries.each { |ent| ans << ent }
@@ -68,54 +72,89 @@ class TC_each_break < Test::Unit::TestCase
     assert_array_equal(@dirs,ans)
 
   end
-  def test_dir_sel
+  def test_dir_sel0
     ans = []
+    exp = ::Dir.entries(@dir.to_s)
     @dir.entries.each { |ent| ans << ent; break }
     assert_array_equal(@ents[0..0],ans)
 
-    ans = []
-    @dir.files.each { |ent| ans << ent; break }
-    assert_array_equal(@ents[1..1],ans)
-
-    ans = []
-    @dir.dirs.each { |ent| ans << ent; break }
-    assert_array_equal(@ents[2..2],ans)
-    
-    @dir.close
-    assert(@dir.closed?)
-
-    ans = []
-    @dir.dirs.each { |ent| ans << ent; break }
-    assert_array_equal(@dirs[0..0],ans)
-    
-    ans = []
-    @dir.files.each { |ent| ans << ent; break }
-    assert_array_equal(@ents[1..1],ans)
-
-    ans = []
-    @dir.entries.each { |ent| ans << ent; break }
-    assert_array_equal(@ents[2..2],ans)
-
-    @dir.close
-    assert(@dir.closed?)
-
+  end
+  def test_dir_sel1
     ans = []
     @dir.files.each { |ent| ans << ent; break }
     assert_array_equal(@files[0..0],ans)
 
+  end
+  def test_dir_sel2
     ans = []
     @dir.dirs.each { |ent| ans << ent; break }
-    assert_array_equal(@files[1..1],ans)
-
-    ans = []
-    @dir.entries.each { |ent| ans << ent; break }
-    assert_array_equal(@files[2..2],ans)
-
-    ans = []
-    @dir.entries.each { |ent| ans << ent; break }
-    assert_array_equal([],ans)
+    assert_array_equal(@ents[2..2],ans)
+    
+    @dir.close
+    assert(@dir.closed?)
 
   end
+  def test_dir_sel3
+    ans = []
+    @dir.dirs.each { |ent| ans << ent; break }
+    # p ans
+    assert_array_equal(@dirs[0..0],ans)
+    
+  end
+  def test_dir_sel4
+    ans = []
+    @dir.files.each { |ent| ans << ent; break }
+    # p @files,ans
+    assert_array_equal(@files[0..0],ans)
+
+  end
+  def test_dir_sel5
+    ans = []
+    @dir.entries.each { |ent| ans << ent; break }
+    assert_array_equal(@ents[0..0],ans)
+
+    @dir.close
+    assert(@dir.closed?)
+
+  end
+  def test_dir_sel6
+    ans = []
+    @dir.files.each { |ent| ans << ent; break }
+    assert_array_equal(@files[0..0],ans)
+
+  end
+  def test_dir_sel7
+    ans = []
+    @dir.dirs.each { |ent| ans << ent; break }
+    assert_array_equal(@dirs[0..0],ans)
+
+  end
+  def test_dir_sel8
+    ans = []
+    @dir.entries.each { |ent| ans << ent; break }
+    assert_array_equal(@files[0..0],ans)
+
+  end
+  def test_dir_sel9
+    ans = []
+    @dir.entries.each { |ent| ans << ent; break }
+    assert_array_equal(@ents[0..0],ans)
+
+  end
+  def test_nobreak_dir
+    ans = []
+    @d1.each { |ent| ans << ent }
+    assert(@d1.closed?)
+    assert_equal(@e1,ans)
+
+    ans = []
+    @d2.each { |ent| ans << ent }
+    assert(@d2.closed?)
+    #p @e2,ans
+    assert_equal(@e2,ans)
+
+  end
+
   def test_dir_oneentry
     ans = []
     @d1.each { |ent| ans << ent; break }

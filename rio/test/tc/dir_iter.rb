@@ -26,6 +26,8 @@ class TC_dir_iter < Test::RIO::TestCase
           @@exp[d.to_s] << rio('f'+fnum.to_s).touch
         }
       }
+      @@exp[d.to_s] = ::Dir.entries(d.to_s).reject{|el| el =~ /^\.\.?$/}
+      #p @@exp[d.to_s]
     }
   end
   def setup
