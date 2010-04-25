@@ -101,7 +101,12 @@ class TC_path_parts < Test::RIO::TestCase
     paths.each do |pstr|
       #p pstr,sym
       r = rio(pstr)
-      assert_equal(@@exp[r.to_s][sym],r.__send__(sym).to_s,"rio('#{pstr}').#{sym} failed")
+      exp = @@exp[r.to_s][sym]
+      ans = r.__send__(sym).to_s
+      display_rslt(exp,ans,pstr,sym)
+      #ok = exp == ans ? "PASS" : "FAIL"
+      #puts "#{ok} #{sym}[#{r}]: #{exp} <=> #{ans}"
+      #assert_equal(exp,ans,"rio('#{pstr}').#{sym} failed")
     end
   end
   def run_path_tests_native(paths,sym,*args)
@@ -109,16 +114,43 @@ class TC_path_parts < Test::RIO::TestCase
       r = rio(pstr)
       exp = File.__send__(sym,pstr,*args)
       ans = r.__send__(sym,*args).to_s
-      #puts "#{sym}[#{r}]: #{exp} <=> #{ans}"
-      assert_equal(exp,ans,"rio('#{pstr}').#{sym} failed")
+      display_rslt(exp,ans,pstr,sym,*args)
+      #ok = exp == ans ? "PASS" : "FAIL"
+      #puts "#{ok} #{sym}[#{r}]: #{exp} <=> #{ans}"
+      #assert_equal(exp,ans,"rio('#{pstr}').#{sym} failed")
+    end
+  end
+  def run_path_tests_native_path(paths,sym,*args)
+    paths.each do |pstr|
+      r = rio(pstr)
+      fpth = r.path
+      exp = File.__send__(sym,fpth,*args)
+      ans = r.__send__(sym,*args).to_s
+      display_rslt(exp,ans,pstr,sym,*args)
+      #ok = exp == ans ? "PASS" : "FAIL"
+      #puts "#{ok} rio('#{pstr}').#{sym} = #{ans} (#{exp})"
+      #assert_equal(File.__send__(sym,fpth,*args),r.__send__(sym,*args).to_s,"rio('#{pstr}').#{sym} failed")
     end
   end
   def run_path_tests_native_fspath(paths,sym,*args)
     paths.each do |pstr|
       r = rio(pstr)
       fpth = r.fspath
-      assert_equal(File.__send__(sym,fpth,*args),r.__send__(sym,*args).to_s,"rio('#{pstr}').#{sym} failed")
+      exp = File.__send__(sym,fpth,*args)
+      ans = r.__send__(sym,*args).to_s
+      display_rslt(exp,ans,pstr,sym,*args)
+      #ok = exp == ans ? "PASS" : "FAIL"
+      #puts "#{ok} rio('#{pstr}').#{sym} = #{ans} (#{exp})"
+      #assert_equal(File.__send__(sym,fpth,*args),r.__send__(sym,*args).to_s,"rio('#{pstr}').#{sym} failed")
     end
+  end
+  def display_rslt(exp,ans,pstr,sym,*args)
+    ok = exp == ans ? "" : "FAIL"
+    arg_str = args.empty? ? '' : '('+args.map{|el| "'"+el.to_s+"'" }.join(",")+')'
+    call_str = sprintf("rio('%s').%s%s",pstr,sym,arg_str)
+    #printf("\n%-4s %-55s = %-20s <=> %-20s",ok,call_str,ans,exp) if ok == "FAIL"
+    assert_equal(exp,ans,"#{call_str} failed")
+    
   end
   def test_filename()
     @@gen.all_paths.each do |pstr|
@@ -129,10 +161,6 @@ class TC_path_parts < Test::RIO::TestCase
   def test_uri_dirname
     run_path_tests_exp(@@gen.uri_paths,:dirname)
   end
-  def test_uri_basename
-    run_path_tests_exp(@@gen.uri_paths,:basename)
-  end
-
   def test_fs_dirname
     run_path_tests_native(@@gen.fs_basic_paths,:dirname)
     run_path_tests_native(@@gen.fs_drive_paths,:dirname)
@@ -141,17 +169,22 @@ class TC_path_parts < Test::RIO::TestCase
   def test_fs_url_dirname
     run_path_tests_exp(@@gen.fs_url_paths,:dirname)
   end
+
+  def test_uri_basename
+    run_path_tests_exp(@@gen.uri_paths,:basename)
+  end
+
   def test_fs_url_basename
-    run_path_tests_native_fspath(@@gen.fs_url_paths,:basename,'')
-    run_path_tests_native_fspath(@@gen.fs_url_paths,:basename,'.txt')
+    run_path_tests_native_path(@@gen.fs_url_paths,:basename,'')
+    run_path_tests_native_path(@@gen.fs_url_paths,:basename,'.txt')
   end
   def test_fs_basename
     run_path_tests_native(@@gen.fs_basic_paths,:basename,'')
     run_path_tests_native(@@gen.fs_drive_paths,:basename,'')
-    run_path_tests_native(@@gen.fs_unc_paths,:basename,'')
+    run_path_tests_native_path(@@gen.fs_unc_paths,:basename,'')
     run_path_tests_native(@@gen.fs_basic_paths,:basename,'.txt')
     run_path_tests_native(@@gen.fs_drive_paths,:basename,'.txt')
-    run_path_tests_native(@@gen.fs_unc_paths,:basename,'.txt')
+    run_path_tests_native_path(@@gen.fs_unc_paths,:basename,'.txt')
   end
 
   def test_fs_path
@@ -166,11 +199,11 @@ class TC_path_parts < Test::RIO::TestCase
   def test_uri_fspath
     run_path_tests_exp(@@gen.uri_paths,:fspath)
   end
-  def test_fs_urlpath
-    run_path_tests_exp(@@gen.fs_paths,:urlpath)
-  end
-  def test_uri_urlpath
-    run_path_tests_exp(@@gen.uri_paths,:urlpath)
-  end
+  #def test_fs_urlpath
+  #  run_path_tests_exp(@@gen.fs_paths,:urlpath)
+  #end
+  #def test_uri_urlpath
+  #  run_path_tests_exp(@@gen.uri_paths,:urlpath)
+  #end
 
 end

@@ -2,18 +2,18 @@
 //h/r1/d 1: 
   :basename: d 1
   :urlpath: /r1/d%201
-  :dirname: //h/r1
+  :dirname: /r1
   :scheme: file
   :filename: d 1
-  :path: //h/r1/d 1
+  :path: /r1/d 1
   :fspath: //h/r1/d 1
 http://h/r1/d%201/f1.txt: 
   :basename: f1
   :urlpath: /r1/d%201/f1.txt
-  :dirname: http://h/r1/d%201
+  :dirname: /r1/d 1
   :scheme: http
   :filename: f1.txt
-  :path: /r1/d%201/f1.txt
+  :path: /r1/d 1/f1.txt
   :fspath: /r1/d 1/f1.txt
 /r1/d1/f1: 
   :basename: f1
@@ -26,18 +26,18 @@ http://h/r1/d%201/f1.txt:
 http://h/r%201/: 
   :basename: r 1
   :urlpath: /r%201/
-  :dirname: http://h/
+  :dirname: /
   :scheme: http
   :filename: r 1
-  :path: /r%201/
+  :path: /r 1/
   :fspath: /r 1/
 //h/r1/d 1/f1: 
   :basename: f1
   :urlpath: /r1/d%201/f1
-  :dirname: //h/r1/d 1
+  :dirname: /r1/d 1
   :scheme: file
   :filename: f1
-  :path: //h/r1/d 1/f1
+  :path: /r1/d 1/f1
   :fspath: //h/r1/d 1/f1
 ftp://h/r%201/d1: 
   :basename: d1
@@ -45,7 +45,7 @@ ftp://h/r%201/d1:
   :dirname: ftp://h/r%201
   :scheme: ftp
   :filename: d1
-  :path: /r%201/d1
+  :path: /r 1/d1
   :fspath: /r 1/d1
 x:/r1/d 1/f 1: 
   :basename: f 1
@@ -77,23 +77,23 @@ ftp://h/r1/d%201/f%201:
   :dirname: ftp://h/r1/d%201
   :scheme: ftp
   :filename: f 1
-  :path: /r1/d%201/f%201
+  :path: /r1/d 1/f 1
   :fspath: /r1/d 1/f 1
 //h/r1/d1/f 1: 
   :basename: f 1
   :urlpath: /r1/d1/f%201
-  :dirname: //h/r1/d1
+  :dirname: /r1/d1
   :scheme: file
   :filename: f 1
-  :path: //h/r1/d1/f 1
+  :path: /r1/d1/f 1
   :fspath: //h/r1/d1/f 1
 //h/r 1: 
   :basename: r 1
   :urlpath: /r%201
-  :dirname: //h/
+  :dirname: /
   :scheme: file
   :filename: r 1
-  :path: //h/r 1
+  :path: /r 1
   :fspath: //h/r 1
 /r 1/d1: 
   :basename: d1
@@ -125,7 +125,7 @@ ftp://h/r%201/d1/:
   :dirname: ftp://h/r%201
   :scheme: ftp
   :filename: d1
-  :path: /r%201/d1/
+  :path: /r 1/d1/
   :fspath: /r 1/d1/
 x:/r 1/d 1/f1: 
   :basename: f1
@@ -149,15 +149,15 @@ ftp://h/r%201/d%201/f1:
   :dirname: ftp://h/r%201/d%201
   :scheme: ftp
   :filename: f1
-  :path: /r%201/d%201/f1
+  :path: /r 1/d 1/f1
   :fspath: /r 1/d 1/f1
 //h/r 1/d1/f 1.txt: 
   :basename: f 1
   :urlpath: /r%201/d1/f%201.txt
-  :dirname: //h/r 1/d1
+  :dirname: /r 1/d1
   :scheme: file
   :filename: f 1.txt
-  :path: //h/r 1/d1/f 1.txt
+  :path: /r 1/d1/f 1.txt
   :fspath: //h/r 1/d1/f 1.txt
 ftp://h/r1/d%201: 
   :basename: d 1
@@ -165,7 +165,7 @@ ftp://h/r1/d%201:
   :dirname: ftp://h/r1
   :scheme: ftp
   :filename: d 1
-  :path: /r1/d%201
+  :path: /r1/d 1
   :fspath: /r1/d 1
 x:/r 1/d1/: 
   :basename: d1
@@ -205,44 +205,44 @@ ftp://h/r1/d%201/f1:
   :dirname: ftp://h/r1/d%201
   :scheme: ftp
   :filename: f1
-  :path: /r1/d%201/f1
+  :path: /r1/d 1/f1
   :fspath: /r1/d 1/f1
 //h/r 1/d1: 
   :basename: d1
   :urlpath: /r%201/d1
-  :dirname: //h/r 1
+  :dirname: /r 1
   :scheme: file
   :filename: d1
-  :path: //h/r 1/d1
+  :path: /r 1/d1
   :fspath: //h/r 1/d1
 http://h/r1/d%201/: 
   :basename: d 1
   :urlpath: /r1/d%201/
-  :dirname: http://h/r1
+  :dirname: /r1
   :scheme: http
   :filename: d 1
-  :path: /r1/d%201/
+  :path: /r1/d 1/
   :fspath: /r1/d 1/
 http://h/r%201: 
   :basename: r 1
   :urlpath: /r%201
-  :dirname: http://h/
+  :dirname: /
   :scheme: http
   :filename: r 1
-  :path: /r%201
+  :path: /r 1
   :fspath: /r 1
 http://h/r%201/d1: 
   :basename: d1
   :urlpath: /r%201/d1
-  :dirname: http://h/r%201
+  :dirname: /r 1
   :scheme: http
   :filename: d1
-  :path: /r%201/d1
+  :path: /r 1/d1
   :fspath: /r 1/d1
 http://h/r1: 
   :basename: r1
   :urlpath: /r1
-  :dirname: http://h/
+  :dirname: /
   :scheme: http
   :filename: r1
   :path: /r1
@@ -266,10 +266,10 @@ x:/r 1/d 1:
 //h/r 1/d 1/: 
   :basename: d 1
   :urlpath: /r%201/d%201/
-  :dirname: //h/r 1
+  :dirname: /r 1
   :scheme: file
   :filename: d 1
-  :path: //h/r 1/d 1/
+  :path: /r 1/d 1/
   :fspath: //h/r 1/d 1/
 /r 1/d1/f1.txt: 
   :basename: f1
@@ -285,7 +285,7 @@ ftp://h/r1/d%201/f1.txt:
   :dirname: ftp://h/r1/d%201
   :scheme: ftp
   :filename: f1.txt
-  :path: /r1/d%201/f1.txt
+  :path: /r1/d 1/f1.txt
   :fspath: /r1/d 1/f1.txt
 /r 1/d 1/f1: 
   :basename: f1
@@ -301,7 +301,7 @@ ftp://h/r%201/d1/f%201.txt:
   :dirname: ftp://h/r%201/d1
   :scheme: ftp
   :filename: f 1.txt
-  :path: /r%201/d1/f%201.txt
+  :path: /r 1/d1/f 1.txt
   :fspath: /r 1/d1/f 1.txt
 x:/r1/d1/: 
   :basename: d1
@@ -317,12 +317,12 @@ ftp://h/r%201/d%201/:
   :dirname: ftp://h/r%201
   :scheme: ftp
   :filename: d 1
-  :path: /r%201/d%201/
+  :path: /r 1/d 1/
   :fspath: /r 1/d 1/
 http://h/r1/d1/: 
   :basename: d1
   :urlpath: /r1/d1/
-  :dirname: http://h/r1
+  :dirname: /r1
   :scheme: http
   :filename: d1
   :path: /r1/d1/
@@ -370,10 +370,10 @@ x:/r1:
 http://h/r%201/d%201/f1: 
   :basename: f1
   :urlpath: /r%201/d%201/f1
-  :dirname: http://h/r%201/d%201
+  :dirname: /r 1/d 1
   :scheme: http
   :filename: f1
-  :path: /r%201/d%201/f1
+  :path: /r 1/d 1/f1
   :fspath: /r 1/d 1/f1
 /: 
   :basename: /
@@ -386,18 +386,18 @@ http://h/r%201/d%201/f1:
 http://h/r%201/d%201/: 
   :basename: d 1
   :urlpath: /r%201/d%201/
-  :dirname: http://h/r%201
+  :dirname: /r 1
   :scheme: http
   :filename: d 1
-  :path: /r%201/d%201/
+  :path: /r 1/d 1/
   :fspath: /r 1/d 1/
 http://h/r1/d1/f%201.txt: 
   :basename: f 1
   :urlpath: /r1/d1/f%201.txt
-  :dirname: http://h/r1/d1
+  :dirname: /r1/d1
   :scheme: http
   :filename: f 1.txt
-  :path: /r1/d1/f%201.txt
+  :path: /r1/d1/f 1.txt
   :fspath: /r1/d1/f 1.txt
 x:/r 1/d1/f 1: 
   :basename: f 1
@@ -426,18 +426,18 @@ ftp://h/r1/d1/f1:
 //h/r1/d 1/f 1.txt: 
   :basename: f 1
   :urlpath: /r1/d%201/f%201.txt
-  :dirname: //h/r1/d 1
+  :dirname: /r1/d 1
   :scheme: file
   :filename: f 1.txt
-  :path: //h/r1/d 1/f 1.txt
+  :path: /r1/d 1/f 1.txt
   :fspath: //h/r1/d 1/f 1.txt
 //h/r1/d1/f 1.txt: 
   :basename: f 1
   :urlpath: /r1/d1/f%201.txt
-  :dirname: //h/r1/d1
+  :dirname: /r1/d1
   :scheme: file
   :filename: f 1.txt
-  :path: //h/r1/d1/f 1.txt
+  :path: /r1/d1/f 1.txt
   :fspath: //h/r1/d1/f 1.txt
 x:/r1/d 1: 
   :basename: d 1
@@ -458,18 +458,18 @@ x:/r1/d 1/:
 //h/r1/d1: 
   :basename: d1
   :urlpath: /r1/d1
-  :dirname: //h/r1
+  :dirname: /r1
   :scheme: file
   :filename: d1
-  :path: //h/r1/d1
+  :path: /r1/d1
   :fspath: //h/r1/d1
 http://h/r%201/d%201: 
   :basename: d 1
   :urlpath: /r%201/d%201
-  :dirname: http://h/r%201
+  :dirname: /r 1
   :scheme: http
   :filename: d 1
-  :path: /r%201/d%201
+  :path: /r 1/d 1
   :fspath: /r 1/d 1
 ftp://h/r%201/d%201: 
   :basename: d 1
@@ -477,15 +477,15 @@ ftp://h/r%201/d%201:
   :dirname: ftp://h/r%201
   :scheme: ftp
   :filename: d 1
-  :path: /r%201/d%201
+  :path: /r 1/d 1
   :fspath: /r 1/d 1
 http://h/r1/d%201: 
   :basename: d 1
   :urlpath: /r1/d%201
-  :dirname: http://h/r1
+  :dirname: /r1
   :scheme: http
   :filename: d 1
-  :path: /r1/d%201
+  :path: /r1/d 1
   :fspath: /r1/d 1
 ftp://h/r%201/d1/f1: 
   :basename: f1
@@ -493,31 +493,31 @@ ftp://h/r%201/d1/f1:
   :dirname: ftp://h/r%201/d1
   :scheme: ftp
   :filename: f1
-  :path: /r%201/d1/f1
+  :path: /r 1/d1/f1
   :fspath: /r 1/d1/f1
 //h/r 1/d 1/f1.txt: 
   :basename: f1
   :urlpath: /r%201/d%201/f1.txt
-  :dirname: //h/r 1/d 1
+  :dirname: /r 1/d 1
   :scheme: file
   :filename: f1.txt
-  :path: //h/r 1/d 1/f1.txt
+  :path: /r 1/d 1/f1.txt
   :fspath: //h/r 1/d 1/f1.txt
 //h/r1: 
   :basename: r1
   :urlpath: /r1
-  :dirname: //h/
+  :dirname: /
   :scheme: file
   :filename: r1
-  :path: //h/r1
+  :path: /r1
   :fspath: //h/r1
 http://h/r%201/d1/f1: 
   :basename: f1
   :urlpath: /r%201/d1/f1
-  :dirname: http://h/r%201/d1
+  :dirname: /r 1/d1
   :scheme: http
   :filename: f1
-  :path: /r%201/d1/f1
+  :path: /r 1/d1/f1
   :fspath: /r 1/d1/f1
 ftp://h/r%201/: 
   :basename: r 1
@@ -525,20 +525,20 @@ ftp://h/r%201/:
   :dirname: ftp://h/
   :scheme: ftp
   :filename: r 1
-  :path: /r%201/
+  :path: /r 1/
   :fspath: /r 1/
 http://h/r1/d%201/f%201: 
   :basename: f 1
   :urlpath: /r1/d%201/f%201
-  :dirname: http://h/r1/d%201
+  :dirname: /r1/d 1
   :scheme: http
   :filename: f 1
-  :path: /r1/d%201/f%201
+  :path: /r1/d 1/f 1
   :fspath: /r1/d 1/f 1
 http://h/: 
   :basename: /
   :urlpath: /
-  :dirname: http://h/
+  :dirname: /
   :scheme: http
   :filename: /
   :path: /
@@ -557,7 +557,7 @@ ftp://h/r%201:
   :dirname: ftp://h/
   :scheme: ftp
   :filename: r 1
-  :path: /r%201
+  :path: /r 1
   :fspath: /r 1
 ftp://h/r1/d%201/: 
   :basename: d 1
@@ -565,12 +565,12 @@ ftp://h/r1/d%201/:
   :dirname: ftp://h/r1
   :scheme: ftp
   :filename: d 1
-  :path: /r1/d%201/
+  :path: /r1/d 1/
   :fspath: /r1/d 1/
 http://h/r1/d1/f1: 
   :basename: f1
   :urlpath: /r1/d1/f1
-  :dirname: http://h/r1/d1
+  :dirname: /r1/d1
   :scheme: http
   :filename: f1
   :path: /r1/d1/f1
@@ -594,18 +594,18 @@ x:/r 1/d1/f1:
 http://h/r%201/d%201/f1.txt: 
   :basename: f1
   :urlpath: /r%201/d%201/f1.txt
-  :dirname: http://h/r%201/d%201
+  :dirname: /r 1/d 1
   :scheme: http
   :filename: f1.txt
-  :path: /r%201/d%201/f1.txt
+  :path: /r 1/d 1/f1.txt
   :fspath: /r 1/d 1/f1.txt
 //h/r 1/d1/: 
   :basename: d1
   :urlpath: /r%201/d1/
-  :dirname: //h/r 1
+  :dirname: /r 1
   :scheme: file
   :filename: d1
-  :path: //h/r 1/d1/
+  :path: /r 1/d1/
   :fspath: //h/r 1/d1/
 x:/r 1/d1: 
   :basename: d1
@@ -634,18 +634,18 @@ x:/r 1/:
 http://h/r1/d%201/f%201.txt: 
   :basename: f 1
   :urlpath: /r1/d%201/f%201.txt
-  :dirname: http://h/r1/d%201
+  :dirname: /r1/d 1
   :scheme: http
   :filename: f 1.txt
-  :path: /r1/d%201/f%201.txt
+  :path: /r1/d 1/f 1.txt
   :fspath: /r1/d 1/f 1.txt
 http://h/r%201/d1/f1.txt: 
   :basename: f1
   :urlpath: /r%201/d1/f1.txt
-  :dirname: http://h/r%201/d1
+  :dirname: /r 1/d1
   :scheme: http
   :filename: f1.txt
-  :path: /r%201/d1/f1.txt
+  :path: /r 1/d1/f1.txt
   :fspath: /r 1/d1/f1.txt
 ftp://h/r1/d1/f%201.txt: 
   :basename: f 1
@@ -653,15 +653,15 @@ ftp://h/r1/d1/f%201.txt:
   :dirname: ftp://h/r1/d1
   :scheme: ftp
   :filename: f 1.txt
-  :path: /r1/d1/f%201.txt
+  :path: /r1/d1/f 1.txt
   :fspath: /r1/d1/f 1.txt
 //h/r 1/d1/f1.txt: 
   :basename: f1
   :urlpath: /r%201/d1/f1.txt
-  :dirname: //h/r 1/d1
+  :dirname: /r 1/d1
   :scheme: file
   :filename: f1.txt
-  :path: //h/r 1/d1/f1.txt
+  :path: /r 1/d1/f1.txt
   :fspath: //h/r 1/d1/f1.txt
 ftp://h/: 
   :basename: /
@@ -682,18 +682,18 @@ x:/:
 //h/r 1/d 1: 
   :basename: d 1
   :urlpath: /r%201/d%201
-  :dirname: //h/r 1
+  :dirname: /r 1
   :scheme: file
   :filename: d 1
-  :path: //h/r 1/d 1
+  :path: /r 1/d 1
   :fspath: //h/r 1/d 1
 http://h/r%201/d%201/f%201.txt: 
   :basename: f 1
   :urlpath: /r%201/d%201/f%201.txt
-  :dirname: http://h/r%201/d%201
+  :dirname: /r 1/d 1
   :scheme: http
   :filename: f 1.txt
-  :path: /r%201/d%201/f%201.txt
+  :path: /r 1/d 1/f 1.txt
   :fspath: /r 1/d 1/f 1.txt
 ftp://h/r%201/d1/f%201: 
   :basename: f 1
@@ -701,7 +701,7 @@ ftp://h/r%201/d1/f%201:
   :dirname: ftp://h/r%201/d1
   :scheme: ftp
   :filename: f 1
-  :path: /r%201/d1/f%201
+  :path: /r 1/d1/f 1
   :fspath: /r 1/d1/f 1
 /r 1/d1/f 1.txt: 
   :basename: f 1
@@ -730,18 +730,18 @@ x:/r1/d1/f 1.txt:
 //h/r1/d 1/f1.txt: 
   :basename: f1
   :urlpath: /r1/d%201/f1.txt
-  :dirname: //h/r1/d 1
+  :dirname: /r1/d 1
   :scheme: file
   :filename: f1.txt
-  :path: //h/r1/d 1/f1.txt
+  :path: /r1/d 1/f1.txt
   :fspath: //h/r1/d 1/f1.txt
 http://h/r1/d1/f%201: 
   :basename: f 1
   :urlpath: /r1/d1/f%201
-  :dirname: http://h/r1/d1
+  :dirname: /r1/d1
   :scheme: http
   :filename: f 1
-  :path: /r1/d1/f%201
+  :path: /r1/d1/f 1
   :fspath: /r1/d1/f 1
 ftp://h/r1/d1/: 
   :basename: d1
@@ -757,15 +757,15 @@ ftp://h/r1/d1/f%201:
   :dirname: ftp://h/r1/d1
   :scheme: ftp
   :filename: f 1
-  :path: /r1/d1/f%201
+  :path: /r1/d1/f 1
   :fspath: /r1/d1/f 1
 //h/r 1/d 1/f 1.txt: 
   :basename: f 1
   :urlpath: /r%201/d%201/f%201.txt
-  :dirname: //h/r 1/d 1
+  :dirname: /r 1/d 1
   :scheme: file
   :filename: f 1.txt
-  :path: //h/r 1/d 1/f 1.txt
+  :path: /r 1/d 1/f 1.txt
   :fspath: //h/r 1/d 1/f 1.txt
 x:/r 1/d1/f 1.txt: 
   :basename: f 1
@@ -778,7 +778,7 @@ x:/r 1/d1/f 1.txt:
 http://h/r1/d1: 
   :basename: d1
   :urlpath: /r1/d1
-  :dirname: http://h/r1
+  :dirname: /r1
   :scheme: http
   :filename: d1
   :path: /r1/d1
@@ -794,10 +794,10 @@ x:/r1/d1/f 1:
 //h/: 
   :basename: /
   :urlpath: /
-  :dirname: //h/
+  :dirname: /
   :scheme: file
   :filename: /
-  :path: //h/
+  :path: /
   :fspath: //h/
 /r1/: 
   :basename: r1
@@ -834,10 +834,10 @@ x:/r 1/d1/f1.txt:
 //h/r1/d 1/: 
   :basename: d 1
   :urlpath: /r1/d%201/
-  :dirname: //h/r1
+  :dirname: /r1
   :scheme: file
   :filename: d 1
-  :path: //h/r1/d 1/
+  :path: /r1/d 1/
   :fspath: //h/r1/d 1/
 x:/r 1/d 1/: 
   :basename: d 1
@@ -866,18 +866,18 @@ x:/r1/:
 //h/r1/d 1/f 1: 
   :basename: f 1
   :urlpath: /r1/d%201/f%201
-  :dirname: //h/r1/d 1
+  :dirname: /r1/d 1
   :scheme: file
   :filename: f 1
-  :path: //h/r1/d 1/f 1
+  :path: /r1/d 1/f 1
   :fspath: //h/r1/d 1/f 1
 http://h/r%201/d1/f%201.txt: 
   :basename: f 1
   :urlpath: /r%201/d1/f%201.txt
-  :dirname: http://h/r%201/d1
+  :dirname: /r 1/d1
   :scheme: http
   :filename: f 1.txt
-  :path: /r%201/d1/f%201.txt
+  :path: /r 1/d1/f 1.txt
   :fspath: /r 1/d1/f 1.txt
 ftp://h/r%201/d1/f1.txt: 
   :basename: f1
@@ -885,7 +885,7 @@ ftp://h/r%201/d1/f1.txt:
   :dirname: ftp://h/r%201/d1
   :scheme: ftp
   :filename: f1.txt
-  :path: /r%201/d1/f1.txt
+  :path: /r 1/d1/f1.txt
   :fspath: /r 1/d1/f1.txt
 ftp://h/r1/d1: 
   :basename: d1
@@ -898,7 +898,7 @@ ftp://h/r1/d1:
 http://h/r1/: 
   :basename: r1
   :urlpath: /r1/
-  :dirname: http://h/
+  :dirname: /
   :scheme: http
   :filename: r1
   :path: /r1/
@@ -930,18 +930,18 @@ http://h/r1/:
 //h/r 1/d 1/f1: 
   :basename: f1
   :urlpath: /r%201/d%201/f1
-  :dirname: //h/r 1/d 1
+  :dirname: /r 1/d 1
   :scheme: file
   :filename: f1
-  :path: //h/r 1/d 1/f1
+  :path: /r 1/d 1/f1
   :fspath: //h/r 1/d 1/f1
 //h/r 1/d1/f1: 
   :basename: f1
   :urlpath: /r%201/d1/f1
-  :dirname: //h/r 1/d1
+  :dirname: /r 1/d1
   :scheme: file
   :filename: f1
-  :path: //h/r 1/d1/f1
+  :path: /r 1/d1/f1
   :fspath: //h/r 1/d1/f1
 x:/r1/d 1/f1.txt: 
   :basename: f1
@@ -954,10 +954,10 @@ x:/r1/d 1/f1.txt:
 //h/r 1/: 
   :basename: r 1
   :urlpath: /r%201/
-  :dirname: //h/
+  :dirname: /
   :scheme: file
   :filename: r 1
-  :path: //h/r 1/
+  :path: /r 1/
   :fspath: //h/r 1/
 x:/r 1: 
   :basename: r 1
@@ -970,7 +970,7 @@ x:/r 1:
 http://h/r1/d1/f1.txt: 
   :basename: f1
   :urlpath: /r1/d1/f1.txt
-  :dirname: http://h/r1/d1
+  :dirname: /r1/d1
   :scheme: http
   :filename: f1.txt
   :path: /r1/d1/f1.txt
@@ -986,34 +986,34 @@ http://h/r1/d1/f1.txt:
 //h/r 1/d 1/f 1: 
   :basename: f 1
   :urlpath: /r%201/d%201/f%201
-  :dirname: //h/r 1/d 1
+  :dirname: /r 1/d 1
   :scheme: file
   :filename: f 1
-  :path: //h/r 1/d 1/f 1
+  :path: /r 1/d 1/f 1
   :fspath: //h/r 1/d 1/f 1
 //h/r 1/d1/f 1: 
   :basename: f 1
   :urlpath: /r%201/d1/f%201
-  :dirname: //h/r 1/d1
+  :dirname: /r 1/d1
   :scheme: file
   :filename: f 1
-  :path: //h/r 1/d1/f 1
+  :path: /r 1/d1/f 1
   :fspath: //h/r 1/d1/f 1
 //h/r1/d1/f1: 
   :basename: f1
   :urlpath: /r1/d1/f1
-  :dirname: //h/r1/d1
+  :dirname: /r1/d1
   :scheme: file
   :filename: f1
-  :path: //h/r1/d1/f1
+  :path: /r1/d1/f1
   :fspath: //h/r1/d1/f1
 //h/r1/d1/: 
   :basename: d1
   :urlpath: /r1/d1/
-  :dirname: //h/r1
+  :dirname: /r1
   :scheme: file
   :filename: d1
-  :path: //h/r1/d1/
+  :path: /r1/d1/
   :fspath: //h/r1/d1/
 x:/r 1/d 1/f 1.txt: 
   :basename: f 1
@@ -1034,10 +1034,10 @@ x:/r 1/d 1/f1.txt:
 http://h/r%201/d1/: 
   :basename: d1
   :urlpath: /r%201/d1/
-  :dirname: http://h/r%201
+  :dirname: /r 1
   :scheme: http
   :filename: d1
-  :path: /r%201/d1/
+  :path: /r 1/d1/
   :fspath: /r 1/d1/
 /r1/d 1: 
   :basename: d 1
@@ -1053,7 +1053,7 @@ ftp://h/r%201/d%201/f%201.txt:
   :dirname: ftp://h/r%201/d%201
   :scheme: ftp
   :filename: f 1.txt
-  :path: /r%201/d%201/f%201.txt
+  :path: /r 1/d 1/f 1.txt
   :fspath: /r 1/d 1/f 1.txt
 /r 1/d 1: 
   :basename: d 1
@@ -1069,7 +1069,7 @@ ftp://h/r%201/d%201/f%201:
   :dirname: ftp://h/r%201/d%201
   :scheme: ftp
   :filename: f 1
-  :path: /r%201/d%201/f%201
+  :path: /r 1/d 1/f 1
   :fspath: /r 1/d 1/f 1
 ftp://h/r%201/d%201/f1.txt: 
   :basename: f1
@@ -1077,7 +1077,7 @@ ftp://h/r%201/d%201/f1.txt:
   :dirname: ftp://h/r%201/d%201
   :scheme: ftp
   :filename: f1.txt
-  :path: /r%201/d%201/f1.txt
+  :path: /r 1/d 1/f1.txt
   :fspath: /r 1/d 1/f1.txt
 x:/r1/d 1/f 1.txt: 
   :basename: f 1
@@ -1093,23 +1093,23 @@ ftp://h/r1/d%201/f%201.txt:
   :dirname: ftp://h/r1/d%201
   :scheme: ftp
   :filename: f 1.txt
-  :path: /r1/d%201/f%201.txt
+  :path: /r1/d 1/f 1.txt
   :fspath: /r1/d 1/f 1.txt
 //h/r1/d1/f1.txt: 
   :basename: f1
   :urlpath: /r1/d1/f1.txt
-  :dirname: //h/r1/d1
+  :dirname: /r1/d1
   :scheme: file
   :filename: f1.txt
-  :path: //h/r1/d1/f1.txt
+  :path: /r1/d1/f1.txt
   :fspath: //h/r1/d1/f1.txt
 //h/r1/: 
   :basename: r1
   :urlpath: /r1/
-  :dirname: //h/
+  :dirname: /
   :scheme: file
   :filename: r1
-  :path: //h/r1/
+  :path: /r1/
   :fspath: //h/r1/
 /r1/d1/f 1.txt: 
   :basename: f 1
@@ -1122,10 +1122,10 @@ ftp://h/r1/d%201/f%201.txt:
 http://h/r%201/d1/f%201: 
   :basename: f 1
   :urlpath: /r%201/d1/f%201
-  :dirname: http://h/r%201/d1
+  :dirname: /r 1/d1
   :scheme: http
   :filename: f 1
-  :path: /r%201/d1/f%201
+  :path: /r 1/d1/f 1
   :fspath: /r 1/d1/f 1
 /r 1/d 1/f1.txt: 
   :basename: f1
@@ -1138,18 +1138,18 @@ http://h/r%201/d1/f%201:
 http://h/r%201/d%201/f%201: 
   :basename: f 1
   :urlpath: /r%201/d%201/f%201
-  :dirname: http://h/r%201/d%201
+  :dirname: /r 1/d 1
   :scheme: http
   :filename: f 1
-  :path: /r%201/d%201/f%201
+  :path: /r 1/d 1/f 1
   :fspath: /r 1/d 1/f 1
 http://h/r1/d%201/f1: 
   :basename: f1
   :urlpath: /r1/d%201/f1
-  :dirname: http://h/r1/d%201
+  :dirname: /r1/d 1
   :scheme: http
   :filename: f1
-  :path: /r1/d%201/f1
+  :path: /r1/d 1/f1
   :fspath: /r1/d 1/f1
 ftp://h/r1/: 
   :basename: r1
