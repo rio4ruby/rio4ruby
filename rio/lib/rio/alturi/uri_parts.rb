@@ -174,9 +174,11 @@ module Alt
         def query=(val)
           @store[:query] = nil_or(val) { |v|
             if v.instance_of?(::Array)  
-              v.map { |el| 
-                _do_esc(el,:query_part) 
-              }.join('&') 
+              unless v.empty?
+                v.map { |el| 
+                  _do_esc(el,:query_part) 
+                }.join('&')
+              end
             else 
               _do_esc(v,:query)
             end

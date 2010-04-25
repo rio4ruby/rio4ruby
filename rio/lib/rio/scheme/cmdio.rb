@@ -87,7 +87,6 @@ module RIO
         [cmd,args].flatten.join(' ')
       end
       def open(m)
-        #p "CMDIO#open cmd=#{cmd.inspect},args=#{args.inspect} m=#{m}"
         poarg = args.nil? ? cmd : [cmd,args].flatten
         io = IO.popen(poarg,m.to_s)
         super(io)

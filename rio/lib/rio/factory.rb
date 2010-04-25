@@ -231,7 +231,7 @@ module RIO
 
       'Stream::Duplex::Open' => 'rio/stream/duplex',
       'Stream::Duplex::Input' => 'rio/stream/duplex',
-      'Stream::Duplex::Ouput' => 'rio/stream/duplex',
+      'Stream::Duplex::Output' => 'rio/stream/duplex',
       'Stream::Duplex::InOut' => 'rio/stream/duplex',
       'Stream::Duplex::Close' => 'rio/stream/duplex',
       'Stream::Duplex::Reset' => 'rio/stream/duplex',
