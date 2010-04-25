@@ -45,14 +45,24 @@ module RIO
       RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
       DFLT_PREFIX = 'rio'
       DFLT_TMPDIR = ::Dir::tmpdir
+      # p 'DFLT_TMPDIR=' + DFLT_TMPDIR 
       def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
+        # p "Temp::RRL::initialize u=#{u} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
+        # puts "Temp::RRL CALLER: ",caller[0..8]
         alturi = case u
                  when ::Alt::URI::Base then u
                  else ::Alt::URI.parse(u.to_s)
                  end
+        prefix = alturi.query || file_prefix.to_s
+        tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
+          temp_dir.to_s : alturi.path
+        #alturi = ::Alt::URI.create(:scheme => 'temp', :path => temp_dir,
+        #                           :query => file_prefix)
+        # p 'HERE'
         super(alturi)
-        self.path = temp_dir
-        self.query = file_prefix
+        # p "alturi=#{alturi}"
+        self.path = tmpdir
+        self.query = prefix
       end
 
       extend Forwardable
@@ -71,12 +81,21 @@ module RIO
         DFLT_TMPDIR = Temp::RRL::DFLT_TMPDIR
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-          @self.query = file_prefix
-          self.path = temp_dir
-
           require 'rio/tempdir'
-          td = ::Tempdir.new( @prefix.to_s, @tmpdir.to_s)
+          # p "Temp::Dir u=#{u} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
+          alturi = case u
+                   when ::Alt::URI::Base then u
+                   else ::Alt::URI.parse(u.to_s)
+                   end
+          prefix = alturi.query || file_prefix.to_s
+          tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
+             temp_dir.to_s : alturi.path
+          #p "Temp::Dir prefix=#{prefix} tmpdir=#{tmpdir}"
+          td = ::Tempdir.new( prefix, tmpdir)
+          #p "Temp::Dir td=#{td.to_s.inspect}"
           super(td.to_s)
+          #self.query = file_prefix.to_s
+          #self.path = temp_dir.to_s
         end
         extend Forwardable
         def_delegators :uri, :path=, :path, :query, :query=
@@ -98,19 +117,32 @@ module RIO
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'tempfile'
-          
+          # p "Temp::File::initialize u=#{u} file_prefix=#{file_prefix.inspect} temp_dir=#{temp_dir.inspect}"
+          # puts "Temp::File CALLER: ",caller[0..8]
           # FIXME: Temporary fix for jruby 1.4 - make tmpdir absolute
           #tmpdir_rio = rio(@tmpdir).abs
-          @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
+          alturi = case u
+                   when ::Alt::URI::Base then u
+                   else ::Alt::URI.parse(u.to_s)
+                   end
+          prefix = alturi.query || file_prefix.to_s
+          tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
+             temp_dir.to_s : alturi.path
+          # p "Temp::File::initialize alturi=#{alturi} prefix=#{prefix} tmpdir=#{tmpdir}"
+
+          @tf = ::Tempfile.new( prefix, tmpdir)
+
+          # p "TF=",@tf
+          # @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
 
           # FIXME: Temporary fix for jruby 1.4 - fix slashes
           pth =  @tf.path
           pth.gsub!("\\","/")
           #
- 
+          #p "Temp::File pth=#{pth.inspect}"
           super(::Alt::URI.parse(pth))
-          self.query = file_prefix
-          self.path = temp_dir
+          #self.query = file_prefix
+          #self.path = temp_dir
         end
         extend Forwardable
         def_delegators :uri, :path=, :path, :query, :query=
@@ -139,7 +171,8 @@ module RIO
 
       def check?() true end
       def mkdir(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::Dir::RRL.new(prefix, tmpdir)
+        # p "scheme/temp.rb mkdir(): prefix="+prefix+" tmpdir="+tmpdir
+        self.rl = RIO::Temp::Dir::RRL.new("",prefix, tmpdir)
         become 'Dir::Existing'
       end
 #      def mkdir()
@@ -149,7 +182,8 @@ module RIO
         self.mkdir.chdir(&block)
       end
       def file(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::File::RRL.new(prefix, tmpdir)
+        # p "scheme/temp.rb file(): prefix="+prefix+" tmpdir="+tmpdir
+        self.rl = RIO::Temp::File::RRL.new("",prefix, tmpdir)
         become 'Temp::Stream::Open'
       end
       def scheme() rl.scheme() end

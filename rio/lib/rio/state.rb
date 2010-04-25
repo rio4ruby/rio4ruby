@@ -160,7 +160,8 @@ module RIO
         #RIO::Ext.became(obj)
       end
       def method_missing_trace_str(sym,*args)
-        "missing: "+self.class.to_s+'['+self.to_url+" {#{self.rl.fs}}"+']'+'.'+sym.to_s+'('+args.join(',')+')'
+        # "missing: "+self.class.to_s+'['+self.to_url+" {#{self.rl.fs}}"+']'+'.'+sym.to_s+'('+args.join(',')+')'
+          "missing: "+self.class.to_s+'['+self.to_url+']'+'.'+sym.to_s+'('+args.join(',')+')'
         #"missing: "+self.class.to_s+'['+self.to_url+""+']'+'.'+sym.to_s+'('+args.join(',')+')'
       end
 
@@ -169,14 +170,12 @@ module RIO
 
         obj = when_missing(sym,*args)
         raise RuntimeError,"when_missing returns nil" if obj.nil?
-        #p obj,sym,args
+        #p "STATE: METHOD_MISSING",obj.to_s,sym,args
         obj.__send__(sym,*args,&block) #unless obj == self
       end
       
       def when_missing(sym,*args) gofigure(sym,*args) end
-#wording of evalutation
-# tell her what it is
-# 
+
 
       def base_state() Factory.instance.reset_state(rl) end
 

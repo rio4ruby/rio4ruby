@@ -94,7 +94,7 @@ class Tempdir < Pathname #:nodoc: all
 
     tmpname = createtmp(*args) do |tname|
       unless File.exist?(tname)
-        Dir.mkdir(tname, 0700)
+        FileUtils.mkpath(tname, :mode => 0700)
       end
     end
 

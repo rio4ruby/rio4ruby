@@ -76,8 +76,8 @@ require 'tc/splitlines'
 require 'tc/symlink' unless $mswin32 || $jruby
 require 'tc/symlink0' unless $mswin32 || $jruby
 require 'tc/symlink1' unless $mswin32 || $jruby
-#require 'tc/temp'
-#require 'tc/tempdir'
-#require 'tc/tempfile'
+require 'tc/temp'
+require 'tc/tempdir'
+require 'tc/tempfile'
 
 
