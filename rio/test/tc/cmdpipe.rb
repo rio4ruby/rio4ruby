@@ -6,6 +6,7 @@ end
 
 require 'rio'
 require 'tc/testcase'
+require 'rio/dbg/trace_states'
 
 class TC_cmdpipe < Test::RIO::TestCase
   @@once = false
@@ -141,15 +142,6 @@ class TC_cmdpipe < Test::RIO::TestCase
     #assert_equal(rtn,out)
   end
 
-  def dbg_trace_states(tf=true,&block)
-    old_trace_states = $trace_states
-    begin
-      $trace_states = tf
-      yield
-    ensure
-      $trace_states = old_trace_states
-    end
-  end
 
 
   def test_file_cmdpipe_out
@@ -162,7 +154,7 @@ class TC_cmdpipe < Test::RIO::TestCase
     p "test_file_cmdpipe_out: #{cmdpipe.inspect}"
     assert_equal('cmdpipe',cmdpipe.scheme)
 
-    dbg_trace_states(false) do
+    RIO::DBG::trace_states(true) do
       rtn = inp | cmdpipe | out
       exp = inp[/10/]
       assert_equal(exp,out[])
