@@ -117,8 +117,14 @@ module RIO
           rescue Errno::EINTR
             break
           rescue EOFError
+            # p "ToOutput: Loop Closing"
             data.in.close_read
-            data.out.close_write if duplex?
+            if duplex?
+              data.out.close_write
+            else
+              data.out.close
+            end
+            # p data.out.closed?
             dest_report_data_done unless dest?
             break
           end
@@ -250,6 +256,7 @@ module RIO
 
     class FibSourceProc < FromInput
       def initialize(*args)
+        #p "FibSourceProc args=#{args.inspect}"
         super(IO.popen(*args))
         # @to_proc = ToProc.new(data.in)
       end

@@ -79,9 +79,12 @@ module RIO
           #p 'HERE self.cx=',self.cx
 
           nrio = new_rio(:cmdpipe,self.clone_rio,ario)
+          # p "Piper::Cp | nrio=#{nrio.inspect}"
           end_rio = nrio.rl.query[-1]
           has_output_dest = end_rio.scheme != 'cmdio'
           has_output_dest ? nrio.run :  nrio
+          #p "Piper::Cp | nrio=#{nrio.inspect}"
+          nrio
         end
       end
     end

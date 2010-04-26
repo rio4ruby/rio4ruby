@@ -145,13 +145,15 @@ module RIO
           nrio = new_rio(self,ario)
           end_rio = nrio.rl.query[-1]
           has_output_dest = end_rio.scheme != 'cmdio'
+          # p "cmdpipe.rb ! before run #{nrio.inspect}"
           if has_output_dest
             nrio.run
           end
+          # p "cmdpipe.rb ! returning #{nrio.inspect}"
           nrio
         end
         def run
-          #p 'RUNNING'
+          # p 'RUNNING'
           rios = self.rl.query
           rio0 = rios.shift
           input = if rio0.scheme == 'cmdio'

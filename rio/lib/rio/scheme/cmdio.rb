@@ -39,6 +39,8 @@ require 'rio/fibpipe'
 require 'rio/rrl/ioi'
 require 'rio/rrl/chmap'
 
+
+
 module RIO
   module CmdIO #:nodoc: all
      RESET_STATE = 'Stream::Duplex::Open'
@@ -49,7 +51,9 @@ module RIO
       
       attr_reader :ior,:iow
       def initialize(u,*a)
+        # p "CMDIO initialize: u=#{u.inspect} a=#{a.inspect}"
         super(u)
+        a = a.map(&:to_s)
         com = case c = a.shift
               when self.class then c.cmd
               else c
@@ -76,18 +80,20 @@ module RIO
       def fib_proc(m)
         #fibproc
         #p "CMD=#{cmd},args=#{args.inspect}"
+        poargs = args.nil? ? cmd : [cmd,args]
         if m.allows_write?
-          Cmd::FibPipeProc.new([cmd,args],m.to_s)
+          Cmd::FibPipeProc.new(poargs,m.to_s)
         else
-          Cmd::FibSourceProc.new([cmd,args],m.to_s)
+          Cmd::FibSourceProc.new(poargs,m.to_s)
         end
       end
 
       def to_s()
-        [cmd,args].flatten.join(' ')
+        [cmd,args].flatten.join(' ').strip
       end
       def open(m)
         poarg = args.nil? ? cmd : [cmd,args].flatten
+        #p "CMDIO poarg=#{poarg.inspect}"
         io = IO.popen(poarg,m.to_s)
         super(io)
       end
@@ -99,8 +105,9 @@ module RIO
     module Duplex
       class Open < RIO::Stream::Open
         include Piper::Cp::Input
-        #def cmd() rl.path end
-        #def cmd_args() rl.query end
+        
+        def cmd() rl.path end
+        def cmd_args() rl.query end
         #def cmd_str() [cmd,cmd_args].flatten.join(' ') end
         #def |(arg)
         #  #p "CMDIO#| #{self}|#{arg}"
