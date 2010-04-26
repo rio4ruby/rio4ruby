@@ -141,8 +141,18 @@ class TC_cmdpipe < Test::RIO::TestCase
     #assert_equal(rtn,out)
   end
 
-  def atest_file_cmdpipe_out
-    $trace_states = true
+  def dbg_trace_states(tf=true,&block)
+    old_trace_states = $trace_states
+    begin
+      $trace_states = tf
+      yield
+    ensure
+      $trace_states = old_trace_states
+    end
+  end
+
+
+  def test_file_cmdpipe_out
     inp = rio('d/f2')
     cmd = rio(?-,PROG[:find_lines]+' 1')
     cmd2 = rio(?-,PROG[:find_lines]+' 0')
@@ -152,10 +162,12 @@ class TC_cmdpipe < Test::RIO::TestCase
     p "test_file_cmdpipe_out: #{cmdpipe.inspect}"
     assert_equal('cmdpipe',cmdpipe.scheme)
 
-    rtn = inp | cmdpipe | out
-    exp = inp[/10/]
-    assert_equal(exp,out[])
-    #assert_equal(rtn,out)
+    dbg_trace_states(false) do
+      rtn = inp | cmdpipe | out
+      exp = inp[/10/]
+      assert_equal(exp,out[])
+      #assert_equal(rtn,out)
+    end
   end
 
   def atest_cmdpipe_without

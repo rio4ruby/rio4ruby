@@ -1,6 +1,8 @@
 require 'test/unit'
 require 'tc/testcase'
 
+require 'tc/cmdio'
+require 'tc/strio'
 require 'tc/yaml'
 require 'tc/truncate'
 require 'tc/line_record_row'
