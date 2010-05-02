@@ -19,7 +19,7 @@ class TC_cmdio < Test::RIO::TestCase
   end
 
   DNAME_F = 'df'
-  FNAMES_F = ['f0','f1','f2']
+  FNAMES_F = ['f00','f01','f02','f10','f11','f12']
   DNAME_G = 'dg'
   FNAMES_G = ['g0','g1']
   N_LINES = 20
@@ -152,6 +152,41 @@ class TC_cmdio < Test::RIO::TestCase
     ans = rcmd.line[0].to_i
     assert_equal(N_LINES,ans)
   end
+
+  def test_ls_arg_filt
+    # $trace_states = true
+    cmd = PROG[:list_dir]
+    r = rio(:-,cmd,DNAME_F)
+    ans = r[/2/]
+    assert_equal(FNAMES_F.map{|el| el + $/}.grep(/2/),ans)
+  end
+
+  def test_copy_filt
+    # $trace_states = true
+    cmd_str = PROG[:count_lines]
+    f_in = rio(DNAME_G,FNAMES_G[0])
+    cmd = rio(:-,'cat','-n').w!.nocloseoncopy
+    f_in > cmd
+    ans = cmd.close_write.chomp.lines[/2/]
+    ans.each do |ln|
+      assert_match(/2/,ln)
+    end
+  end
+
+  def test_copy_copy_filt
+    # $trace_states = true
+    cmd_str = PROG[:count_lines]
+    f_in = rio(DNAME_G,FNAMES_G[0])
+    cmd = rio(:-,'cat','-n').w!.nocloseoncopy
+    ans = []
+    f_in > cmd
+    cmd.close_write.lines(/2/) > ans
+    #ans = cmd.close_write.chomp.lines[/2/]
+    ans.each do |ln|
+      assert_match(/2/,ln)
+    end
+  end
+
 
 
 

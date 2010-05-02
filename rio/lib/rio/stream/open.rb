@@ -50,7 +50,7 @@ module RIO
       include Ops::Path::URI
       include Cp::Open::Output
       include Cp::Open::Input
-      include Piper::Cp::Input
+      ##include Piper::Cp::Input
 
       def check?() true end
 

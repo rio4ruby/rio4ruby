@@ -35,6 +35,7 @@
 
 
 require 'rio/alturi'
+require 'rio/uriref'
 require 'rio/rrl/base'
 require 'stringio'
 

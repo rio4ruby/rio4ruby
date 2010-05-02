@@ -33,8 +33,8 @@
 # * RIO::Rio
 #
 
-#require 'rio/stream'
-#require 'rio/stream/open'
+require 'rio/stream'
+require 'rio/stream/open'
 require 'rio/fibpipe'
 require 'rio/rrl/ioi'
 require 'rio/rrl/chmap'

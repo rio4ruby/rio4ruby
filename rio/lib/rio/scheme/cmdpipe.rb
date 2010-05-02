@@ -52,10 +52,6 @@ module RIO
       attr_reader :piper
 
       def initialize(u, *args)
-        #p u
-        #args.each do |arg|
-        #  puts arg
-        #end
         nuri = case u
                when ::Alt::URI::Base,RIO::CmdPipe,RIO::CmdIO 
                  u
@@ -143,18 +139,22 @@ module RIO
         def |(arg)
           ario = ensure_cmd_rio(arg)
           nrio = new_rio(self,ario)
-          end_rio = nrio.rl.query[-1]
-          has_output_dest = end_rio.scheme != 'cmdio'
-          # p "cmdpipe.rb ! before run #{nrio.inspect}"
-          if has_output_dest
-            nrio.run
-          end
-          # p "cmdpipe.rb ! returning #{nrio.inspect}"
-          nrio
+          has_output_dest?(nrio) ? nrio.run :  nrio
+        end
+        #def last_rio(r)
+        #  r.scheme == 'cmdpipe' ? last_rio(r.rl.query[-1]) : r
+        #end
+        def last_rio(r)
+          r = r.rl.query[-1] while r.scheme == 'cmdpipe'
+          r
+        end
+
+        def has_output_dest?(nrio)
+          !%w[cmdio cmdpipe].include?(last_rio(nrio).scheme)
         end
         def run
-          # p 'RUNNING'
-          rios = self.rl.query
+          rios = get_rios(self)
+
           rio0 = rios.shift
           input = if rio0.scheme == 'cmdio'
                     rio0.rl.fib_proc(::RIO::Mode::Str.new("r"))
@@ -163,23 +163,29 @@ module RIO
                   end
           procs = []
           while rios.size > 1
-            r = rios.shift
-            fp = r.rl.fib_proc(::RIO::Mode::Str.new('w+'))
+            fp = rios.shift.rl.fib_proc(::RIO::Mode::Str.new('w+'))
             procs.unshift(fp) 
           end
-          output = Cmd::ToOutput.new(rios.shift)
+          orio = rios.shift
+          orio.touch if orio && orio.scheme.nil? # TODO: is this right???
+          output = Cmd::ToOutput.new(orio)
           output.resume procs + [input]
+          #p "RUN orio.scheme=#{orio.scheme}"
+          orio
         end
+
+        private
+
         def piper
           self.rl.piper
         end
-        def has_output_dest?
-          piper.has_output_dest?
+        def get_rios(r)
+          r.scheme == 'cmdpipe' ? r.rl.query.inject([]){|rios,r1| rios+get_rios(r1)} : [r]
         end
-#        def when_missing(sym,*args)
-#          #p callstr('when_missing',sym,*args)
-#          become 'CmdPipe::Stream::Open'
-#        end
+
+        def is_output_dest?(erio)
+          erio.scheme != 'cmdio' && erio.scheme != 'cmdpipe'
+        end
       end
     end
   end

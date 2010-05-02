@@ -112,7 +112,7 @@ module RIO
     
 
     def method_missing(sym,*args,&block) #:nodoc:
-      #p callstr('method_missing',sym,*args)
+      # p callstr('method_missing',sym,*args)
       
       result = target.__send__(sym,*args,&block)
       return result unless result.kind_of? State::Base and result.equal? target

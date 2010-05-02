@@ -52,6 +52,7 @@ module RIO
         alturi = ::Alt::URI.parse(u.to_s)
         super(alturi)
         self.query ||= str
+        @sio = self.query
       end
       def self.parse(*a)
         u = a.shift.sub(/^rio:/,'')
@@ -59,11 +60,11 @@ module RIO
       end
       def query=(arg)
         uri.query = if arg.nil?
-                       nil 
-                     else
-                       sio = (::StringIO === arg ? arg : ::StringIO.new(arg))
-                       sprintf('0x%08x',sio.object_id)
-                     end
+                      nil 
+                    else
+                      @sio = (::StringIO === arg ? arg : ::StringIO.new(arg))
+                      sprintf('0x%08x',@sio.object_id)
+                    end
         arg
       end
       def query

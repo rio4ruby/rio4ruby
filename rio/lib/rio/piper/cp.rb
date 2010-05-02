@@ -42,20 +42,20 @@ module RIO
         protected
 
         def process_pipe_arg0_(npiper)
-          end_rio = npiper.rios[-1]
-          case end_rio.scheme
+          erio = npiper.rios[-1]
+          case erio.scheme
           when 'cmdio'
             new_rio(:cmdpipe,npiper)
           when 'cmdpipe'
-            if end_rio.has_output_dest?
+            if erio.has_output_dest?
               npiper.run
-              end_rio
+              erio
             else
               new_rio(:cmdpipe,npiper)
             end
           else
             npiper.run
-            end_rio
+            erio
           end
         end
 
@@ -73,18 +73,38 @@ module RIO
       end
       module Input
         include Util
-        def |(arg)
-          ario = ensure_cmd_rio(arg)
-          #p 'HERE ario.cx=',arg.cx
-          #p 'HERE self.cx=',self.cx
+        #def last_rio(r)
+        #  r.scheme == 'cmdpipe' ? last_rio(r.rl.query[-1]) : r
+        #end
+        def last_rio(r)
+          r = r.rl.query[-1] while r.scheme == 'cmdpipe'
+          r
+        end
+        #define_method(:last_rio) do |r|
+        #  if r.scheme == 'cmdpipe'
+        #    r = r.rl.query[-1]
+        #    redo
+        #  else
+        #    r
+        #  end
+        #end
+        def has_output_dest?(nrio)
+          !%w[cmdio cmdpipe].include?(last_rio(nrio).scheme)
+        end
 
+        def |(arg)
+          #p 'HERE 3'
+          ario = ensure_cmd_rio(arg)
           nrio = new_rio(:cmdpipe,self.clone_rio,ario)
-          # p "Piper::Cp | nrio=#{nrio.inspect}"
-          end_rio = nrio.rl.query[-1]
-          has_output_dest = end_rio.scheme != 'cmdio'
-          has_output_dest ? nrio.run :  nrio
-          #p "Piper::Cp | nrio=#{nrio.inspect}"
-          nrio
+          
+          if has_output_dest?(nrio) 
+            #p 'nrio.run'
+            nrio.run 
+          else
+            #p 'nrio'
+            nrio
+          end
+
         end
       end
     end

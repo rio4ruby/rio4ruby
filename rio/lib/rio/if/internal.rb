@@ -53,6 +53,12 @@ module RIO
     end
 
     # This is an internal function and is not needed in client code.
+    # It assigns the internal 'Rio Resource Locator' object.
+    def rl=(arg) # :nodoc:
+      target.rl = arg 
+    end
+
+    # This is an internal function and is not needed in client code.
     # It returns the internal URI object.
     def uri() # :nodoc:
       target.uri() 
