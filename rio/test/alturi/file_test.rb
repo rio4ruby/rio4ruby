@@ -229,20 +229,19 @@ module Alt::URI::UnitTest
       def test_subscript
         u = Alt::URI::File.new
         u.uri = 'file://riotest%40rio4ruby.com:riotest@AHost.COM:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b'
-        assert_equal(u.scheme,u[:scheme])
-        assert_equal(u.authority,u[:authority])
-        assert_equal(u.host,u[:host])
-        assert_equal(u.path,u[:path])
-        assert_equal(u.uri,u[:uri])
+        assert_equal(u.parts[:scheme],u[:scheme])
+        assert_equal(u.parts[:authority],u[:authority])
+        assert_equal(u.authority,u[:authority].to_s)
+        assert_equal(u.parts[:host],u[:host])
+        assert_equal(u.parts[:path],u[:path])
       end
 
       def test_subscript0
         u = Alt::URI::File.new
         assert_equal("file",u[:scheme])
-        assert(u[:authority].empty?)
-        assert(u[:host].empty?)
+        assert(u[:authority].to_s.empty?)
+        assert(u[:authority][:host].empty?)
         assert(u[:path].empty?)
-        assert_equal("file://",u[:uri])
       end
 
       def test_to_s2

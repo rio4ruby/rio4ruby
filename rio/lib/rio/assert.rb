@@ -58,6 +58,18 @@ module RIO
     def assert!(a,msg="negative assertion")
       assert((!(a)),msg)
     end
+
+    def assert_raise(exc,msg=nil,&block)
+      begin
+        yield
+      rescue exc
+        return ok(exc,nil,msg)
+      end
+      return nok(exc,nil,msg)
+    end
+
+
+
     
     def assert_equal(a,b,msg=nil)
       if a == b
@@ -130,6 +142,7 @@ module RIO
         nok(a,b.class)
       end
     end
+
     def assert_equal_s(a,b,msg=nil) assert_equal(a.to_s,b.to_s,msg) end
     def assert_equal_a(a,b,msg=nil) assert_equal(a.sort,b.sort,msg) end
   end

@@ -159,6 +159,11 @@ module RIO
         uri.base
       end
 
+      def base=(other)
+        #p "IN BASE: uri=#{uri.inspect}" 
+        uri.base = other
+      end
+
       def split()
         u = self.uri.normalize
         scheme = u.scheme == 'file' ? nil : u.scheme

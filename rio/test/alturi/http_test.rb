@@ -216,26 +216,20 @@ module Alt::URI::UnitTest
   def test_subscript
     u = Alt::URI::HTTP.new
     u.uri = 'HTTP://AHost.COM:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b'
-    assert_equal(u.scheme,u[:scheme])
-    assert_equal(u.authority,u[:authority])
-    assert_equal(u.port,u[:port])
-    assert_equal(u.host,u[:host])
-    assert_equal(u.path,u[:path])
-    assert_equal(u.query,u[:query])
-    assert_equal(u.fragment,u[:fragment])
-    assert_equal(u.uri,u[:uri])
+    assert_equal(u.parts[:scheme],u[:scheme])
+    assert_equal(u.parts[:authority],u[:authority])
+    assert_equal(u.parts[:path],u[:path])
+    assert_equal(u.parts[:query],u[:query])
+    assert_equal(u.parts[:fragment],u[:fragment])
   end
 
   def test_subscript0
     u = Alt::URI::HTTP.new
     assert_equal('http',u[:scheme])
-    assert_equal('',u[:authority])
-    assert_nil(u[:port])
-    assert_equal('',u[:host])
+    assert_equal('',u[:authority].to_s)
     assert(u[:path].empty?)
     assert_nil(u[:query])
     assert_nil(u[:fragment])
-    assert_equal("http://",u[:uri])
   end
 
   def test_to_s2

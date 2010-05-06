@@ -64,7 +64,12 @@ module Alt
           [path.rindex(fn),fn.length]
         end
         def _dn_pos(path)
-          dn = ::File.dirname(path)
+          drv = ""
+          dn = if path =~ /^([a-zA-Z]:)/
+                 $1 + ::File.dirname(path[2..-1])
+               else
+                 ::File.dirname(path)
+               end
           dn_start = path.index(dn)
           dn_start.nil? ? [0,0] : [dn_start,dn.length]
         end

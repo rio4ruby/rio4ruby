@@ -18,6 +18,8 @@ module Alt
         :query_part =>     build_escape_table(REGEXP::QPCHAR),
         :fragment =>  build_escape_table(REGEXP::FCHAR),
         :userinfo =>  build_escape_table(REGEXP::UCHAR),
+        :user =>  build_escape_table(REGEXP::USERCHAR),
+        :host =>  build_escape_table(REGEXP::HCHAR),
       }
 
       def escape(str,arg)

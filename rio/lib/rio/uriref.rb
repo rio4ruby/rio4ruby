@@ -28,15 +28,24 @@ module RIO
       ubase = case b
               when nil
                 uref.absolute? ? uref : base_from_uref(uref)
-              when ::Alt::URI::Base 
-                b
               else
-                base_str_to_uri(b.to_s)
+                calc_base(b)
               end
       new(uref,ubase)
     end
     def base
       @base
+    end
+    def self.calc_base(b)
+      case b
+      when ::Alt::URI::Base 
+        b
+      else
+        base_str_to_uri(b.to_s)
+      end
+    end
+    def base=(other)
+      self.class.calc_base(other)
     end
     def self.base_from_uref(uref)
       buri = ::Alt::URI::Gen::URIParts.new

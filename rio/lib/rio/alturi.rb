@@ -19,7 +19,8 @@ module Alt
       def create_(hash)
         u = self.new
         hash.each do |k,v|
-          u[k.to_sym] = v
+          sym = (k.to_s+?=).to_sym
+          u.__send__(sym,v)
         end
         u
       end
@@ -81,11 +82,11 @@ module Alt
     module Ops
       module Generic
         def [](sym)
-          __send__(sym)
+          parts[sym]
         end
 
         def []=(sym,val)
-          __send__(sym.to_s+'=',val)
+          parts[sym] = val
         end
 
         def absolute?
@@ -199,7 +200,7 @@ module Alt
         end
       end
       alias :fspath :netpath
-      alias :fspath= :netpath=
+      def fspath=(val) netpath = val end
 
       #      def abs(base)
       #        Alt::URI::Generic.new(parts.abs(base.parts))
@@ -230,10 +231,8 @@ module Alt
       include Ops::Generic
 
       def_delegators :parts, :uri,:authority,:scheme,:path
-      def_delegators :parts, :uri=,:authority=,:scheme=,:path=
-      def_delegators :parts, :host
-      def_delegators :parts, :host=
-      def_delegators :parts, :to_s, :netpath=
+      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:host=,:netpath=,:host
+      def_delegators :parts, :to_s
 
       def normalize
         hst = self.host if self.host and !(self.host == 'localhost' or self.host.empty?)
@@ -245,7 +244,7 @@ module Alt
       def fspath
         normalize.netpath
       end
-      alias :fspath= :netpath=
+      def fspath=(val) netpath = val end
 
       def host=(val)
         parts.host = (val || "")
@@ -293,10 +292,10 @@ module Alt
       end
       include Ops::Generic
 
-      def_delegators :parts, :uri,:authority,:scheme,:path,:query,:fragment
-      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=
-      def_delegators :parts, :host,:port
-      def_delegators :parts, :host=,:port=
+      def_delegators :parts, :uri,:authority,:scheme,:path,:query
+      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=,:fragment
+      def_delegators :parts, :host=,:host
+      def_delegators :parts, :port=,:port
       def_delegators :parts, :to_s
       def netpath
         parts.path
@@ -306,7 +305,7 @@ module Alt
         parts.path = val
       end
       alias :fspath :path
-      alias :fspath= :path=
+      def fspath=(val) path = val end
 
       def normalize
         if self.port == '80'
@@ -321,6 +320,103 @@ module Alt
 
       def scheme=(val)
         parts.scheme = (val || 'http')
+      end
+
+    end
+
+  end
+end
+
+
+
+
+module Alt
+  module URI
+    class FTP < ::Alt::URI::Base
+      extend Forwardable
+      extend Builders
+
+      def initialize(parts=nil)
+        prts = parts || Alt::URI::Gen::URIParts.new
+        prts.scheme ||= 'ftp'
+        prts.host ||= ""
+        super(prts)
+      end
+      def initialize_copy(other)
+        super
+      end
+      include Ops::Generic
+
+      def_delegators :parts, :authority
+      def_delegators :parts, :authority=,:scheme=,:scheme
+      def_delegators :parts, :host=,:host
+      def_delegators :parts, :port=,:port
+      def_delegators :parts, :user=,:user
+      def_delegators :parts, :password=,:password
+      def_delegators :parts, :to_s
+
+      def fspath() self.path end
+      def fspath=(val) self.path = val end
+
+      def split_path_type
+        if parts[:path] =~ %r{(.+);type=([ai])$}
+          pth = $1
+          typ = $2
+        else
+          pth = parts[:path]
+          typ = nil
+        end
+        [pth,typ]
+      end
+      def path
+        Alt::URI.unescape(split_path_type[0])[1..-1]
+        #parts.path
+      end
+      def path=(val)
+        pth = Alt::URI.escape(val,:path).sub(%r{^/},'%2F')
+        typ = self.typecode
+        escpath = "/#{pth}" + (typ ? ";type=#{typ}" : "")
+        parts[:path] = escpath
+      end
+      
+      def typecode
+        split_path_type[1]
+      end
+      def typecode=(val)
+        v = val.to_s
+        raise ArgumentError,"typecode must be 'i' or 'a'" unless %w[i a].include?(v)
+        parts[:path].sub!(/;type=[ia]$/,";type=#{v}") 
+        val
+      end
+      def uri
+        parts.uri
+      end
+      def uri=(val)
+        parts.uri = val
+      end
+
+      
+      
+
+
+
+
+
+
+
+      def normalize
+        if self.port == '21'
+          self.port = nil
+        end
+        super
+      end
+
+      def host=(val)
+        parts.host = (val || "")
+      end
+
+      def scheme=(val)
+        parts.scheme = (val || 'ftp')
       end
 
     end
@@ -347,6 +443,8 @@ module Alt
           Alt::URI::File.new(u)
         when 'http'
           Alt::URI::HTTP.new(u)
+        when 'ftp'
+          Alt::URI::FTP.new(u)
         else
           Alt::URI::Generic.new(u)
         end
@@ -371,6 +469,18 @@ module Alt
     end
     def self.create(hash)
       Factory.create(hash)
+    end
+    def self.escape(str,fld)
+      if str
+        str.encode('UTF-8')
+        Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+      end
+    end
+    def self.unescape(str)
+      if str
+        ustr = Alt::URI::Escape.unescape(str)
+        @encoding ? ustr.force_encoding(@encoding) : ustr
+      end
     end
   end
 end

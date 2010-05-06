@@ -46,15 +46,15 @@ module RIO
     #RESET_STATE = 'FTP::State::Reset'
     RESET_STATE = RIO::RL::PathBase::RESET_STATE
     
-    require 'rio/rl/uri'
+    require 'rio/rrl/withpath'
 
-    class RL < RIO::RL::URIBase
-      def initialize(arg0,*args)
-        #p callstr('initialize',arg0,*args)
-        super(*_sup_args(arg0,*args))
-        @ftype = nil
-        @names = nil
-      end
+    class RRL < RIO::RRL::URIBase
+    #  def initialize(arg0,*args)
+    #    p callstr('initialize',arg0.inspect,args.inspect)
+    #    super(*_sup_args(arg0,*args))
+    #    @ftype = nil
+    #    @names = nil
+    #  end
       def _sup_args(arg0,*args)
         if arg0 == 'ftp:'
           hn = args.shift || 'localhost'

@@ -18,7 +18,7 @@ module Alt::URI::UnitTest
       def test_create
         h = {
           :scheme => 'HTTP',
-          :userinfo => 'riotest@rio4ruby.com:riotest',
+          :userinfo => 'riotest%40rio4ruby.com:riotest',
           :host => 'AHost.COM',
           :port => 88,
           :path => '/loc/My Stuff',
@@ -26,10 +26,10 @@ module Alt::URI::UnitTest
           :fragment => "url=ftp://b.com/dir?q=a#b",
         }
         u = Alt::URI::Generic.create(h)
-        assert_equal('http://riotest%40rio4ruby.com:riotest@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b',u.uri)
+        assert_equal('http://riotest%40rio4ruby.com@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b',u.uri)
         assert_equal('http',u.scheme)
-        assert_equal('riotest%40rio4ruby.com:riotest'+'@'+'ahost.com'+':'+'88',u.authority)
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com'+'@'+'ahost.com'+':'+'88',u.authority)
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
         assert_equal('88',u.port)
         assert_equal('ahost.com',u.host)
         assert_equal('/loc/My Stuff',u.path)
@@ -150,10 +150,10 @@ module Alt::URI::UnitTest
       def test_userinfo=
           u = Alt::URI::Generic.new
         u.host = 'ahost.com'
-        u.userinfo = 'riotest@rio4ruby.com:riotest'
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
-        assert_equal('riotest%40rio4ruby.com:riotest@ahost.com',u.authority)
-        assert_equal('//riotest%40rio4ruby.com:riotest@ahost.com',u.to_s)
+        u.userinfo = 'riotest%40rio4ruby.com:riotest'
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com@ahost.com',u.authority)
+        assert_equal('//riotest%40rio4ruby.com@ahost.com',u.to_s)
       end
 
       def test_userinfo
@@ -174,8 +174,8 @@ module Alt::URI::UnitTest
         assert_equal('rio4ruby.com',u.authority)
         u.port = 88
         assert_equal('rio4ruby.com:88',u.authority)
-        u.userinfo = 'riotest@rio4ruby.com:riotest'
-        assert_equal('riotest%40rio4ruby.com:riotest@'+'rio4ruby.com'+':88',u.authority)
+        u.userinfo = 'riotest%40rio4ruby.com:riotest'
+        assert_equal('riotest%40rio4ruby.com@'+'rio4ruby.com'+':88',u.authority)
         u.host = nil
         assert_nil(u.authority)
       end
@@ -183,21 +183,21 @@ module Alt::URI::UnitTest
       def test_authority=
           u = Alt::URI::Generic.new
         u.authority = 'riotest%40rio4ruby.com:riotest'+'@'+'ahost.com'+':'+'88'
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
         assert_equal('88',u.port)
         assert_equal('ahost.com',u.host)
-        assert_equal('riotest%40rio4ruby.com:riotest@ahost.com:88',u.authority)
-        assert_equal('//riotest%40rio4ruby.com:riotest@ahost.com:88',u.to_s)
+        assert_equal('riotest%40rio4ruby.com@ahost.com:88',u.authority)
+        assert_equal('//riotest%40rio4ruby.com@ahost.com:88',u.to_s)
       end
 
       def test_authority2=
           u = Alt::URI::Generic.new
         u.authority = 'riotest%40rio4ruby.com:riotest'+'@'+'AHost.COM'+':'+'88'
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
         assert_equal('88',u.port)
         assert_equal('ahost.com',u.host)
-        assert_equal('riotest%40rio4ruby.com:riotest@ahost.com:88',u.authority)
-        assert_equal('//riotest%40rio4ruby.com:riotest@ahost.com:88',u.to_s)
+        assert_equal('riotest%40rio4ruby.com@ahost.com:88',u.authority)
+        assert_equal('//riotest%40rio4ruby.com@ahost.com:88',u.to_s)
       end
 
       def test_to_s
@@ -207,15 +207,15 @@ module Alt::URI::UnitTest
         u.path = '/loc/My Stuff'
         u.query = "url=ftp://b.com/dir?q=a#b"
         u.fragment = 'frag'
-        assert_equal('http://riotest%40rio4ruby.com:riotest@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.to_s)
+        assert_equal('http://riotest%40rio4ruby.com@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.to_s)
       end
 
       def test_uri=
           u = Alt::URI::Generic.new
         u.uri = 'http://riotest%40rio4ruby.com:riotest@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b'
         assert_equal('http',u.scheme)
-        assert_equal('riotest%40rio4ruby.com:riotest'+'@'+'ahost.com'+':'+'88',u.authority)
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com'+'@'+'ahost.com'+':'+'88',u.authority)
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
         assert_equal('88',u.port)
         assert_equal('ahost.com',u.host)
         assert_equal('/loc/My Stuff',u.path)
@@ -227,8 +227,8 @@ module Alt::URI::UnitTest
           u = Alt::URI::Generic.new
         u.uri = 'HTTP://riotest%40rio4ruby.com:riotest@AHost.COM:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b'
         assert_equal('http',u.scheme)
-        assert_equal('riotest%40rio4ruby.com:riotest'+'@'+'ahost.com'+':'+'88',u.authority)
-        assert_equal('riotest@rio4ruby.com:riotest',u.userinfo)
+        assert_equal('riotest%40rio4ruby.com'+'@'+'ahost.com'+':'+'88',u.authority)
+        assert_equal('riotest%40rio4ruby.com',u.userinfo)
         assert_equal('88',u.port)
         assert_equal('ahost.com',u.host)
         assert_equal('/loc/My Stuff',u.path)
@@ -239,15 +239,11 @@ module Alt::URI::UnitTest
       def test_subscript
         u = Alt::URI::Generic.new
         u.uri = 'HTTP://riotest%40rio4ruby.com:riotest@AHost.COM:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#url=ftp://b.com/dir?q=a%23b'
-        assert_equal(u.scheme,u[:scheme])
-        assert_equal(u.authority,u[:authority])
-        assert_equal(u.userinfo,u[:userinfo])
-        assert_equal(u.port,u[:port])
-        assert_equal(u.host,u[:host])
-        assert_equal(u.path,u[:path])
-        assert_equal(u.query,u[:query])
-        assert_equal(u.fragment,u[:fragment])
-        assert_equal(u.uri,u[:uri])
+        assert_equal(u.parts[:scheme],u[:scheme])
+        assert_equal(u.parts[:authority],u[:authority])
+        assert_equal(u.parts[:path],u[:path])
+        assert_equal(u.parts[:query],u[:query])
+        assert_equal(u.parts[:fragment],u[:fragment])
       end
 
       def test_subscript0
@@ -260,31 +256,30 @@ module Alt::URI::UnitTest
         assert(u[:path].empty?)
         assert_nil(u[:query])
         assert_nil(u[:fragment])
-        assert(u[:uri].empty?)
       end
 
       def test_to_s2
         u = Alt::URI::Generic.new
         u.scheme = 'http'
-        u.userinfo = 'riotest@rio4ruby.com:riotest'
+        u.userinfo = 'riotest%40rio4ruby.com:riotest'
         u.host = 'AHost.COM'
         u.port = 88
         u.path = '/loc/My Stuff'
         u.query = "url=ftp://b.com/dir?q=a#b"
         u.fragment = 'frag'
-        assert_equal('http://riotest%40rio4ruby.com:riotest@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.to_s)
+        assert_equal('http://riotest%40rio4ruby.com@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.to_s)
       end
 
       def test_uri
         u = Alt::URI::Generic.new
         u.scheme = 'HTTP'
-        u.userinfo = 'riotest@rio4ruby.com:riotest'
+        u.userinfo = 'riotest%40rio4ruby.com:riotest'
         u.host = 'AHost.COM'
         u.port = 88
         u.path = '/loc/My Stuff'
         u.query = "url=ftp://b.com/dir?q=a#b"
         u.fragment = 'frag'
-        assert_equal('http://riotest%40rio4ruby.com:riotest@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.uri)
+        assert_equal('http://riotest%40rio4ruby.com@ahost.com:88/loc/My%20Stuff?url=ftp://b.com/dir?q=a%23b#frag',u.uri)
       end
 
       def test_absolute?

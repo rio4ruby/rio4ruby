@@ -44,9 +44,11 @@ module RIO
       #  sub,opq,whole = split_riorl(s)
       #  [whole] 
       #end
+      require 'uri'
       require 'open-uri'
       def open(*args)
-        IOH::Stream.new(self.uri.open)
+        u = ::URI.parse(self.to_s)
+        IOH::Stream.new(u.open)
       end
     end
 
@@ -59,7 +61,7 @@ module RIO
         include Ops::Path::URI
         include Ops::Path::Query
         def input() 
-          self.rl.base = self.ioh.base_uri
+          self.rl.base = self.ioh.base_uri.to_s
           stream_state('HTTP::Stream::Input') 
         end
       end

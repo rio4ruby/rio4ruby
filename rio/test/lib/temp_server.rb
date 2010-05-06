@@ -1,13 +1,15 @@
 require 'webrick'
 require 'rio'
-
+require 'rbconfig'
 
 class TempServer
+RUBY = File.join(Config::CONFIG['bindir'], 
+                 Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
   def initialize(server_config = {})
     @logdir = rio('log').delete!.mkdir
     @config = { :DocumentRoot => rio('srv/www/htdocs').abs, 
-      :Logger => WEBrick::Log.new(@logdir/'server.log'), 
-      :AccessLog => [[ @logdir/'access.log', WEBrick::AccessLog::COMBINED_LOG_FORMAT ]],
+      :Logger => WEBrick::Log.new((@logdir/'server.log').to_s), 
+      :AccessLog => [[ (@logdir/'access.log').to_s, WEBrick::AccessLog::COMBINED_LOG_FORMAT ]],
       :Port => ENV['RIO_TEST_PORT'] || '8088',
     }
     @config.merge!(server_config)
@@ -27,7 +29,8 @@ class TempServer
   end
   def run_progs(progs)
     progs.each do |prog|
-      system("ruby #{prog}")
+
+      system("#{RUBY} #{prog}")
     end
   end
   def run(*programs)

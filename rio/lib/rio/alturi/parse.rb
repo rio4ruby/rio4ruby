@@ -56,7 +56,12 @@ module Alt
      (?:      (  [^@]+  )   @   )?
               (  [^:]*  )
      (?:   :  (  .*     )       )?
-    }x
+     }x
+
+      RE_USERINFO = %r{
+     (?:      (  [^:]+  )       )?
+     (?:   :  (  .*     )       )?
+     }x
 
       def self.parse_authority(ustr)
         parse_re(ustr,RE_AUTHORITY)

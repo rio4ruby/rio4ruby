@@ -10,6 +10,11 @@ module Alt
       end
 
       module PATTERN
+
+        #DEC_OCTET      =  "(\\d)|()"
+      end
+
+      module PATTERN
         # :stopdoc:
 
         UNRESERVED    = ALPHA + DIGIT + "." + "_" + "~" + "-"
@@ -29,7 +34,15 @@ module Alt
         PCT_ENCODED   = "%[#{HEXDIG}][#{HEXDIG}]"
 
         # userinfo    = *( unreserved / pct-encoded / sub-delims / ":" )
-        UCHAR           = ":" + SUB_DELIMS + UNRESERVED
+        UCHAR         = ":" + SUB_DELIMS + UNRESERVED
+
+        # user    = *( unreserved / pct-encoded / sub-delims / ":" )
+        USERCHAR      = ":" + SUB_DELIMS + UNRESERVED
+
+        # host        = *( unreserved / pct-encoded / sub-delims / ":" )
+        HCHAR         = SUB_DELIMS + UNRESERVED
+
+        #PWCHAR           = ":" + SUB_DELIMS + UNRESERVED + GEN_DELIMS
 
         # pchar         = unreserved / pct-encoded / sub-delims / ":" / "@"
         PCHAR           = ":" + "@" + SUB_DELIMS + UNRESERVED
@@ -50,6 +63,8 @@ module Alt
       QPCHAR = Regexp.new("[#{PATTERN::QPCHAR}]")
       FCHAR = Regexp.new("[#{PATTERN::FCHAR}]")
       UCHAR = Regexp.new("[#{PATTERN::UCHAR}]")
+      USERCHAR = Regexp.new("[#{PATTERN::USERCHAR}]")
+      HCHAR = Regexp.new("[#{PATTERN::HCHAR}]")
       # :startdoc:
     end # REGEXP
   end

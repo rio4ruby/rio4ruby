@@ -25,11 +25,35 @@ module Alt
 
   end
 end
+module Alt
+  module URI
+    module Gen
+      class Base
+        def _do_esc(str,fld)
+          if str
+            str.encode('UTF-8')
+            Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+          end
+        end
+        def _do_unesc(str)
+          if str
+            ustr = Alt::URI::Escape.unescape(str)
+            @encoding ? ustr.force_encoding(@encoding) : ustr
+          end
+        end
+        def nil_or(val,dflt=nil,&block)
+          return dflt unless val
+          yield val
+        end
+      end
+    end
+  end
+end
 
 module Alt
   module URI
     module Gen
-      class URIString
+      class URIString < Base
         attr_reader :path
         def initialize(scheme,authority,path,query,fragment)
           @scheme = scheme
@@ -63,27 +87,69 @@ module Alt
   end
 end
 
+
 module Alt
   module URI
     module Gen
-      class AuthParts
-        attr_reader :host
-        def initialize(userinfo,host,port)
-          @userinfo = userinfo
-          @host = host
-          @port = port
+      class UserInfoParts < Base
+        attr_reader :store
+        def initialize
+          @store = {}
+        end
+        def initialize_copy(other)
+          super
+          @store = other.store.dup
+        end
+        def self.parse(val)
+          ui = new
+          if val
+            us,pw = val.split(':',2)
+            ui.store[:user] = us
+            ui.store[:password] = pw
+          end
+          ui
+        end
+        def ==(other)
+          @store == other.store
+        end
+        def [](sym)
+          @store[sym]
         end
 
-        def userinfo
-          @userinfo + '@' if @userinfo
+        def []=(sym,val)
+          @store[sym] = val
         end
 
-        def port
-          ':' + @port if @port
+
+
+        def user
+          _do_unesc(@store[:user])
+        end
+        def user=(val)
+          @store[:user] = nil_or(val) { |v| 
+            _do_esc(v,:user) 
+          }
+        end
+        def password=(val)
+          @store[:password] = val
         end
 
+        def password
+           @store[:password]
+        end
+        def value
+          self.to_s if @store[:user]
+        end
         def to_s
-          "#{userinfo}#{host}#{port}"
+          # RFC 3986 3.2.1
+          # Use of the format "user:password" in the userinfo field is
+          # deprecated.  Applications should not render as clear text any data
+          # after the first colon (":") character found within a userinfo
+          # subcomponent unless the data after the colon is the empty string
+          # (indicating no password).
+          u = @store[:user]
+          passwd = ':' if @store[:password] and @store[:password].empty?
+          "#{u}#{passwd}"
         end
       end
 
@@ -94,7 +160,95 @@ end
 module Alt
   module URI
     module Gen
-      class URIParts
+      class AuthParts < Base
+        attr_reader :store
+        def initialize
+          @store = {}
+        end
+        def initialize_copy(other)
+          super
+          @store = other.store.dup
+        end
+        def self.parse(val)
+          auth = new
+          if val
+            Alt::URI::Parse::RE_AUTHORITY.match(val) { |m|
+              auth.store[:host] = m[2].downcase
+              auth.store[:port] = m[3]
+              auth.store[:userinfo] = UserInfoParts.parse(m[1])
+            }
+          end
+          auth
+        end
+        def ==(other)
+          @store == other.store
+        end
+        def [](sym)
+          @store[sym]
+        end
+
+        def []=(sym,val)
+          @store[sym] = val
+        end
+
+        def host=(val)
+          @store[:host] = nil_or(val) { |v| _do_esc(v.downcase,:host) }
+        end
+        def host
+          _do_unesc(@store[:host]) if @store[:host]
+        end
+        def user=(val)
+          @store[:userinfo] ||= UserInfoParts.new
+          @store[:userinfo].user = val
+        end
+        def user
+          @store[:userinfo].user if @store[:userinfo]
+        end
+        def password=(val)
+          @store[:userinfo] ||= UserInfoParts.new
+          @store[:userinfo].password = val
+        end
+        def password
+          @store[:userinfo].password if @store[:userinfo]
+        end
+#        def userinfo
+#          _do_unesc(@store[:userinfo]) if @store[:userinfo]
+#        end
+
+
+        def userinfo
+          @store[:userinfo].value if @store[:userinfo]
+        end
+        def userinfo=(val)
+          @store[:userinfo] = UserInfoParts.parse(val) if val
+        end
+
+
+        def port
+          @store[:port]
+        end
+
+        def port=(val)
+          @store[:port] = val
+        end
+        def value
+          self.to_s if self.host
+        end
+        def to_s
+          ui = @store[:userinfo].value + '@' if @store[:userinfo] and @store[:userinfo].value
+          hst = @store[:host]
+          prt = ':' + @store[:port] if @store[:port]
+          "#{ui}#{hst}#{prt}"
+        end
+      end
+
+    end
+  end
+end
+module Alt
+  module URI
+    module Gen
+      class URIParts < Base
         attr_reader :store,:encoding
         def initialize
           @store = { :path => "" }
@@ -130,17 +284,56 @@ module Alt
           u
         end
 
+#         def [](sym)
+#           __send__(sym)
+#         end
+
+#         def []=(sym,val)
+#           __send__(sym.to_s+'=',val)
+#         end
+
         def [](sym)
-          __send__(sym)
+          @store[sym]
         end
 
         def []=(sym,val)
-          __send__(sym.to_s+'=',val)
+          @store[sym] = val
         end
 
-        def nil_or(val,dflt=nil,&block)
-          return dflt unless val
-          yield val
+        def userinfo
+          @store[:authority].userinfo if @store[:authority]
+        end
+
+        def userinfo=(val)
+          @store[:authority] ||= AuthParts.new
+          @store[:authority].userinfo = val
+        end
+
+        def user
+          @store[:authority].user if @store[:authority]
+        end
+
+        def user=(val)
+          @store[:authority] ||= AuthParts.new
+          @store[:authority].user = val
+        end
+
+        def password
+          @store[:authority].password if @store[:authority]
+        end
+
+        def password=(val)
+          @store[:authority] ||= AuthParts.new
+          @store[:authority].password = val
+        end
+
+        def authority
+          #p @store
+          @store[:authority].value if @store[:authority]
+        end
+
+        def authority=(val)
+          @store[:authority] = AuthParts.parse(val) if val
         end
 
         def fragment=(val)
@@ -149,16 +342,6 @@ module Alt
 
         def scheme=(val)
           @store[:scheme] = nil_or(val) { |v| v.downcase }
-        end
-        def _do_esc(str,fld)
-          str.encode('UTF-8')
-          Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
-        end
-        def _do_unesc(str)
-          if str
-            ustr = Alt::URI::Escape.unescape(str)
-            @encoding ? ustr.force_encoding(@encoding) : ustr
-          end
         end
         def path=(val)
           @store[:path] = nil_or(val,"") { |v| 
@@ -196,21 +379,14 @@ module Alt
             end
           end
         end
-
-        def userinfo=(val)
-          @store[:userinfo] = nil_or(val) { |v| _do_esc(v,:userinfo) }
-        end
-
         def port=(val)
-          @store[:port] = nil_or(val) { |v| v.to_s }
+          @store[:authority] ||= AuthParts.new
+          @store[:authority].port = nil_or(val) { |v| v.to_s }
         end
 
         def host=(val)
-          @store[:host] = if !val
-                            @store[:userinfo] = @store[:port] = nil
-                          else
-                            nil_or(val) { |v| v.downcase }
-                          end
+          @store[:authority] ||= AuthParts.new
+          @store[:authority].host = nil_or(val) { |v| v.downcase }
         end
 
         def scheme
@@ -218,11 +394,11 @@ module Alt
         end
 
         def host
-          _do_unesc(@store[:host])
+          @store[:authority].host if @store[:authority]
         end
 
         def port
-          @store[:port] 
+          @store[:authority].port if @store[:authority]
         end
 
 
@@ -230,30 +406,10 @@ module Alt
           _do_unesc(@store[:fragment]) if @store[:fragment]
         end
 
-        def userinfo
-          _do_unesc(@store[:userinfo]) if @store[:userinfo]
-        end
-
         def uri
           self.to_s
         end
 
-
-        def authority
-          AuthParts.new(*(@store.values_at(:userinfo,:host,:port))).to_s if @store[:host]
-        end
-
-        def authority=(val)
-          if !val
-            @store[:userinfo] = @store[:host] = @store[:port] = nil
-          else
-            Alt::URI::Parse::RE_AUTHORITY.match(val) { |m|
-              self.host = m[2]
-              self.port = m[3]
-              @store[:userinfo] = m[1]
-            }
-          end
-        end
 
         def uri=(val)
           if !val

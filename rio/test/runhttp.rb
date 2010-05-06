@@ -4,8 +4,9 @@ $:.unshift File.expand_path('../lib/')
 
 require 'rio'
 require 'lib/temp_server'
+require 'pp'
 
-
-TempServer.run('runhttptests.rb')
+runtestpath = File.expand_path('runhttptests.rb')
+TempServer.run(runtestpath)
 
 #threads.each { |aThread|  aThread.join }

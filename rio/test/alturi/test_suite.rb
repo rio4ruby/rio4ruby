@@ -7,11 +7,13 @@ end
 require 'alturi/create'
 require 'alturi/rfc_test'
 require 'alturi/generic_test'
-#require 'alturi/http_test'
-#require 'alturi/path_parts_test'
-#require 'alturi/uri_parts_test'
-#require 'alturi/rfc_test'
-#require 'alturi/file_test'
+require 'alturi/http_test'
+require 'alturi/path_parts_test'
+require 'alturi/uri_parts_userinfo'
+require 'alturi/uri_parts_authority'
+require 'alturi/uri_parts_test'
+require 'alturi/rfc_test'
+require 'alturi/file_test'
 
 require 'riotest/test_suite'
 
