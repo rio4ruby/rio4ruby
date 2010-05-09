@@ -7,7 +7,6 @@ $mswin32 = (RUBY_PLATFORM =~ /mswin32/)
 require 'rio'
 require 'test/unit'
 
-require 'http/all'
-$trace_states = false
-#require 'test/unit/ui/console/testrunner'
-#require 'test/unit/ui/tk/testrunner'
+require 'http/tests'
+
+
