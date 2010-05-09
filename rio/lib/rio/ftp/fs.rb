@@ -111,7 +111,12 @@ module RIO
         end
       end
       def mkdir(url)
-        conn.mkdir(remote_path(url))
+        #p "ftp/fs/mkdir: url=#{url}"
+        rp = remote_path(url)
+        #p "ftp/fs/mkdir: rp=#{rp}"
+        #wd = conn.pwd
+        #p "ftp/fs/mkdir: wd=#{wd}"
+        conn.mkdir(rp)
       end
       def mv(src_url,dst_url)
         conn.rename(remote_path(src_url),remote_path(dst_url))

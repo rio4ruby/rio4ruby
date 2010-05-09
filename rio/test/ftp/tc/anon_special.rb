@@ -1,56 +1,34 @@
 require 'rio'
 require 'ftp/testdef'
 require 'lib/assertions'
+require 'riotest/util'
 
 module RIO::FTP::UnitTest
   module AnonSpecial
     module Tests
       include Test::RIO::FTP::Const
       include RIOTest::Assertions
-
-  def atest_mkpath
-    rwdir = rio(FTP_RWROOT)
-    tpath = rwdir/'d0'/'d1'/'d2'
-    tpath.mkpath
-    assert(tpath.dir?)
-  end
-  def test_rmtree
-    rwdir = rio(FTP_RWROOT)
-    tpath = rwdir/'d0'/'d1'/'d2'
-    tpath.mkpath
-    assert(tpath.dir?)
-    rwdir/'d0'/'f0' < "a file"
-    rwdir/'d0'/'d1'/'f1' < "a file"
-    d0 = rio(rwdir,'d0').rmtree
-    assert!(d0.exist?)
-#    tpath.mkpath
-#    assert(tpath.dir?)
-#    d0 = rio(rwdir,'d0').rmtree
-#    assert!(d0.exist?)
-  end
-  def atest_sel
-    rwdir = rio(FTP_RWROOT)
-    d0 = rwdir/'d0'
-    d1 = d0/'d1'
-    d2 = d1/'d2'
-    d2.mkpath
-    assert(d2.dir?)
-    f0 = rwdir/'d0'/'f0' < "a file"
-    f1 = rwdir/'d0'/'d1'/'f1' < "a file"
-
-    ans = rwdir.all['*0']
-    exp = [d0,f0]
-    assert_equal(smap(exp),smap(ans))
-
-    ans = rwdir.files[]
-    exp = [f1,f0]
-    assert_equal(smap(exp),smap(ans))
-
-    ans = rwdir.dirs[]
-    exp = [d0,d1,d2]
-    assert_equal(smap(exp),smap(ans))
-  end
-
+      include RioTest::Util
+      def test_mkpath
+        rwdir = rio(FTP_RWROOT)
+        tpath = rwdir/'as_mkpath0'/'as_mkpath1'/'as_mkpath2'
+        tpath.mkpath
+        assert(tpath.dir?)
+      end
+      def test_rmtree
+        rwdir = rio(FTP_RWROOT)
+        tpath = rwdir/'as_rmtree0'/'as_rmtree1'/'as_rmtree2'
+        tpath.mkpath
+        assert(tpath.dir?)
+        rwdir/'as_rmtree0'/'as_rmtree0' < "a file"
+        rwdir/'as_rmtree0'/'as_rmtree1'/'as_rmtree1' < "a file"
+        d0 = rio(rwdir,'as_rmtree0').rmtree
+        assert!(d0.exist?)
+        #    tpath.mkpath
+        #    assert(tpath.dir?)
+        #    d0 = rio(rwdir,'as_rmtree0').rmtree
+        #    assert!(d0.exist?)
+      end
 
     end
     

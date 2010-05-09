@@ -1,6 +1,10 @@
 
 module RioTest
   module Util
+    def smap(a)
+      a.map(&:to_s)
+    end
+
     def build_mod_testcase_class(sym)
       self.module_eval %{
         module #{sym}

@@ -83,12 +83,14 @@ module RIO
         include ExistOrNot
         include ::RIO::Ops::FileOrDir::NonExisting
         def mkdir(*args)
-          fs.mkdir(self.to_s,*args); 
+          #p "ops/dir/mkdir: self=#{self.to_s}"
+          #p "ops/dir/mkdir: self.path=#{self.path.inspect}"
+          fs.mkdir(self.path,*args); 
           softreset() 
         end
         def mkpath(*args) 
           #          p callstr('mkpath',*args)
-          fs.mkpath(self.path.to_s,*args); 
+          fs.mkpath(self.path,*args); 
           #fs.mkpath(self,*args); 
           softreset()
         end
@@ -127,11 +129,11 @@ module RIO
         def mkdir(*args) self end
         def mkpath(*args) self end
         def rmdir(*args) 
-          fs.rmdir(self.to_s,*args); 
+          fs.rmdir(self.path,*args); 
           softreset()
         end
-        def rmtree(*args) fs.rmtree(self.path.to_s,*args); softreset() end
-        def rm(*args) fs.rm(self.to_s,*args); softreset() end
+        def rmtree(*args) fs.rmtree(self.path,*args); softreset() end
+        def rm(*args) fs.rm(self.path,*args); softreset() end
         
         alias :delete :rmdir
         alias :unlink :delete

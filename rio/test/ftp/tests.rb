@@ -15,6 +15,7 @@ require 'ftp/tc/ftp_fs'
 
 require 'test/unit'
 require 'riotest/unit_test.rb'
+require 'riotest/util'
 
 wdir = File.expand_path('qp/ftp')
 rio(wdir).delete!.mkpath.chdir
