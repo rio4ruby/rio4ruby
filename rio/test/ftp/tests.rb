@@ -14,25 +14,6 @@ require 'ftp/tc/ftp2ftp'
 require 'ftp/tc/ftp_fs'
 
 require 'test/unit'
+require 'riotest/unit_test.rb'
 
-mods = RIO::FTP::UnitTest.constants
-p mods
-
-mods.each do |modstr|
-  RIO::FTP::UnitTest.module_eval(modstr).module_eval do 
-    class TestCase < Test::Unit::TestCase
-      include Tests
-    end
-  end
-end
-
-#module RIO::FTP::UnitTest
-#  module AnonRead
-#    
-#    class TestCase < Test::Unit::TestCase
-#      include Tests
-#    end
-#
-#  end
-#end
-
+RioTest.define_utmod(:FTP)
