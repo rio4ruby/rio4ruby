@@ -22,6 +22,6 @@ require 'riotest/unit_test.rb'
 
 
 wdir = File.expand_path('qp/http')
-rio(wdir).delete!.mkpath.chdir
-RioTest.define_utmod(:HTTP)
-
+rio(wdir).delete!.mkpath.chdir do
+  RioTest.define_utmod(:HTTP)
+end

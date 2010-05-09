@@ -18,6 +18,6 @@ require 'riotest/unit_test.rb'
 require 'riotest/util'
 
 wdir = File.expand_path('qp/ftp')
-rio(wdir).delete!.mkpath.chdir
-RioTest.define_utmod(:FTP)
-
+rio(wdir).delete!.mkpath.chdir do
+  RioTest.define_utmod(:FTP)
+end
