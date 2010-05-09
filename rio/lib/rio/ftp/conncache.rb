@@ -41,23 +41,29 @@ require 'singleton'
 module RIO
   module FTP
     class Connection
-      attr_reader :uri,:remote_root,:netftp
+      attr_reader :uri,:netftp
       def initialize(uri)
         @uri = uri.clone
         @netftp = nil
         @remote_root = nil
         _init_connection()
       end
+      def remote_root
+        #p "conncache: remote_root=#{@remote_root.inspect}"
+        @remote_root
+      end
       def _init_connection
+        #p "_init_connection: uri=#{@uri.inspect}"
         @netftp = ::Net::FTP.new()
-        @netftp.connect(@uri.host,@uri.port)
+        #p @uri.host,@uri.port
+        @netftp.connect(@uri.host,@uri.port||21)
         if @uri.user
           @netftp.login(@uri.user,@uri.password)
         else
           @netftp.login
         end
         @remote_root = @netftp.pwd
-        @remote_root = '' if @remote_root == '/'
+        # @remote_root = '' if @remote_root == '/'
       end
       def method_missing(sym,*args,&block)
         @netftp.__send__(sym,*args,&block)

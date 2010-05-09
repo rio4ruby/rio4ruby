@@ -39,7 +39,6 @@ class TC_copy_from_http < Test::RIO::TestCase
   def test_gunzip_uri_rio
     ans = rio(GZURL).gzip.contents
     exp = rio(GZFILE).gzip.contents
-    
     assert_equal(exp,ans)
   end
   def test_gunzip_copy_uri_rio

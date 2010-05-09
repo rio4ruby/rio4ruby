@@ -37,14 +37,14 @@
 require 'net/ftp'
 require 'open-uri'
 require 'rio/ftp/fs'
-require 'rio/rl/path'
+require 'rio/rrl/path'
 require 'rio/ftp/dir'
 require 'rio/ftp/ftpfile'
 
 module RIO
   module FTP #:nodoc: all
     #RESET_STATE = 'FTP::State::Reset'
-    RESET_STATE = RIO::RL::PathBase::RESET_STATE
+    RESET_STATE = RIO::RRL::PathBase::RESET_STATE
     
     require 'rio/rrl/withpath'
 
@@ -75,7 +75,7 @@ module RIO
 #         case arg0
 #         when RIO::Rio
 #           return _init_from_arg(arg0.rl)
-#         when RIO::RL::URIBase,RIO::FTP::RL
+#         when RIO::RRL::URIBase,RIO::FTP::RL
 #           vuri,vbase,vfs = arg0.uri,arg0.base,arg0.fs
 #         when ::URI 
 #           vuri = arg0
@@ -89,34 +89,35 @@ module RIO
 #       def build_arg0_(path_str)
 #         path_str
 #       end
-      def join(*args)
-        return self if args.empty?
-        join_(args.map{ |arg| RIO::RL.fs2url(arg.to_s)})
-      end
+#      def join(*args)
+#        return self if args.empty?
+#        join_(args.map{ |arg| RIO::RL.fs2url(arg.to_s)})
+#      end
+      def typecode() uri.typecode end
+      def typecode=(val) uri.typecode = val end
 
-
-      def self.splitrl(s)
-        #p "splitrl(#{s})"
-        sub,opq,whole = split_riorl(s)
-        #p sub,opq,whole
-        [whole] 
-      end
+#      def self.splitrl(s)
+#        #p "splitrl(#{s})"
+#        sub,opq,whole = split_riorl(s)
+#        #p sub,opq,whole
+#        [whole] 
+#      end
       def openfs_
-        #p callstr('openfs_')
+        #p callstr('openfs_',self.uri)
         RIO::FTP::FS.create(self.uri)
       end
       def open(*args)
         IOH::Dir.new(RIO::FTP::Dir::Stream.new(self.uri))
       end
       def file_rl() 
-        RIO::FTP::Stream::RL.new(self.uri) 
+        RIO::FTP::Stream::RRL.new(self.uri) 
       end
       def dir_rl() 
         self 
       end
     end
     module Stream
-      class RL < RIO::RL::URIBase
+      class RRL < RIO::RRL::URIBase
         def self.splitrl(s) 
           sub,opq,whole = split_riorl(s)
           [whole] 
@@ -129,7 +130,11 @@ module RIO
           when m.primarily_write?
             RIO::IOH::Stream.new(RIO::FTP::FTPFile.new(fs.remote_path(@uri.to_s),fs.conn))
           else
-            RIO::IOH::Stream.new(@uri.open)
+            #p "scheme/ftp uri=#{@uri.inspect}"
+            u = URI.parse(@uri.to_s)
+            #p "scheme/ftp u=#{u.inspect}"
+            hndl = u.open
+            RIO::IOH::Stream.new(hndl)
           end
         end
         def file_rl() 

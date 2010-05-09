@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
-  $:.unshift File.expand_path('../lib/rio/')
+  $:.unshift File.expand_path('../lib/')
 end
 
 require 'alturi/create'
@@ -14,6 +14,7 @@ require 'alturi/uri_parts_authority'
 require 'alturi/uri_parts_test'
 require 'alturi/rfc_test'
 require 'alturi/file_test'
+require 'alturi/ftp_alturi'
 
 require 'riotest/test_suite'
 

@@ -77,13 +77,13 @@ class TC_ftp_anon_read < Test::RIO::TestCase
 
     loc = rio('d0').delete!
     loc < rem
-    exp = LOCENTS.select{ |f| f =~ /d0/ } - [loc]
+    exp = LOCENTS.select{ |f| f =~ %r{d0/} } - [loc]
     ans = loc.dup.all[]
     assert_array_equal(exp,ans)
 
     loc = rio('d0').delete!
     rem > loc
-    exp = LOCENTS.select{ |f| f =~ /d0/ } - [loc]
+    exp = LOCENTS.select{ |f| f =~ %r{d0/} } - [loc]
     ans = loc.dup.all[]
     assert_array_equal(exp,ans)
   end

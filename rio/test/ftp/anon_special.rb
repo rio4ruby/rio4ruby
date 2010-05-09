@@ -31,6 +31,7 @@ class TC_ftp_anon_special < Test::RIO::TestCase
   def test_rmtree
     rwdir = rio(FTP_RWROOT)
     tpath = rwdir/'d0'/'d1'/'d2'
+    p tpath
     tpath.mkpath
     assert(tpath.dir?)
     rwdir/'d0'/'f0' < "a file"

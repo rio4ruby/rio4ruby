@@ -7,7 +7,7 @@ require "test/unit"
 require 'rio/alturi'
 
 module Alt::URI::UnitTest
-  module File
+  module FTPAltUri
     module Tests
 
       def test_new

@@ -3,6 +3,8 @@ if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
   $:.unshift File.expand_path('../lib/')
 end
+p Dir.getwd
+p $:[0]
 require "test/unit"
 require 'rio/alturi'
 

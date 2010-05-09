@@ -88,7 +88,7 @@ module RIO
         end
         def mkpath(*args) 
           #          p callstr('mkpath',*args)
-          fs.mkpath(self.to_s,*args); 
+          fs.mkpath(self.path.to_s,*args); 
           #fs.mkpath(self,*args); 
           softreset()
         end
@@ -130,7 +130,7 @@ module RIO
           fs.rmdir(self.to_s,*args); 
           softreset()
         end
-        def rmtree(*args) fs.rmtree(self.to_s,*args); softreset() end
+        def rmtree(*args) fs.rmtree(self.path.to_s,*args); softreset() end
         def rm(*args) fs.rm(self.to_s,*args); softreset() end
         
         alias :delete :rmdir

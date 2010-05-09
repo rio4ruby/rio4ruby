@@ -1,5 +1,10 @@
 require 'rio'
 
+module RIO
+  module FTP
+  end
+end
+
 module Test
   module RIO
     module FTP
@@ -10,8 +15,8 @@ module Test
         FSROOT = rio("#{DRV}/srv/ftp")
         #FSROOT = rio("../../srv/ftp")
         #FTPHOST = '192.168.1.101'
-        FTPHOST = 'riotest.hopto.org'
-        #FTPHOST = 'localhost'
+        #FTPHOST = 'riotest.hopto.org'
+        FTPHOST = 'localhost'
         FTPROOT = rio("ftp://#{FTPHOST}/")
 
         TESTDIR = rio('riotest')

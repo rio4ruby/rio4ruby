@@ -34,6 +34,7 @@
 #
 
 
+require 'rio/fwd'
 #require 'rio/impl/path'
 require 'rio/ops/create'
 require 'rio/ops/construct'
@@ -139,7 +140,11 @@ module RIO
           self
         end
         extend Forwardable
-        def_instance_delegators(:rl,:scheme,:host,:opaque)
+        extend Fwd
+        fwd :rl,:scheme,:host,:user,:password
+        fwd :rl,:query,:fragment,:userinfo
+        fwd :rl,:typecode
+        fwd :rl,:authority
 
       end
       module Query

@@ -15,8 +15,8 @@ class TC_ftp_anon_write < Test::RIO::TestCase
   #FTPROOT = rio('ftp://localhost/')
   #FTPRW = FTPROOT/'riotest/rw'
 
-  SRCDIR = rio('src')
-  DSTDIR = rio('dst')
+  SRCDIR = rio('src/')
+  DSTDIR = rio('dst/')
   LOCENTS = [rio('f0'),d0=rio('d0'),d0/'f1',d1=d0/'d1',d1/'f2']
   ALLENTS = [FTP_RWROOT/'f0',d0=FTP_RWROOT/'d0',d0/'f1',d1=d0/'d1',d1/'f2']
   def self.once
@@ -52,18 +52,27 @@ class TC_ftp_anon_write < Test::RIO::TestCase
     assert_equal(loc.chomp[],rem.chomp[])
   end
   def test_cp_dir_left
-    dname = 'd0'
+    #$trace_states = true
+    dname = 'd0/'
     loc = SRCDIR/dname
     rem = FTP_RWROOT.dup
     rem < loc
-    assert_rios_equal(FS_RWROOT/dname,loc)
+    rpath =  FTP_RWROOT/dname
+    lpath = loc
+    ans =  rpath[].map{|el| el.rel(FTP_RWROOT)}
+    exp =  lpath[].map{|el| el.rel(SRCDIR.abs)}
+    assert_equal(exp,ans)
   end
   def test_cp_dir_right
     dname = 'd0'
     loc = SRCDIR/dname
     rem = FTP_RWROOT.dup
     loc > rem
-    assert_rios_equal(FS_RWROOT/dname,loc)
+    rpath =  FTP_RWROOT/dname
+    lpath = loc
+    ans =  rpath[].map{|el| el.rel(FTP_RWROOT)}
+    exp =  lpath[].map{|el| el.rel(SRCDIR.abs)}
+    assert_equal(exp,ans)
   end
 
 

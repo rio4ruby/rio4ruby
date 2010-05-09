@@ -7,7 +7,7 @@ require "test/unit"
 require 'rio/alturi/uri_parts'
 
 module Alt::URI::UnitTest
-  module URIParts
+  module URIPartsAuthority
     module Tests
 
 

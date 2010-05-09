@@ -115,13 +115,20 @@ module RIO
       ref.join(*args)
       self
     end
-    extend Forwardable
-    extend Fwd
-    fwd :ref, :scheme, :authority, :path, :query, :fragment, :host, :port, :userinfo
-    def_delegators :ref, :to_s, :normalize, :absolute?, :length
-    fwd :ref, :dirname,:basename,:filename,:extname
-    fwd :ref, :netpath,:fspath
-    fwd :ref, :ext
+    def to_s() ref.to_s end
+    #extend Forwardable
+    #extend Fwd
+    #fwd :ref, :scheme, :authority, :path, :query, :fragment
+    #fwd :ref, :host, :port, :userinfo, :user, :password
+    #fwd :ref, :typecode
+    #def_delegators :ref, :to_s, :normalize, :absolute?, :length
+    #fwd :ref, :dirname,:basename,:filename,:extname
+    #fwd :ref, :netpath,:fspath
+    #fwd :ref, :ext
+    def method_missing(sym,*args,&block)
+      ref.__send__(sym,*args,&block)
+    end
+      
     def inspect()
       sprintf '#<URIRef:0x%0x @ref="%s" @base="%s">',self.object_id,@ref.to_s,@base.to_s
     end

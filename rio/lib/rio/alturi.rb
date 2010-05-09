@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'rio/alturi/uri_parts'
 require 'rio/alturi/algorithm'
+require 'rio/fwd'
 
 module Alt
   module URI
@@ -128,6 +129,7 @@ require 'rio/alturi/path_parts'
 module Alt
   module URI
     class Base
+      extend RIO::Fwd
       attr_reader :parts
       attr_accessor :ext
       def initialize(parts)
@@ -148,6 +150,12 @@ module Alt
       def length
         self.to_s.length
       end
+      def sub(re,arg)
+        cp = self.clone
+        cp.path = cp.path.sub(re,arg)
+        cp
+      end
+
       include ::Alt::URI::Ops::PathParts
     end
   end
@@ -173,18 +181,15 @@ module Alt
       end
       include Ops::Generic
       
-      def_delegators :parts, :uri,:authority,:scheme,:path,:fragment
-      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=,:query
-      def_delegators :parts, :userinfo,:host
-      def_delegators :parts, :userinfo=,:host=,:port=, :port
+
+      fwd :parts, :uri,:scheme,:path,:query,:fragment
+      fwd :parts, :authority
+      fwd :parts, :netpath
+      fwd :parts, :host,:port
+      fwd :parts, :userinfo
+      fwd :parts, :user,:password
       def_delegators :parts, :to_s
       
-
-      def sub(re,arg)
-        cp = self.clone
-        cp.path = cp.path.sub(re,arg)
-        cp
-      end
 
       def netpath
         case self.scheme
@@ -230,6 +235,12 @@ module Alt
       end
       include Ops::Generic
 
+      fwd :parts, :uri,:scheme,:path
+      fwd :parts, :authority
+      fwd :parts, :netpath
+      fwd :parts, :host
+      def_delegators :parts, :to_s
+      
       def_delegators :parts, :uri,:authority,:scheme,:path
       def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:host=,:netpath=,:host
       def_delegators :parts, :to_s
@@ -292,11 +303,12 @@ module Alt
       end
       include Ops::Generic
 
-      def_delegators :parts, :uri,:authority,:scheme,:path,:query
-      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:query=,:fragment=,:fragment
-      def_delegators :parts, :host=,:host
-      def_delegators :parts, :port=,:port
+      fwd :parts, :uri,:scheme,:path,:query,:fragment
+      fwd :parts, :authority
+      fwd :parts, :netpath
+      fwd :parts, :host,:port
       def_delegators :parts, :to_s
+      
       def netpath
         parts.path
       end
@@ -347,13 +359,14 @@ module Alt
       end
       include Ops::Generic
 
-      def_delegators :parts, :authority
-      def_delegators :parts, :authority=,:scheme=,:scheme
-      def_delegators :parts, :host=,:host
-      def_delegators :parts, :port=,:port
-      def_delegators :parts, :user=,:user
-      def_delegators :parts, :password=,:password
+      fwd :parts, :uri,:scheme,:path
+      fwd :parts, :uri,:authority
+      fwd :parts, :netpath
+      fwd :parts, :host,:port
+      fwd :parts, :userinfo
+      fwd :parts, :user,:password
       def_delegators :parts, :to_s
+      
 
       def fspath() self.path end
       def fspath=(val) self.path = val end
