@@ -13,11 +13,12 @@ require 'ftp/tc/anon_write'
 require 'ftp/tc/ftp2ftp'
 require 'ftp/tc/ftp_fs'
 
-require 'test/unit'
 require 'riotest/unit_test.rb'
 require 'riotest/util'
 
-wdir = File.expand_path('qp/ftp')
-rio(wdir).delete!.mkpath.chdir do
-  RioTest.define_utmod(:FTP)
-end
+RioTest::ModSuite.new(:FTP).run if $0 == __FILE__
+
+#wdir = File.expand_path('qp/ftp')
+#rio(wdir).delete!.mkpath.chdir do
+#  RioTest.define_utmod(:FTP)
+#end

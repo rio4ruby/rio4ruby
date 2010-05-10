@@ -20,6 +20,7 @@ module RIO::HTTP::UnitTest
         assert_equal(exp,ans)
       end
       def test_gunzip_copy_uri_rio
+        #p "copy_from_http: pwd=#{Dir.pwd}"
         ario = rio('out.txt').delete! < rio(GZURL).gzip
         ans = rio(ario).contents
         exp = rio(GZFILE).gzip.contents

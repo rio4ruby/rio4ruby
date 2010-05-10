@@ -17,8 +17,10 @@ require 'alturi/tc/uri_parts_authority'
 require 'alturi/tc/uri_parts_test'
 require 'alturi/tc/uri_parts_userinfo'
 
-require 'test/unit'
 require 'riotest/unit_test.rb'
 
-RioTest.define_utmod(:URI,Alt)
+
+RioTest::ModSuite.new(:URI,Alt).run if $0 == __FILE__
+
+#RioTest.define_utmod(:URI,Alt)
 

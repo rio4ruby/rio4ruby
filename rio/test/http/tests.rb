@@ -2,6 +2,7 @@
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
   $:.unshift File.expand_path('../lib/')
+  $:.unshift File.expand_path('../test/')
 end
 
 require 'rio'
@@ -10,18 +11,9 @@ module RIO
   end
 end
 
-
-
-
 require 'http/tc/uri_meta.rb'
 require 'http/tc/copy_from_http.rb'
 
-require 'test/unit'
-require 'riotest/unit_test.rb'
+require 'riotest/unit_test'
 
-
-
-wdir = File.expand_path('qp/http')
-rio(wdir).delete!.mkpath.chdir do
-  RioTest.define_utmod(:HTTP)
-end
+RioTest::ModSuite.new(:HTTP).run if $0 == __FILE__

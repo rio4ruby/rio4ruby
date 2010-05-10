@@ -25,7 +25,7 @@ module RioTest
       mod.const_set(:TestSuite,ts)
       ts
     end
-    Test::Unit::UI::Console::TestRunner.run(mod.module_eval(:TestSuite))  if $0 == file
+    #Test::Unit::UI::Console::TestRunner.run(mod.module_eval(:TestSuite))  if $0 == file
   end
   module_function :test_suite_mod
 end

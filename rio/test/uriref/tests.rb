@@ -5,12 +5,12 @@ if $0 == __FILE__
 end
 
 require 'rio'
+require 'rio/uriref'
 require 'uriref/tc/basic'
 require 'uriref/tc/build'
 require 'uriref/tc/route'
 
-require 'test/unit'
 require 'riotest/unit_test.rb'
 
-RioTest.define_utmod(:URIRef)
 
+RioTest::ModSuite.new(:URIRef).run if $0 == __FILE__
