@@ -14,11 +14,12 @@ module RioTest
       'qp/' + root_mod.to_s.downcase + '_' + utmod_name.to_s.downcase
     end
     def run
-      rio(test_dir).delete!.mkpath.chdir do
-        # p "ModSuite.run pwd=#{Dir.pwd}"
-        ste = self.suite
-        Test::Unit::UI::Console::TestRunner.run(ste)
-      end
+      wd = Dir.pwd
+      rio(test_dir).delete!.mkpath.chdir
+      # p "ModSuite.run pwd=#{Dir.pwd}"
+      ste = self.suite
+      Test::Unit::UI::Console::TestRunner.run(ste)
+      Dir.chdir(wd)
     end
     def topmod
       root_mod.module_eval(utmod_name)
@@ -59,6 +60,9 @@ module RioTest
         suite << m.suite
       end
       suite
+    end
+    def <<(ste)
+      self.suite << ste
     end
     def add(utmod_name,root_mod = RIO)
       self.suite << RioTest::ModSuite.new(utmod_name,root_mod).suite

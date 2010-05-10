@@ -241,10 +241,6 @@ module Alt
       fwd :parts, :host
       def_delegators :parts, :to_s
       
-      def_delegators :parts, :uri,:authority,:scheme,:path
-      def_delegators :parts, :uri=,:authority=,:scheme=,:path=,:host=,:netpath=,:host
-      def_delegators :parts, :to_s
-
       def normalize
         hst = self.host if self.host and !(self.host == 'localhost' or self.host.empty?)
         ::Alt::URI.create(:host => hst, :path => self.path)
@@ -478,14 +474,17 @@ end
 module Alt
   module URI
     def self.parse(str)
-      Factory.parse(str)
+      #p "Alt::URI.parse str=#{es(str)}"
+      ans = Factory.parse(str)
+      #p es(str)
+      ans
     end
     def self.create(hash)
       Factory.create(hash)
     end
     def self.escape(str,fld)
       if str
-        str.encode('UTF-8')
+        # str.encode('UTF-8')
         Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
       end
     end

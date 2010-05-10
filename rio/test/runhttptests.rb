@@ -10,3 +10,4 @@ require 'test/unit'
 require 'http/tests'
 
 
+RioTest::ModSuite.new(:HTTP).run if $0 == __FILE__

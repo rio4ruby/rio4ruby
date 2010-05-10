@@ -32,13 +32,15 @@ module Alt
         def _do_esc(str,fld)
           if str
             str.encode('UTF-8')
-            Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+            #Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+            Alt::URI::Escape.escape(str,fld) 
           end
         end
         def _do_unesc(str)
           if str
             ustr = Alt::URI::Escape.unescape(str)
-            @encoding ? ustr.force_encoding(@encoding) : ustr
+            ustr.force_encoding('UTF-8')
+            @encoding ? ustr.encode(@encoding) : ustr
           end
         end
         def nil_or(val,dflt=nil,&block)
@@ -80,7 +82,10 @@ module Alt
         end
 
         def to_s
-          "#{scheme}#{authority}#{path}#{query}#{fragment}"
+          str = "#{scheme}#{authority}#{path}#{query}#{fragment}"
+          #p "Alt::URI::Gen::URIString"
+          #p str
+          str
         end
       end
     end
@@ -253,9 +258,10 @@ module Alt
         def initialize
           @store = { :path => "" }
           # @encoding = @store[:path].encoding
-          #p __ENCODING__
-          #@encoding = Encoding.default_internal
-          @encoding = Encoding.find('UTF-8')
+          # p "URIParts",__ENCODING__
+          # @encoding = Encoding.default_internal
+          # @encoding = Encoding.find('UTF-8')
+          @encoding = __ENCODING__
         end
 
         def initialize_copy(other)
@@ -344,13 +350,20 @@ module Alt
           @store[:scheme] = nil_or(val) { |v| v.downcase }
         end
         def path=(val)
+          #p "IN PATH= val=#{es(val)}"
           @store[:path] = nil_or(val,"") { |v| 
-            # @encoding = v.encoding
-            _do_esc(v,:path) 
+            @encoding = v.encoding
+            #p "IN PATH= before val=#{es(val)}"
+            ans = _do_esc(v,:path) 
+            #p "IN PATH= after ans=#{es(ans)}"
+            ans
           }
         end
         def path
-          _do_unesc(@store[:path])
+          #p "pathA=#{es(@store[:path])}"
+          ans = _do_unesc(@store[:path])
+          #p "pathB=#{es(@store[:path])}"
+          ans
         end
 
 

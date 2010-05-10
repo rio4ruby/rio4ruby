@@ -193,7 +193,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
   end
 
   def test_noqae_fs_de
-    @@tdir.abs.chdir do
+    @@tdir.chdir do
       begin
         begin
           ans = []
@@ -281,7 +281,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
   end
   def test_noqae_fs_re
     
-    @@tdir.abs.chdir do
+    @@tdir.chdir do
       begin
 
         begin

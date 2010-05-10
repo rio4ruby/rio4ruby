@@ -28,10 +28,12 @@ module Alt
 
       def self.escape(str,arg)
         tmp = ""
+        # p "escape: #{es(str)}"
         table = (::Symbol === arg ? CHAR_TABLE[arg] : arg)
         str.each_byte do |b|
           tmp << table[b]
         end
+        #p "escape: tmp=#{es(str)} str.enc=#{str.encoding}"
         tmp.encode(str.encoding)
       end
 

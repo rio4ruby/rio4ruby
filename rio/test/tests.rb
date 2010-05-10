@@ -6,27 +6,30 @@ end
 
 require 'rio'
 
-require 'test/unit'
+#require 'test/unit'
 require 'riotest/unit_test.rb'
 
 require 'ftp/tests'
-#p Dir.getwd
 require 'http/tests'
-#p Dir.getwd
 require 'alturi/tests'
 require 'uriref/tests'
 
+require 'tc/all.rb'
 
 ms = RioTest::ModSuite.new("RIO")
 ms.add(:FTP)
 ms.add(:HTTP)
 ms.add(:URI,Alt)
 ms.add(:URIRef)
+
+def find_tests(ms)
+  self.class.constants.each do |cnst|
+    cons = self.class.class_eval(cnst)
+    if cons.kind_of?(Class) and cons.ancestors.include?(Test::Unit::TestCase)
+      ms << cons.suite
+    end
+  end
+  ms
+end
+find_tests(ms)
 ms.run
-
-#suite = Test::Unit::TestSuite.new("RIO")
-
-#suite << RioTest::ModSuite.new(:FTP).suite
-#suite << RioTest::ModSuite.new(:HTTP).suite
-
-#Test::Unit::UI::Console::TestRunner.run(suite)

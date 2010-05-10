@@ -11,44 +11,67 @@ p "[#{RUBY_PLATFORM}] - Ruby(#{RUBY_VERSION}) - Rio(#{RIO::VERSION})"
 
 $trace_states = false
 require 'optparse'
+require 'riotest/unit_test'
 
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: #{$0} [options]"
+
+def get_options
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: #{$0} [options]"
+    
+    opts.on("-f", "--ftp", "Run FTP Tests") do |v|
+      options[:ftp] = v
+    end
+    opts.on("-h", "--http", "Run HTTP Tests") do |v|
+      options[:http] = v
+    end
+    opts.on("-s", "--std", "Run Standard Tests") do |v|
+      options[:std] = v
+    end
+    opts.on("-a", "--all", "Run All Tests") do |v|
+      options[:std] = v
+      options[:ftp] = v
+      options[:http] = v
+    end
+  end.parse!
   
-  opts.on("-f", "--ftp", "Run FTP Tests") do |v|
-    options[:ftp] = v
+  options[:std] = true if options.empty?
+  options
+end
+def find_tests(ms)
+  self.class.constants.each do |cnst|
+    cons = self.class.class_eval(cnst)
+    if cons.kind_of?(Class) and cons.ancestors.include?(Test::Unit::TestCase)
+      ms << cons.suite
+    end
   end
-  opts.on("-h", "--http", "Run HTTP Tests") do |v|
-    options[:http] = v
+  ms
+end
+def run(options)
+  ms = RioTest::ModSuite.new("RIO")
+  
+  options.keys.each do |opt|
+    case opt
+    when :std
+      require 'tc/all'
+      require 'alturi/tests'
+      require 'uriref/tests'
+      find_tests(ms)
+      ms.add(:URI,Alt)
+      ms.add(:URIRef)
+    when :http
+      require 'http/tests'
+      ms.add(:HTTP)
+      #require 'lib/temp_server.rb'
+      #TempServer.new.run('runhttptests.rb')
+    when :ftp
+      require 'ftp/tests'
+      ms.add(:FTP)
+    end
   end
-  opts.on("-s", "--std", "Run Standard Tests") do |v|
-    options[:std] = v
-  end
-  opts.on("-a", "--all", "Run All Tests") do |v|
-    options[:std] = v
-    options[:ftp] = v
-    options[:http] = v
-  end
-end.parse!
-
-options[:std] = true if options.empty?
-
-options.keys.each do |opt|
-  case opt
-  when :std
-    require 'tc/all'
-    #require 'test/unit/ui/console/testrunner'
-  when :http
-    require 'lib/temp_server.rb'
-    TempServer.new.run('runhttptests.rb')
-  when :ftp
-    require 'test/unit'
-    require 'ftp/all'
-    #require 'test/unit/ui/console/testrunner'
-  end
+  ms.run
 end
 
-#require 'test/unit/ui/tk/testrunner'
-#require 'test/unit/ui/fox/testrunner'
-#Test::Unit::UI::Tk::TestRunner.run(TC_MyTest)
+options = get_options
+run(options)
+
