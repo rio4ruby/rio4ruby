@@ -275,7 +275,6 @@ module RIO
           sel = Match::Entry::Selector.new(cx['entry_sel'])
           indir = (self.to_s == '.' ? nil : self)
           self.ioh.each do |ent|
-            #next if 
             handle_ent_(ent,indir,sel,&block) unless ent =~ /^\.(\.)?$/
           end
           closeoneof? ? self.close : self

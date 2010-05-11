@@ -52,10 +52,13 @@ module Alt
       UNESCAPE_HASH = build_unescape_hash
 
       def self.unescape(estr)
+        #p "ESTR: #{estr}"
         ustr = ""
         pos = 0
         while npos = estr.index('%',pos)
-          ustr << estr[pos,npos-pos] << UNESCAPE_HASH[estr[npos,3]]
+          uh = UNESCAPE_HASH[estr[npos,3].upcase]
+          #p "UH: #{uh.inspect} npos:#{npos} pos:#{pos}"
+          ustr << estr[pos,npos-pos] << uh
           pos = npos +3
         end
         ustr << estr[pos..-1]

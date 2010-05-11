@@ -378,11 +378,15 @@ module Alt
         [pth,typ]
       end
       def path
-        Alt::URI.unescape(split_path_type[0])[1..-1]
+        #p parts[:path]
+        pth = parts._do_unesc(split_path_type[0])[1..-1]
+        #Alt::URI.unescape(split_path_type[0])[1..-1]
         #parts.path
+        pth
       end
       def path=(val)
-        pth = Alt::URI.escape(val,:path).sub(%r{^/},'%2F')
+        pth = parts._do_esc(val,:path).sub(%r{^/},'%2F')
+        #pth = Alt::URI.escape(val,:path).sub(%r{^/},'%2F')
         typ = self.typecode
         escpath = "/#{pth}" + (typ ? ";type=#{typ}" : "")
         parts[:path] = escpath

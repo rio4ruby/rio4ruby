@@ -32,6 +32,7 @@ module Alt
         def _do_esc(str,fld)
           if str
             str.encode('UTF-8')
+
             #Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
             Alt::URI::Escape.escape(str,fld) 
           end
@@ -40,7 +41,15 @@ module Alt
           if str
             ustr = Alt::URI::Escape.unescape(str)
             ustr.force_encoding('UTF-8')
-            @encoding ? ustr.encode(@encoding) : ustr
+            if @encoding
+              begin
+                ustr.encode(@encoding)
+              rescue Encoding::UndefinedConversionError
+                ustr
+              end
+            else
+              ustr
+            end
           end
         end
         def nil_or(val,dflt=nil,&block)
@@ -197,10 +206,10 @@ module Alt
         end
 
         def host=(val)
-          @store[:host] = nil_or(val) { |v| _do_esc(v.downcase,:host) }
+          @store[:host] = nil_or(val) { |v| v.downcase }
         end
         def host
-          _do_unesc(@store[:host]) if @store[:host]
+          @store[:host] if @store[:host]
         end
         def user=(val)
           @store[:userinfo] ||= UserInfoParts.new
@@ -350,19 +359,15 @@ module Alt
           @store[:scheme] = nil_or(val) { |v| v.downcase }
         end
         def path=(val)
-          #p "IN PATH= val=#{es(val)}"
           @store[:path] = nil_or(val,"") { |v| 
             @encoding = v.encoding
-            #p "IN PATH= before val=#{es(val)}"
-            ans = _do_esc(v,:path) 
-            #p "IN PATH= after ans=#{es(ans)}"
-            ans
+            _do_esc(v,:path) 
           }
         end
         def path
-          #p "pathA=#{es(@store[:path])}"
           ans = _do_unesc(@store[:path])
-          #p "pathB=#{es(@store[:path])}"
+          #p 'HERE'
+          #p ans
           ans
         end
 
