@@ -49,6 +49,7 @@ module RIO
       def initialize(u,fs=nil)
         @uri = u
         @fs ||= openfs_
+        #p "RRL::Base @fs=#{@fs.inspect}"
       end
       def initialize_copy(other)
         super

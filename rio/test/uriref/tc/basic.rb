@@ -101,7 +101,7 @@ module RIO::URIRef::UnitTest
     alturi = Alt::URI::File.new
     ustr = 'b/c'
     bstr = 'file://host/a/d'
-    u = RIO::URIRef.build(ustr,bstr)
+    u = RIO::URIRef.build(ustr,:base => bstr)
     abs = u.abs
     assert_kind_of(RIO::URIRef,abs)
     assert_equal('file://host/a/b/c',abs.to_s)
@@ -112,7 +112,7 @@ module RIO::URIRef::UnitTest
     alturi = Alt::URI::File.new
     ustr = 'b/c'
     bstr = 'file://host/a/d'
-    u = RIO::URIRef.build(ustr,bstr)
+    u = RIO::URIRef.build(ustr,:base => bstr)
     sbase = 'http://ahost.com/x/y'
     abs = u.abs(sbase)
     assert_kind_of(RIO::URIRef,abs)
@@ -129,7 +129,7 @@ module RIO::URIRef::UnitTest
     astr = 'file://host/a/b/c'
     rstr = 'b/c'
     bstr = 'file://host/a/d'
-    u = RIO::URIRef.build(rstr,bstr)
+    u = RIO::URIRef.build(rstr,:base => bstr)
     rel = u.rel
     assert_kind_of(RIO::URIRef,rel)
     assert_equal(rstr,rel.to_s)
@@ -140,7 +140,7 @@ module RIO::URIRef::UnitTest
     alturi = Alt::URI::File.new
     rstr = 'b/c'
     bstr = 'file://host/a/d'
-    u = RIO::URIRef.build(rstr,bstr)
+    u = RIO::URIRef.build(rstr,:base => bstr)
     sbase = 'http://ahost.com/x/y'
     abs = u.abs
     rel = u.rel(sbase)
@@ -152,10 +152,10 @@ module RIO::URIRef::UnitTest
   def test_abs_rel
     astr = 'file://ahost/b/c/d'
     bstr = 'file://ahost/b/e/f'
-    u = RIO::URIRef.build(astr,bstr)
+    u = RIO::URIRef.build(astr,:base => bstr)
     rel = u.rel
     assert_equal("../c/d",rel.to_s)
-    u = RIO::URIRef.build(bstr,astr)
+    u = RIO::URIRef.build(bstr,:base => astr)
     rel = u.rel
     assert_equal("../e/f",rel.to_s)
   end

@@ -33,8 +33,8 @@ module Alt
           if str
             str.encode('UTF-8')
 
-            #Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
-            Alt::URI::Escape.escape(str,fld) 
+            Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+            #Alt::URI::Escape.escape(str,fld) 
           end
         end
         def _do_unesc(str)
@@ -263,9 +263,13 @@ module Alt
   module URI
     module Gen
       class URIParts < Base
-        attr_reader :store,:encoding
-        def initialize
+        attr_reader :store
+        attr_accessor :encoding
+        def initialize(opts={})
           @store = { :path => "" }
+          @encoding = opts[:encoding]
+          # p "@encoding=#{@encoding.inspect}"
+          # p caller[0]
           # @encoding = @store[:path].encoding
           # p "URIParts",__ENCODING__
           # @encoding = Encoding.default_internal
@@ -285,8 +289,8 @@ module Alt
           @store
         end
 
-        def self.parse(str)
-          u = URIParts.new
+        def self.parse(str,opts={})
+          u = URIParts.new(opts)
           u.uri = str
           u
         end
@@ -360,7 +364,6 @@ module Alt
         end
         def path=(val)
           @store[:path] = nil_or(val,"") { |v| 
-            @encoding = v.encoding
             _do_esc(v,:path) 
           }
         end

@@ -463,8 +463,8 @@ module Alt
         end
       end
 
-      def self.parse(str)
-        u = Alt::URI::Gen::URIParts.parse(str)
+      def self.parse(str,opts={})
+        u = Alt::URI::Gen::URIParts.parse(str,opts)
         from_parts(u)
       end
 
@@ -477,9 +477,9 @@ module Alt
 end
 module Alt
   module URI
-    def self.parse(str)
+    def self.parse(str,opts={})
       #p "Alt::URI.parse str=#{es(str)}"
-      ans = Factory.parse(str)
+      ans = Factory.parse(str,opts)
       #p es(str)
       ans
     end

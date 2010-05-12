@@ -219,7 +219,9 @@ module RIO
         #p callstr('initialize',u,*args)
         #p "URIBASE u=#{u} (#{u.class}) args=#{args.inspect} "
         args,opts = _get_opts_from_args(args)
-        #p "OPTS=#{opts.inspect}"
+        #opts[:fs] ||= openfs_
+        #opts[:encoding] = opts[:fs] ? opts[:fs].encoding : nil
+        #p "URIBase OPTS=#{opts.inspect} U=#{u.inspect}"
         uriref = case u
                  when ::Alt::URI::Base
                    _uriref_from_alturi(u,opts,*args)
@@ -231,10 +233,13 @@ module RIO
                      rtn
                    end
                  else
-                   _uriref_from_alturi(::Alt::URI.parse(u.to_s),opts,*args)
+                   _uriref_from_alturi(::Alt::URI.parse(u.to_s,opts),opts,*args)
                  end
         #p "URIBASE uriref=#{uriref} (#{uriref.inspect}) "
         super(uriref,opts[:fs])
+        opts[:fs] ||= openfs_
+        #p opts[:fs]
+        self.uri.parts.encoding ||= opts[:fs].encoding
       end
 
       private
@@ -242,7 +247,8 @@ module RIO
       def _uriref_from_alturi(alturi,opts,*args)
         alturi.join(*args)
         #p "ZIPPY #{alturi.absolute?} #{alturi.inspect} opts=#{opts.inspect}"
-        ::RIO::URIRef.build(alturi,opts[:base])
+        #p "withpath: _uriref_from_alturi enc=#{opts[:encoding].inspect}"
+        ::RIO::URIRef.build(alturi,opts)
       end
       def _get_opts_from_args(args)
         opts = {}

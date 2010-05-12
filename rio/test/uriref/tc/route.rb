@@ -35,7 +35,7 @@ module RIO::URIRef::UnitTest
 
         a = RIO::URIRef.build(a_s)
         c = RIO::URIRef.build(c_s)
-        extra = RIO::URIRef.build(extra_s,a_s)
+        extra = RIO::URIRef.build(extra_s,:base => a_s)
         
         rf = c.route_from(a)
         assert_kind_of(RIO::URIRef,rf)
@@ -53,7 +53,7 @@ module RIO::URIRef::UnitTest
 
         a = RIO::URIRef.build(a_s)
         c = RIO::URIRef.build(c_s)
-        extra = RIO::URIRef.build(extra_s,a_s)
+        extra = RIO::URIRef.build(extra_s,:base => a_s)
         
         rf = a.route_to(c)
         assert_kind_of(RIO::URIRef,rf)

@@ -19,11 +19,13 @@ module RIO
       @base = other.base.clone
     end
     def ==(other) ref == other.ref end
-    def self.build(u,b=nil)
+    def self.build(u,opts={})
+      b = opts[:base]
+      #p opts[:encoding],u
       uref = case u
              when ::Alt::URI::Base then u
              when ::RIO::URIRef then u.ref
-             else path_str_to_uri(u.to_s)
+             else path_str_to_uri(u.to_s,opts)
              end
       ubase = case b
               when nil
@@ -63,16 +65,18 @@ module RIO
       ::Alt::URI::File.new(buri)
     end
 
-    def self.path_str_to_uri(pth)
+    def self.path_str_to_uri(pth,opts={})
+      cr_args = opts[:encoding] ? {:encoding => opts[:encoding]} : {} 
+      #p cr_args
       case
       when pth.start_with?("//")
-        ::Alt::URI.create(:netpath => pth)
+        ::Alt::URI.create(cr_args.merge(:netpath => pth))
       when (pth.start_with?("/") or (pth =~ %r{^[a-zA-Z]:}))
-        ::Alt::URI.create(:path => pth)
+        ::Alt::URI.create(cr_args.merge(:path => pth))
       when pth =~ %r{^[a-zA-Z][a-zA-Z]+:}
-        ::Alt::URI.parse(pth)
+        ::Alt::URI.parse(pth,opts)
       else
-        ::Alt::URI.create(:path => pth)
+        ::Alt::URI.create(cr_args.merge(:path => pth))
       end
     end
     def self.base_str_to_uri(pth)
@@ -89,27 +93,27 @@ module RIO
     end
     def abs(b=nil)
       if b.nil?
-        self.class.build(ref.abs(base),base)
+        self.class.build(ref.abs(base),:base => base)
       else
-        self.class.build(ref,b).abs
+        self.class.build(ref,:base => b).abs
       end
     end
     def rel(b=nil)
       # p "uriref (#{self}).rel(#{b.inspect})"
       if b.nil?
-       self.class.build(ref.rel(base),base)
+       self.class.build(ref.rel(base),:base => base)
       else
-        self.class.build(ref,b).rel
+        self.class.build(ref,:base => b).rel
       end
     end
     def route_from(b)
       # p "uriref (#{self}).route_from(#{b.inspect})"
       #self.class.build(abs.ref,b).rel
-      self.class.build(abs.ref.route_from(b.ref),b)
+      self.class.build(abs.ref.route_from(b.ref),:base => b)
     end
     def route_to(b)
       #self.class.build(b,abs.ref).rel
-      self.class.build(self.abs.ref.route_to(b.ref),self.ref)
+      self.class.build(self.abs.ref.route_to(b.ref),:base => self.ref)
     end
     def join(*args)
       ref.join(*args)
@@ -121,7 +125,7 @@ module RIO
     #fwd :ref, :scheme, :authority, :path, :query, :fragment
     #fwd :ref, :host, :port, :userinfo, :user, :password
     #fwd :ref, :typecode
-    #def_delegators :ref, :to_s, :normalize, :absolute?, :length
+    #def_delegators :ref, :to_s, :normalize, :absolute?, :len gth
     #fwd :ref, :dirname,:basename,:filename,:extname
     #fwd :ref, :netpath,:fspath
     #fwd :ref, :ext
