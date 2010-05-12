@@ -59,7 +59,9 @@ module RIO
       def conn
         @conn ||= ConnCache.instance.connect(@uri)
       end
-
+      def encoding
+        @conn.encoding
+      end
 
 
       def root()

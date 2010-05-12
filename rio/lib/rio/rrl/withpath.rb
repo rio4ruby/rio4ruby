@@ -264,6 +264,7 @@ module RIO
       end
       def openfs_()
         #p callstr('openfs_')
+        #p "URIBase: openfs_  enc=#{::Dir.pwd.encoding}"
         self.fs || RIO::FS::LOCAL
       end
     end

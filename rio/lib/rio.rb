@@ -37,6 +37,9 @@ require 'rio/version'
 unless RUBY_VERSION > "1.9"
   raise LoadError, "This version of Rio(#{RIO::VERSION}) requires Ruby 1.9+. Ruby version is #{RUBY_VERSION}"
 end
+#FS_ENCODING = Dir.pwd.encoding
+#p "FS_ENCODING=#{FS_ENCODING}"
+require 'rio/fs'
 #require 'rio/def'
 #require 'rio/exception'
 

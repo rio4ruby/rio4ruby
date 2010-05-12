@@ -16,6 +16,7 @@ require 'alturi/tc/rfc_test'
 require 'alturi/tc/uri_parts_authority'
 require 'alturi/tc/uri_parts_test'
 require 'alturi/tc/uri_parts_userinfo'
+require 'alturi/tc/encoding'
 
 require 'riotest/unit_test.rb'
 

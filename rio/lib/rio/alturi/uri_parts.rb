@@ -270,7 +270,7 @@ module Alt
           # p "URIParts",__ENCODING__
           # @encoding = Encoding.default_internal
           # @encoding = Encoding.find('UTF-8')
-          @encoding = __ENCODING__
+          # @encoding = __ENCODING__
         end
 
         def initialize_copy(other)

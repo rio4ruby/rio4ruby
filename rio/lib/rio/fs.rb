@@ -128,8 +128,10 @@ end
 module RIO
   module FS
     class Local
+      FS_ENCODING = Dir.pwd.encoding
       attr_reader :file,:dir
       def initialize(*args)
+        #p "RIO::FS::Local.initialize(#{args}) pwdenc=#{}"
         @file = ::File
         @test = ::FileTest
         @dir  = ::Dir
@@ -137,6 +139,9 @@ module RIO
         @path = ::Pathname
         require 'fileutils'
         @util = ::FileUtils
+      end
+      def encoding
+        FS_ENCODING
       end
       def root()
         require 'rio/local'

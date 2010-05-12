@@ -251,6 +251,10 @@ module RIO
         end
         def handle_ent_(ent,indir,sel,&block)
           begin
+            #p "ENT=#{ent.inspect}"
+            #p "FS=#{rl.fs.inspect}"
+            #p "FS.ENCODING=#{rl.fs.encoding}"
+            ent.force_encoding(rl.fs.encoding)
             erio = ent_to_rio_(ent,indir)
             if stream_iter?
               # case for iterating files in a directory (e.g. rio('adir').lines) 

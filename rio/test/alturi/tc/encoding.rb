@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
-
-# encoding: UTF-8
 if $0 == __FILE__
   Dir.chdir File.dirname(__FILE__)+'/../'
   $:.unshift File.expand_path('../lib/')
@@ -37,16 +33,14 @@ module Alt::URI::UnitTest
 
       end
       def test_check_paths
-        testdir = rio('../../../rio/test/')
-        testdir.chdir do 
-          r = rio('data/filelist.txt').enc('UTF-8').chomp
-          paths = r.map{|el| el.sub(%r{^/loc},'')}
-          lines = rio('data/linklist.txt').chomp[]
-          urls = lines.map{|el| Alt::URI.parse(el) }
-          #upaths = urls.map{|u| u.path.force_encoding("UTF-8")}
-          upaths = urls.map{|u| u.path}
-          assert_equal(paths,upaths)
-        end
+        datadir = rio("../../data")
+        r = rio(datadir,'filelist.txt').enc('UTF-8').chomp
+        paths = r.map{|el| el.sub(%r{^/loc},'')}
+        lines = rio(datadir,'linklist.txt').chomp[]
+        urls = lines.map{|el| Alt::URI.parse(el) }
+        #upaths = urls.map{|u| u.path.force_encoding("UTF-8")}
+        upaths = urls.map{|u| u.path}
+        assert_equal(paths,upaths)
       end
 
       def test_enc
@@ -58,46 +52,13 @@ module Alt::URI::UnitTest
         assert_equal(pstr,pth)
       end
 
-      def xtest_check_read_urls
+      def test_check_read_dir
         #p __ENCODING__
-        testdir = rio('../../../rio/test/')
-        testdir.chdir do 
-          links = rio('data/linklist.txt').chomp[]
-          r0 = rio(links[0])
-          p r0.contents.size
-          files = rio('data/filelist.txt').chomp[]
-          p files
-          f0 = rio(files[0])
-          p f0
-          $trace_states = true
-          p f0.read.size
-
+        rootdir = rio('/loc/mp3/')
+        rootenc = rootdir.rl.fs.encoding
+        rootdir.dirs do |ent|
+          assert_equal(rootenc,ent.path.encoding)
         end
-      end
-
-      def test_ls
-        #p __ENCODING__
-        rootdir = rio('/loc/mp3')
-        out = rio('filelist.txt').encoding('UTF-8')
-        #out = rio(:-)
-        rio(rootdir).all do |ent|
-          #p ent.path
-          out.puts(ent.path)
-        end
-        out.close
-      end
-      def test_links
-        #p __ENCODING__
-        rootdir = rio('/loc/mp3')
-        out = rio('linklist.txt').touch
-        #out = rio(:-)
-        rio(rootdir).all do |ent|
-          #p ent.path
-          u = Alt::URI.create(:scheme => 'http',:host => 'localhost',
-                              :path => ent.path.sub(%r{^/loc/},'/'))
-          out.puts(u.to_s)
-        end
-        out.close
       end
       def test_string
         #p __ENCODING__

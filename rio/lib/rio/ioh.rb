@@ -55,7 +55,7 @@ module RIO
       def ior() ios end
       def iow() ios end
       def handle() ios end
-      def open?() not closed? end
+       def open?() not closed? end
     end
 
 
@@ -152,7 +152,10 @@ module RIO
       end
       def closed?() ios.nil? end
       def each(&block)
+        #p handle
         while filename = handle.read
+          #p "IOH: #{filename.inspect} FS_ENCODING=#{FS_ENCODING}"
+          #yield filename.force_encoding(FS_ENCODING)
           yield filename
         end
       end

@@ -41,11 +41,12 @@ require 'singleton'
 module RIO
   module FTP
     class Connection
-      attr_reader :uri,:netftp
+      attr_reader :uri,:netftp,:encoding
       def initialize(uri)
         @uri = uri.clone
         @netftp = nil
         @remote_root = nil
+        @encoding = nil
         _init_connection()
       end
       def remote_root
@@ -63,6 +64,8 @@ module RIO
           @netftp.login
         end
         @remote_root = @netftp.pwd
+        @encoding = @remote_root.encoding
+        #p "FTP._init_connection @remote_root=#{remote_root} enc=#{@remote_root.encoding}"
         # @remote_root = '' if @remote_root == '/'
       end
       def method_missing(sym,*args,&block)

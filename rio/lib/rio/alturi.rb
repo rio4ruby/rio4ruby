@@ -486,18 +486,18 @@ module Alt
     def self.create(hash)
       Factory.create(hash)
     end
-    def self.escape(str,fld)
-      if str
-        # str.encode('UTF-8')
-        Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
-      end
-    end
-    def self.unescape(str)
-      if str
-        ustr = Alt::URI::Escape.unescape(str)
-        @encoding ? ustr.force_encoding(@encoding) : ustr
-      end
-    end
+#    def self.escape(str,fld)
+#      if str
+#        # str.encode('UTF-8')
+#        Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
+#      end
+#    end
+#    def self.unescape(str)
+#      if str
+#        ustr = Alt::URI::Escape.unescape(str)
+#        @encoding ? ustr.force_encoding(@encoding) : ustr
+#      end
+#    end
   end
 end
 
