@@ -48,7 +48,7 @@ module Alt::URI::UnitTest
         pstr = "/mp3/J. S. Bach - Orgelwerke - Karl Richter/35 - Sei gegrüßet, Jesu gütig - BWV 768.flac"
         r = rio(ustr)
         pth = r.path
-        assert_equal('UTF-8',pth.encoding.name)
+        assert_equal(r.rl.fs.encoding,pth.encoding)
         assert_equal(pstr,pth)
       end
 
