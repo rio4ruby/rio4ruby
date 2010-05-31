@@ -83,7 +83,7 @@ CLOBBER << "doc/rdoc"
 
 rd = Rake::RDocTask.new do |rdoc|
   require 'rdoc/rdoc'
-  require 'doc/lib/rdoc/generator/riofish'
+  require 'resources/generator/riofish'
   $:.unshift File.expand_path('doc/lib')
   p $:[0]
   rdoc.rdoc_dir = 'doc/rdoc'
