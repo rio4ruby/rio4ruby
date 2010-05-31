@@ -39,20 +39,25 @@ module PKG
   RUBYFORGE_PROJECT = PKG::NAME
   HOMEPAGE = "http://#{PKG::RUBYFORGE_PROJECT}.rubyforge.org/"
   RUBYFORGE_URL = "http://rubyforge.org/projects/#{PKG::RUBYFORGE_PROJECT}"
-  RDOC_OPTIONS = ['--show-hash','--line-numbers','-mRIO::Doc::SYNOPSIS','-Tdoc/generators/template/html/rio.rb']
+  # RDOC_OPTIONS = ['--show-hash','--line-numbers','-mRIO::Doc::SYNOPSIS','-Tdoc/generators/template/html/rio.rb']
+  RDOC_OPTIONS = ['--show-hash','-mRIO::Doc::SYNOPSIS','--format=riofish']
   module FILES
     SRC = rio('lib').norecurse('.svn').files['*.rb']
-    DOC = rio['README'] + rio('lib')['rio.rb'] + rio('lib/rio/doc/')['*.rb'] +
-                        rio('lib/rio/if/')['*.rb'] + rio('lib/rio')['kernel.rb','constructor.rb']
+    DOTDOC = rio('.').all.files['.document']
+    DOC = rio['README'] + 
+      rio('lib')['rio.rb'] + 
+      rio('lib/rio/doc/')['*.rb'] +
+      rio('lib/rio/if/')['*.rb'] + 
+      rio('lib/rio')['kernel.rb','constructor.rb']
     XMP = rio('ex').entries[]
     D2 = rio('doc').norecurse('.svn').all.files.skip.dirs['rdoc','.svn']
-    TST = rio('test').norecurse('.svn').all.files('*.rb').skip.dirs['qp','.svn']
+    TST = rio('test').norecurse('.svn','qp').all.files('*.rb').skip.dirs['qp','.svn']
     MSC = rio.files['setup.rb', 'build_doc.rb', 'COPYING', 'Rakefile', 'ChangeLog', 'VERSION']
     
-    [SRC,DOC,XMP,D2,TST,MSC].each do |fary|
+    [SRC,DOC,XMP,D2,TST,MSC,DOTDOC].each do |fary|
       fary.map! { |f| f.to_s }
     end
-    DIST  =  SRC + DOC + XMP + D2 + TST + MSC
+    DIST  =  SRC + DOC + XMP + D2 + TST + MSC + DOTDOC
   end
 
   OUT_DIR = 'pkg'

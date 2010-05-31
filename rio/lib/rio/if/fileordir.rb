@@ -241,8 +241,10 @@ module RIO
       #
       # For directories calls Dir#pos=
       #     ario.pos = integer     => integer
-      #------------------------------------------------------------------------
-      # Synonym for +IF::FileOrDir#seek+, but returns the position parameter.
+      #
+      # ---
+      #
+      # Synonym for IF::FileOrDir#seek, but returns the position parameter.
       #
       #        d = rio("testdir")       #=> d
       #        d.read                   #=> rio(".")

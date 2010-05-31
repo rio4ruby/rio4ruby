@@ -70,9 +70,11 @@ argv = []
 argv << '--op' << rdoc_dir.to_s
 argv += PKG::RDOC_OPTIONS
 argv += PKG::FILES::DOC
-
+p argv
 require 'rdoc/rdoc'
 begin
+  p "RDoc::VERSION = #{RDoc::VERSION}"
+
   r = RDoc::RDoc.new
   r.document(argv)
 rescue RDoc::RDocError => e

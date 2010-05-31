@@ -114,6 +114,36 @@ module RIO
     end
     
 
+    # Returns the length of the Rio's String representation
+    # 
+    # To get the size of the underlying file system object use RIO::IF::Test#size
+    def length() target.length end
+
+    # Equality - calls to_s on _other_ and compares its return value 
+    # with the value returned by Rio#to_s
+    def ==(other) 
+      begin
+        target == other.to_str
+      rescue NoMethodError
+        target == other.to_s
+      end
+    end
+
+    # Equality (for case statements) same as Rio#==
+    def ===(other) self == other end
+
+    # Comparison for sorting; compare as strings.
+    def <=>(other) self.to_str <=> other.to_str end
+
+    # Rios are hashed based on their String representation
+    def hash() self.to_str.hash end
+
+    # Returns true if their String representations are eql?
+    #def eql?(other) self.eql?(other) end
+
+    # Match - invokes _other_.=~, passing the value returned by Rio#to_str
+    def =~(other) other =~ self.to_str end
+
     def method_missing(sym,*args,&block) #:nodoc:
       # p callstr('method_missing',sym,*args)
       

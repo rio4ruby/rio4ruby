@@ -75,29 +75,37 @@ task :clean do
 end
 
 CLOBBER << "doc/rdoc"
-desc "Builds the documentation"
-task :doc => [:rio_rdoc] do
-    puts "\nGenerating online documentation..."
+#desc "Builds the documentation"
+#task :doc => [:rio_rdoc] do
+#    puts "\nGenerating online documentation..."
 #    ruby %{-I../lib ../bin/webgen -V 2 }
-end
+#end
 
 rd = Rake::RDocTask.new do |rdoc|
+  require 'rdoc/rdoc'
+  require 'doc/lib/rdoc/generator/riofish'
+  $:.unshift File.expand_path('doc/lib')
+  p $:[0]
   rdoc.rdoc_dir = 'doc/rdoc'
   rdoc.title    = PKG::TITLE
   rdoc.options = PKG::RDOC_OPTIONS
   rdoc.main = 'RIO::Doc::SYNOPSIS'
-  PKG::FILES::DOC.to_a.each do |glb|
-    #next if glb =~ /yaml.rb$/
-    rdoc.rdoc_files.include( glb )
-  end
-  rdoc.template = 'doc/generators/template/html/rio.rb'
+  rdoc.inline_source = false
+  #rdoc.show_hash = true
+  #rdoc.add_generator(RDoc::Generator::Riofish)
+  #PKG::FILES::DOC.to_a.each do |glb|
+  #  #next if glb =~ /yaml.rb$/
+  #  rdoc.rdoc_files.include( glb )
+  #end
+  #rdoc.template = 'doc/generators/template/html/rio.rb'
 end
 
-desc "Build custom RDoc"
-task :rio_rdoc do 
-  require 'rio/doc/SYNOPSIS'
-  ruby "-Idoc/patched_rdoc -Ilib doc/bin/rdoc --show-hash --op doc/rdoc --title #{PKG::TITLE} --line-numbers  --template doc/generators/template/html/rio.rb #{PKG::FILES::DOC} --main #{RIO::Doc::SYNOPSIS}" 
-end
+#desc "Build custom RDoc"
+#task :rio_rdoc do 
+#  require 'rio/doc/SYNOPSIS'
+#  ruby "-Idoc/patched_rdoc -Ilib doc/bin/rdoc --show-hash --op doc/rdoc --title #{PKG::TITLE} --line-numbers  --template doc/generators/template/html/rio.rb #{PKG::FILES::DOC} --main #{RIO::Doc::SYNOPSIS}" 
+#end
+
 CLOBBER << "test/log" << "test/qp"
 task :test do |t|
     sh "cd test;ruby -I../lib -I. runtests.rb"
@@ -141,6 +149,10 @@ Rake::PackageTask.new( PKG::NAME, PKG::VERSION ) do |p|
   p.package_files = PKG::FILES::DIST
 end
 
+task :show_tst_files do
+  p PKG::FILES::TST
+end
+
 Spec = Gem::Specification.new do |s|
   s.name = PKG::NAME
   s.version = PKG::VERSION
@@ -154,12 +166,12 @@ Spec = Gem::Specification.new do |s|
   s.summary = PKG::SUMMARY
   s.files = PKG::FILES::DIST.map { |rf| rf.to_s }
 
-  s.require_path = 'lib'
-  s.autorequire = 'rio'
+  s.require_paths = ['lib','doc/lib']
 
   s.has_rdoc = true
 
   s.rdoc_options << PKG::RDOC_OPTIONS 
+  #s.rdoc_options << ["--format=riofish"] 
 end
 
 Rake::GemPackageTask.new(Spec) do |p| end

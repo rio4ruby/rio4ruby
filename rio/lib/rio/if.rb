@@ -44,7 +44,7 @@ module RIO
 end
 
 require 'rio/if/internal'
-require 'rio/if/basic'
+#require 'rio/if/basic'
 
 module RIO
   module IF

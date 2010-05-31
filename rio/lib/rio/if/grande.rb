@@ -64,7 +64,7 @@ module RIO
       #
       def to_a() target.to_a() end
 
-      # Grande subscript operator. 
+      # \Grande subscript operator. 
       # 
       # For files this returns all or part of a file as an array.
       #
@@ -125,7 +125,7 @@ module RIO
       #  ario['zippy*'] # same thing
       #
       # As with IF::Grande#each:
-      # * Files and directories are returned as Rios
+      # * Files and directories are returned as \Rios
       # * The types of entries is also affected by IF::GrandeEntry#files and IF::GrandeEntry#dirs.
       #    rio('adir').files['*.txt'] # array of all .txt files
       #    rio('adir').dirs[/^\./] # array of all dot directories
@@ -143,7 +143,7 @@ module RIO
       # This section applies similarly to IF::GrandeStream#lines, IF::GrandeStream#bytes, 
       # IF::GrandeStream#records, and IF::GrandeStream#rows
       #
-      # Using IF::GrandeStream#lines and related methods with a Rio referencing a directory 
+      # Using IF::GrandeStream#lines and related methods with a \Rio referencing a directory 
       # imples IF::GrandeEntry#files and will cause an array of the lines or bytes in the 
       # files to be returned. As above,
       # the arguments to the subscript operator will be applied to the closest.
@@ -155,7 +155,7 @@ module RIO
       #                                                     # 'adir and its subdirectories
       #
       # Note the difference between the following similar usages
-      #  it1 = rio('adir').files('*.rb') # returns a Rio, prepared for selecting ruby files
+      #  it1 = rio('adir').files('*.rb') # returns a \Rio, prepared for selecting ruby files
       #  it2 = rio('adir').files['*.rb'] # returns an array of the ruby files
       #
       # The second example above could have been written
@@ -203,24 +203,24 @@ module RIO
 
 
 
-      # Iterate through a rio. Executes the block for each item selected for the Rio. 
+      # Iterate through a rio. Executes the block for each item selected for the \Rio. 
       # See IF::GrandeStream#lines, IF::GrandeStream#records, IF::GrandeStream#bytes, 
       # IF::GrandeEntry#files, IF::GrandeEntry#dirs, IF::Grande#[] 
       # and IF::Grande#to_a for more information
       # on how records are selected and what kind of record is passed to the block.
       # 
-      # IF::Grande#each is the fundemental method for all the Rio grande operators.
-      # IF::Grande#to_a and the Rio copy operators 
+      # IF::Grande#each is the fundemental method for all the \Rio grande operators.
+      # IF::Grande#to_a and the \Rio copy operators 
       # IF::Grande#<, IF::Grande#<<, IF::Grande#>>, and IF::Grande#> 
       # are all implemented in terms of IF::Grande#each.
       #
-      # While IF::Grande#each is fundamental to a Rio, it rarely needs 
+      # While IF::Grande#each is fundamental to a \Rio, it rarely needs 
       # actually be called because all the grande configuration methods will also take a block 
       # and call IF::Grande#each if one is given. 
       # So the existance of a block after many methods is taken as an implied
       # IF::Grande#each
       #
-      # For Rios that refer to files, the item passed to the block is a String containing
+      # For \Rios that refer to files, the item passed to the block is a String containing
       # the line or block as selected by IF::GrandeStream#lines, or IF::GrandeStream#bytes. 
       # +lines+ is the default.
       #  rio('afile').lines.each { |line| ...}
@@ -246,14 +246,14 @@ module RIO
       #  1 is spelled 'one'
       #
       # 
-      # For Rios that refer to directories, the item passed to the block is a Rio refering to
+      # For \Rios that refer to directories, the item passed to the block is a \Rio refering to
       # the directory entry. 
       #
       #  rio('adir').files.each do |file|
       #    file.kind_of?(RIO::Rio)  # true
       #  end
       # 
-      # In addition, the Rio passed to the block inherits certain attributes from the directory Rio.
+      # In addition, the \Rio passed to the block inherits certain attributes from the directory \Rio.
       #
       #  rio('adir').files.chomp.each do |file| # chomp is ignored for directories,
       #    file.each do |line|                  # chomp attribute is inherited by the file rio
@@ -261,7 +261,7 @@ module RIO
       #    end
       #  end
       #
-      # IF::Grande#each returns the Rio which called it.
+      # IF::Grande#each returns the \Rio which called it.
       #
       # Here are a few illustrative examples
       # 
@@ -319,9 +319,9 @@ module RIO
       def each(*args,&block) target.each(*args,&block); self end
 
 
-      # For a file Rio +delete+ calls FileUtils#rm. 
-      # For a directory Rio +delete+ calls FileUtils#rmdir
-      # Returns the Rio. If the Rio does not exist, simply return the Rio.
+      # For a file \Rio +delete+ calls FileUtils#rm. 
+      # For a directory \Rio +delete+ calls FileUtils#rmdir
+      # Returns the \Rio. If the \Rio does not exist, simply return the \Rio.
       #
       #  rio('afile,txt').delete # delete 'afile.txt'
       #  rio('adir').delete # delete adir
@@ -334,7 +334,7 @@ module RIO
 
       # For a file IF::Grande#delete! calls FileUtils#rm. 
       # For a directory IF::Grande#delete! calls FileUtils#rmtree.
-      # Returns the Rio. If the rio does not exist, simply returns itself.
+      # Returns the \Rio. If the rio does not exist, simply returns itself.
       #
       #  rio('afile,txt').delete! # delete f.txt
       #  rio('adir').delete! # delete adir
@@ -353,13 +353,13 @@ module RIO
       #
       def delete!() target.delete!(); self end
 
-      # Grande Copy-To Operator
+      # \Grande Copy-To Operator
       # 
-      # The copy grande-operator copies a Rio to a another Rio or another ruby object. The behaviour 
+      # The copy grande-operator copies a \Rio to a another \Rio or another ruby object. The behaviour 
       # and the library used depend on the types of the of the source and destination. For
       # simple file or directory copying ::FileUtils#cp or ::FileUtils#cp_r will be used. If
-      # any of the Rio grande methods are specified for the source or destination, the
-      # source Rio will be iterated through copying records to the destintion as specified. Roughly
+      # any of the \Rio grande methods are specified for the source or destination, the
+      # source \Rio will be iterated through copying records to the destintion as specified. Roughly
       # equivelant to
       #  dst = rio('dst_file')
       #  rio('src_file').each do |line|
@@ -368,9 +368,9 @@ module RIO
       #  dst.close
       #
       # The destination of the copy operators may be a:
-      # IO::      Each record of the Rio is written to the IO using IO#print. The IO must be opened for writing.
-      # Array::   Each record or entry of the Rio becomes an element of the array
-      # String::  Puts the entire contents of the Rio into the string
+      # IO::      Each record of the \Rio is written to the IO using IO#print. The IO must be opened for writing.
+      # Array::   Each record or entry of the \Rio becomes an element of the array
+      # String::  Puts the entire contents of the \Rio into the string
       # Rio::     Depends on the destination. See below.
       #
       # Copy a file to a file
@@ -396,7 +396,7 @@ module RIO
       #
       #  rio('afile').skiplines(0..9) > ary # ary will contain all but the first ten lines of the file
       #
-      #  rio('adir') > ary # ary will contain a Rio for each entry in the directory
+      #  rio('adir') > ary # ary will contain a \Rio for each entry in the directory
       #  rio('adir').files > ary # same, but only files
       #  rio('adir').files('*.rb') >ary # same, but only .rb files
       # 
@@ -404,7 +404,7 @@ module RIO
       #  rio('afile') > astring # slurp the entire contents of the file into astring
       #  astring = rio('afile').contents # same effect
       #
-      # Copy the first line *and* every line containing the word Rio into a gzipped file
+      # Copy the first line *and* every line containing the word \Rio into a gzipped file
       #  rio('src').lines(1,/Rio/) > rio('dst.gz').gzip
       #
       # Copy lines of a web page into an array with each line chomped
@@ -427,19 +427,19 @@ module RIO
       def copy_to(destination) target.copy_to(destination); self end
 
 
-      # Grande Pipe Operator
+      # \Grande Pipe Operator
       # 
-      # The Rio pipe operator is actually an alternative syntax for calling the IF::Grande#> (copy-to) 
+      # The \Rio pipe operator is actually an alternative syntax for calling the IF::Grande#> (copy-to) 
       # operator, designed to 
       # allow several copy operation to be performed in one line of code, with behavior that mimics
       # the pipe operator commonly available in shells.
       #
-      # If +destination+ is a +cmdio+, a <tt>cmdpipe</tt> Rio is returned, and none of the commands are run.
+      # If +destination+ is a +cmdio+, a <tt>cmdpipe</tt> \Rio is returned, and none of the commands are run.
       #
-      # Otherwise the +cmdpipe+ Rio is run with the output of the pipe being copied to the destination.
-      # In this case a Rio representing the +destination+ is returned.
+      # Otherwise the +cmdpipe+ \Rio is run with the output of the pipe being copied to the destination.
+      # In this case a \Rio representing the +destination+ is returned.
       # 
-      # If destination is not a Rio it is passed to the Rio constructor as is done with the copy-to operator
+      # If destination is not a \Rio it is passed to the \Rio constructor as is done with the copy-to operator
       # except that if +destination+ is a String it is assumed to be a command instead of a path.
       #
       #  rio('afile') | rio(?-,'grep i') | rio(?-) # returns rio(?-)
@@ -465,21 +465,21 @@ module RIO
       #  acmdpipe2 = rio('afile') | 'acmd' | 'acmd2'
       #  acmdpipe2 | rio('outfile') # same thing
       #
-      # The grande pipe operator can not be used to create a +cmdpipe+ Rio that includes a destination.
-      # This must be done using a Rio constructor
+      # The grande pipe operator can not be used to create a +cmdpipe+ \Rio that includes a destination.
+      # This must be done using a \Rio constructor
       #  cmd_with_output = rio(?|,'acmd',rio('outfile'))
       #  rio('afile') | cmd_with_output # same as above
       #
       def |(destination) target | destination end
 
-      # Grande Append-To Operator
+      # \Grande Append-To Operator
       # 
       # The append-to grande-operator is the same as IF::Grande#> (copy-to) except that it opens the destination
       # for append.
       # The destination can be a kind of:
-      # IO::     Each record of the Rio is written to the IO using IO#print. The IO must be opened for writing.
-      # Array::  Each record or entry of the Rio is appended to the destination array
-      # String:: Appends the entire contents of the Rio to destination
+      # IO::     Each record of the \Rio is written to the IO using IO#print. The IO must be opened for writing.
+      # Array::  Each record or entry of the \Rio is appended to the destination array
+      # String:: Appends the entire contents of the \Rio to destination
       # Rio::    Just like IF::Grande#> (copy-to) except the unopened object are 
       #          opened for append. If the destination is already opened for writing or is a 
       #          directory, this is identical to IF::Grande#> (copy-to) 
@@ -497,16 +497,16 @@ module RIO
       def append_to(destination) target.append_to(destination); self end
 
 
-      # Grande Append-From Operator
+      # \Grande Append-From Operator
       # 
-      # The append-from grande-operator copies a Rio from another Rio or another ruby object. This
-      # behaves like IF::Grande#< (copy-from) except unopened Rios are opened for append.
+      # The append-from grande-operator copies a \Rio from another \Rio or another ruby object. This
+      # behaves like IF::Grande#< (copy-from) except unopened \Rios are opened for append.
       #
       # The following summarizes how objects are copied:
-      # IO::       IO#each is used to iterate through the source with each record appended to the Rio
-      # Array::    Each element of the Array is appended individually to the Rio.
-      # String::   The string is appended to the Rio using IF::RubyIO#print
-      # Rio::      The source Rio is appended using its IF::Grande#>> (append-to) operator
+      # IO::       IO#each is used to iterate through the source with each record appended to the \Rio
+      # Array::    Each element of the Array is appended individually to the \Rio.
+      # String::   The string is appended to the \Rio using IF::RubyIO#print
+      # Rio::      The source \Rio is appended using its IF::Grande#>> (append-to) operator
       # 
       # See IF::Grande#< (copy-from)
       def <<(source) target << source; self end
@@ -516,9 +516,9 @@ module RIO
       def append_from(source) target.append_from(source); self end
 
 
-      # Grande Copy-From Operator
+      # \Grande Copy-From Operator
       # 
-      # The copy-from grande-operator copies a Rio from another Rio or another ruby object. 
+      # The copy-from grande-operator copies a \Rio from another \Rio or another ruby object. 
       # Its operation is dependent on the the file system objects referenced, the rio
       # options set, and the state of its source and destination. In the broadest of terms
       # it could be described as doing the following:
@@ -577,7 +577,7 @@ module RIO
       #      else dest << rio(el)
       #    end
       #
-      # To improve run-time efficiency, Rio will choose from among several strategies when
+      # To improve run-time efficiency, \Rio will choose from among several strategies when
       # copying. For instance when no file or directory filtering is specified, FileUtils#cp_r is
       # used to copy directories; and when no line filtering is specified, FileUtils#cp is used to copy
       # files.
@@ -611,7 +611,7 @@ module RIO
       def copy_from(source) target.copy_from(source); self end
 
 
-      # Reads and returns the next record or entry from a Rio, 
+      # Reads and returns the next record or entry from a \Rio, 
       # honoring the grande selection methods. 
       #
       # Returns nil on end of file.
@@ -630,7 +630,7 @@ module RIO
       #
       def get() target.get() end
 
-      # Grande Exclude method
+      # \Grande Exclude method
       # 
       # +skip+ can be used in two ways.
       #
@@ -653,7 +653,7 @@ module RIO
       # ==== skip with arguments
       #
       # When called with arguments it acts like IF::GrandeEntry#skipentries for directory 
-      # Rios and like IF::GrandeStream#skiprecords for stream Rios.
+      # \Rios and like IF::GrandeStream#skiprecords for stream \Rios.
       #
       #  rio('afile').lines(/Rio/).skip[0..4] # lines containg 'Rio' excluding the
       #                                       # first five lines
@@ -663,7 +663,7 @@ module RIO
       #
       # If a block is given, behaves as if <tt>skip(*args).each(&block)</tt> had been called.
       #
-      # Returns the Rio.
+      # Returns the \Rio.
       #
       # See IF::GrandeStream#skiplines, IF::GrandeStream#skiprecords, IF::GrandeStream#skiprows, 
       # IF::GrandeEntry#skipfiles, IF::GrandeEntry#skipdirs, and IF::GrandeEntry#skipentries.
@@ -685,7 +685,7 @@ module RIO
       #
       # ==== split with no aruments:
       #
-      # Returns an array of Rios, one for each path element. 
+      # Returns an array of \Rios, one for each path element. 
       # (Note that this behavior differs from File#split.)
       #
       #  rio('a/b/c').split   #=> [rio('a'),rio('b'),rio('c')]
