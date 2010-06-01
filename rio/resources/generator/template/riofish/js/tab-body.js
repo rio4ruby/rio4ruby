@@ -25,9 +25,23 @@
       //return this.dialog.dialog('isOpen');
     return this.open;
   },
+  setTabCookie: function(wh) {
+    console.debug("setTabCookie: %s",wh);
+    $.cookie('tab',wh,{ path: '/'});
+  },
+  getTabCookie: function() {
+    var val = $.cookie('tab');
+    console.debug("getTabCookie: %s",val);
+    return val;
+  },
+  clearTabCookie: function() {
+    console.debug("clearTabCookie");
+    $.cookie('tab',null,{ path: '/'});
+  },
   hide: function(closeButton) {
     var lpw = $('#left-pane').width();
     console.debug("hide(%s) lpw=%d",closeButton,lpw);
+    this.clearTabCookie();
     $('.tb_hide_listener').trigger('tb_hide');
     if(!closeButton)
       this.hide_dialog();
@@ -37,6 +51,7 @@
   },
   change: function(wh) {
     console.debug("change(%s)",wh);
+    this.setTabCookie(wh);
     $('.tb_change_listener').trigger('tb_change',wh);
   },
   show: function(wh) {
@@ -46,9 +61,8 @@
     $('.tb_show_listener').trigger('tb_show',wh);
   },
   select: function(wh) {
-    console.debug("select(%s)",wh);
+    console.debug("select called with (%s)",wh);
     if(this.isOpen()) {
-
       if(wh == this.which()) {
 	this.hide();
       }
@@ -59,6 +73,7 @@
     else {
       this.show(wh);
     }
+    console.debug("select exits with tab-cookie:(%s)",$.cookie('tab'));
   },
   link_with_tab: function(el) {
     var tid = this.which();
@@ -257,7 +272,7 @@ jQuery(document).ready(function() {
 
   $('#tab-tops p').addClass('tb_change_listener');
   $('#tab-tops p').bind('tb_change',function(ev,wh) {
-      //console.debug("tab-tops:tb_change(%s)",wh);
+      console.debug("tab-tops:tb_change(%s)",wh);
 
       var theid = $(this).closest('.context').attr('id');
       var myWhich = $tabbody.getWhich(theid);
@@ -272,7 +287,7 @@ jQuery(document).ready(function() {
 
   $('#tab-tops p').addClass('tb_hide_listener');
   $('#tab-tops p').bind('tb_hide',function(ev) {
-    // console.debug("tab-tops:tb_hide");
+    console.debug("tab-tops:tb_hide");
     $(this).removeClass('tab-selected');
   });
 
@@ -296,28 +311,38 @@ jQuery(document).ready(function() {
     return false;
   });
 
-  $('.modlink').click(function(ev) {
-    ev.stopImmediatePropagation();
-    $('.sel1').toggleClass('sel1');
-    $(this).closest('li').addClass('sel1');
-    return $tabbody.link_with_tab(this);
-  });
+//   $('.modlink').click(function(ev) {
+//     ev.stopImmediatePropagation();
+//     $('.sel1').toggleClass('sel1');
+//     $(this).closest('li').addClass('sel1');
+//     return $tabbody.link_with_tab(this);
+//   });
   
-  $('.methlink').click(function(ev) {
-    ev.stopImmediatePropagation();
-    return $tabbody.link_with_tab(this);
-  });
+//   $('.methlink').click(function(ev) {
+//     ev.stopImmediatePropagation();
+//     return $tabbody.link_with_tab(this);
+//   });
   
-
-  var param = $(document).getUrlParam('tab');
-  if(param) {
+  var seltab = $tabbody.getTabCookie();
+  if(seltab) {
+    console.debug("selecting tab from cookie (%s)",seltab);
     $tabbody.create_dialog('#menu-dialog',true);
     $('#sliding-panes').toggleClass('menu-closed');
-    $tabbody.select(param,-1);
+    $tabbody.select(seltab,-1);
   }
   else {
     $tabbody.create_dialog('#menu-dialog',false);
   }
+
+//   var param = $(document).getUrlParam('tab');
+//   if(param) {
+//     $tabbody.create_dialog('#menu-dialog',true);
+//     $('#sliding-panes').toggleClass('menu-closed');
+//     $tabbody.select(param,-1);
+//   }
+//   else {
+//     $tabbody.create_dialog('#menu-dialog',false);
+//   }
 
   var hide_dur =   $tabbody.dialog.dialog('option','hide');
   console.info("hide_dur=%.o",hide_dur);
@@ -356,8 +381,16 @@ jQuery(document).ready(function() {
 	return true;
       });
     }
+    location = '#';
     return false;
   });
+  $('#metadata li > a').parent().click(function(ev) {
+    ev.stopImmediatePropagation();
+    console.debug("clicked %.o",$(this));
+    //$(this).children('a').first().trigger('click');
+    return false;
+  });
+  
   console.debug("Finished Loading");
 
 //  $('#sliding-panes').bind('tb_hide',function(ev,wh) {
