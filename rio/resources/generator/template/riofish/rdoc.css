@@ -65,11 +65,14 @@ h2,h3,h4 {
 
 
 pre {
-	background: #f0f0f0;
-	padding: 0.5em 0;
-	border: 1px inset #a89255;
-
+	background: #fdfdfd;
+ 	padding: 0.5em 0; 
+	border-top: 1px solid #225;
+	border-left: 1px solid #225;
+	font-size: 85%;
 	padding-left: 1em;
+	margin: 0.5em;
+	margin-bottom: 1em;
 }
 
 
@@ -360,6 +363,8 @@ div#documentation-header {
     background-color: #fff;
     color: #401;
 }
+
+
 #documentation-header .klass-type {
     float: left;
 }
@@ -391,10 +396,17 @@ div#documentation {
     padding: 0px;
 }
 */
-
+#documentation p {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
 #documentation a {
     text-decoration: none;
     color: #666;
+}
+#documentation a:hover {
+    text-decoration: underline;
+    color: #333;
 }
 
 #description dl,
@@ -429,15 +441,15 @@ div#documentation {
 }
 #documentation h3.section-header {
     padding: 0em 0.5em;
-    color: #000;
-    background-color: #e8d295;
-    background-color: #ccc;
-    color: #224;
-    cursor: pointer;
-    background: white url(images/fade-gray-trans.png) repea-x 4px center;
-    background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
-    background: #aaa url(images/fade-gray-trans.png)  bottom repeat-x;
+/*     color: #000; */
+/*     background-color: #e8d295; */
+/*     background-color: #ccc; */
+/*     color: #224; */
+/*     background: white url(images/fade-gray-trans.png) repea-x 4px center; */
+/*     background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x; */
+     background: #aaa url(images/fade-gray-trans.png)  bottom repeat-x; 
 
+    cursor: pointer;
     font-size: 150%;
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -495,13 +507,13 @@ div#documentation {
 #documentation .method-detail {
 	margin: 0.5em 0;
 	padding: 0.5em 0;
-	background-color: #e9e9e9;
+ 	background-color: #f0f0f0;
 	border: 1px dotted #aad;
 	padding-top: 0px;
+	color: #204;
 }
 #documentation div.method-detail:hover {
-	border: 1px solid #224;
-	background-color: #FFF;
+/* 	border: 1px solid #224; */
 }
 #documentation .method-heading {
 	position: relative;
@@ -509,16 +521,20 @@ div#documentation {
 	margin-bottom: 0.2em;
 	font-size: 125%;
 	font-weight: bold;
-	color: #333;
+	color: #000;
 	background: url(images/brick.png) no-repeat left bottom;
 }
 
 #documentation .method-detail .method-heading,
 #documentation .method-detail .method-heading {
     font-family: courier, "courier new", monospace;
-	background-color: #d1ddef;
-	border-bottom: 1px dashed #88a;
+    color: #000;
+    
+    background-color: #D9ECF8;
+    border-top: 1px solid #555;
+/*	border-bottom: 1px dashed #88a;
 	background: #d1ddef url(images/fade-gray-trans-down-50.png)  50% bottom repeat-x;
+*/
 }
 
 #documentation .method-heading :link,
@@ -903,14 +919,20 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 
 .ui-widget-header {
     /* border: 1px solid  #65381d; */
-    background: #401;
-    background: #401 url(images/fade-gray-trans-down-50.png)  bottom repeat-x;
+/*     background: #401; */
+/*     background: #401 url(images/fade-gray-trans-down-50.png)  bottom repeat-x; */
 }
 
 .ui-widget-content {
-    border: 2px solid #224;
-    color: #333333;
+/*     border: 2px solid #224; */
+/*     color: #333333; */
     padding: 0px;
+    background: transparent;
+    border: 0px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 .ui-dialog {
@@ -925,6 +947,23 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
     background: none;
     overflow: auto;
     zoom: 1;
+}
+
+.ui-widget-header {
+/*     border: 1px solid #e78f08; */
+/*     background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x; */
+      color: #ffffff;
+     background: #401 url(images/fade-gray-trans-down-50.png)  50% bottom repeat-x; 
+    font-weight: bold;
+    border: 0px;
+}
+.ui-dialog .ui-dialog-titlebar{
+    padding-left: 1.0em;
+    font-weight: bold;
+/*     color: #ffffff; */
+}
+.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+
 }
 
 
@@ -978,7 +1017,6 @@ div.context {
     padding-left: 3px;
     padding-right: 3px;
 /*    width: 25px; */
-    background-color: transparent;
 }
 
 
@@ -1004,7 +1042,7 @@ div#tab-N {
 div#tab-F {
     height: 55px;
 }
-
+/*
 p.css-vertical-text a {
     height: 21px;
     background: transparent;
@@ -1016,7 +1054,7 @@ p.css-vertical-text a {
     border-top: 1px solid #885;
     border-right: 1px solid #885;
 }
-
+*/
 
 
 
@@ -1037,14 +1075,14 @@ div#left-pane {
 
     /* background-color: #f9f1dd; */
     /* background-color: #e9e1cd; */
-    background-color: #ddf;
-    background-color: #401;
-    background-color: #224;
-    background: #224 url(images/fade-gray-trans-down-1024.png)  bottom repeat-x;
+/*     background-color: #ddf; */
+/*     background-color: #401; */
+     background-color: #eee;
+     background: #401 url(images/fade-gray-trans-down-1024.png)  top repeat-x; 
 
 
 
-    border: 1px solid #ccc;
+     border-right: 1px solid #ccc;
 
     color: #333;
     z-index: 2000;
@@ -1057,19 +1095,20 @@ div#left-pane {
     -moz-border-radius-topleft: 5px;
     -webkit-border-top-left-radius: 5px;
     */
-    padding-left: 1px;
-    padding-right: 2px;
+    padding-left: 3px;
+    padding-right: 0px;
     padding-top: 7px;
     padding-bottom: 0px;
     margin-left: 0px;
+    
 }
 
 
 div#tab-tops {
-    background-color: transparent;
-    background-color: #eef;
-    background-color: #e9e1cd;
-    background-color: #e9e9e9;
+/*     background-color: transparent; */
+/*     background-color: #eef; */
+/*     background-color: #e9e1cd; */
+/*     background-color: #e9e9e9; */
     /*
     filter:alpha(opacity=30);
     -moz-opacity: 0.3;
@@ -1078,9 +1117,11 @@ div#tab-tops {
 
 
 
-    border: 3px groove #888;
-    border-top: 0px;
-    border-left: 0px;
+/*     border: 3px groove #888; */
+/*     border-top: 0px; */
+/*     border-left: 0px; */
+
+
     margin-left: 2px;
     -moz-border-radius-bottomright: 10px;
     -webkit-border-bottom-right-radius: 10px;
@@ -1090,17 +1131,34 @@ div#tab-tops {
     padding-top: 5px;
     padding-bottom: 10px;
     padding-left: 0px;
-    padding-right: 2px;
+    padding-right: 0px;
   
 }
 
 
 #tab-tops p a:hover {
 /*     background-color: #e9e1bd; */
-     background-color: #D1DDEF;
-    color: #584205;
-    color: #000;
     cursor: pointer;
+
+
+    filter:alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+
+    color: #401;
+/*     color: #ffffff; */
+/* /\*     border: 2px outset #bbb; *\/ */
+/*     background: #401 url(images/fade-gray-trans-down-50.png)  50% bottom repeat-x; */
+}
+#tab-tops p.tab-selected a:hover {
+/*     background-color: #e9e1bd; */
+    cursor: pointer;
+    filter:alpha(opacity=90);
+    -moz-opacity: 0.9;
+    opacity: 0.9;
+    color: #fffff;
+
+    
 }
 
 #tab-tops p.tab-selected a {
@@ -1108,10 +1166,15 @@ div#tab-tops {
     background-color: #401;
     color: #ffffff; /* #f9f1dd; */
     background: #401 url(images/fade-gray-trans-down-50.png)  50% bottom repeat-x;
+/*     border: 2px inset #bbb; */
 }
 #tab-tops p a {
     text-decoration: none;
-    color: inherit;
+    color: #000;
+    width: 100%;
+    display: block;
+    padding: 1px;
+     border-right: 1px solid #224;
 }
 
 
@@ -1137,11 +1200,12 @@ div#next-pane {
 }
 
 div#menu-dialog {
-    background-color: #d0d0d0;
-    background: #aaa url(images/fade-gray-trans-down-1024.png)  bottom repeat-x;
+/*     background-color: #d0d0d0; */
+/*     background: #f5f5f5  url(images/fade-gray-trans-up-1024.png)  top repeat-x; */
     padding-left: 0px;
     padding-right: 0px;
     height: 100%;
+/*     border-top: 1px solid #ccc; */
 }
 
 
@@ -1158,11 +1222,14 @@ div#menu-dialog {
     padding-right: 1em;
 }
 #menu-dialog ul li.sel1 {
-    background-color: #ECD699;
+/*     background-color: #ECD699; */
 }
 #menu-dialog ul li a {
     text-decoration: none;
     color: inherit;
+    display: block;
+    font-size: 90%;
+    width: 100%;
 }
 #menu-dialog ul li:hover {
     background-color: #401;

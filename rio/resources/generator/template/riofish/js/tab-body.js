@@ -108,7 +108,7 @@
     return parseInt(newml).toString()+'px';
   },
 
-  anim_dialog: function(w,extra,dur) {
+  anim_dialog: function(mode,w,extra,dur) {
     var diag = $('#menu-dialog').closest('.ui-dialog');
     var tbody = this;
   
@@ -123,8 +123,8 @@
  	var newml = tbody.getml(diag,extra);
  	console.debug("anim_dialog complete: %s",newml);
  	$('#right-pane').css('margin-left',newml);
+	tbody.dialog.dialog("close");
        },
-
        step: function() {
  	var newml = tbody.getml(diag,extra);
  	//console.debug("anim_dialog step: %s",newml);
@@ -139,9 +139,29 @@
 
     if(diag_open) {
       var diag = $('#menu-dialog').closest('.ui-dialog');
+      var tbody = this;
       var extra = 0;
       var w = diag.outerWidth();
-      this.anim_dialog(-w,extra,200);
+      var left_width = $('#left-pane').outerWidth();
+      var diag_left_to = left_width - w;
+      var dur = 200;
+
+      diag.animate({left: diag_left_to},{
+	duration: dur,
+
+	complete: function() {
+	  var newml = tbody.getml(diag,extra);
+ 	  console.debug("anim_dialog complete: %s",newml);
+ 	  $('#right-pane').css('margin-left',newml);
+	  tbody.dialog.dialog("close");
+	},
+	step: function() {
+	  var newml = tbody.getml(diag,extra);
+ 	  //console.debug("anim_dialog step: %s",newml);
+ 	  $('#right-pane').css('margin-left',newml);
+	}
+      
+      });
     }
     else {
       var newml = $('#left-pane').outerWidth();
@@ -149,13 +169,42 @@
     }
   },
   show_dialog: function() {
-    if(!this.dialog.dialog('isOpen'))
+    var diag = $('#menu-dialog').closest('.ui-dialog');
+    var tbody = this;
+    var w = diag.outerWidth();
+    var left_width = $('#left-pane').outerWidth();
+    var diag_left_to = left_width - w;
+    var dur = 200;
+
+    if(!this.dialog.dialog('isOpen')) {
+
       this.dialog.dialog('open');
+      diag.position({
+	  my: 'right top',
+	  at: 'right top',
+	  of: '#left-pane',
+	  collision: 'none',
+      });
+    }
 
     var extra = 0;
     var w = 0;
 
-    this.anim_dialog(w,extra,200);
+    diag.animate({left: left_width},{
+      duration: dur,
+
+       complete: function() {
+ 	var newml = tbody.getml(diag,extra);
+ 	console.debug("anim_dialog complete: %s",newml);
+ 	$('#right-pane').css('margin-left',newml);
+       },
+       step: function() {
+ 	var newml = tbody.getml(diag,extra);
+ 	//console.debug("anim_dialog step: %s",newml);
+ 	$('#right-pane').css('margin-left',newml);
+       }
+      
+    });
   },
   create_dialog: function(sel,auto_load) {
     // var anim;
@@ -163,14 +212,17 @@
     var tbody = this;
     var diag_width = this.get_dialog_width();
     var el = $(sel);
-    var left_pane_width = $('#left-pane').outerWidth() + 1;
-
+    var left_pane_width = $('#left-pane').outerWidth();
+    var left_pos = auto_load ? left_pane_width : left_pane_width - diag_width;
     console.debug("dialog.create auto_load=%s width=%d",auto_load,diag_width);
-
+    var pos = {
+      left: left_pos,
+      top: 0
+    };
     this.dialog = el.dialog({
 		    autoOpen: auto_load,
 		    title: 'Basic Dialog',
-		    position: [left_pane_width,0],
+		    position: pos,
 		    width: diag_width,
 		    height: $('#left-pane').height() - scrollbarWidth(), 
 		    /* hide: anim, */
@@ -358,16 +410,26 @@ jQuery(document).ready(function() {
     //$('#log').append('<div>Handler for .resize() called.</div>');
   });
 
-
-
-
   $('#documentation .section .section-header').click(function(ev) {
     $(this).siblings('.section-body').toggleClass('hidden-section');
   });
-  
-  
 
-
+  $('#fileindex-section ul li').click(function(ev) {
+    ev.stopImmediatePropagation();
+    var lnk = $(this).find('a');
+    var href = lnk.attr('href');
+    if(href) {
+      var load_args = href + " #fp-body";
+      $('#file-info-section').load(load_args,function() {
+	$('div#fp-body').click(function(ev) {
+	  $('#file-info-section').empty();
+	});
+	return true;
+      });
+    }
+    location = '#';
+    return false;
+  });
   $('#file-list-section ul li').click(function(ev) {
     ev.stopImmediatePropagation();
     var lnk = $(this).find('a');
@@ -384,13 +446,6 @@ jQuery(document).ready(function() {
     location = '#';
     return false;
   });
-  $('#metadata li > a').parent().click(function(ev) {
-    ev.stopImmediatePropagation();
-    console.debug("clicked %.o",$(this));
-    //$(this).children('a').first().trigger('click');
-    return false;
-  });
-  
   console.debug("Finished Loading");
 
 //  $('#sliding-panes').bind('tb_hide',function(ev,wh) {
