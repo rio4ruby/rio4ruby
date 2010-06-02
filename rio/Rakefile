@@ -74,12 +74,6 @@ task :clean do
   ruby "setup.rb clean"
 end
 
-CLOBBER << "doc/rdoc"
-#desc "Builds the documentation"
-#task :doc => [:rio_rdoc] do
-#    puts "\nGenerating online documentation..."
-#    ruby %{-I../lib ../bin/webgen -V 2 }
-#end
 
 rd = Rake::RDocTask.new do |rdoc|
   require 'rdoc/rdoc'
@@ -227,7 +221,7 @@ end
 
 desc "Upload documentation to homepage"
 task :uploaddoc => [:rdoc] do
-  Dir.chdir('doc/rdoc')
+  Dir.chdir('doc')
   puts
   puts "rio4ruby@rubyforge.org:/var/www/gforge-projects/#{PKG::NAME}/"
   sh "scp -r * rio4ruby@rubyforge.org:/var/www/gforge-projects/#{PKG::NAME}/"
