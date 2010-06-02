@@ -28,6 +28,20 @@
     <script src="<%= rel_prefix %>/js/jquery.cookie.js" type="text/javascript"
 	    charset="utf-8"></script>
 
+
+
+
+
+
+<!--
+    <link rel="stylesheet" href="<%= rel_prefix %>/rdoc.css" type="text/css"
+	  media="screen" />
+
+    <script src="<%= rel_prefix %>/js/tab-body.js" type="text/javascript"
+	    charset="utf-8"></script>
+-->
+
+
     <link rel="stylesheet" href="/test/rdoc.css" type="text/css"
 	  media="screen" />
 
@@ -47,6 +61,7 @@
 
 
 
+    <!-- LEFT PANE -->
     <div id="left-pane" class="pane">
       <div id="tab-tops">
 	<div id="tab-C" class="context">
@@ -87,7 +102,6 @@
     <!-- END OF LEFT PANE -->
 
 
-    <div id="sliding-panes" class="menu-closed">
       <!-- MIDDLE PANE -->
       <div id="middle-pane" class="pane">
 	<div id="menu-pane">
@@ -102,7 +116,7 @@
 		<% simple_files = @files.select {|tl| tl.parser == RDoc::Parser::Simple } %>
 		<% unless simple_files.empty? then %>
 		
-		<div id="fileindex-section" class="section project-section">
+		<div id="fileindex-section" class="section project-section selectable-file-list">
 		  <h3 class="section-header">Files</h3>
 		  <div class="section-body">
 		    <ul>
@@ -201,7 +215,7 @@
 
 	      <!-- FILE METADATA -->
 	      <div id="file-metadata">
-		<div id="file-list-section" class="section">
+		<div id="file-list-section" class="section selectable-file-list">
 		  <div id="file-list">
 		    
 		    <h3 class="section-header">In Files</h3>
@@ -209,7 +223,8 @@
 		      <ul>
 			<% klass.in_files.each do |tl| %>
 			<li><a href="<%= rel_prefix %>/<%= h tl.path %>"
-			       class="thickbox" title="<%= h tl.absolute_name %>"><%= h tl.absolute_name %></a></li>
+			       class="thickbox"
+			       title="<%= h tl.absolute_name %>"><%= h tl.absolute_name %></a></li>
 			<% end %>
 		      </ul>
 		    </div>
@@ -256,7 +271,7 @@
 
 
       <!-- RIGHT PANE -->
-      <div id="right-pane" class="pane">
+      <div id="right-pane" class="pane menu-closed">
 	<!-- CLASS/MODULE DOCUMENTATION -->
 	<div id="outdoc" title="<%= klass.full_name %>" >
 	  <div id="documentation">
@@ -430,7 +445,6 @@
       </div>
       <!-- END OF RIGHT PANE -->
 
-    </div>
     
 
   </body>
