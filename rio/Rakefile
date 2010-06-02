@@ -86,7 +86,7 @@ rd = Rake::RDocTask.new do |rdoc|
   require 'resources/generator/riofish'
   $:.unshift File.expand_path('doc/lib')
   p $:[0]
-  rdoc.rdoc_dir = 'doc/rdoc'
+  rdoc.rdoc_dir = 'doc'
   rdoc.title    = PKG::TITLE
   rdoc.options = PKG::RDOC_OPTIONS
   rdoc.main = 'RIO::Doc::SYNOPSIS'
