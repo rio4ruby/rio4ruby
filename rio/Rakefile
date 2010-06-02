@@ -46,7 +46,7 @@ require 'rio'
 SVN_REPOSITORY_ROOT = 'svn+ssh://rio4ruby@rubyforge.org//var/svn/rio'
 SVN_REPOSITORY_URL = [SVN_REPOSITORY_ROOT,'trunk/rio'].join('/')
  
-require 'doc/pkg_def'
+require 'resources/pkg_def'
 
 ZIP_DIR = "/loc/zip/ruby/rio"
 
