@@ -176,7 +176,7 @@ module RDoc::Generator::Markup
 
 
 end
-
+__END__
 class RDoc::Generator::Riofish
 
 	RDoc::RDoc.add_generator( self )

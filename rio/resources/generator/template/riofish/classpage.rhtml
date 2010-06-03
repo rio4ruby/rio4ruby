@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%
+   $:.unshift File.expand_path(File.dirname(__FILE__)+'/../../')
+   require 'riofish'
+%>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta content="text/html; charset=<%= @options.charset %>" http-equiv="Content-Type" />
@@ -293,6 +297,31 @@
 		<% end %>
 		<div class="rel-prefix"><a href="<%= rel_prefix %>">rel_prefix: (<%= rel_prefix %>)</a></div>
 	      </div>
+	      
+	      <% if !svninfo.empty? %>
+	      <div id="file-svninfo-section" class="section">
+		<h3 class="section-header">Subversion Info</h3>
+		<div class="section-body">
+		  <dl class="svninfo">
+		    <dt>Rev</dt>
+		    <dd><%= svninfo[:rev] %></dd>
+		    
+		    <dt>Last Checked In</dt>
+		    <dd><%= svninfo[:commitdate].strftime('%Y-%m-%d %H:%M:%S') %>
+		      (<%= svninfo[:commitdelta] %> ago)</dd>
+		    
+		    <dt>Checked in by</dt>
+		    <dd><%= svninfo[:committer] %></dd>
+		  </dl>
+		</div>
+		</div>
+	      <% end %>
+              
+	      
+	      
+	      
+	      
+	      
 	      <div class="bottom"></div>
 	    </div>
 	    
