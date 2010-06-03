@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rio/kernel'
+require 'rio'
 
 HEADERDIR = rio('misc')
 LIBDIR = rio('lib')
@@ -14,7 +14,7 @@ rio(LIBDIR).all.files("*.rb") do |file|
 
   old_file = file.sub(/^#{LIBDIR}/,OLIBDIR.to_s)
   puts "#{file} => #{old_file}"
-  file > old_file.dirname.mkdir
+  file > old_file.dirname.mkpath
 
   lines = old_file[]
   file_header = lines[0...n_lines]
