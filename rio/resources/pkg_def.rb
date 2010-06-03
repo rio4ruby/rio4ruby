@@ -1,5 +1,5 @@
 #--
-# =============================================================================== 
+# =========================================================================== 
 # Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
@@ -18,11 +18,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Rio; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# =============================================================================== 
+# ===========================================================================
 #
-# To create the documentation for Rio run the command
-#   ruby build_doc.rb
-# from the distribution directory.
 #++
 
 require 'rio/doc'
@@ -52,7 +49,7 @@ module PKG
     XMP = rio('ex').entries[]
     #D2 = rio('doc').norecurse('.svn').all.files.skip.dirs['rdoc','.svn']
     TST = rio('test').norecurse('.svn','qp').all.files('*.rb').skip.dirs['qp','.svn']
-    MSC = rio.files['setup.rb', 'build_doc.rb', 'COPYING', 'Rakefile', 'ChangeLog', 'VERSION']
+    MSC = rio.files['setup.rb', 'COPYING', 'Rakefile', 'ChangeLog', 'VERSION']
     
     [SRC,DOC,XMP,TST,MSC,DOTDOC].each do |fary|
       fary.map! { |f| f.to_s }

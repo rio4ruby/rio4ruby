@@ -1,5 +1,5 @@
 #--
-# =============================================================================== 
+# ===========================================================================
 # Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner
 # All rights reserved
 #
@@ -18,19 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Rio; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# =============================================================================== 
+# ===========================================================================
 #++
 #
-# To create the documentation for Rio run the command
-#  ruby build_doc.rb
-# from the distribution directory.
-#
-# Suggested Reading
-# * RIO::Doc::SYNOPSIS
-# * RIO::Doc::INTRO
-# * RIO::Doc::HOWTO
-# * RIO::Doc::EXAMPLES
-# * RIO::Rio
 #
 module RIO
   module RRL
