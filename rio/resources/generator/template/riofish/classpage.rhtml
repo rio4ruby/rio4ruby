@@ -272,16 +272,15 @@
 
       <!-- RIGHT PANE -->
       <div id="right-pane" class="pane menu-closed">
+	<div id="file-show" ></div>
 	<!-- CLASS/MODULE DOCUMENTATION -->
 	<div id="outdoc" title="<%= klass.full_name %>" >
 	  <div id="documentation">
 	    <div id="log"></div>
-	    <div id="file-info-section"></div>
 
 	    <div id="documentation-header">
 	      <div class="klass-type"><%= klass.type %></div>
 	      <h1 class="<%= klass.type %>"><%= klass.full_name %></h1>
-	      
 	      <!-- Parent Class -->
 	      <div class="parent">
 		<% if klass.type == 'class' %>
@@ -292,6 +291,7 @@
 		<span class="link"><%= klass.superclass %></span>
 		<% end %>
 		<% end %>
+		<div class="rel-prefix"><a href="<%= rel_prefix %>">rel_prefix: (<%= rel_prefix %>)</a></div>
 	      </div>
 	      <div class="bottom"></div>
 	    </div>

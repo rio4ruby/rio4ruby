@@ -50,14 +50,14 @@ module PKG
       rio('lib/rio/if/')['*.rb'] + 
       rio('lib/rio')['kernel.rb','constructor.rb']
     XMP = rio('ex').entries[]
-    D2 = rio('doc').norecurse('.svn').all.files.skip.dirs['rdoc','.svn']
+    #D2 = rio('doc').norecurse('.svn').all.files.skip.dirs['rdoc','.svn']
     TST = rio('test').norecurse('.svn','qp').all.files('*.rb').skip.dirs['qp','.svn']
     MSC = rio.files['setup.rb', 'build_doc.rb', 'COPYING', 'Rakefile', 'ChangeLog', 'VERSION']
     
-    [SRC,DOC,XMP,D2,TST,MSC,DOTDOC].each do |fary|
+    [SRC,DOC,XMP,TST,MSC,DOTDOC].each do |fary|
       fary.map! { |f| f.to_s }
     end
-    DIST  =  SRC + DOC + XMP + D2 + TST + MSC + DOTDOC
+    DIST  =  SRC + DOC + XMP + TST + MSC + DOTDOC
   end
 
   OUT_DIR = 'pkg'

@@ -42,59 +42,57 @@
   </head>
 
   <% if file.parser == RDoc::Parser::Simple %>
-  <body class="file">
-    <div id="fp-body">
+  <body>
+    <div id="fp-body" class="file">
 
+      <div class="header">
+	<div class="close-link" id="cl-div">
 
-
-      <div class="filename">
+	  
+	  <a style="-moz-user-select: none;" unselectable="on" role="button" href="#"><span style="-moz-user-select: none;" unselectable="on" class="ui-icon ui-icon-closethick">close</span></a>
+	  
+	</div>
 	<h1><%= file.absolute_name %></h1>
+	<div class="float-bottom"></div>
       </div>
-
-      <div id="metadata">
-
 
       <div id="documentation">
 	<%= file.description %>
       </div>
 
-      <div id="validator-badges">
-	<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-	<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-	      Rdoc Generator</a> <%= RDoc::Generator::Darkfish::VERSION %></small>.</p>
-      </div>
 
-
-
-
-
-
-
-
-
-
-
-
+    </div>
+    <div id="validator-badges">
+      <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+      <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+	    Rdoc Generator</a> <%= RDoc::Generator::Darkfish::VERSION %></small>.</p>
     </div>
   </body>
 
   <% else %>
 
-  <body class="file file-popup">
-    <div id="fp-body">
-      <div class="close-link" id="cl-div">
-	<a href="<%= rel_prefix %>/<%= file.path %>" id="fp-close-link">close</a>
-      </div>
-      <div class="filename">
+  <body>
+    <div id="fp-body" class="file">
+
+
+      <div class="header">
+	<div class="close-link" id="cl-div">
+
+	  
+	  <a style="-moz-user-select: none;" unselectable="on" role="button" href="#"><span style="-moz-user-select: none;" unselectable="on" class="ui-icon ui-icon-closethick">close</span></a>
+	  
+	</div>
 	<h1><%= file.absolute_name %></h1>
+	<div class="float-bottom"></div>
       </div>
-      <div id="metadata">
+      
+      <div class="metadata">
 	<dl>
 	  <dt class="modified-date">Last Modified</dt>
 	  <dd class="modified-date"><%= file.last_modified %></dd>
 
 	  <% if file.requires %>
-	  <dt class="requires">Requires</dt>
+	  <dt class="requires"></dt>
 	  <dd class="requires">
 	    <ul>
 	      <% file.requires.each do |require| %>
@@ -112,7 +110,8 @@
 	</dl>
       </div>
 
-      <div id="documentation">
+      <div class="documentation">
+	<div class="rel-prefix"><a href="<%= rel_prefix %>">rel_prefix: (<%= rel_prefix %>)</a></div>
 	<% if file.comment %>
 	<div class="description">
 	  <h2>Description</h2>
@@ -120,6 +119,7 @@
 	</div>
 	<% end %>
       </div>
+      
     </div>
   </body>
   <% end %>
