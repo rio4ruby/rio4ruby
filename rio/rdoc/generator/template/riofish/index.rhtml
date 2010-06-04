@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta content="text/html; charset=<%= @options.charset %>" http-equiv="Content-Type" />
+    
+    <title><%= h @options.title %></title>
+
+
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script src="js/jquery-ui/js/jquery-ui-1.8.1.custom.js" type="text/javascript"
+	    charset="utf-8"></script>
+
+    <link rel="stylesheet"
+	  href="js/jquery-ui/css/smoothness/jquery-ui-1.8.1.custom.css"
+	  type="text/css" media="screen" />
+
+
+    
+    <script src="js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="js/jquery.cookie.js" type="text/javascript"
+	    charset="utf-8"></script>
+
+
+    <script src="js/jquery.ba-replacetext.js" type="text/javascript"
+	    charset="utf-8"></script>
+    <script src="js/jquery.getUrlParam.js" type="text/javascript"
+	    charset="utf-8"></script>
+    <script src="js/jquery.cookie.js" type="text/javascript"
+	    charset="utf-8"></script>
+
+
+
+    <link rel="stylesheet" href="/test/rdoc.css" type="text/css" media="screen" />
+
+    <script src="/test/js/tab-body.js" type="text/javascript"
+	    charset="utf-8"></script>
+
+
+
+    
+  </head>
+  <body>
+
+    <% klass_path = "#" %>
+
+    <!-- LEFT PANE -->
+    <div id="left-pane" class="pane">
+      <div id="tab-tops">
+	<div id="tab-C" class="context">
+	  <p  class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">Classes</a>
+	  </p>
+	</div>
+	<div id="tab-M" class="context">
+	  <p class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">Methods</a>
+	  </p>
+	</div>
+	<div id="tab-F" class="context">
+	  <p class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">Files</a>
+	  </p>
+	</div>
+
+	<div id="tab-I" class="context">
+	  <p class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">In Files</a>
+	  </p>
+	</div>
+	<div id="tab-J" class="context">
+	  <p class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">Modules</a>
+	  </p>
+	</div>
+	<div id="tab-N" class="context">
+	  <p class="css-vertical-text">
+	    <a href="<%= klass_path %>" target="_top">Namespaces</a>
+	  </p>
+	</div>
+
+      </div>
+
+    </div>
+    <!-- END OF LEFT PANE -->
+
+
+
+
+
+
+    <!-- MIDDLE PANE -->
+    <div id="middle-pane" class="pane">
+      <div id="menu-pane">
+	<div id="menu-dialog" class="tb_show_listener tb_hide_listener tb_change_listener">
+
+	  <!-- METADATA -->
+	  <div id="metadata">
+
+	    <!-- PROJECT METADATA -->
+	    <div id="project-metadata">
+
+
+
+	      <% simple_files = @files.select {|tl| tl.parser == RDoc::Parser::Simple } %>
+	      <% unless simple_files.empty? then %>
+
+
+
+	      <div id="fileindex-section" class="section project-section">
+		<h3 class="section-header">Files</h3>
+		<div class="section-body">
+
+
+
+
+		  
+		  <ul>
+		    <% simple_files.sort.each do |file| %>
+		    <li class="file"><a href="<%= file.path %>"><%= h file.base_name %></a></li>
+		    <% end %>
+		  </ul>
+
+		</div>
+	      </div>
+
+
+	      <% end %>
+	      
+
+	      <div id="classindex-section" class="section project-section">
+		<h3 class="section-header">Class Index</h3>
+		<div class="section-body">
+		  <ul class="link-list">
+		    <% @modsort.each do |klass| %>
+		    <li class="<%= klass.type %>"><a href="<%= klass.path %>"><%= klass.full_name %></a></li>
+		    <% end %>
+
+		  </ul>
+		</div>
+		<div id="no-class-search-results" style="display: none;">
+		  No matching classes.
+		</div>
+	      </div>
+
+	    </div>
+	    <!-- END OF PROJECT METADATA -->
+
+
+
+
+
+
+
+	    
+	  </div>
+	  <!-- END OF METADATA -->
+
+
+	</div>
+
+      </div>
+      
+    </div>
+    <!-- END OF MIDDLE PANE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- RIGHT PANE -->
+    <div id="right-pane" class="pane menu-closed">
+
+      <div id="indexpage" class="indexpage">
+
+
+
+	
+	<% $stderr.sync = true %>
+	<h1><%= h @options.title %></h1>
+
+	<% if @options.main_page && main_page = @files.find { |f| f.full_name == @options.main_page } %>
+	<div id="main">
+	  <%= main_page.description.sub(%r{^\s*<h1.*?/h1>}i, '') %>
+	</div>
+	<% else %>
+	<p>This is the API documentation for '<%= @options.title %>'.</p>
+	<% end %>
+
+
+
+
+
+	<div id="index-methods">
+	<h2 id="methods">Methods</h2>
+
+	<table id="methods-table">
+	  <thead>
+	  <tr><th>Method</th><th>Module</th></tr>
+	  </thead>
+	  <tbody>
+	  <% RDoc::TopLevel.all_classes_and_modules.map do |mod|
+	     mod.method_list
+	     end.flatten.sort.each_with_index do |method,i| %>
+	  <tr class="<%= i.even? ? 'even' : 'odd' %>">
+	    <td>
+	      <a href="<%= method.path %>"><%= method.pretty_name %></a>
+	    </td>
+	    <td>
+	      <%= method.parent.full_name %>
+	    </td>
+	  </tr>
+	  <% end %>
+	  </tbody>
+
+
+	</table>
+	</div>
+	<div id="validator-badges">
+	  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+	  <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+		Rdoc Generator</a> <%= RDoc::Generator::Darkfish::VERSION %></small>.</p>
+	</div>
+
+
+      </div>
+    </div>
+    <!-- END OF RIGHT PANE -->
+
+
+
+
+
+  </body>
+</html>
