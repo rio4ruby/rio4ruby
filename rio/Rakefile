@@ -153,8 +153,10 @@ Spec = Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.0'
   s.platform = Gem::Platform::RUBY
   s.summary = PKG::SUMMARY
-  s.files = PKG::FILES::DIST.map { |rf| rf.to_s }
+  s.description = PKG::DESCRIPTION
 
+  s.files = PKG::FILES::DIST.map { |rf| rf.to_s }
+  
   s.require_paths = ['lib','doc/lib']
 
   s.has_rdoc = true
