@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%
+   $:.unshift File.expand_path(File.dirname(__FILE__)+'/../../')
+   require 'riofish'
+%>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta content="text/html; charset=<%= @options.charset %>" http-equiv="Content-Type" />
+
+    <title><%= klass.type.capitalize %>: <%= klass.full_name %></title>
+
+
+
+    <link rel="stylesheet" href="<%= rel_prefix %>/rdoc.css" type="text/css"
+	  media="screen" />
+
+  </head>
+  <body>
+    <div class="<%= klass.type %>">
+
+
+      <% simple_files = @files.select {|tl| tl.parser == RDoc::Parser::Simple } %>
+      <% unless simple_files.empty? then %>
+      
+      <div id="fileindex-section" class="section project-section selectable-file-list">
+	<h3 class="section-header">Files</h3>
+	<div class="section-body">
+	  <ul>
+	    <% simple_files.each do |file| %>
+	    <li class="file"><a href="<%= rel_prefix %>/<%= file.path %>"><%= h file.base_name %></a></li>
+	    <% end %>
+	  </ul>
+	</div>
+      </div>
+      <% end %>
+      
+      
+    </div>
+    
+  </body>
+</html>
+

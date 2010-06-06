@@ -72,12 +72,12 @@ end
 
 
 rd = Rake::RDocTask.new do |rdoc|
-  #require 'rdoc/rdoc'
-  #require 'resources/generator/riofish'
+  require 'rdoc/rdoc'
+  require 'rdoc/generator/parts'
   #p $:[0]
   rdoc.rdoc_dir = 'doc'
   rdoc.title    = PKG::TITLE
-  rdoc.options = PKG::RDOC_OPTIONS
+  rdoc.options = PKG::RDOC_OPTIONS + ['--format=parts']
   rdoc.main = 'RIO::Doc::SYNOPSIS'
   rdoc.inline_source = false
   #rdoc.show_hash = true

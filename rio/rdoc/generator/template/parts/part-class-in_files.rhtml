@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<div class="<%= klass.type %>">
+  
+  <div id="file-list-section" class="section selectable-file-list">
+    <div id="file-list">
+      
+      <h3 class="section-header">In Files</h3>
+      <div class="section-body">
+	<ul>
+	  <% klass.in_files.each do |tl| %>
+	  <li><a href="<%= h tl.path %>"
+		 class="thickbox"
+		 title="<%= h tl.absolute_name %>"><%= h tl.absolute_name %></a></li>
+	  <% end %>
+	</ul>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+

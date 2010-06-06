@@ -37,7 +37,7 @@ module PKG
   HOMEPAGE = "http://#{PKG::RUBYFORGE_PROJECT}.rubyforge.org/"
   RUBYFORGE_URL = "http://rubyforge.org/projects/#{PKG::RUBYFORGE_PROJECT}"
   # RDOC_OPTIONS = ['--show-hash','--line-numbers','-mRIO::Doc::SYNOPSIS','-Tdoc/generators/template/html/rio.rb']
-  RDOC_OPTIONS = ['--show-hash','-mRIO::Doc::SYNOPSIS','-Triofish']
+  RDOC_OPTIONS = ['--show-hash','-mRIO::Doc::SYNOPSIS','-Tparts']
   module FILES
     SRC = rio('lib').norecurse('.svn').files['*.rb']
     DOTDOC = rio('.').all.files['.document']

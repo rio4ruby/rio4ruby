@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%
+   $:.unshift File.expand_path(File.dirname(__FILE__)+'/../../')
+   require 'riofish'
+%>
+<div class="<%= klass.type %>">
+  
+  <!-- Included Modules -->
+  <% unless klass.includes.empty? %>
+  <div id="includes-section" class="section">
+    <h3 class="section-header">Included Modules</h3>
+    <ul class="link-list">
+      <% klass.each_include do |inc| %>
+      <% unless String === inc.module %>
+      <li class="class-index"><a class="include" href="<%= inc.module.path %>"><%= inc.module.full_name %></a></li>
+      <% else %>
+      <li><span class="include"><%= inc.name %></span></li>
+      <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  
+</div>
+    
+

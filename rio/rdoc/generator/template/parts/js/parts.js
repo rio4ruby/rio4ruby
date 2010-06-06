@@ -62,16 +62,22 @@
   },
   select: function(wh) {
     console.debug("select called with (%s)",wh);
-    if(this.isOpen()) {
-      if(wh == this.which()) {
+    if(wh == undefined) {
+      if(this.isOpen()) 
 	this.hide();
-      }
-      else {
-	this.change(wh);
-      }
     }
     else {
-      this.show(wh);
+      if(this.isOpen()) {
+	if(wh == this.which()) {
+	  this.hide();
+	}
+	else {
+	  this.change(wh);
+	}
+      }
+      else {
+	this.show(wh);
+      }
     }
     console.debug("select exits with tab-cookie:(%s)",$.cookie('tab'));
   },
@@ -298,6 +304,15 @@ function wh_to_section(wh) {
    };
   return tab_ids[wh];
 }
+function wh_to_part(wh) {
+   var tab_ids = {
+     'tab-M':  'part-methods',
+     'tab-I':  'part-in_files',
+     'tab-J':  'part-modules',
+     'tab-N':  'part-namespaces'
+   };
+  return tab_ids[wh];
+}
 function section_class(wh) {
   var sect = wh_to_section(wh);
   var sz = $('#'+sect).size();
@@ -337,19 +352,46 @@ function scrollbarHeight() {
     $(div).remove();
     return (w1 - w2);
 }
-
-function load_section(el,wh) {
-
+function sect_disp(wh) {
+  $('.t-body').hide();
+  var body_id = wh.replace(/^tab-/,'body-');
+  $('#'+body_id).show();
   var section_frag = $('#'+wh_to_section(wh));
-  $('#menu-dialog .section').hide();
-  section_frag.show();
   var txt = $('span#ui-dialog-title-menu-dialog').text();
   var section_hdr = section_frag.find('h3.section-header');
   var newtxt = section_hdr.text();
   $('span#ui-dialog-title-menu-dialog').replaceText(txt,newtxt);
   section_hdr.hide();
   console.debug("load_section(%s) complete right-pane.margin-left=%d",wh,$('#right-pane').css('margin-left'));
+  
 }
+
+function load_section(el,wh) {
+
+  var dest_id = wh.replace('tab-','body-');
+  var clsPth = $('#right-doc').attr('title');
+  var sz = $('#'+dest_id).find('.section').size();
+  console.debug("load_section(%s) dest=%s size=",clsPth,dest_id,sz);
+  if( clsPth && sz < 1 ) {
+    var prt = wh_to_part(wh);
+    var pth = clsPth.replace(/\.html$/,'-' + prt + '.html');
+  
+    var section_frag = '#'+wh_to_section(wh);
+    //var load_arg = pth + " " + section_frag;
+    var load_arg = pth;
+    $('#'+dest_id).load(load_arg,function() {
+	sect_disp(wh);
+    });
+    
+  }
+  else {
+    sect_disp(wh);
+  }
+
+  
+}
+
+
 var RE_GENERIC0 = /(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:\#(.*))?/;
 var RE_GENERIC = /((?:[^:\/?#]+):)?(\/\/(?:[^\/?#]*))?([^?#]*)(\?(?:[^#]*))?(\#(.*))?/;
 
@@ -405,11 +447,15 @@ jQuery(document).ready(function() {
 
   
   ///////// TAB CLICK //////////////
-  $('#tab-tops .enabled p').click(function() {
+  $('#tab-tops .enabled p').live('click',function() {
     var theid = $tabbody.getWhich($(this).closest('.context').attr('id'));
     console.debug('tab selected');
     $tabbody.select(theid,100);
     return false;
+  });
+
+  $(".disabled").delegate("a", "click", function(event){
+    event.preventDefault();
   });
 
 //   $("tab-tops .disabled").delegate("a", "click", function() { 
@@ -429,10 +475,6 @@ jQuery(document).ready(function() {
 //     return $tabbody.link_with_tab(this);
 //   });
   
-  $(".disabled").delegate("a", "click", function(event){
-    event.preventDefault();
-  });
-
   var seltab = $tabbody.getTabCookie();
   if(seltab && $('#'+seltab).hasClass('enabled')) {
     console.debug("selecting tab from cookie (%s)",seltab);
@@ -497,7 +539,7 @@ jQuery(document).ready(function() {
 //     location = '#';
 //     return false;
 //   });
-  $('.selectable-file-list ul li').click(function(ev) {
+  $('.selectable-file-list ul li').live('click',function(ev) {
     ev.stopImmediatePropagation();
     if( $(this).hasClass('selected') ) {
       $(this).removeClass('selected');
@@ -515,14 +557,6 @@ jQuery(document).ready(function() {
 	$('#file-show').load(load_args,function() {
 	  $(li_el).addClass('selected');
 	  fix_loaded_links();
-	  //var filePfx = $('#fp-body .rel-prefix').attr('href');
-	  //var classPfx = $('#documentation .rel-prefix').attr('href');
-	  //$('#fp-body a').each(function(i,el) {
-	  //  var ohref = $(el).attr('href');
-	  //  var nhref = ohref.replace(filePfx,classPfx);
-	  //  $(el).attr('href',nhref);
-	  //});
-
 
 	  $('div#fp-body .header .close-link a').click(function(ev) {
 	    $(li_el).removeClass('selected');
@@ -537,6 +571,44 @@ jQuery(document).ready(function() {
   });
 
 
+  $('.class-index').live('click',function() {
+    var href = $(this).find('a').attr('href');
+    var link = href.replace(/\.html$/,'-part-documentation.html');
+    var load_arg = link + " #right-doc";
+    console.debug("class-index click href=%s load_arg=%s",href,load_arg);
+    $('#right-pane')
+	.empty()
+	.html('<img id="spinner"  src="images/spinner.gif" alt="Loading..."/>')
+	.load(load_arg,function() {
+      $('#tab-M,#tab-I,#tab-J,#tab-N').removeClass('enabled disabled');
+      $('.c-body').empty();
+      var cls = $('#section-idx-methods').attr('class');
+      $('#tab-M').addClass(cls);
+
+      $('#tab-I').addClass($('#section-idx-in_files').attr('class'));
+      $('#tab-J').addClass($('#section-idx-modules').attr('class'));
+      $('#tab-N').addClass($('#section-idx-namespaces').attr('class'));
+
+      //var seltab = $tabbody.getTabCookie();
+      
+
+      var wh = $tabbody.which();
+      console.debug("LOADED wh=%s",wh);
+      if(wh && $('#'+wh).hasClass('enabled'))
+	load_section(null,wh);
+      else
+	$tabbody.hide();
+
+      //if(seltab && $('#'+seltab).hasClass('enabled')) {
+      //var wh = $('#tab-tops').find('.selected').attr('id');
+      //console.debug("loaded module: wh=%s",wh);
+      //$tabbody.select(wh);
+
+    });
+
+
+    return false;
+  });
 
 
 

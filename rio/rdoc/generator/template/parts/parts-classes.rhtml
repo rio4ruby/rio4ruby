@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%
+   $:.unshift File.expand_path(File.dirname(__FILE__)+'/../../')
+   require 'parts'
+%>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta content="text/html; charset=<%= @options.charset %>" http-equiv="Content-Type" />
+
+    <title><%= h @options.title %></title>
+
+    <link rel="stylesheet" href="rdoc.css" type="text/css"
+	  media="screen" />
+    
+  </head>
+  <body>
+    
+    <div id="classindex-section" class="section project-section">
+      <h3 class="section-header">Class Index</h3>
+      <div class="section-body">
+	<ul class="link-list">
+	  <% @modsort.each do |klass| %>
+	  <li class="<%= klass.type %>"><a href="<%= klass.path %>"><%= klass.full_name %></a></li>
+	  <% end %>
+	  
+	</ul>
+      </div>
+      <div id="no-class-search-results" style="display: none;">
+	No matching classes.
+      </div>
+    </div>
+
+  </body>
+</html>
+

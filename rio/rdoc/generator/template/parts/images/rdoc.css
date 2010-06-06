@@ -812,7 +812,10 @@ div#menu-dialog {
     color: #f9f1dd;
 /*     color: #f9f1dd; */
 }
-
+img.spinner {
+    margin-top: 100px;
+    margin-left: 45%;
+}
 
 
 
@@ -936,6 +939,12 @@ div#fp-body {
 .file .description p {
     margin: 1.0em 0em;
 }
+.file .description h4 {
+    margin: 1.0em 0em;
+}
+.file .description h5 {
+    margin: 1.0em 0em;
+}
 .file .description a {
     color: #333;
     text-decoration: none;
@@ -948,6 +957,33 @@ div#fp-body {
     list-style-type: circle;
     margin-left: 20px;
 }
+
+.file .description table {
+    background-color: #D9ECF8;
+    padding: 0.5em;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    margin-top: 1em;
+    -moz-box-shadow: 3px 3px 10px #333;
+    -webkit-box-shadow: 3px 3px 10px #333;
+    -box-shadow: 3px 3px 10px #333;
+}
+.file .description table td {
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+}
+.file .description table td > p {
+    margin: 0px;
+    padding: 0.1em;
+    font-weight: normal;
+}
+
+
+
+
+
+
+
 div.rel-prefix {
     display: none;
 }
@@ -1010,6 +1046,4 @@ div#index-methods {
     margin-top:0px;
     padding: 9px;
 }
-td > p {
-    background-color: yellow;
-}
+

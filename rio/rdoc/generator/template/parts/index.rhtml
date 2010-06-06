@@ -38,19 +38,20 @@
 
 
     
-<!--
-    <link rel="stylesheet" href="rdoc.css" type="text/css"
-	  media="screen" />
+	<link rel="stylesheet" href="rdoc.css" type="text/css"
+	      media="screen" />
 
-    <script src="js/tab-body.js" type="text/javascript"
-	    charset="utf-8"></script>
--->
+	<script src="js/parts.js" type="text/javascript"
+		charset="utf-8"></script>
 
+
+    <!--
     <link rel="stylesheet" href="/test/rdoc.css" type="text/css" media="screen" />
 
-    <script src="/test/js/tab-body.js" type="text/javascript"
+    <script src="/test/js/parts.js" type="text/javascript"
 	    charset="utf-8"></script>
 
+	-->
 
     
   </head>
@@ -106,96 +107,64 @@
     <!-- MIDDLE PANE -->
     <div id="middle-pane" class="pane">
       <div id="menu-pane">
+	
 	<div id="menu-dialog" class="tb_show_listener tb_hide_listener tb_change_listener">
-
-	  <!-- METADATA -->
-	  <div id="metadata">
-
-	    <!-- PROJECT METADATA -->
-	    <div id="project-metadata">
-
-
-
-	      <% simple_files = @files.select {|tl| tl.parser == RDoc::Parser::Simple } %>
-	      <% unless simple_files.empty? then %>
-
-
-
-	      <div id="fileindex-section" class="section project-section">
-		<h3 class="section-header">Files</h3>
-		<div class="section-body">
-
-
-
-
-		  
-		  <ul>
-		    <% simple_files.sort.each do |file| %>
-		    <li class="file"><a href="<%= file.path %>"><%= h file.base_name %></a></li>
-		    <% end %>
-		  </ul>
-
-		</div>
+	  <div id="body-M" class="t-body c-body" ></div>
+	  <div id="body-N" class="t-body c-body"></div>
+	  <div id="body-J" class="t-body c-body"></div>
+	  <div id="body-I" class="t-body c-body"></div>
+	  
+	  <div id="body-F" class="t-body">
+	    <% simple_files = @files.select {|tl| tl.parser == RDoc::Parser::Simple } %>
+	    <% unless simple_files.empty? then %>
+	    
+	    <div id="fileindex-section" class="section  selectable-file-list">
+	      <h3 class="section-header">Files</h3>
+	      <div class="section-body">
+		
+		<ul>
+		  <% simple_files.sort.each do |file| %>
+		  <li class="file"><a href="<%= file.path %>"><%= h file.base_name %></a></li>
+		  <% end %>
+		</ul>
+		
 	      </div>
-
-
-	      <% end %>
-	      
-
-	      <div id="classindex-section" class="section project-section">
-		<h3 class="section-header">Class Index</h3>
-		<div class="section-body">
-		  <ul class="link-list">
-		    <% @modsort.each do |klass| %>
-		    <li class="<%= klass.type %>"><a href="<%= klass.path %>"><%= klass.full_name %></a></li>
-		    <% end %>
-
-		  </ul>
-		</div>
-		<div id="no-class-search-results" style="display: none;">
-		  No matching classes.
-		</div>
-	      </div>
-
 	    </div>
-	    <!-- END OF PROJECT METADATA -->
-
-
-
-
-
-
-
+	    
+	    <% end %>
 	    
 	  </div>
-	  <!-- END OF METADATA -->
-
-
+	  
+	  <div id="body-C" class="t-body">
+	    <div id="classindex-section" class="section project-section">
+	      <h3 class="section-header">Class Index</h3>
+	      <div class="section-body">
+		<ul class="link-list">
+		  <% @modsort.each do |klass| %>
+		  <li class="<%= klass.type %> class-index"><a href="<%= klass.path %>"><%= klass.full_name %></a></li>
+		  <% end %>
+		  
+		</ul>
+	      </div>
+	      <div id="no-class-search-results" style="display: none;">
+		No matching classes.
+	      </div>
+	    </div>
+	  </div>
+	  
+	  
 	</div>
-
+	
       </div>
-      
     </div>
     <!-- END OF MIDDLE PANE -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
     <!-- RIGHT PANE -->
     <div id="right-pane" class="pane menu-closed">
+      <div id="file-show" ></div>
+  
 
       <div id="indexpage" class="index">
 
@@ -218,29 +187,29 @@
 
 
 	<div id="index-methods">
-	<h2 id="methods">Method Index</h2>
+	  <h2 id="methods">Method Index</h2>
 
-	<table id="methods-table">
-	  <thead>
-	  <tr><th>Method</th><th>Module</th></tr>
-	  </thead>
-	  <tbody>
-	  <% RDoc::TopLevel.all_classes_and_modules.map do |mod|
-	     mod.method_list
-	     end.flatten.sort.each_with_index do |method,i| %>
-	  <tr class="<%= i.even? ? 'even' : 'odd' %>">
-	    <td>
-	      <a href="<%= method.path %>"><%= method.pretty_name %></a>
-	    </td>
-	    <td>
-	      <%= method.parent.full_name %>
-	    </td>
-	  </tr>
-	  <% end %>
-	  </tbody>
+	  <table id="methods-table">
+	    <thead>
+	      <tr><th>Method</th><th>Module</th></tr>
+	    </thead>
+	    <tbody>
+	      <% RDoc::TopLevel.all_classes_and_modules.map do |mod|
+		 mod.method_list
+		 end.flatten.sort.each_with_index do |method,i| %>
+	      <tr class="<%= i.even? ? 'even' : 'odd' %>">
+		<td>
+		  <a href="<%= method.path %>"><%= method.pretty_name %></a>
+		</td>
+		<td>
+		  <%= method.parent.full_name %>
+		</td>
+	      </tr>
+	      <% end %>
+	    </tbody>
 
 
-	</table>
+	  </table>
 	</div>
 	<div id="validator-badges">
 	  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
