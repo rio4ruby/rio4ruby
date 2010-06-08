@@ -217,7 +217,16 @@ task :installgem => [GEM_FILENAME] do
 end
 
 desc "Upload documentation to homepage"
-task :uploaddoc => [:rdoc] do
+task :upload_rio4ruby_doc => [:rdoc] do
+  puts "Creating gzip file"
+  sh "tar czf doc.tar.gz doc;"
+  sh "scp -P 7822 doc.tar.gz kleckner@rio4ruby.com:www/;"
+  sh "ssh -p 7822 kleckner@rio4ruby.com 'cd www;tar xzf doc.tar.gz'"
+
+end
+
+desc "Upload documentation to homepage"
+task :upload_rubyforge_doc => [:rdoc] do
   Dir.chdir('doc')
   puts
   puts "rio4ruby@rubyforge.org:/var/www/gforge-projects/#{PKG::NAME}/"

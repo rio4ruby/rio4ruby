@@ -1,4 +1,19 @@
 
+
+/* Provide console simulation for firebug-less environments */
+if (!("console" in window) || !("firebug" in console)) {
+    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+    "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+
+    window.console = {};
+    for (var i = 0; i < names.length; ++i)
+        window.console[names[i]] = function() {};
+};
+
+
+
+
+
 (function( $ ) {
   TabBody = function(opts) {
     this.options = opts;
@@ -575,7 +590,7 @@ jQuery(document).ready(function() {
     $tabbody.resize_dialog_fit();
   });
 
-  $('#documentation .section .section-header').click(function(ev) {
+  $('#documentation .section .section-header').live('click',function(ev) {
     $(this).siblings('.section-body').toggleClass('hidden-section');
   });
 
@@ -613,16 +628,17 @@ jQuery(document).ready(function() {
       
     }
     else {
-      
       $('.selectable-file-list ul li').removeClass('selected');
       var lnk = $(this).find('a');
       var href = lnk.attr('href');
       if(href) {
+	$(this).addClass('loading');
 	var load_args = href + " #fp-body";
 	var li_el = this;
 	$('#file-show').load(load_args,function() {
-	  $(li_el).addClass('selected');
+	  $(li_el).addClass('selected').removeClass('loading');
 	  fix_loaded_links();
+
 
 	  $('div#fp-body .header .close-link a').click(function(ev) {
 	    $(li_el).removeClass('selected');
@@ -638,9 +654,6 @@ jQuery(document).ready(function() {
   $('#right-pane a').live('click',function() {
     var href = $(this).attr('href');
     console.debug("clicked %s",href);
-    var pth = href.replace(/\.html$/,'-part-documentation.html');
-    $(this).attr('href',pth);
-    href = $(this).attr('href');
     load_right_doc($tabbody,href);
     return false;
   });

@@ -80,16 +80,16 @@
 	    <% unless klass.constants.empty? %>
 	    <div id="constants-list" class="section">
 	      <h3 class="section-header">Constants</h3>
-		<dl class="section-body">
-		  <% klass.each_constant do |const| %>
-		  <dt><a name="<%= const.name %>"><%= const.name %></a></dt>
-		    <% if const.comment %>
-		    <dd class="description"><%= const.description.strip %></dd>
-		    <% else %>
-		    <dd class="description missing-docs">(Not documented)</dd>
-		    <% end %>
-		  <% end %>
-		</dl>
+	      <dl class="section-body">
+		<% klass.each_constant do |const| %>
+		<dt><a name="<%= const.name %>"><%= const.name %></a></dt>
+		<% if const.comment %>
+		<dd class="description"><%= const.description.strip %></dd>
+		<% else %>
+		<dd class="description missing-docs">(Not documented)</dd>
+		<% end %>
+		<% end %>
+	      </dl>
 	    </div>
 	    <% end %>
 	    
