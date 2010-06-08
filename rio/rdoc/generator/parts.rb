@@ -4,9 +4,11 @@
 require 'pathname'
 require 'fileutils'
 require 'erb'
+require 'rdoc/rdoc'
 #p 'RIO RIO RIO RIO RIO RIO'
 #require 'rdoc/generator/markup'
 # $DEBUG_RDOC = true
+
 module Alt
 end
 
@@ -133,10 +135,16 @@ class Alt::ToHtmlCrossref < RDoc::Markup::ToHtml
       type = $2
       type = '#' if type == '.'
       method = "#{type}#{$3}"
+      if method =~ /puts/
+        #p container,method
+      end
       ref = @context.find_symbol container, method
-    end
+      #p "REF1: #{ref.inspect}" if method =~ /puts/
+   end
 
+    #p "CONTEXT: #{@context}" if method =~ /puts/
     ref = @context.find_symbol lookup unless ref
+    #p "REF2: #{ref.inspect}" if method =~ /puts/
 
     out = if lookup == '\\' then
             lookup
@@ -147,8 +155,8 @@ class Alt::ToHtmlCrossref < RDoc::Markup::ToHtml
             shname = name.sub(/^IF::.+\#/,'#').
               sub(/^RIO::IF::.+\#/,'').
               sub(/^RIO::Rio\#/,'')
-
-            "<a href=\"#{ref.as_href @from_path}\">#{shname}</a>"
+            # "<a href=\"#{ref.as_href @from_path}\">#{shname}</a>"
+            "<a href=\"#{ref.as_href ''}\">#{shname}</a>"
           else
             name
           end
@@ -176,6 +184,42 @@ module RDoc::Generator::Markup
 
 
 end
+
+# class RDoc::Generator::Darkfish
+
+# 	### Build the initial indices and output objects
+# 	### based on an array of TopLevel objects containing
+# 	### the extracted information.
+# 	def generate( top_levels )
+# 		@outputdir = Pathname.new( @options.op_dir ).expand_path( @basedir )
+
+# 		@files = top_levels.sort
+# 		@classes = RDoc::TopLevel.all_classes_and_modules.sort
+# 		@methods = @classes.map { |m| m.method_list }.flatten.sort
+# 		@modsort = get_sorted_module_list( @classes )
+
+# 		# Now actually write the output
+# 		write_style_sheet
+# 		generate_index
+# 		#generate_parts_classes
+# 		#generate_parts_files
+# 		generate_class_parts('documentation')
+# 		generate_class_parts('methods')
+# 		generate_class_parts('in_files')
+# 		generate_class_parts('modules')
+# 		generate_class_parts('namespaces')
+# 		#generate_class_files
+# 		#generate_class_metamenu_files
+# 		generate_file_files
+
+# 	rescue StandardError => err
+# 		debug_msg "%s: %s\n  %s" % [ err.class.name, err.message, err.backtrace.join("\n  ") ]
+# 		raise
+# 	end
+
+# end
+
+
 
 class RDoc::Generator::Parts
 
