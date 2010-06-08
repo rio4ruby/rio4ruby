@@ -390,15 +390,73 @@ function load_section(el,wh) {
 
   
 }
+function load_right_doc(tbody,href) {
+  
+  //var link = href.replace(/\.html$/,'-part-documentation.html');
+  var link = append_to_basename(href,'-part-documentation');
+  var load_arg = link + " #right-doc";
+  console.debug("class-index click href=%s load_arg=%s",href,load_arg);
+  $('#right-pane')
+    .empty()
+      .html('<img id="spinner"  src="images/spinner2.gif" alt="Loading..."/>')
+      .load(load_arg,function() {
+	$('#tab-M,#tab-I,#tab-J,#tab-N').removeClass('enabled disabled');
+	$('.c-body').empty();
+
+	$('#tab-M').addClass($('#section-idx-methods').attr('class'));
+	$('#tab-I').addClass($('#section-idx-in_files').attr('class'));
+	$('#tab-J').addClass($('#section-idx-modules').attr('class'));
+	$('#tab-N').addClass($('#section-idx-namespaces').attr('class'));
+
+	//var seltab = $tabbody.getTabCookie();
+      
+
+	var wh = tbody.which();
+	console.debug("LOADED wh=%s",wh);
+	if(wh && $('#'+wh).hasClass('enabled'))
+	  load_section(null,wh);
+	else
+	  tbody.hide();
+
+	var frag = get_frag(href);
+	if( frag ) {
+	  var sel= "a[name='" + frag + "']";
+	  console.debug("frag=%s pos=%.o", sel,$(sel).position());
+	  $(window).scrollTop($(sel).position().top);
+	  //  $(window).scrollTo($(frag));
+	  //  location = frag;
+  
+	}
+	$('.class-selected').removeClass('class-selected');
+	var lid = href.replace('#'+frag,'');
+	var lsel = ".link-list a[href='" + lid + "']";
+	$(lsel).parent().addClass('class-selected');
+	$(lsel).parent().removeClass('loading');
+
+  });
+}
+
 
 
 var RE_GENERIC0 = /(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:\#(.*))?/;
 var RE_GENERIC = /((?:[^:\/?#]+):)?(\/\/(?:[^\/?#]*))?([^?#]*)(\?(?:[^#]*))?(\#(.*))?/;
 
 function replace_query(url,str) {
-    var nurl = url.replace(RE_GENERIC,'$1$2$3'+str+'$5');
+  var nurl = url.replace(RE_GENERIC,'$1$2$3'+str+'$5');
   return nurl;
 }
+function append_to_basename(url,str) {
+  var p = RE_GENERIC.exec(url);
+  var plen = p[3].length;
+  var pth = p[3].substr(0,plen-5) + str + '.html';
+  var nurl = (p[1]||"") + (p[2]||"") + pth + (p[4]||"") + (p[5]||"");  
+  return nurl;
+}
+function get_frag(url) {
+  var p = RE_GENERIC0.exec(url);
+  return p[5];
+}
+
 
 jQuery(document).ready(function() {
 
@@ -476,6 +534,14 @@ jQuery(document).ready(function() {
 //   });
   
   var seltab = $tabbody.getTabCookie();
+  var ck_val = $.cookie('menu-width');
+  if(seltab == undefined && ck_val == undefined) {
+    $tabbody.setTabCookie('tab-C');
+  }
+    
+
+  seltab = $tabbody.getTabCookie();
+
   if(seltab && $('#'+seltab).hasClass('enabled')) {
     console.debug("selecting tab from cookie (%s)",seltab);
     $tabbody.create_dialog('#menu-dialog',true);
@@ -569,49 +635,37 @@ jQuery(document).ready(function() {
     }
     return false;
   });
-
+  $('#right-pane a').live('click',function() {
+    var href = $(this).attr('href');
+    console.debug("clicked %s",href);
+    var pth = href.replace(/\.html$/,'-part-documentation.html');
+    $(this).attr('href',pth);
+    href = $(this).attr('href');
+    load_right_doc($tabbody,href);
+    return false;
+  });
+  $('#methods-table tbody tr td a').click(function() {
+    var href = $(this).attr('href');
+    console.debug("methods-table clicked %s",href);
+    //var pth = href.replace(/\.html$/,'-part-documentation.html');
+    //$(this).attr('href',pth);
+    //href = $(this).attr('href');
+    load_right_doc($tabbody,href);
+    return false;
+  });
 
   $('.class-index').live('click',function() {
+    $(this).addClass('loading');
     var href = $(this).find('a').attr('href');
-    var link = href.replace(/\.html$/,'-part-documentation.html');
-    var load_arg = link + " #right-doc";
-    console.debug("class-index click href=%s load_arg=%s",href,load_arg);
-    $('#right-pane')
-	.empty()
-	.html('<img id="spinner"  src="images/spinner.gif" alt="Loading..."/>')
-	.load(load_arg,function() {
-      $('#tab-M,#tab-I,#tab-J,#tab-N').removeClass('enabled disabled');
-      $('.c-body').empty();
-      var cls = $('#section-idx-methods').attr('class');
-      $('#tab-M').addClass(cls);
-
-      $('#tab-I').addClass($('#section-idx-in_files').attr('class'));
-      $('#tab-J').addClass($('#section-idx-modules').attr('class'));
-      $('#tab-N').addClass($('#section-idx-namespaces').attr('class'));
-
-      //var seltab = $tabbody.getTabCookie();
-      
-
-      var wh = $tabbody.which();
-      console.debug("LOADED wh=%s",wh);
-      if(wh && $('#'+wh).hasClass('enabled'))
-	load_section(null,wh);
-      else
-	$tabbody.hide();
-
-      //if(seltab && $('#'+seltab).hasClass('enabled')) {
-      //var wh = $('#tab-tops').find('.selected').attr('id');
-      //console.debug("loaded module: wh=%s",wh);
-      //$tabbody.select(wh);
-
-    });
-
+    console.debug(".class-index clicked %s",href);
+    load_right_doc($tabbody,href);
 
     return false;
   });
 
 
 
+  load_right_doc($tabbody,'RIO/Doc/SYNOPSIS.html');
 
   console.debug("Finished Loading");
 

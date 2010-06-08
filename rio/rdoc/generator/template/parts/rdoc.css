@@ -817,7 +817,20 @@ img#spinner {
     margin-left: 45%;
 }
 
-
+#menu-dialog ul li.class-selected a{
+    background-color: #401;
+    color: #f9f1dd;
+}
+#menu-dialog ul li.loading a{
+    background: url(images/anim-square.gif);
+    color: #f9f1dd;
+}
+div#test-bar {
+    background: #401 url(images/anim-square.gif);
+    test-align: right;
+    height: 18px;
+    width: 300px;
+}
 
 
 
