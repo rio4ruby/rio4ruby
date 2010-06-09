@@ -17,7 +17,7 @@ require 'tc/base2'
 require 'tc/clearsel'
 require 'tc/closeoncopy'
 require 'tc/closeoneof'
-require 'tc/cmdpipe' unless $mswin32 || $jruby
+require 'tc/cmdpipe' unless $mswin32 || $jruby || $mingw32
 require 'tc/copy'
 require 'tc/copy-from'
 require 'tc/copy-to'
