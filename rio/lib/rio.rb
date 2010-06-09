@@ -52,6 +52,11 @@ unless RUBY_VERSION > "1.9"
 end
 #FS_ENCODING = Dir.pwd.encoding
 #p "FS_ENCODING=#{FS_ENCODING}"
+
+begin
+  ENV['TMPDIR'] ||= '/tmp' if (RUBY_PLATFORM =~ /cygwin/)
+end
+
 require 'rio/fs'
 #require 'rio/def'
 #require 'rio/exception'

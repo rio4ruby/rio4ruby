@@ -27,10 +27,6 @@ tempfile.rb, but since it does not seem to appear in cvs, I'll keep
 it apart in tempdir.rb.
 
 =end
-
-begin
-  ENV['TMPDIR'] ||= '/tmp' if (RUBY_PLATFORM =~ /cygwin/)
-end
 require 'tmpdir'
 
 
