@@ -30,8 +30,8 @@ it apart in tempdir.rb.
 
 require 'tmpdir'
 begin
-  td = Dir.tmpdir
-  p td;
+  ENV[TMPDIR] = '/tmp' if $cygwin
+  p DIr.tmpdir
 end
 
 
