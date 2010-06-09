@@ -28,11 +28,10 @@ it apart in tempdir.rb.
 
 =end
 
-require 'tmpdir'
 begin
   ENV['TMPDIR'] ||= '/tmp' if (RUBY_PLATFORM =~ /cygwin/)
-  p Dir.tmpdir
 end
+require 'tmpdir'
 
 
 
