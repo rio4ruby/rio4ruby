@@ -21,7 +21,6 @@ module RIOSupport
 
 end
 $supports_symlink = RIOSupport.supports_symlink
-$mswin32 = (RUBY_PLATFORM =~ /mswin32/)
 module RIO_TestCase 
   module Util
     def make_lines_file(n_lines=8,*args)
