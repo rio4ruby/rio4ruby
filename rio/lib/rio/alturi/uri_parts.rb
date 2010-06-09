@@ -82,7 +82,7 @@ module Alt
         end
 
         def path 
-          (@authority ? "/" : "") + @path
+          (@authority && !@path.begin_with("/") ? "/" : "") + @path
         end
 
         def query
