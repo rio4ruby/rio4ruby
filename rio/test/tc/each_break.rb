@@ -88,7 +88,7 @@ class TC_each_break < Test::Unit::TestCase
   def test_dir_sel2
     ans = []
     @dir.dirs.each { |ent| ans << ent; break }
-    assert_array_equal(@ents[2..2],ans)
+    assert_array_equal(@dirs[0..0],ans)
     
     @dir.close
     assert(@dir.closed?)
@@ -132,7 +132,7 @@ class TC_each_break < Test::Unit::TestCase
   def test_dir_sel8
     ans = []
     @dir.entries.each { |ent| ans << ent; break }
-    assert_array_equal(@files[0..0],ans)
+    assert_array_equal(@ents[0..0],ans)
 
   end
   def test_dir_sel9

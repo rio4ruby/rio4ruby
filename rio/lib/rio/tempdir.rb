@@ -29,6 +29,12 @@ it apart in tempdir.rb.
 =end
 
 require 'tmpdir'
+begin
+  td = Dir.tmpdir
+  p td;
+end
+
+
 
 module AutoRemoval #:nodoc: all
   MAX_TRY = 10
