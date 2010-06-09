@@ -65,7 +65,6 @@ module Alt
   module URI
     module Gen
       class URIString < Base
-        attr_reader :path
         def initialize(scheme,authority,path,query,fragment)
           @scheme = scheme
           @authority = authority
@@ -80,6 +79,10 @@ module Alt
 
         def authority
           '//' + @authority if @authority
+        end
+
+        def path 
+          (@authority ? "/" : "") + @path
         end
 
         def query

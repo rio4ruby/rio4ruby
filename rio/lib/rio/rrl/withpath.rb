@@ -196,11 +196,13 @@ module RIO
         #p "ROOTPATH=#{rootpath}"
         sparts = [rootpath,pparts].flatten
         #p "SPARTS=#{sparts.inspect}"
+        #p ::Dir.getwd
         basepart = if rootpath.empty?
                      ::Alt::URI.create(:scheme => 'file', :authority => "", :path => ::Dir.getwd + "/").to_s
                    else
                      rootpath
                    end
+        #p "basepart=#{basepart}"
         bparts = [basepart]
         bparts << basepart.clone
 
