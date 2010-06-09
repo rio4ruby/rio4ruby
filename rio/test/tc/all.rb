@@ -55,7 +55,7 @@ require 'tc/clone'
 require 'tc/misc'
 require 'tc/nolines'
 require 'tc/noqae'
-require 'tc/null' unless $mswin32
+require 'tc/null' unless $mswin32 || $mingw32
 require 'tc/overload'
 require 'tc/pa'
 require 'tc/paths'
