@@ -1,3 +1,4 @@
+require 'platform'
 require 'rio'
 require 'test/unit'
 #require 'test/unit/testsuite'

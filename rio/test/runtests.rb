@@ -3,10 +3,7 @@
 Dir.chdir File.dirname(__FILE__)
 $devlib=File.expand_path('../lib/')
 $:.unshift $devlib unless $:[0] == $devlib
-$mswin32 = (RUBY_PLATFORM =~ /mswin32/)
-$mingw32 = (RUBY_PLATFORM =~ /mingw32/)
-$jruby = (RUBY_PLATFORM =~ /java/)
-$cygwin = (RUBY_PLATFORM =~ /cygwin/)
+require 'platform'
 
 require 'rio'
 p "[#{RUBY_PLATFORM}] - Ruby(#{RUBY_VERSION}) - Rio(#{RIO::VERSION})"
