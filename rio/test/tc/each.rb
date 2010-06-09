@@ -75,7 +75,7 @@ class TC_RIO_each < Test::Unit::TestCase
   def test_bytes
     qp = rio('qp')
     rio(qp,'test_each').chdir do
-      eol = ($mswin32 && RUBY_VERSION >= "1.9") ? "\r\n" : "\n"
+      eol = (($mswin32 || $mingw32) && RUBY_VERSION >= "1.9") ? "\r\n" : "\n"
       nbytes = 32
 
       str = "L1: 0:0#{eol}L2: 3:2#{eol}L3: 6:4#{eol}L4: 9:6#{eol}L5: 12:8#{eol}L6: 15:10#{eol}L7: 18:12#{eol}Line Z#{eol}"
