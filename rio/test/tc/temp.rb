@@ -54,6 +54,7 @@ class TC_temp < Test::RIO::TestCase
     tmp = rio(??).mkdir
     assert_equal(::Dir::tmpdir,tmp.dirname.to_s)
     assert_match(/^rio/,tmp.filename.to_s)
+    p tmp
     assert(tmp.dir?)
     tmp.close
   end
