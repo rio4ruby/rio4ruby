@@ -21,7 +21,6 @@ module RIO
     def ==(other) ref == other.ref end
     def self.build(u,opts={})
       b = opts[:base]
-      #p opts[:encoding],u
       uref = case u
              when ::Alt::URI::Base then u
              when ::RIO::URIRef then u.ref
@@ -74,6 +73,7 @@ module RIO
       when (pth.start_with?("/") or (pth =~ %r{^[a-zA-Z]:}))
         ::Alt::URI.create(cr_args.merge(:path => pth))
       when pth =~ %r{^[a-zA-Z][a-zA-Z]+:}
+        pth = "/" + pth if pth =~ /^[a-zA-Z]:/
         ::Alt::URI.parse(pth,opts)
       else
         ::Alt::URI.create(cr_args.merge(:path => pth))
@@ -86,6 +86,7 @@ module RIO
       when (pth.start_with?("/") or (pth =~ %r{^[a-zA-Z]:}))
         ::Alt::URI.create(:scheme => 'file', :authority => "", :path => pth)
       when (pth =~ %r{^[a-zA-Z0-9-][a-zA-Z0-9-]+:})
+        pth = "/" + pth if pth =~ /^[a-zA-Z]:/
         ::Alt::URI.parse(pth)
       else
         raise ArgumentError, "Base(#{pth.inspect}) must be absolute"
