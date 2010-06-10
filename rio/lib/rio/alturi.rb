@@ -464,6 +464,7 @@ module Alt
       end
 
       def self.parse(str,opts={})
+        str = "/" + str if str =~ /^[a-zA-Z]:/
         u = Alt::URI::Gen::URIParts.parse(str,opts)
         from_parts(u)
       end
@@ -478,9 +479,9 @@ end
 module Alt
   module URI
     def self.parse(str,opts={})
-      #p "Alt::URI.parse str=#{es(str)}"
+      #p "Alt::URI.parse str=#{str}"
       ans = Factory.parse(str,opts)
-      #p es(str)
+      #p "   ans=#{ans.inspect}"
       ans
     end
     def self.create(hash)

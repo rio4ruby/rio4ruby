@@ -95,7 +95,7 @@ module RIO
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'rio/tempdir'
-          # p "Temp::Dir u=#{u} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
+          # p "Temp::Dir u=#{u.inspect} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
           alturi = case u
                    when ::Alt::URI::Base then u
                    else ::Alt::URI.parse(u.to_s)
