@@ -2,7 +2,7 @@ require 'platform'
 require 'rio'
 require 'test/unit'
 #require 'test/unit/testsuite'
-
+require 'qpdir'
 
 
 module RIOSupport
@@ -35,7 +35,7 @@ module RIO_TestCase
     module_function :make_lines_file
   end
 
-  T_ROOT = 'qp'
+  T_ROOT = $QPDIR
   def _t_dir_from_class()
     self.class.to_s.sub(/^TC_/,'')
   end
