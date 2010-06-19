@@ -151,7 +151,7 @@ module Test
         file.close
         [lines,file]
       end
-      T_ROOT = 'qp'
+      T_ROOT = $QPDIR
       def _t_dir_from_class()
         self.class.to_s.sub(/^TC_/,'')
       end

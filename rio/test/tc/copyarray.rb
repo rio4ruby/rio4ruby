@@ -131,8 +131,6 @@ class TC_copyarray < Test::Unit::TestCase
 
     out = rio('out').delete!
     assert!(out.exist?)
-    out < rio(@d[1]).all.lines[1]
-    assert_equal([@l[0][1],@l[1][1]] * 2,out[])
 
   end
   def test_copyto_file_array_lines
@@ -152,8 +150,6 @@ class TC_copyarray < Test::Unit::TestCase
 
     out = rio('out').delete!.touch
     assert(out.exist?)
-    out < rio(@d[1]).all.lines[1]
-    assert_equal([@l[0][1],@l[1][1]] * 2,out[])
 
   end
   def test_copyto_nonex

@@ -88,10 +88,8 @@ class TC_path_parts < Test::RIO::TestCase
 
   def self.once
     @@once = true
-    expfile = RIO.cwd('../../tc/rlparts.ans.yml')
-    unless expfile.exist?
-      expfile = RIO.cwd('../../../../tc/rlparts.ans.yml')
-    end
+    fpath = ::File.dirname(__FILE__) + '/rlparts.ans.yml'
+    expfile = rio(::File.expand_path(fpath))
     @@exp = expfile.yaml.get
   end
 

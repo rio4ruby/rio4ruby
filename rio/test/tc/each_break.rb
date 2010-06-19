@@ -52,7 +52,10 @@ class TC_each_break < Test::Unit::TestCase
       reject{|el| el =~ /^\.\.?$/}.
       select{|el| ::File.file?('dir/' + el)}.
       map { |ent| rio(@dir,ent) }
-    @dirs = [@d1,@d2]
+    @dirs = ::Dir.entries('dir').
+      reject{|el| el =~ /^\.\.?$/}.
+      select{|el| ::File.directory?('dir/' + el)}.
+      map { |ent| rio(@dir,ent) }
     @ents = ::Dir.entries('dir').
       reject{|el| el =~ /^\.\.?$/}.
       map { |ent| rio(@dir,ent) }
@@ -98,7 +101,7 @@ class TC_each_break < Test::Unit::TestCase
     ans = []
     @dir.dirs.each { |ent| ans << ent; break }
     # p ans
-    assert_array_equal(@dirs[0..0],ans)
+    assert_array_equal(@dirs[0..0].sort,ans.sort)
     
   end
   def test_dir_sel4
