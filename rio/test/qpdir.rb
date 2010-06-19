@@ -1,0 +1,2 @@
+
+$QPDIR = "/tmp/QP/"
