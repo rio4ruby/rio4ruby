@@ -111,6 +111,7 @@ module RIO
     class RRL < RIO::Path::RRL
       def open()
         #IOH::Dir.new(fs.dir.open(self.fspath, :encoding => 'UTF-8'))
+        #p "Dir::RRL #{self.path},#{self.fspath}"
         IOH::Dir.new(fs.dir.open(self.fspath))
       end
       def dir_rl()

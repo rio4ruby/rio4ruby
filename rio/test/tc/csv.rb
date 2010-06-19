@@ -19,7 +19,8 @@ class TC_csv < Test::RIO::TestCase
     super
     @src_name = 'src1.csv'
     @dst_name = 'dst.csv'
-    @records,@strings,@lines,@string = create_test_csv_data(@src_name,3, 3, ',', $/, true)
+    @records,@strings,@lines,@string = 
+      create_test_csv_file(@src_name,3, 3, ',',"\n" ,'"', true) 
     rio(@src_name).puts!(@string)
   end
   def test_nocsv_lines
@@ -33,6 +34,7 @@ class TC_csv < Test::RIO::TestCase
     assert_equal(@strings,rio(@dst_name).chomp.readlines)
   end
   def test_csv_lines
+    # $trace_states = true
     assert_equal(@string,rio(@dst_name).csv.contents)
     assert_equal(@records,rio(@dst_name).csv[])
     assert_equal(@lines,rio(@dst_name).csv.lines[])
@@ -42,6 +44,7 @@ class TC_csv < Test::RIO::TestCase
     assert_equal(@lines[1..2],rio(@dst_name).csv.lines[1..2])
     assert_equal(@lines[1..2],rio(@dst_name).csv.lines(1..2).to_a)
     assert_equal(exp,rio(@dst_name).csv.lines(1..2).readlines)
+    # $trace_states = false
   end
   def test_kind_new
     mkrio = proc { rio(@src_name).csv }
@@ -82,10 +85,10 @@ class TC_csv < Test::RIO::TestCase
   def each_kind()
     mkrio = proc { rio('src1.csv') }
     
-    rio('src1.csv').each                 { |el| assert_kind_of(::String,el); break }
-    rio('src1.csv').lines.each           { |el| assert_kind_of(::String,el); break }
-    rio('src1.csv').records.each         { |el| assert_kind_of(::String,el); break }
-    rio('src1.csv').rows.each            { |el| assert_kind_of(::String,el); break }
+    rio('src1.csv').each          { |el| assert_kind_of(::String,el); break }
+    rio('src1.csv').lines.each    { |el| assert_kind_of(::String,el); break }
+    rio('src1.csv').records.each  { |el| assert_kind_of(::String,el); break }
+    rio('src1.csv').rows.each     { |el| assert_kind_of(::String,el); break }
   end
   def each_kind_csv(mkrio)
     rowsrtn = ($USE_FASTER_CSV ? CSV::Row : Hash)

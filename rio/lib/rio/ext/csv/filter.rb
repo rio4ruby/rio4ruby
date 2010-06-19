@@ -153,7 +153,30 @@ module RIO
             end
             cols.flatten
           end
+
+
           def each_line(*args,&block)
+            # p self
+            while raw_rec = self.shift()
+              # p "RAW_REC=#{raw_rec}"
+              case cx['stream_itertype']
+              when 'lines' 
+                yield _trim(raw_rec).to_csv(*cx['csv_args'])
+              when 'records'
+                case raw_rec
+                when ::Array then yield _trim(raw_rec)
+                else yield _trim(raw_rec.fields)
+                end
+              when 'rows'
+                yield _trim_row(raw_rec)
+              else
+                yield _trim(raw_rec)
+              end
+            end
+          end
+
+
+          def each_line0(*args,&block)
             self.each(*args) do |raw_rec|
               case cx['stream_itertype']
               when 'lines' 
@@ -170,6 +193,8 @@ module RIO
               end
             end
           end
+
+
         end
       end
       module Output
@@ -195,7 +220,7 @@ module RIO
               end
             end
           end
-          csvio = ::CSV.new(self.ioh.ios,*cx['csv_args'])
+          csvio = ::CSV.new(self.ioh.ios.binmode,*cx['csv_args'])
           csvio.extend Filter::CSVMissing
           csvio.set_cx(cx)
           self.ioh.ios = csvio

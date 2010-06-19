@@ -181,7 +181,7 @@ class TC_rename < Test::RIO::TestCase
     indir.rename.files { |ent| ent.basename = ent.basename.to_s.sub(/f/,'q') }
 
     newf = rio('tdir').files.to_a
-    assert_equal(expnames,newf)
+    assert_equal(expnames.sort,newf.sort)
 
 
     

@@ -1,7 +1,16 @@
 require 'rio'
 
+HOSTNAME = `hostname`.chomp
+#p HOSTNAME
+SHHOST = 'frenzy'
+HOSTROOT = HOSTNAME == SHHOST ? "" : '//'+SHHOST
+
+QDIR = HOSTROOT + '/share/q/'
+TDIR = QDIR + 'test/'
+#p "TDIR=#{TDIR}"
+
 module RunTests
-  def run_tests(test_dir,test_top = '/loc/work/q/test',&block)
+  def run_tests(test_dir,test_top = TDIR,&block)
     rio(test_top).mkdir.chdir do
       rio(test_dir).delete!.mkdir.chdir do
         yield

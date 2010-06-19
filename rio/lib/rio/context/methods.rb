@@ -58,6 +58,7 @@ require 'rio/context/autoclose'
 require 'rio/context/gzip'   
 require 'rio/context/copying'   
 require 'rio/context/encoding'   
+require 'rio/context/binmode'   
 
 module RIO
   module Cx #:nodoc: all

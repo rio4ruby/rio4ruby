@@ -216,43 +216,6 @@ class TC_RIO_misc < Test::Unit::TestCase
     smap(io.to_a).sort
   end
 
-  def test_find
-    s_dir = 'qp/test_find'
-    dir =  RIO.cwd(s_dir).rmtree.mkpath
-    f1 = RIO.rio(dir,'f1.txt').puts("This is f1")
-    f2 = RIO.rio(dir,'f2.txt').puts("This is f2")
-    d2 = RIO.rio(dir,'d1','d2').mkpath
-    f3 = RIO.rio(dir,'d1','f3.txt').puts("This is f3")
-    f4 = d2.join('f4.emp').touch
-    
-    io = rio(s_dir)
-    exp = %w{f1.txt f2.txt d1}
-    assert_equal(emap(s_dir,exp), gmap(io))
-
-    io = rio(s_dir).files('*.txt')
-    exp = %w{f1.txt f2.txt}
-    assert_equal(emap(s_dir,exp), gmap(io))
-    
-    io = rio(s_dir).dirs
-    exp = %w{d1}
-    assert_equal(emap(s_dir,exp), gmap(io))
-    
-    io = rio(s_dir).all.dirs
-    exp = %w{d1 d1/d2}
-    assert_equal(emap(s_dir,exp), gmap(io))
-    
-    io = rio(s_dir).all.dirs("*2")
-    exp = %w{d1/d2}
-    assert_equal(emap(s_dir,exp), gmap(io))
-
-    io = rio(s_dir).all.files("*.emp")
-    exp = %w{d1/d2/f4.emp}
-    assert_equal(emap(s_dir,exp), gmap(io))
-
-
-
-
-  end
   def test_mkdir
     datadir = rio('qp/test_mkdir').rmtree.mkpath
     dir2 = rio(datadir,'dir2').rmtree.mkpath
@@ -326,18 +289,21 @@ class TC_RIO_misc < Test::Unit::TestCase
 #     }
 #   end
   def test_path
-    dir =  RIO.cwd(%w/qp test_path/).rmtree.mkpath
-    s_dir = 'qp/test_path'
-    assert_equal(true,::FileTest.directory?(s_dir))
-    f1 = RIO.rio(dir,'f1.txt').puts("This is f1")
-    assert_equal(true,::FileTest.file?(::File.join(s_dir,'f1.txt')))
-    f2 = RIO.rio(dir,'f2.txt').puts("This is f2")
-    assert_equal(true,::FileTest.file?(::File.join(s_dir,'f2.txt')))
-    f3 = RIO.rio(dir,'d1').mkpath.join('f3.txt').puts("This is f2")
-    assert_equal(true,::FileTest.directory?(::File.join(s_dir,'d1')))
-    assert_equal(true,::FileTest.file?(::File.join(s_dir,'d1/f3.txt')))
-    f4 = RIO.rio(dir,'d1').mkpath.join('f4.emp').touch
-    assert_equal(0,::FileTest.size(::File.join(s_dir,'d1/f4.emp')))
+    RIO.cwd.chdir do 
+      dir =  rio(%w/qp test_path/).rmtree.mkpath
+      s_dir = 'qp/test_path'
+      
+      assert_equal(true,::FileTest.directory?(s_dir))
+      f1 = RIO.rio(dir,'f1.txt').puts("This is f1")
+      assert_equal(true,::FileTest.file?(::File.join(s_dir,'f1.txt')))
+      f2 = RIO.rio(dir,'f2.txt').puts("This is f2")
+      assert_equal(true,::FileTest.file?(::File.join(s_dir,'f2.txt')))
+      f3 = RIO.rio(dir,'d1').mkpath.join('f3.txt').puts("This is f2")
+      assert_equal(true,::FileTest.directory?(::File.join(s_dir,'d1')))
+      assert_equal(true,::FileTest.file?(::File.join(s_dir,'d1/f3.txt')))
+      f4 = RIO.rio(dir,'d1').mkpath.join('f4.emp').touch
+      assert_equal(0,::FileTest.size(::File.join(s_dir,'d1/f4.emp')))
+    end
   end
   def test_glob
   end

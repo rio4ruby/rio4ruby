@@ -41,10 +41,11 @@ class TC_temp < Test::RIO::TestCase
 
   def test_new
     # $trace_states = true
+    #p 'HERRRRRRRRRRRRRRRRRRRRRR'
     tmp = rio(??)
     assert_equal('temp',tmp.scheme)
     dn = tmp.dirname
-    #p "DN=",dn
+    #p "DN=",dn,'TMP=',tmp 
     assert_equal(::Dir::tmpdir,dn.to_s)
     #p tmp
     assert_match(/^rio/,tmp.filename.to_s)
@@ -54,7 +55,7 @@ class TC_temp < Test::RIO::TestCase
     tmp = rio(??).mkdir
     assert_equal(::Dir::tmpdir,tmp.dirname.to_s)
     assert_match(/^rio/,tmp.filename.to_s)
-    p tmp
+    #p tmp
     assert(tmp.dir?)
     tmp.close
   end

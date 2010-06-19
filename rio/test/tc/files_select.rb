@@ -28,7 +28,7 @@ class TC_files_select < Test::RIO::TestCase
     rio('d0').files.each { |f|
       ans << f
     }
-    assert_equal(['d0/f2','d0/f3'],smap(ans))
+    assert_equal(['d0/f2','d0/f3'].sort,smap(ans).sort)
   end
   def test_files_method_with_dir_rio_each_skip
     #$trace_states = true

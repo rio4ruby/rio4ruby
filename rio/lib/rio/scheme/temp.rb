@@ -105,7 +105,9 @@ module RIO
              temp_dir.to_s : alturi.path
           #p "Temp::Dir prefix=#{prefix} tmpdir=#{tmpdir}"
           td = ::Tempdir.new( prefix, tmpdir)
+          #td = "file:///" + td if td.to_s =~ /^[a-zA-Z]:/
           #p "Temp::Dir td=#{td.to_s.inspect}"
+          td = "file:///" + td.to_s if td.to_s =~ /^[a-zA-Z]:/
           super(td.to_s)
           #self.query = file_prefix.to_s
           #self.path = temp_dir.to_s
@@ -130,7 +132,7 @@ module RIO
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'tempfile'
-          # p "Temp::File::initialize u=#{u} file_prefix=#{file_prefix.inspect} temp_dir=#{temp_dir.inspect}"
+           #p "Temp::File::initialize u=#{u.inspect} file_prefix=#{file_prefix.inspect} temp_dir=#{temp_dir.inspect}"
           # puts "Temp::File CALLER: ",caller[0..8]
           # FIXME: Temporary fix for jruby 1.4 - make tmpdir absolute
           #tmpdir_rio = rio(@tmpdir).abs
@@ -151,6 +153,10 @@ module RIO
           # FIXME: Temporary fix for jruby 1.4 - fix slashes
           pth =  @tf.path
           pth.gsub!("\\","/")
+          pth = "file:///" + pth if pth =~ /^[a-zA-Z]:/
+
+          #p "PTH=#{pth}"
+          # @tf = "file:///" + @tf if @tf.to_s =~ /^[a-zA-Z]:/
           #
           #p "Temp::File pth=#{pth.inspect}"
           super(::Alt::URI.parse(pth))
