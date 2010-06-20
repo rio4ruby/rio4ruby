@@ -6,10 +6,11 @@ end
 
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_qae_riovar < Test::Unit::TestCase
-  @@tdir = rio(%w/qp qae/)
+  @@tdir = rio($QPDIR,%w/qae_riovar/)
   @@once = false
   def smap(a) a.map { |el| el.to_s } end
   def self.once()
@@ -65,7 +66,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
   end
 
   def test_qae_fs_lines 
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []
@@ -125,7 +126,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
   end
 
   def test_qae_fs_lines_ss
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []
@@ -179,7 +180,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
   end
 
   def test_qae_chomp 
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []
@@ -206,7 +207,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
   def test_qae_fs_nest
     ds = ['d1/d1','d1/d2','d1/d1/q1','d1/d1/q2','d1/d2/d1','d1/d2/d1/q1','d1/d2/d1/q2','d1/d2/d2',
           'd1/d3','d1/d3/d1','d1/d3/q1','d1/d3/d1/q1','d1/d3/d1/d1']
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []
@@ -314,7 +315,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
 
   def test_qae_fs_all
     ds = ['d0/d1','d0/d2','d0/q1','d0/q2','d0/d1/d2','d0/d1/d2/d1','d0/d1/d2/q1','d0/d1/d2/d1/q1','d0/d1/d2/d1/q2']
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []
@@ -406,7 +407,7 @@ class TC_RIO_qae_riovar < Test::Unit::TestCase
     end
   end
   def test_qae_fs
-    rio('qp/qae').chdir do
+    rio($QPDIR,'qae_riovar').chdir do
       begin
         begin
           ans = []

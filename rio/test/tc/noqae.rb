@@ -6,8 +6,10 @@ end
 
 require 'rio'
 require 'tc/testcase'
+require 'qpdir'
+
 class TC_RIO_noqae < Test::Unit::TestCase
-  @@tdir = rio(%w/qp noqae/)
+  @@tdir = rio($QPDIR,%w/noqae/)
   @@once = false
   def initialize(*args)
     super
@@ -82,7 +84,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
     all
   end
   def test_noqae_fs
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
 
         begin
@@ -442,7 +444,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
 
   def ztest_noqae_fs_re
     all = ['d0/d1','d0/d2','d0/c1','d0/c2','d0/f1','d0/f2','d0/n1','d0/n2','d0/l1','d0/l2']
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
         begin
           ans = []
@@ -536,7 +538,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
     end
   end
   def ztest_noqae_fs_lines 
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
         begin
           ans = []
@@ -596,7 +598,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
   end
 
   def ztest_noqae_fs_lines_ss
-    rio('qp/noqae').chdir do
+    rio($QODIR,'noqae').chdir do
       begin
         begin
           ans = []
@@ -650,7 +652,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
   end
 
   def ztest_noqae_chomp 
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
         begin
           ans = []
@@ -677,7 +679,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
   def ztest_noqae_fs_nest
     ds = ['d1/d1','d1/d2','d1/d1/f1','d1/d1/f2','d1/d2/d1','d1/d2/d1/f1','d1/d2/d1/f2','d1/d2/d2',
           'd1/d3','d1/d3/d1','d1/d3/f1','d1/d3/d1/f1','d1/d3/d1/d1']
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
         begin
           ans = []
@@ -785,7 +787,7 @@ class TC_RIO_noqae < Test::Unit::TestCase
 
   def ztest_noqae_fs_all
     ds = ['d0/d1','d0/d2','d0/f1','d0/f2','d0/d1/d2','d0/d1/d2/d1','d0/d1/d2/f1','d0/d1/d2/d1/f1','d0/d1/d2/d1/f2']
-    rio('qp/noqae').chdir do
+    rio($QPDIR,'noqae').chdir do
       begin
         begin
           ans = []

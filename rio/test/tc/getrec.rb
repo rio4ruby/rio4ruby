@@ -9,8 +9,7 @@ require 'test/unit'
 
 class TC_RIO_getrec < Test::Unit::TestCase
   def test_basic
-    qp = rio('qp')
-    rio(qp,'getrec').rmtree.mkpath.chdir do
+    rio($QPDIR,'getrec').rmtree.mkpath.chdir do
       (0..4).each do |n_lines|
         getrec_each(n_lines)
       end

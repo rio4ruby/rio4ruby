@@ -6,10 +6,11 @@ end
 
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_edf < Test::Unit::TestCase
-  def tdir() rio(%w/qp edf/) end
+  def tdir() rio($QPDIR,%w/edf/) end
   def assert!(a,msg="negative assertion")
     assert((!(a)),msg)
   end

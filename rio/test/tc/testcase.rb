@@ -35,13 +35,10 @@ module RIO_TestCase
     module_function :make_lines_file
   end
 
-  T_ROOT = $QPDIR
-  def _t_dir_from_class()
-    self.class.to_s.sub(/^TC_/,'')
-  end
-  def tdir() 
-    rio(T_ROOT,_t_dir_from_class()) 
-  end
+  #T_ROOT = $QPDIR
+  #def _t_dir_from_class()
+  #  self.class.to_s.sub(/^TC_(RIO_)?/,'')
+  #end
   def assert!(a,msg="negative assertion")
     assert((!(a)),msg)
   end
@@ -78,28 +75,44 @@ module RIO_TestCase
     file < lines
     [file,lines]
   end
-  def setup
-    #$trace_states = true
-    @cwd = ::Dir.getwd
-    tdir.mkpath.chdir
-  end
-  def teardown
-    ::Dir.chdir @cwd
-  end
+#  def setup
+#    #$trace_states = true
+#    @cwd = ::Dir.getwd
+#    tdir.mkpath.chdir
+#  end
+#  def teardown
+#    ::Dir.chdir @cwd
+#  end
 end
 module Test
   module RIO
     class TestCase < Unit::TestCase
       include RIO_TestCase::Util
-      def setup()
-        return if self.class == Test::RIO::TestCase
-        #p self.class
+      attr_reader :cwd
+      def initialize(*args)
+        super
         @cwd = ::Dir.getwd
+      end
+      def initialize_copy(other)
+        super
+        @cwd = other.cwd
+      end
+
+      @@counter = 0;
+      def setup()
+        # @@counter += 1
+        # p "SETUP: #{@@counter} #{self.class} CWD=#{@cwd.inspect}"
+        return if self.class == Test::RIO::TestCase
+        @cwd = ::Dir.getwd
+        # p "     : #{@@counter} #{::Dir.getwd}"
         tdir.mkpath.chdir
       end
       def teardown
+        # @@counter -= 1
+        # p "TDOWN:: #{@@counter}  #{self.class} CWD=#{@cwd.inspect}"
         return if self.class == Test::RIO::TestCase
-        ::Dir.chdir @cwd
+        ::Dir.chdir @cwd if ::File.directory?(@cwd)
+        # p "     : #{@@counter} #{::Dir.getwd}"
       end
       def rios2str(a) a.map { |el| el.to_s } end
 
@@ -151,18 +164,19 @@ module Test
         file.close
         [lines,file]
       end
-      T_ROOT = $QPDIR
-      def _t_dir_from_class()
-        self.class.to_s.sub(/^TC_/,'')
-      end
-      def self.tdir_from_class()
-        self.to_s.sub(/^TC_/,'')
-      end
-      def self.tdir()
-        rio(T_ROOT,tdir_from_class()) 
-      end
+       T_ROOT = $QPDIR
+       def _tdir_from_class()
+         self.class._tdir_from_class()
+       end
+       def self._tdir_from_class()
+         self.to_s.sub(/^TC_(RIO_)?/,'')
+       end
+
+       def self.tdir()
+         rio(T_ROOT,_tdir_from_class()+'/') 
+       end
       def tdir() 
-        rio(T_ROOT,_t_dir_from_class()) 
+        self.class.tdir()
       end
       def default_test; end
     end

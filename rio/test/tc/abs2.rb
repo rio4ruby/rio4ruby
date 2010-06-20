@@ -8,8 +8,16 @@ require 'uri'
 require 'test/unit'
 require 'tc/testcase'
 #require 'test/unit/testsuite'
+require 'qpdir'
 
 class TC_RIO_abs2 < Test::RIO::TestCase
+
+  def test_abs10
+    io = RIO.root/'tmp'
+    assert_kind_of(RIO::Rio,io)
+    assert_equal('/tmp',io.to_s)
+  
+  end
 
   def test_abs_localhost_slash_uri
     hdurl = 'http://localhost/'
@@ -149,83 +157,48 @@ class TC_RIO_abs2 < Test::RIO::TestCase
     assert_equal('file:///tmp/',hd.abs.to_url)
 
   end
-  def test_abs1
-    # case qp dir does not exist
-    rio('qp').delete!
-    hdurl = 'qp'
-    hd = rio(hdurl)
-    assert_equal('qp',hd.path)
-    assert_equal('qp',hd.fspath)
-    #assert_equal('path',hd.scheme)    
-    assert_nil(hd.host)
-    assert_equal(false,hd.abs?)
-    assert_equal(false,hd.absolute?)
-    cwd = ::Dir.getwd
-    assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
-    assert_equal('qp',hd.to_url)
-
-
-  end
   def test_abs2
-    hdurl = 'qp/'
+    hdurl = $QPDIR
     hd = rio(hdurl)
-    assert_equal('qp/',hd.path)
-    assert_equal('qp/',hd.fspath)
+    assert_equal($QPDIR,hd.path)
+    assert_equal($QPDIR,hd.fspath)
     #assert_equal('path',hd.scheme)    
-    assert_nil(hd.host)
-    assert_equal(false,hd.abs?)
-    assert_equal(false,hd.absolute?)
-    cwd = ::Dir.getwd
-    assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
-    assert_equal('qp/',hd.to_url)
-
-    # case qp dir exists
-    rio('qp').mkdir
-
+    assert_equal(true,hd.abs?)
+    assert_equal(true,hd.absolute?)
+    assert_equal(hdurl,hd.abs.path.to_s)
   end
+
   def test_abs3
-    hdurl = 'qp'
+    hdurl = $QPDIR
     hd = rio(hdurl)
-    #      assert_equal('qp/',hd.path)
-    assert_equal('qp',hd.fspath)
+    #      assert_equal($QPDIR,hd.path)
+    assert_equal($QPDIR,hd.fspath)
     #assert_equal('path',hd.scheme)    
-    assert_nil(hd.host)
-    assert_equal(false,hd.abs?)
-    assert_equal(false,hd.absolute?)
-    cwd = ::Dir.getwd
-    assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
-    assert_equal('qp',hd.to_url)
+    assert_equal(true,hd.abs?)
+    assert_equal(true,hd.absolute?)
+    assert_equal(hdurl,hd.abs.to_s)
 
   end
   def test_abs4
-    hdurl = 'qp/'
+    hdurl = $QPDIR
     hd = rio(hdurl)
-    assert_equal('qp/',hd.path)
-    assert_equal('qp/',hd.fspath)
+    assert_equal($QPDIR,hd.path)
+    assert_equal($QPDIR,hd.fspath)
     #assert_equal('path',hd.scheme)    
-    assert_nil(hd.host)
-    assert_equal(false,hd.abs?)
-    assert_equal(false,hd.absolute?)
-    cwd = ::Dir.getwd
-    assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
-    assert_equal('qp/',hd.to_url)
-
-    # case qp file exists
-    rio('qp').rmtree.touch
+    assert_equal(true,hd.abs?)
+    assert_equal(true,hd.absolute?)
+    assert_equal(hdurl,hd.abs.to_s)
 
   end
   def test_abs5
-    hdurl = 'qp'
+    hdurl = $QPDIR
     hd = rio(hdurl)
-    assert_equal('qp',hd.path)
-    assert_equal('qp',hd.fspath)
+    assert_equal($QPDIR,hd.path)
+    assert_equal($QPDIR,hd.fspath)
     #assert_equal('path',hd.scheme)    
-    assert_nil(hd.host)
-    assert_equal(false,hd.abs?)
-    assert_equal(false,hd.absolute?)
-    cwd = ::Dir.getwd
-    assert_equal(cwd+'/'+hdurl,hd.abs.to_s)
-    assert_equal('qp',hd.to_url)
+    assert_equal(true,hd.abs?)
+    assert_equal(true,hd.absolute?)
+    assert_equal(hdurl,hd.abs.to_s)
 
   end
   def test_abs6
@@ -254,12 +227,6 @@ class TC_RIO_abs2 < Test::RIO::TestCase
     assert_kind_of(RIO::Rio,io)
     cwd = ::Dir.getwd
     assert_equal(cwd,io.to_s)
-
-  end
-  def test_abs10
-    io = RIO.root/'tmp'
-    assert_kind_of(RIO::Rio,io)
-    assert_equal('/tmp',io.to_s)
 
   end
   def test_abs11

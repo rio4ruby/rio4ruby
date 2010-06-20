@@ -5,6 +5,7 @@ if $0 == __FILE__
 end
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 #require 'tc_myfirsttests'
@@ -14,7 +15,7 @@ require 'test/unit'
 class TC_RIO_copy < Test::Unit::TestCase
   def test_copy
     require 'rio'
-    datadir = rio('qp/test_copy').rmtree.mkpath
+    datadir = rio($QPDIR,'test_copy').rmtree.mkpath
     inline = "Source Stuff\n"
     src = rio(datadir,'src')
     src.print(inline)

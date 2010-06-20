@@ -5,6 +5,7 @@ if $0 == __FILE__
 end
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_paths < Test::Unit::TestCase
@@ -18,7 +19,7 @@ class TC_RIO_paths < Test::Unit::TestCase
 
   def test_paths
     s_dir = ''
-    tdir = rio(%w/qp test_paths/)
+    tdir = rio($QPDIR,%w/test_paths/)
     tdir.rmtree.mkpath.chdir {
       rio(%w/dir0 dir00 dir000/).mkpath
       rio(%w/dir1 dir10 dir000/).mkpath

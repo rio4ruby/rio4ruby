@@ -6,11 +6,11 @@ end
 require 'rio'
 require 'test/unit'
 #require 'test/unit/testsuite'
+require 'qpdir'
 
 class TC_RIO_closeoneof < Test::Unit::TestCase
   def test_basic
-    qp = rio('qp')
-    rio(qp,'test_closeoneof').rmtree.mkpath.chdir {
+    rio($QPDIR,'test_closeoneof').rmtree.mkpath.chdir {
       sf = rio(:strio)
       1.upto(3) do |n| 
         s = "Line #{n}"

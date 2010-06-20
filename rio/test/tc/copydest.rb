@@ -8,8 +8,7 @@ require 'test/unit'
 
 class TC_RIO_copydest < Test::Unit::TestCase
   def test_copydest
-    qp = RIO.rio('qp')
-    rio(qp,'test_copydest').rmtree.mkpath.chdir {
+    rio($QPDIR,'test_copydest').rmtree.mkpath.chdir {
       expary = ["Line0\n","Line1\n","Line2\n"]
       line = expary.join
       src = rio('src').print!(line)

@@ -1,6 +1,6 @@
 require 'test/unit/testsuite'
 require 'test/unit/ui/console/testrunner'
-
+require 'qpdir'
 
 module RioTest
   class ModSuite
@@ -11,7 +11,7 @@ module RioTest
       @suite = nil
     end
     def test_dir
-      'qp/' + root_mod.to_s.downcase + '_' + utmod_name.to_s.downcase
+      $QPDIR + root_mod.to_s.downcase + '_' + utmod_name.to_s.downcase
     end
     def run
       wd = Dir.pwd

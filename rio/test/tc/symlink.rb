@@ -6,6 +6,7 @@ end
 
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_symlink < Test::Unit::TestCase
@@ -13,7 +14,7 @@ class TC_RIO_symlink < Test::Unit::TestCase
     assert((!(a)),msg)
   end
   def smap(a) a.map { |el| el.to_s } end
-  def tdir() rio(%w/qp symlink/) end
+  def tdir() rio($QPDIR,%w/symlink/) end
   def mkafile(*args)
     file = rio(*args)
     file < (0..1).map { |i| "L#{i}:#{file.to_s}\n" }

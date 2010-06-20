@@ -7,9 +7,10 @@ end
 require 'rio'
 require 'test/unit'
 #require 'test/unit/testsuite'
+require 'qpdir'
 
 class TC_RIO_clearsel < Test::Unit::TestCase
-  def tdir() rio(%w/qp clearsel/) end
+  def tdir() rio($QPDIR,%w/clearsel/) end
   def assert!(a,msg="negative assertion")
     assert((!(a)),msg)
   end

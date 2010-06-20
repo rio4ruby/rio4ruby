@@ -6,6 +6,7 @@ end
 
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 def smap(a) a.map { |el| el.to_s } end
@@ -14,7 +15,7 @@ class TC_RIO_pa < Test::Unit::TestCase
   def test_pa
     s_dir = ''
     #$trace_states = true
-    tdir = rio(%w/qp pa/)
+    tdir = rio($QPDIR,%w/pa/)
     tdir.rmtree.mkpath.chdir {
       rio(%w/d0 d00 d000/).mkpath
       rio(%w/d1 d10 d000/).mkpath
@@ -106,36 +107,36 @@ class TC_RIO_pa < Test::Unit::TestCase
 
       ans = rio('d1').all.files(/f0/).lines[/L0/]
       exp = ["L0:d1/d10/f0.txt\n", "L0:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files(/f0/).lines[]
       exp = ["L0:d1/d10/f0.txt\n", "L1:d1/d10/f0.txt\n", "L2:d1/d10/f0.txt\n", "L0:d1/f0.txt\n", "L1:d1/f0.txt\n", "L2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.bytes(8).records(0..1).files[/f0/]
       exp = ["L0:d1/d10/f0.txt\nL1:d1/d10/f0.txt\nL2:d1/d10/f0.txt\n", "L0:d1/f0.txt\nL1:d1/f0.txt\nL2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.bytes(8).files(/f0/).records[0..1]
       exp = ["L0:d1/d10/f0.txt\nL1:d1/d10/f0.txt\nL2:d1/d10/f0.txt\n", "L0:d1/f0.txt\nL1:d1/f0.txt\nL2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
 
       ans = rio('d1').all.bytes(32).files(/f0/).records[]
       exp = ["L0:d1/d10/f0.txt\nL1:d1/d10/f0.txt\nL2:d1/d10/f0.txt\n", "L0:d1/f0.txt\nL1:d1/f0.txt\nL2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.bytes(32).files[/f0/]
       exp = ["L0:d1/d10/f0.txt\nL1:d1/d10/f0.txt\nL2:d1/d10/f0.txt\n", "L0:d1/f0.txt\nL1:d1/f0.txt\nL2:d1/f0.txt\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.bytes.files['*.emp']
       exp = ["L0:d1/d10/f2.emp\nL1:d1/d10/f2.emp\nL2:d1/d10/f2.emp\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.files('*.emp').bytes[]
       exp = ["L0:d1/d10/f2.emp\nL1:d1/d10/f2.emp\nL2:d1/d10/f2.emp\n"]
-      assert_equal(exp,smap(ans))
+      assert_equal(exp.sort,smap(ans).sort)
 
       ans = rio('d1').all.lines[]
       exp = ["L0:d1/d10/d000/f100.txt\n", "L1:d1/d10/d000/f100.txt\n", "L2:d1/d10/d000/f100.txt\n", 

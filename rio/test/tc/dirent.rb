@@ -6,11 +6,12 @@ end
 
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_dirent < Test::Unit::TestCase
   def smap(a) a.map { |el| el.to_s } end
-  def tdir() rio(%w/qp dirent/) end
+  def tdir() rio($QPDIR,%w/dirent/) end
   def mkafile(*args)
     file = rio(*args)
     file < (0..1).map { |i| "L#{i}:#{file.to_s}\n" }
@@ -18,7 +19,7 @@ class TC_RIO_dirent < Test::Unit::TestCase
   end
   def setup() 
     $trace_states = false
-    rio('qp/dirent').delete!.mkpath.chdir do
+    rio($QPDIR,'dirent').delete!.mkpath.chdir do
       rio('d0').mkpath.chdir do
         rio('q1') < (0..1).map { |i| "L#{i}:d0/q1\n" }
         rio('q2') < (0..1).map { |i| "L#{i}:d0/q2\n" }
@@ -37,7 +38,7 @@ class TC_RIO_dirent < Test::Unit::TestCase
   end
   def test_dirent
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
-    rio('qp/dirent').chdir do
+    rio($QPDIR,'dirent').chdir do
       begin
         ans = []
         rio('d0').entries.each do |ent|
@@ -68,7 +69,7 @@ class TC_RIO_dirent < Test::Unit::TestCase
   end
   def test_dirent_mixed
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
-    rio('qp/dirent').chdir do
+    rio($QPDIR,'dirent').chdir do
       begin
         exp = []
         ans = []
@@ -104,7 +105,7 @@ class TC_RIO_dirent < Test::Unit::TestCase
   end
   def test_dirent_files
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
-    rio('qp/dirent').chdir do
+    rio($QPDIR,'dirent').chdir do
 
       begin
         ans = []
@@ -127,7 +128,7 @@ class TC_RIO_dirent < Test::Unit::TestCase
   end
   def test_dirent_all
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d2 d0/d1/d1/q1 d0/d1/d1/q2]
-    rio('qp/dirent').chdir do
+    rio($QPDIR,'dirent').chdir do
       begin
         ans = []
         rio('d0').all.entries.each do |ent|

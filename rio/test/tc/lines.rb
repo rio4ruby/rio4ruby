@@ -5,13 +5,14 @@ if $0 == __FILE__
 end
 require 'rio'
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_lines < Test::Unit::TestCase
   def test_basic
     qp = rio('qp')
 
-    rio(qp,'test_lines').rmtree.mkpath.chdir {
+    rio($QPDIR,'test_lines').rmtree.mkpath.chdir {
       
       f = rio('basic.txt')
       0.upto(6) do |n|

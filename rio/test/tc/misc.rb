@@ -5,6 +5,8 @@ if $0 == __FILE__
 end
 require 'rio'
 require 'tc/testcase'
+require 'qpdir'
+
 #require 'dev-utils/debug'
 
 #require 'tc_myfirsttests'
@@ -14,25 +16,25 @@ require 'tc/testcase'
 class TC_RIO_misc < Test::Unit::TestCase
   def rio(*args) RIO.rio(*args) end
   def rootrio(*args) RIO.root(*args) end
-  def ttdir() RIO.rio('qp').mkpath end
+  def ttdir() RIO.rio($QPDIR).mkpath end
   def assert_equal_s(a,b) assert_equal(a.to_s,b.to_s) end
 
   def test_iomodes
     exp = (0..5).to_a.map { |n| "Line #{n}" }
-    f = rio('qp/rwlines.txt').chomp
+    f = rio($QPDIR,'rwlines.txt').chomp
     0.upto(4) do |n|
       f.puts("Line #{n}")
     end
     got =  f.a.puts("Line 5").readlines
     assert_equal(exp,got)
 
-    f = rio('qp/rwlines.txt').mode('w')
+    f = rio($QPDIR,'rwlines.txt').mode('w')
     0.upto(4) { |n| f.puts("Line #{n}") }
     assert_raise(IOError) {
       f.readlines
     }
 
-    f = rio('qp/rwlines.txt').a
+    f = rio($QPDIR,'rwlines.txt').a
     assert_equal_s('a',f.outputmode?)
     f.puts("Line 0\n\n")
 #    assert_match(/Output$/,.handled_by)
@@ -41,7 +43,7 @@ class TC_RIO_misc < Test::Unit::TestCase
     assert_equal_s('r',f.mode?)
 #    assert_match(/Input$/,f.handled_by)
 
-    f = rio('qp/rwlines.txt').a!
+    f = rio($QPDIR,'rwlines.txt').a!
     assert_equal_s('a+',f.outputmode?)
     f.puts("Line 0\n\n")
 #    assert_match(/InOut$/,f.puts("Line 0\n\n").handled_by)
@@ -50,7 +52,7 @@ class TC_RIO_misc < Test::Unit::TestCase
     assert_equal_s('a+',f.mode?)
 #    assert_match(/InOut$/,f.handled_by)
 
-    f = rio('qp/rwlines.txt').w
+    f = rio($QPDIR,'rwlines.txt').w
     assert_equal_s('w',f.outputmode?)
     f.puts("Line 0\n\n")
 #    assert_match(/Output$/,f.puts("Line 0\n\n").handled_by)
@@ -59,7 +61,7 @@ class TC_RIO_misc < Test::Unit::TestCase
     assert_equal_s('r',f.mode?)
 #    assert_match(/Input$/,f.handled_by)
 
-    f = rio('qp/rwlines.txt').w!
+    f = rio($QPDIR,'rwlines.txt').w!
     assert_equal_s('w+',f.outputmode?)
     f.puts("Line 0").puts("Line 1")
 #    assert_match(/InOut$/,f.puts("Line 0").puts("Line 1").handled_by)
@@ -68,7 +70,7 @@ class TC_RIO_misc < Test::Unit::TestCase
     assert_equal_s('w+',f.mode?)
 #    assert_match(/InOut$/,f.handled_by)
 
-    f = rio('qp/rwlines.txt').r
+    f = rio($QPDIR,'rwlines.txt').r
     assert_equal_s('r',f.inputmode?)
     f.puts("Line 0").puts("Line 1")
 #    assert_match(/Output$/,f.puts("Line 0").puts("Line 1").handled_by)
@@ -77,7 +79,7 @@ class TC_RIO_misc < Test::Unit::TestCase
     assert_equal_s('r',f.mode?)
 #    assert_match(/Input$/,f.handled_by)
 
-    f = rio('qp/rwlines.txt').r!
+    f = rio($QPDIR,'rwlines.txt').r!
     assert_equal_s('r+',f.inputmode?)
     f.puts("Line 0").puts("Line 1")
 #    assert_match(/InOut$/,f.puts("Line 0").puts("Line 1").handled_by)
@@ -91,7 +93,7 @@ class TC_RIO_misc < Test::Unit::TestCase
 
   def test_readwrite 
     require 'rio'
-    tdir = rio(%w/qp test_readwrite/)
+    tdir = rio($QPDIR,%w/test_readwrite/)
     tdir.rmtree.mkpath.chdir {
       exp = (0..5).to_a.map { |n| "Line #{n}" }
 
@@ -158,7 +160,7 @@ class TC_RIO_misc < Test::Unit::TestCase
   end
   def test_copy2
     require 'rio'
-    tdir = rio(%w/qp test_copy2/)
+    tdir = rio($QPDIR,%w/test_copy2/)
     tdir.rmtree.mkpath.chdir {
       txt = "Hello f1.txt"
       o = rio('o').puts(txt).close
@@ -217,7 +219,7 @@ class TC_RIO_misc < Test::Unit::TestCase
   end
 
   def test_mkdir
-    datadir = rio('qp/test_mkdir').rmtree.mkpath
+    datadir = rio($QPDIR,'test_mkdir').rmtree.mkpath
     dir2 = rio(datadir,'dir2').rmtree.mkpath
     dir2 = rio(datadir,'dir2').rmtree.mkpath
     #     sd1 > dir2
@@ -268,30 +270,10 @@ class TC_RIO_misc < Test::Unit::TestCase
     o == n
   end
 
-#   def test_dirstream
-#     datadir = rio('qp','test_dirstream').rmtree.mkpath
-#     rio(datadir,'afile').touch.symlink(rio(datadir,'asymlink'))
-#     rio(datadir,'adir').mkdir
-
-#     #pp datadir.open
-#     positions = {}
-#     while 1
-#       ps = datadir.tell
-#       ent = datadir.read
-#       break if ent.nil?
-#       positions[ent] = ps
-#     end
-    
-#     positions.each { |k,v|
-#       datadir.seek(v)
-#       ent = datadir.read
-#       assert_equal(k.to_s,ent.to_s)
-#     }
-#   end
   def test_path
     RIO.cwd.chdir do 
-      dir =  rio(%w/qp test_path/).rmtree.mkpath
-      s_dir = 'qp/test_path'
+      dir =  rio($QPDIR,%w/test_path/).rmtree.mkpath
+      s_dir = dir.to_s
       
       assert_equal(true,::FileTest.directory?(s_dir))
       f1 = RIO.rio(dir,'f1.txt').puts("This is f1")
@@ -305,63 +287,4 @@ class TC_RIO_misc < Test::Unit::TestCase
       assert_equal(0,::FileTest.size(::File.join(s_dir,'d1/f4.emp')))
     end
   end
-  def test_glob
-  end
-
-  def test_sdio
-    
-    #    qpd = rio(%w/qp/).mkpath
-    #    rio(qpd,'hw.txt').puts("This\nis\na\nqesi")
-    #    ObjectSpace.each_object(File)    { |o|
-    #      p o.to_s
-    #    }
-
-    
-    #    io = rio(qpd,'hw.txt').readlines
-    #    p io.inspect
-  end
 end
-#     extend Forwardable
-#     def_instance_delegators(:state,
-#                             :to_i,
-#                             :mode,
-#                             :mkdir,:mkpath,
-#                             :rmdir,:rmtree,
-#                             :chdir,
-#                             :each_entry,:each_line,:each,:each_byte,
-#                             :each_tested,:each_file,:each_directory,:each_symlink,
-#                             :to_str,:to_a,:contents,
-#                             :length,:size,:zero?,
-#                             :eof?,
-#                             :read,:readchar,:readline,:readlines,
-#                             :putc,:puts,:print,:printf,
-#                             :chomp,:chop,
-#                             :atime,:ctime,:mtime,
-#                             :blockdev?,:chardev?,:pipe?,:socket?,:symlink?,:sticky?,
-#                             :dir?,:directory?,:file?,:exist?,
-#                             :executable?,:executable_real?,
-#                             :readable?,:readable_real?,:writeable?,:writeable_real?,
-#                             :grpowned?,:owned?,:setgid?,:setuid?,
-#                             :ftype,:extname,
-#                             :lstat,:stat,
-#                             :fnmatch?)
-# class LogDecorator
-#   def initialize(target)
-#     @target = target
-#   end
-#   def method_missing( sym, *args )
-#     call = "#{@target}.#{sym}(" + (args.map {|a|a.inspect}).join(",") + ")"
-#     puts "calling #{call}"
-#     result = @target.__send__( sym, *args )
-#     puts "returned #{result.inspect} from #{call}"
-#     result
-#   end
-# end
-
-#module RIO
-#  module RIOState
-#    def new_rio(*args)
-#      self.class.new(*args)
-#    end
-#  end
-#end # module RIO

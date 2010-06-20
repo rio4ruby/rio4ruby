@@ -56,7 +56,7 @@ class TC_RIO_eq < Test::Unit::TestCase
   def test_eq
     s_dir = ''
     #$trace_states = true
-    rio(%w/qp eq/).rmtree.mkpath.chdir do
+    rio($QPDIR,%w/eq/).rmtree.mkpath.chdir do
       q1 = 'q'
       q2 = 'q'
       all_eq(q1,q2)

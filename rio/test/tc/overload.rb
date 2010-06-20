@@ -9,8 +9,7 @@ require 'tc/testcase'
 
 class TC_RIO_overload < Test::Unit::TestCase
   def test_overload
-    qp = RIO.rio('qp')
-    rio(qp,'test_overload').rmtree.mkpath.chdir {
+    rio($QPDIR,'test_overload').rmtree.mkpath.chdir {
       line0 = "Line 0\n"
       src = rio('src').print!(line0)
 

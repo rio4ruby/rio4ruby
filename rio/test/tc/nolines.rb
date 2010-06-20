@@ -7,10 +7,11 @@ end
 require 'rio'
 # $trace_states = true
 require 'test/unit'
+require 'qpdir'
 #require 'test/unit/testsuite'
 
 class TC_RIO_skiplines < Test::Unit::TestCase
-  def tdir() rio(%w/qp skiplines/) end
+  def tdir() rio($QPDIR,%w/skiplines/) end
   def assert!(a,msg="negative assertion")
     assert((!(a)),msg)
   end

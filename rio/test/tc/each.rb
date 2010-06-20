@@ -10,8 +10,7 @@ require 'test/unit'
 
 class TC_RIO_each < Test::Unit::TestCase
   def setup
-    qp = rio('qp')
-    rio(qp,'test_each').rmtree.mkpath.chdir do
+    rio($QPDIR,'test_each').rmtree.mkpath.chdir do
       f = rio('basic.txt')
       0.upto(6) do |n|
         f.puts("L#{n+1}: #{n*3}:#{n*2}")
@@ -21,8 +20,7 @@ class TC_RIO_each < Test::Unit::TestCase
   end
 
   def test_basic
-    qp = rio('qp')
-    rio(qp,'test_each').chdir do
+    rio($QPDIR,'test_each').chdir do
 
       expa = ["L1: 0:0\n", "L2: 3:2\n", "L3: 6:4\n", "L4: 9:6\n", "L5: 12:8\n", "L6: 15:10\n", "L7: 18:12\n",
         "Line Z\n"]
@@ -73,8 +71,7 @@ class TC_RIO_each < Test::Unit::TestCase
   end
 
   def test_bytes
-    qp = rio('qp')
-    rio(qp,'test_each').chdir do
+    rio($QPDIR,'test_each').chdir do
       eol = (($mswin32 || $mingw32) && RUBY_VERSION >= "1.9") ? "\r\n" : "\n"
       nbytes = 32
 

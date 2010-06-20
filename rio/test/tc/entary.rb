@@ -6,10 +6,11 @@ end
 
 require 'rio'
 require 'tc/testcase'
+require 'qpdir'
 
 class TC_RIO_entary < Test::Unit::TestCase
   def smap(a) a.map { |el| el.to_s } end
-  def tdir() rio(%w/qp entary/) end
+  def tdir() rio($QPDIR,%w/entary/) end
   def mkafile(*args)
     file = rio(*args)
     file < (0..1).map { |i| "L#{i}:#{file.to_s}\n" }
@@ -17,7 +18,7 @@ class TC_RIO_entary < Test::Unit::TestCase
   end
   def setup() 
     $trace_states = false
-    rio('qp/entary').delete!.mkpath.chdir do
+    rio($QPDIR,'entary').delete!.mkpath.chdir do
       rio('d0').mkpath.chdir do
         rio('q1') < (0..1).map { |i| "L#{i}:d0/q1\n" }
         rio('q2') < (0..1).map { |i| "L#{i}:d0/q2\n" }
@@ -37,7 +38,7 @@ class TC_RIO_entary < Test::Unit::TestCase
   def test_entary_nofile
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
     return unless $supports_symlink
-    rio('qp/entary').chdir do
+    rio($QPDIR,'entary').chdir do
       begin
         rio('d1').delete!.mkpath.chdir do
           rio('q1') < (0..1).map { |i| "L#{i}:d1/q1\n" }
@@ -100,7 +101,7 @@ class TC_RIO_entary < Test::Unit::TestCase
   def test_entary_nofile_symlink
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
     return unless $supports_symlink
-    rio('qp/entary').chdir do
+    rio($QPDIR,'entary').chdir do
       begin
         rio('d1').delete!.mkpath.chdir do
           rio('q1') < (0..1).map { |i| "L#{i}:d1/q1\n" }
@@ -164,7 +165,7 @@ class TC_RIO_entary < Test::Unit::TestCase
   end
   def test_entary
     ds = %w[d0/q1 d0/q2 d0/d1 d0/d2 d0/d1/q1 d0/d1/q2 d0/d1/d1 d0/d1/d1/q1 d0/d1/d1/q2]
-    rio('qp/entary').chdir do
+    rio($QPDIR,'entary').chdir do
       begin
         ans = []
         exp = []
