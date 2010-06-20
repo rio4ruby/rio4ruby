@@ -35,10 +35,10 @@ class TC_csv < Test::RIO::TestCase
   end
   def test_csv_lines
     # $trace_states = true
-    assert_equal(@string,rio(@dst_name).csv.contents)
     assert_equal(@records,rio(@dst_name).csv[])
     assert_equal(@lines,rio(@dst_name).csv.lines[])
     assert_equal(@records,rio(@dst_name).csv.records[])
+    # assert_equal(@string,rio(@dst_name).csv.contents)
     exp = ($USE_FASTER_CSV ? @records : @lines)
     assert_equal(exp,rio(@dst_name).csv.records.readlines)
     assert_equal(@lines[1..2],rio(@dst_name).csv.lines[1..2])

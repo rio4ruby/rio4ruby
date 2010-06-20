@@ -66,7 +66,7 @@ module CSV_Util
     lines = []
     recs.each do |rec|
       lines << ::CSV.generate_line(rec,{:col_sep => fs, 
-                            :row_sep => rs, 
+                            :row_sep => $/, 
                             :quote_char => qc}).chomp + $/
     end
     lines
@@ -76,7 +76,7 @@ module CSV_Util
     records = tcsv_gen_recs(n_rows,n_cols,header)
     lines = tcsv_rec_lines(records,fs,rs,qc)
     strings = tcsv_rec_strings(records,fs,qc)
-    string = lines.join()
+    string = strings.join($/) + $/
     frio < string
     [records,strings,lines,string]
   end
