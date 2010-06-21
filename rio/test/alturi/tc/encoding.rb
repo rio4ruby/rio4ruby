@@ -50,6 +50,7 @@ module Alt::URI::UnitTest
         r = rio(ustr)
         pth = r.path
         assert_equal(r.rl.fs.encoding,pth.encoding)
+        pstr.encode(pth.encoding)
         assert_equal(pstr,pth)
       end
 
