@@ -147,7 +147,7 @@ module RIO
 
           @tf = ::Tempfile.new( prefix, tmpdir)
 
-          # p "TF=",@tf
+          #puts "TF=#{@tf.inspect}"
           # @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
 
           # FIXME: Temporary fix for jruby 1.4 - fix slashes

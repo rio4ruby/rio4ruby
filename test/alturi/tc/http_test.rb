@@ -112,7 +112,7 @@ module Alt::URI::UnitTest
     u = Alt::URI::HTTP.new
     u.path = nil
     assert_not_nil(u.path)
-    assert('', u.path.empty?)
+    assert(u.path.empty?)
   end
 
   def test_path

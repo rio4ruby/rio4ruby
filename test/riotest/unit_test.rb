@@ -22,13 +22,13 @@ module RioTest
       Dir.chdir(wd)
     end
     def topmod
-      root_mod.module_eval(utmod_name)
+      root_mod.module_eval(utmod_name.to_s)
     end
     def utmod
       unless topmod.const_defined?(:UnitTest)
         topmod.const_set(:UnitTest,Module.new)
       end
-      topmod.module_eval(:UnitTest)
+      topmod.module_eval(:UnitTest.to_s)
     end
     def mods
       utmod.constants
@@ -41,7 +41,7 @@ module RioTest
       }
       mlist = []
       mods.each do |modstr|
-        m = utmod.module_eval(modstr).module_eval(clsdef)
+        m = utmod.module_eval(modstr.to_s).module_eval(clsdef.to_s)
         #Test::Unit::UI::Console::TestRunner.run(mod.module_eval(:TestSuite))  if $0 == file
         #Test::Unit::UI::Console::TestRunner.run(m)
         mlist << m

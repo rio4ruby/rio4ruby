@@ -88,14 +88,14 @@ module RIO
         def empty?() 
           self.selective? ? self.to_a.empty? : self.size == 0 
         end
-        def rm(*args) 
+        def delete(*args) 
           rtn_reset { 
-            fs.rm(self,*args) 
+            fs.delete(self,*args) 
           } 
         end
-        alias :delete :rm
+        alias :rm :delete
         alias :unlink :delete
-        alias :delete! :rm
+        alias :delete! :delete
         def touch(*args) rtn_self { fs.touch(self.to_s,*args) } end
         def truncate(sz=0) 
           rtn_reset { 
@@ -109,11 +109,19 @@ module RIO
         include ExistOrNot
         include FileOrDir::NonExisting
 
-        def rm(*args) rtn_self { ; } end
-        alias delete rm
+        def delete(*args) rtn_self { ; } end
+        alias :rm :delete
         alias :unlink :delete
-        alias delete! rm
-        def touch(*args) rtn_reset { fs.touch(self,*args) } end
+        alias :delete! :delete
+        def touch(*args) 
+          rtn_reset { 
+            # fs.touch(self,*args) 
+            ::File.open(self.to_s, 'a') {
+              ;
+            }
+          }
+ 
+        end
         def truncate(sz=0) self.touch.truncate(sz) end
       end
     end

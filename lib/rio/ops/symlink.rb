@@ -66,7 +66,9 @@ module RIO
       module Existing
         include ExistOrNot
         def delete(*args)
-          rm(*args)
+          rtn_reset {
+            fs.delete(self.to_s)
+          }
         end
         def unlink(*args)
           delete(*args)

@@ -3,8 +3,8 @@ require 'rio'
 require 'rbconfig'
 
 class TempServer
-RUBY = File.join(Config::CONFIG['bindir'], 
-                 Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
+RUBY = File.join(RbConfig::CONFIG['bindir'], 
+                 RbConfig::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
   def initialize(server_config = {})
     @logdir = rio('log').delete!.mkdir
     @config = { :DocumentRoot => rio('srv/www/htdocs').abs, 

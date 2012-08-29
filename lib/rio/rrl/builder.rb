@@ -59,7 +59,7 @@ module RIO
         return rl
       end
       def self.build(*a)
-        # puts "build: #{a.inspect}" 
+        #puts "build: #{a.inspect} (#{a.map(&:class).inspect})" 
         a.flatten!
         a.push('') if a.empty?
         case a[0]

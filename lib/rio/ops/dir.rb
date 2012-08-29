@@ -146,7 +146,7 @@ module RIO
           softreset()
         end
         def rmtree(*args) fs.rmtree(self.path,*args); softreset() end
-        def rm(*args) fs.rm(self.path,*args); softreset() end
+        # def rm(*args) fs.rm(self.path,*args); softreset() end
         
         alias :delete :rmdir
         alias :unlink :delete

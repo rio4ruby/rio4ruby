@@ -138,7 +138,7 @@ module Alt::URI::UnitTest
           u = Alt::URI::File.new
         u.path = nil
         assert_not_nil(u.path)
-        assert('', u.path.empty?)
+        assert(u.path.empty?)
       end
       def test_with_drive_path=
           u = Alt::URI::File.new

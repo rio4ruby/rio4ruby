@@ -3,6 +3,11 @@
 Dir.chdir File.dirname(__FILE__)
 $devlib=File.expand_path('../lib/')
 $:.unshift $devlib unless $:[0] == $devlib
+$testlib=File.expand_path('../test/')
+$:.unshift $testlib unless $:[0] == $testlib
+
+
+
 require 'platform'
 
 require 'rio'
@@ -39,7 +44,7 @@ def get_options
 end
 def find_tests(ms)
   self.class.constants.each do |cnst|
-    cons = self.class.class_eval(cnst)
+    cons = self.class.class_eval(cnst.to_s)
     if cons.kind_of?(Class) and cons.ancestors.include?(Test::Unit::TestCase)
       ms << cons.suite
     end

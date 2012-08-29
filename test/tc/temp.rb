@@ -117,7 +117,7 @@ class TC_temp < Test::RIO::TestCase
     rio('riotmpdir').delete!.mkdir
     tmp = rio(??,'zippy','riotmpdir').file
     assert_match(/^zippy/,tmp.filename.to_s)
-    assert_equal('riotmpdir',tmp.dirname.to_s)
+    assert_equal('riotmpdir',tmp.dirname.filename.to_s)
     tmp.close
   end
 
@@ -149,7 +149,7 @@ class TC_temp < Test::RIO::TestCase
     tmp = rio('temp:riotmpdir?zippy').file
     assert(tmp.file?)
     assert_match(/^zippy/,tmp.filename.to_s)
-    assert_equal('riotmpdir',tmp.dirname.to_s)
+    assert_equal('riotmpdir',tmp.dirname.filename.to_s)
     tmp.close
   end
 

@@ -120,12 +120,12 @@ class TC_truncate < Test::RIO::TestCase
 
   def test_nonexistent
     str,fnruby,fnrio = setup_files('nonexistent')
-    rio(fnruby).rm
+    ::File.unlink(fnruby)
     assert!(rio(fnruby).exist?)
     assert_raise Errno::ENOENT do
       File.truncate(fnruby,0)
     end
-    rio(fnrio).rm
+    ::File.unlink(fnrio)
     assert!(rio(fnrio).exist?)
     rio(fnrio).truncate(0)
     assert_equal(0,rio(fnrio).size)

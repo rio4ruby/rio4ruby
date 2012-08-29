@@ -229,6 +229,8 @@ module RIO
       def to_uri() rl.uri end
       def uri() rl.uri end
       alias :to_str :to_s
+      alias :to_path :to_s
+      def to_ary() nil end
 
       def hash() rl.to_s.hash end
       #def eql?(other) @rl.to_s.eql?(other.to_s) end

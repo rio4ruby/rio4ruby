@@ -63,7 +63,7 @@ require 'rio/fs'
 
 require 'forwardable'
 
-$trace_states = false
+$trace_states = true
 
 require 'rio/kernel'
 require 'rio/constructor'
@@ -126,9 +126,15 @@ module RIO
     def to_s() target.to_s end
 
     alias :to_str :to_s
+    alias :to_path :to_s
+
     def dup
       #p callstr('dup',self)
       self.class.new(self.rl)
+    end
+
+    def to_ary
+      nil
     end
     
 

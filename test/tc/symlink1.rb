@@ -77,9 +77,9 @@ class TC_RIO_symlink1 < Test::Unit::TestCase
     assert_equal(lines[3],link.getrec)
 
     link.delete
-    assert(link.closed?)
     assert!(link.exist?)
     assert!(link.symlink?)
+    assert(link.closed?)
 
     rio('..').chdir
   end

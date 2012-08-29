@@ -54,14 +54,14 @@ module Alt::URI::UnitTest
         assert_equal(ps,pth)
       end
 
-      def test_check_read_dir
-        #p __ENCODING__
-        rootdir = rio('/loc/mp3/')
-        rootenc = rootdir.rl.fs.encoding
-        rootdir.dirs do |ent|
-          assert_equal(rootenc,ent.path.encoding)
-        end
-      end
+      # def test_check_read_dir
+      #   #p __ENCODING__
+      #   rootdir = rio('/loc/mp3/')
+      #   rootenc = rootdir.rl.fs.encoding
+      #   rootdir.dirs do |ent|
+      #     assert_equal(rootenc,ent.path.encoding)
+      #   end
+      # end
       def test_string
         #p __ENCODING__
         str = "There you go again\u2026"

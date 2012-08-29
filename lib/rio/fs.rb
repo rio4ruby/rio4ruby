@@ -15,6 +15,7 @@ module RIO
 
       def method_missing(sym,*args,&block)
         #a = convert_args(args)
+        # puts "FS::Handle:method_missing(#{sym.inspect},#{args.inspect}) #{@fs.inspect}"
         @fs.__send__(sym,*args,&block)
       end
     end
@@ -120,7 +121,8 @@ module RIO
         :touch
 
         # file
-        def_delegator :@file, :delete, :rm
+        def_delegator :@file, 
+        :delete 
       end
     end
   end

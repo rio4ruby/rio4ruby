@@ -25,7 +25,7 @@ class TC_splitlines < Test::RIO::TestCase
     ans = rio(@infile).chomp.split(',').get
     exp = @str.chop
     exp = exp.split(',')
-    assert(exp,ans)
+    assert_equal(exp,ans)
   end
   def test_each
     exp = @str.chomp.split(',')
