@@ -63,7 +63,7 @@ require 'rio/fs'
 
 require 'forwardable'
 
-$trace_states = true
+$trace_states = false
 
 require 'rio/kernel'
 require 'rio/constructor'
@@ -133,6 +133,7 @@ module RIO
       self.class.new(self.rl)
     end
 
+    # needed for 1.9.2+ problem with to_ary and method_missing
     def to_ary
       nil
     end
