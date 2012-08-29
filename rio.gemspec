@@ -18,5 +18,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = RIO::VERSION
 
-  gem.add_dependency "test_unit"
+  gem.add_dependency "test-unit"
 end

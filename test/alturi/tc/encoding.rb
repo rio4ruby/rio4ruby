@@ -34,6 +34,7 @@ module Alt::URI::UnitTest
       end
       def test_check_paths
         dir = ::File.dirname(__FILE__) + "/../../data/"
+        return unless ::File.directory?(dir)
         $datadir ||= dir
         r = rio($datadir,'filelist.txt').enc('UTF-8').chomp
         paths = r.map{|el| el.sub(%r{^/loc},'')}
