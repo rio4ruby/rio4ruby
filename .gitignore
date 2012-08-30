@@ -16,4 +16,5 @@ test/tmp
 test/version_tmp
 /test/data
 /test/qp
+/test/log
 tmp

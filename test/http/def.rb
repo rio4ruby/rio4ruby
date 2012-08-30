@@ -11,7 +11,7 @@ module RIO::HTTP
     HWURL = "http://#{RTHOSTPORT}/#{RTDIR}/#{HWFILENAME}"
     GZURL = "http://#{RTHOSTPORT}/#{RTDIR}/#{GZFILENAME}"
     DRURL = "http://#{RTHOSTPORT}/#{RTDIR}/#{DRFILENAME}"
-    LOCALRTDIR = rio('../../srv/www/htdocs',RTDIR)
+    LOCALRTDIR = rio(rio(__FILE__).dirname,'../srv/www/htdocs',RTDIR)
     HWFILE = LOCALRTDIR/HWFILENAME
     GZFILE = LOCALRTDIR/GZFILENAME
     URLS = [HWURL,GZURL,DRURL]

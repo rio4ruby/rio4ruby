@@ -33,6 +33,7 @@ module RIO::HTTP::UnitTest
         urio = rio(url)
         ario < urio
         exp = urio.contents
+        puts HWFILE.abs
         assert_equal(exp,ario.contents)
         assert_equal(rio(HWFILE).contents,rio('outf').contents)
       end

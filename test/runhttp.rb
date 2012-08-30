@@ -1,6 +1,7 @@
 #!/usr/local/bin/ruby
 Dir.chdir File.dirname(__FILE__)
 $:.unshift File.expand_path('../lib/')
+$:.unshift File.expand_path('../test/')
 
 require 'rio'
 require 'lib/temp_server'
