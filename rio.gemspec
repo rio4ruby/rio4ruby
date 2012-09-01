@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.1'
 
   gem.add_dependency "test-unit"
+  gem.add_dependency "rdoc"
 end
