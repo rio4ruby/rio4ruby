@@ -102,7 +102,7 @@ module RIO
       #
       # Calls File#fnmatch?
       #
-      # Returns true if IF::Path#path matches <i>pattern</i>. The
+      # Returns true if {#path}[rdoc-ref:IF::Path#path] matches <i>pattern</i>. The
       # pattern is not a regular expression; instead it follows rules
       # similar to shell filename globbing. It may contain the following
       # metacharacters:
@@ -249,7 +249,7 @@ module RIO
       def zero?(*args) target.zero?(*args) end
 
 
-      # Returns true if the rio represents an absolute path or URI. Alias for IF::Test#absolute?
+      # Returns true if the rio represents an absolute path or URI. Alias for {#absolute?}[rdoc-ref:IF::Test#absolute?]
       #
       #  rio('/tmp').abs?                     # >> true
       #  rio('.ssh').abs?                     # >> false

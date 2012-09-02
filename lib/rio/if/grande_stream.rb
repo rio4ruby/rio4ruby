@@ -104,9 +104,9 @@ module RIO
 
       # Sets the rio to read bytes and returns the rio
       #
-      # _n_ specifies the number of bytes to be returned on each iteration of IF::Grande#each or by IF::GrandeStream#getrec. If _args_
+      # _n_ specifies the number of bytes to be returned on each iteration of {#each}[rdoc-ref:IF::Grande#each] or by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]. If _args_
       # are provided, they are treated as record selectors as if <tt>ario.bytes(n).records(*args)</tt> had been
-      # called. See also #records, #lines, IF::Grande#each, IF::Grande#[]
+      # called. See also #records, #lines, {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       # 
       # If called with a block behaves as if <tt>ario.bytes(n,*args).each(&block)</tt> had been called
       # 
@@ -128,7 +128,7 @@ module RIO
       def bytes(n=1,*args,&block) target.bytes(n,*args,&block); self end
 
 
-      # Specifies which records will be iterated through by IF::Grande#each or returned by IF::GrandeStream#getrec
+      # Specifies which records will be iterated through by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
       # 
       # If called with a block behaves as if <tt>records(*args).each(&block)</tt> had been called
       # 
@@ -136,11 +136,11 @@ module RIO
       #
       # If no args are provided, all records are selected. 
       # What constitutes a record is affected by #lines,#bytes,
-      # and extensions such as IF::CSV#csv and IF::YAML#yaml.
+      # and extensions such as {#csv}[rdoc-ref:IF::CSV#csv] and {#yaml}[rdoc-ref:IF::YAML#yaml].
       #
       # If args are provided they may be one or more of the following:
-      # Regexp::  any matching record will be iterated over by IF::Grande#each or returned by IF::GrandeStream#getrec
-      # Integer:: specifies a record-number (zero-based) to be iterated over by IF::Grande#each or returned by IF::GrandeStream#getrec
+      # Regexp::  any matching record will be iterated over by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
+      # Integer:: specifies a record-number (zero-based) to be iterated over by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
       # Range::   specifies a range of records (zero-based) to included in the iteration
       # Proc::    a proc which will be called for each record, records are included unless nil or false is returned
       # Symbol::  a symbol which will _sent_ to each record, records are included unless nil or false is returned
@@ -170,17 +170,17 @@ module RIO
       def records(*args,&block) target.records(*args,&block); self end
 
 
-      # Specifies records which should *not* be iterated through by IF::Grande#each or returned by IF::GrandeStream#getrec
+      # Specifies records which should *not* be iterated through by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
       # 
       # If called with a block behaves as if <tt>skiprecords(*args).each(&block)</tt>
       # had been called
       # 
       # Returns the Rio
       #
-      # See also #records, #skiplines, #lines, IF::Grande#skip
+      # See also #records, #skiplines, #lines, {#skip}[rdoc-ref:IF::Grande#skip]
       #
       # If no args are provided, no records are rejected. What constitutes a record is affected by #lines,#bytes,
-      # and extensions such as IF::CSV#csv and IF::YAML#yaml.
+      # and extensions such as {#csv}[rdoc-ref:IF::CSV#csv] and {#yaml}[rdoc-ref:IF::YAML#yaml].
       #
       # If args are provided they may be one or more of the following:
       # Regexp::  any matching record will not be processed
@@ -202,14 +202,14 @@ module RIO
       def skiprecords(*args,&block) target.skiprecords(*args,&block); self end
 
 
-      # Sets the Rio to read lines and specifies lines which should *not* be iterated through by IF::Grande#each or 
-      # returned by IF::GrandeStream#getrec
+      # Sets the Rio to read lines and specifies lines which should *not* be iterated through by {#each}[rdoc-ref:IF::Grande#each] or 
+      # returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
       # 
       # If called with a block behaves as if <tt>skiplines(*args).each(&block)</tt> had been called
       # 
       # Returns the Rio
       #
-      # See also #lines, #records, IF::Grande#skip
+      # See also #lines, #records, {#skip}[rdoc-ref:IF::Grande#skip]
       #
       # If no args are provided, no lines are rejected.
       #
@@ -230,36 +230,36 @@ module RIO
 
 
       # Sets the Rio to read rows and specifies rows which should be iterated through 
-      # by IF::Grande#each or returned by IF::GrandeStream#getrec.
+      # by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec].
       # #rows is intended for use by extensions, where the concept of a row is reasonable. 
       # In the absensence of an extension behaves like #records.
       def rows(*args,&block) target.rows(*args,&block); self end
 
 
       # Sets the Rio to read rows and specifies lines which should *not* be iterated 
-      # through by IF::Grande#each or returned by IF::GrandeStream#getrec
+      # through by {#each}[rdoc-ref:IF::Grande#each] or returned by {#getrec}[rdoc-ref:IF::GrandeStream#getrec]
       # #skiprows is intended for use by extensions, where the concept of a row is 
       # reasonable. In the absence of an extension behaves like #skiprecords
       def skiprows(*args,&block) target.skiprows(*args,&block); self end
 
 
-      # Temporarily set the Rio to read records, and call IF::Grande#get
+      # Temporarily set the Rio to read records, and call {#get}[rdoc-ref:IF::Grande#get]
       #
-      # See also IF::GrandeStream#records, IF::GrandeStream#lines, IF::Grande#each, IF::Grande#[]
+      # See also {#records}[rdoc-ref:IF::GrandeStream#records], {#lines}[rdoc-ref:IF::GrandeStream#lines], {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       #
       def getrec() target.getrec() end
 
 
-      # Temporarily set the Rio to read rows, and call IF::Grande#get
+      # Temporarily set the Rio to read rows, and call {#get}[rdoc-ref:IF::Grande#get]
       #
-      # See also IF::GrandeStream#rows, IF::GrandeStream#lines, IF::Grande#each, IF::Grande#[]
+      # See also {#rows}[rdoc-ref:IF::GrandeStream#rows], {#lines}[rdoc-ref:IF::GrandeStream#lines], {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       #
       def getrow() target.getrow() end
 
 
-      # Temporarily set the Rio to read lines, and call IF::Grande#get
+      # Temporarily set the Rio to read lines, and call {#get}[rdoc-ref:IF::Grande#get]
       #
-      # See also IF::GrandeStream#records, IF::GrandeStream#lines, IF::Grande#each, IF::Grande#[]
+      # See also {#records}[rdoc-ref:IF::GrandeStream#records], {#lines}[rdoc-ref:IF::GrandeStream#lines], {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       #
       def getline() target.getline() end
 
@@ -282,13 +282,13 @@ module RIO
       # Rios normally don't need to be opened or have their open mode specified. A Rio determines the mode
       # based on the file system object and on the action specified. For instance when a Rio encounters
       # a +read+ on a file it opens the file for reading using File#open and calls IO#read; when it encounters
-      # a +read+ on a directory it knows to use Dir#open and call Dir#read. When it encounters a IF::RubyIO#puts, it knows
+      # a +read+ on a directory it knows to use Dir#open and call Dir#read. When it encounters a {#puts}[rdoc-ref:IF::RubyIO#puts], it knows
       # to perform a File#open, and call IO#puts on the returned handle. By default when a method requires
       # a file be opened for writing the file is opened with a mode of 'w'. #a changes this implicit 
       # output mode to 'a'. 
       #
       # Note that this is not the same as setting the output mode *explicitly*, as in rio('afile').mode('a').
-      # When the mode is set explicitly using IF::RubyIO#mode, the mode specified will be used regardless of
+      # When the mode is set explicitly using {#mode}[rdoc-ref:IF::RubyIO#mode], the mode specified will be used regardless of
       # the operation being performed. The #a method only affects how Rio opens a file when
       # it sees an operator that requires writing, and must determine for itself how to open it.
       #
@@ -385,7 +385,7 @@ module RIO
       #
       # +closeoneof+ causes a Rio to be closed automatically whenever the end of
       # file is reached. This affects# all methods that read from 
-      # a rio (IF::RubyIO#readlines, #to_a, IF::Grande#each IF::RubyIO#gets etc.)
+      # a rio ({#readlines}[rdoc-ref:IF::RubyIO#readlines], #to_a, {#each}[rdoc-ref:IF::Grande#each] {#gets}[rdoc-ref:IF::RubyIO#gets] etc.)
       # Because +closeoneof+ must be on for many of Rio's most useful idioms,
       # it is on by default. +closeoneof+ can be turned off using #nocloseoneof.
       # 
@@ -486,7 +486,7 @@ module RIO
       # 
       #  dest = rio('destfile')
       #  dest.print(rio('srcfile').contents)
-      #  dest.closed?   #=> false (IF::RubyIO#print is not a copy operator)
+      #  dest.closed?   #=> false ({#print}[rdoc-ref:IF::RubyIO#print] is not a copy operator)
       #  dest.close
       #
       #
@@ -499,7 +499,7 @@ module RIO
       #    file < a_string
       #    file.closed?  #=> false
       #  }
-      #  # The file is now closed. See IF::GrandeStream#rio for more informatioin
+      #  # The file is now closed. See {#rio}[rdoc-ref:IF::GrandeStream#rio] for more informatioin
       # 
       # ==== Why?
       #
@@ -684,7 +684,7 @@ module RIO
       #  
       #  rio('/etc/passwd').split(':').columns(0,2).to_a #=> [[user1,uid1],[user2,uid2]]
       #
-      # See also IF::Grande#split
+      # See also {#split}[rdoc-ref:IF::Grande#split]
       #  
       def splitlines(*args,&block) target.splitlines(*args,&block) end
 

@@ -56,8 +56,8 @@ module RIO
       # Returns the path for the Rio, which is defined differently for different types of Rios.
       #
       # For Rios representing paths on the underlying file system this is an alias 
-      # IF::Path#fspath. For Rios with paths that are not on the file system this is an
-      # alias for IF::Path#urlpath.
+      # {#fspath}[rdoc-ref:IF::Path#fspath]. For Rios with paths that are not on the file system this is an
+      # alias for {#urlpath}[rdoc-ref:IF::Path#urlpath].
       # 
       # Otherwise this returns nil.
       # 
@@ -119,18 +119,18 @@ module RIO
 
 
       # Returns a new Rio whose path is the base path that is used by 
-      # IF::Path#abs to create an absolute Rio from a relative one.
+      # {#abs}[rdoc-ref:IF::Path#abs] to create an absolute Rio from a relative one.
       #
       #  rio('/tmp').chdir
       #  rio('afile').base # => rio('/tmp/')
       #
-      # See IF::Path#abs.
+      # See {#abs}[rdoc-ref:IF::Path#abs].
       #
       def base() target.base()  end
 
 
       # Sets the string that the Rio considers an extension. The value will be used by
-      # subsequent calls to IF::Path#basename. If called with no arguments resets its value
+      # subsequent calls to {#basename}[rdoc-ref:IF::Path#basename]. If called with no arguments resets its value
       # to the value returned by File#extname. Returns the Rio.
       #
       #  ario = rio('afile.tar.gz')
@@ -145,25 +145,25 @@ module RIO
       #  ario.ext.basename                #=> rio('afile')
       #  ario.ext('').basename            #=> rio('afile.txt')
       #
-      # See also IF::Path#ext?,IF::Path#noext,IF::Path#basename,
+      # See also {#ext?}[rdoc-ref:IF::Path#ext?],{#noext}[rdoc-ref:IF::Path#noext],{#basename}[rdoc-ref:IF::Path#basename],
       #
       def ext(arg=nil) target.ext(arg); self end
 
 
-      # Identical to IF::Path#ext('')
+      # Identical to {#ext}[rdoc-ref:IF::Path#ext]('')
       #
       #  ario.basename                  #=> rio('afile')
       #  ario.noext.basename            #=> rio('afile.txt')
       #
-      # See also IF::Path#ext
+      # See also {#ext}[rdoc-ref:IF::Path#ext]
       #
       def noext() target.noext(); self end
 
 
       # Returns the value of the Rio's 'ext' variable
-      # This defaults to the value returned by IF::Path#extname and may be set by either calling IF::Path#ext 
-      # or by passing an argument IF::Path#basename
-      # See also IF::Path#basename, IF::Path#ext, IF::Path#extname, IF::Path#noext
+      # This defaults to the value returned by {#extname}[rdoc-ref:IF::Path#extname] and may be set by either calling {#ext}[rdoc-ref:IF::Path#ext] 
+      # or by passing an argument {#basename}[rdoc-ref:IF::Path#basename]
+      # See also {#basename}[rdoc-ref:IF::Path#basename], {#ext}[rdoc-ref:IF::Path#ext], {#extname}[rdoc-ref:IF::Path#extname], {#noext}[rdoc-ref:IF::Path#noext]
       #
       #  ario = rio('afile.txt')
       #  ario.ext?                        #=> '.txt'
@@ -201,7 +201,7 @@ module RIO
       #  rio('afile.txt').basename('.txt')                    #=> same thing
       #  rio('afile.txt').ext('.txt').basename                #=> same thing
       #
-      # See also IF::Path#ext,IF::Path#ext?,IF::Path#filename,
+      # See also {#ext}[rdoc-ref:IF::Path#ext],{#ext?}[rdoc-ref:IF::Path#ext?],{#filename}[rdoc-ref:IF::Path#filename],
       #
       def basename(*args) target.basename(*args) end
 
@@ -215,14 +215,14 @@ module RIO
 
 
       # Returns a new Rio with all path information stripped away. This is similar to
-      # IF::Path#basename, except that it always includes an extension if one exists
+      # {#basename}[rdoc-ref:IF::Path#basename], except that it always includes an extension if one exists
       #
       #  rio('apath/afile.txt').filename #=> rio('afile.txt')
       #
       def filename() target.filename() end
 
 
-      # Replace the part of the path returned by IF::Path#extname. If in +rename+
+      # Replace the part of the path returned by {#extname}[rdoc-ref:IF::Path#extname]. If in +rename+
       # mode, also renames the referenced filesystem object.
       #
       # Returns the extension
@@ -232,12 +232,12 @@ module RIO
       #
       #   rio('adir/afile.txt').rename.extname  = '.rb'      # adir/afile.txt => adir/afile.rb
       #
-      # See aslo IF::Path#extname, IF::FileOrDir#rename
+      # See aslo {#extname}[rdoc-ref:IF::Path#extname], {#rename}[rdoc-ref:IF::FileOrDir#rename]
       #
       def extname=(arg) target.extname = arg end
 
 
-      # Replace the part of the path returned by IF::Path#basename. If in +rename+
+      # Replace the part of the path returned by {#basename}[rdoc-ref:IF::Path#basename]. If in +rename+
       # mode, also renames the referenced filesystem object.
       # 
       # Returns the new value of +basename+
@@ -253,12 +253,12 @@ module RIO
       #   rio('adir/afile.txt').rename.extname  = '.rb'      # adir/afile.txt => adir/afile.rb
       #   rio('adir/afile.txt').rename.dirname =  'b/c'      # adir/afile.txt => b/c/afile.txt
       #
-      # See IF::Path#basename, IF::FileOrDir#rename
+      # See {#basename}[rdoc-ref:IF::Path#basename], {#rename}[rdoc-ref:IF::FileOrDir#rename]
       #
       def basename=(arg) target.basename = arg end
 
 
-      # Replace the part of the path returned by IF::Path#dirname. If in +rename+
+      # Replace the part of the path returned by {#dirname}[rdoc-ref:IF::Path#dirname]. If in +rename+
       # mode, also renames the referenced filesystem object.
       # 
       # Returns the new value of +dirname+
@@ -274,13 +274,13 @@ module RIO
       #   rio('adir/afile.txt').rename.extname  = '.rb'      # adir/afile.txt => adir/afile.rb
       #   rio('adir/afile.txt').rename.dirname =  'b/c'      # adir/afile.txt => b/c/afile.txt
       #
-      # See IF::Path#dirname, IF::FileOrDir#rename
+      # See {#dirname}[rdoc-ref:IF::Path#dirname], {#rename}[rdoc-ref:IF::FileOrDir#rename]
       #
       def dirname=(arg) target.dirname  = arg end
 
 
 
-      # Replace the part of the path returned by IF::Path#filename. If in +rename+
+      # Replace the part of the path returned by {#filename}[rdoc-ref:IF::Path#filename]. If in +rename+
       # mode, also renames the referenced filesystem object.
       # 
       # Returns the new value of +filename+
@@ -296,7 +296,7 @@ module RIO
       #   rio('adir/afile.txt').rename.extname  = '.rb'      # adir/afile.txt => adir/afile.rb
       #   rio('adir/afile.txt').rename.dirname =  'b/c'      # adir/afile.txt => b/c/afile.txt
       #
-      # See IF::Path#filename, IF::FileOrDir#rename
+      # See {#filename}[rdoc-ref:IF::Path#filename], {#rename}[rdoc-ref:IF::FileOrDir#rename]
       #
       def filename=(arg) target.filename = arg end
 
@@ -329,14 +329,14 @@ module RIO
       #  ary[1] = rio('d')
       #  ary.to_rio           #=> rio('a/d/c')
       #
-      # See also IF::Path#join, IF::Path#/
+      # See also {#join}[rdoc-ref:IF::Path#join], IF::Path#/
       #
       def splitpath() target.splitpath() end
 
 
       # Subdirectory operator.
       #
-      # Effectively the same as IF::Path#join(arg)
+      # Effectively the same as {#join}[rdoc-ref:IF::Path#join](arg)
       #
       #   a = rio('a')
       #   b = rio('b')
@@ -366,11 +366,11 @@ module RIO
       #def catpath(*args) target.catpath(*args) end
 
 
-      # Changes a Rio inplace by adding args as additional directory components like IF::Path#join,
+      # Changes a Rio inplace by adding args as additional directory components like {#join}[rdoc-ref:IF::Path#join],
       #
       def join!(*args) target.join!(*args); self end
 
-      # IF::GrandeStream#rootpath
+      # {#rootpath}[rdoc-ref:IF::GrandeStream#rootpath]
       #
       #
       def rootpath(*args) # :nodoc:
@@ -378,7 +378,7 @@ module RIO
       end
 
 
-      # IF::GrandeStream#root
+      # {#root}[rdoc-ref:IF::GrandeStream#root]
       #
       #
       ##def root(*args,&block) target.root(*args,&block) end
@@ -390,7 +390,7 @@ module RIO
       ##def cwd(*args,&block) target.cwd(*args,&block) end
 
 
-      # IF::Grande#getwd
+      # {#getwd}[rdoc-ref:IF::Grande#getwd]
       #
       #
       ##def getwd(*args,&block) target.getwd(*args,&block) end
@@ -434,14 +434,14 @@ module RIO
       # Calls URI#route_from
       #
       # Returns a new rio representing the path to this Rio from the perspective of _other_.
-      # URI#route_from requires that absolute URIs be used. IF::Path#route_from does not.
+      # URI#route_from requires that absolute URIs be used. {#route_from}[rdoc-ref:IF::Path#route_from] does not.
       #
       def route_from(other) target.route_from(other)  end
 
       # Calls URI#route_to
       #
       # Returns a new rio representing the path to _other_ from the perspective of this Rio.
-      # URI#route_to requires that absolute URIs be used. IF::Path#route_to does not.
+      # URI#route_to requires that absolute URIs be used. {#route_to}[rdoc-ref:IF::Path#route_to] does not.
       #
       def route_to(other) target.route_to(other)  end
 

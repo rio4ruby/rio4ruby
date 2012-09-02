@@ -53,7 +53,7 @@ module RIO
 
       # Returns the contents of the rio as an array. (See ::Enumerable#to_a)
       #
-      # IF::Grande#to_a is implemented in terms of #each so the the following are roughly equivelent
+      # {#to_a}[rdoc-ref:IF::Grande#to_a] is implemented in terms of #each so the the following are roughly equivelent
       #
       #  ary = ario.to_a
       #
@@ -62,9 +62,9 @@ module RIO
       #    ary << ary
       #  end
       #
-      # What constitutes an array element is determined by IF::GrandeStream#lines, 
-      # IF::GrandeStream#bytes, IF::GrandeStream#records, IF::GrandeStream#rows or 
-      # by an extension such as IF::CSV#csv. IF::GrandeStream#lines is the default.
+      # What constitutes an array element is determined by {#lines}[rdoc-ref:IF::GrandeStream#lines], 
+      # {#bytes}[rdoc-ref:IF::GrandeStream#bytes], {#records}[rdoc-ref:IF::GrandeStream#records], {#rows}[rdoc-ref:IF::GrandeStream#rows] or 
+      # by an extension such as {#csv}[rdoc-ref:IF::CSV#csv]. {#lines}[rdoc-ref:IF::GrandeStream#lines] is the default.
       #
       #  rio('afile.txt').to_a # returns an array of the lines in afile.txt
       #
@@ -73,7 +73,7 @@ module RIO
       #  rio('afile.dat').bytes(50).to_a # an array containing the contents of afile.dat broken 
       #                                  # up into 50 byte chunks
       #
-      # See also IF::Grande#[] (subscript operator)
+      # See also {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D] (subscript operator)
       #
       def to_a() target.to_a() end
 
@@ -85,13 +85,13 @@ module RIO
       #
       # === Files
       #
-      # This combines the record selection offered by IF::GrandeStream#records with
-      # the conversion to an array provided by IF::Grande#to_a. The following two are equivelant:
+      # This combines the record selection offered by {#records}[rdoc-ref:IF::GrandeStream#records] with
+      # the conversion to an array provided by {#to_a}[rdoc-ref:IF::Grande#to_a]. The following two are equivelant:
       #  ario[*args]
       #  ario.records(*args).to_a
       #
-      # What constitutes an array element is determined by IF::GrandeStream#lines, IF::GrandeStream#bytes, 
-      # or by an extension such as IF::CSV#csv. IF::GrandeStream#lines is the default.
+      # What constitutes an array element is determined by {#lines}[rdoc-ref:IF::GrandeStream#lines], {#bytes}[rdoc-ref:IF::GrandeStream#bytes], 
+      # or by an extension such as {#csv}[rdoc-ref:IF::CSV#csv]. {#lines}[rdoc-ref:IF::GrandeStream#lines] is the default.
       # 
       # Arguments may consist of zero or more integers, ranges, regular expressions, symbols,
       # procs, and arrays
@@ -110,7 +110,7 @@ module RIO
       # 
       # A record matching *any* of the selectors will be included in the array. (acts like an _or_)
       #
-      # Because this is implemented in terms of the IF::Grande#each, 
+      # Because this is implemented in terms of the {#each}[rdoc-ref:IF::Grande#each], 
       # When only record ranges are used to select records,
       # iteration will stop when the recno exceeds the maximum of any range. That is to say
       #
@@ -121,8 +121,8 @@ module RIO
       # 
       # === Directories
       # 
-      # This combines the entry selection offered by IF::GrandeEntry#entries with
-      # the conversion to an array provided by IF::Grande#to_a. The following two are equivelant:
+      # This combines the entry selection offered by {#entries}[rdoc-ref:IF::GrandeEntry#entries] with
+      # the conversion to an array provided by {#to_a}[rdoc-ref:IF::Grande#to_a]. The following two are equivelant:
       #  ario[*args]
       #  ario.entries(*args).to_a
       #
@@ -130,34 +130,34 @@ module RIO
       # An empty argument list selects all entries
       # See ::Dir#glob and ::File::fnmatch? for more in information on _globs_. 
       # Be warned that using the '**' glob
-      # recurses into directories independently of IF::GrandeEntry#all and using both is unsupported.
+      # recurses into directories independently of {#all}[rdoc-ref:IF::GrandeEntry#all] and using both is unsupported.
       # 
       #  ario = rio('adir')
       #  ario[] # returns an array containg all entries in _adir_
       #  ario[/^zippy/] # all entries starting with 'zippy'
       #  ario['zippy*'] # same thing
       #
-      # As with IF::Grande#each:
+      # As with {#each}[rdoc-ref:IF::Grande#each]:
       # * Files and directories are returned as \Rios
-      # * The types of entries is also affected by IF::GrandeEntry#files and IF::GrandeEntry#dirs.
+      # * The types of entries is also affected by {#files}[rdoc-ref:IF::GrandeEntry#files] and {#dirs}[rdoc-ref:IF::GrandeEntry#dirs].
       #    rio('adir').files['*.txt'] # array of all .txt files
       #    rio('adir').dirs[/^\./] # array of all dot directories
-      # * Recursion is enabled using IF::GrandeEntry#all
+      # * Recursion is enabled using {#all}[rdoc-ref:IF::GrandeEntry#all]
       #    rio('adir').all.files['*.[ch]'] # array of c source files in adir and its subdirecories
       #    rio('adir').all.dirs[/^\.svn/]  # array of subversion directories in adir and subdirectories
-      # * IF::GrandeEntry#files and IF::GrandeEntry#dirs act independently of each other. 
+      # * {#files}[rdoc-ref:IF::GrandeEntry#files] and {#dirs}[rdoc-ref:IF::GrandeEntry#dirs] act independently of each other. 
       #   Specifying both will cause both to be returned. 
-      #   The argument list to IF::Grande#[] will be applied to the closest.
+      #   The argument list to {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D] will be applied to the closest.
       #    rio('adir').files('*.rb').dirs['ruby*'] # array of .rb files and 
       #                                            # directories starting with 'ruby'
       #    rio('adir').dirs('ruby*').files['*.rb'] # same thing
       #
       # === Lines
-      # This section applies similarly to IF::GrandeStream#lines, IF::GrandeStream#bytes, 
-      # IF::GrandeStream#records, and IF::GrandeStream#rows
+      # This section applies similarly to {#lines}[rdoc-ref:IF::GrandeStream#lines], {#bytes}[rdoc-ref:IF::GrandeStream#bytes], 
+      # {#records}[rdoc-ref:IF::GrandeStream#records], and {#rows}[rdoc-ref:IF::GrandeStream#rows]
       #
-      # Using IF::GrandeStream#lines and related methods with a \Rio referencing a directory 
-      # imples IF::GrandeEntry#files and will cause an array of the lines or bytes in the 
+      # Using {#lines}[rdoc-ref:IF::GrandeStream#lines] and related methods with a \Rio referencing a directory 
+      # imples {#files}[rdoc-ref:IF::GrandeEntry#files] and will cause an array of the lines or bytes in the 
       # files to be returned. As above,
       # the arguments to the subscript operator will be applied to the closest.
       #  rio('adir').lines[] # array of all lines in the files in 'adir'
@@ -217,24 +217,24 @@ module RIO
 
 
       # Iterate through a rio. Executes the block for each item selected for the \Rio. 
-      # See IF::GrandeStream#lines, IF::GrandeStream#records, IF::GrandeStream#bytes, 
-      # IF::GrandeEntry#files, IF::GrandeEntry#dirs, IF::Grande#[] 
-      # and IF::Grande#to_a for more information
+      # See {#lines}[rdoc-ref:IF::GrandeStream#lines], {#records}[rdoc-ref:IF::GrandeStream#records], {#bytes}[rdoc-ref:IF::GrandeStream#bytes], 
+      # {#files}[rdoc-ref:IF::GrandeEntry#files], {#dirs}[rdoc-ref:IF::GrandeEntry#dirs], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D] 
+      # and {#to_a}[rdoc-ref:IF::Grande#to_a] for more information
       # on how records are selected and what kind of record is passed to the block.
       # 
-      # IF::Grande#each is the fundemental method for all the \Rio grande operators.
-      # IF::Grande#to_a and the \Rio copy operators 
-      # IF::Grande#<, IF::Grande#<<, IF::Grande#>>, and IF::Grande#> 
-      # are all implemented in terms of IF::Grande#each.
+      # {#each}[rdoc-ref:IF::Grande#each] is the fundemental method for all the \Rio grande operators.
+      # {#to_a}[rdoc-ref:IF::Grande#to_a] and the \Rio copy operators 
+      # {#<}[link:RIO/IF/Grande.html#method-i-3C], {#<<}[link:RIO/IF/Grande.html#method-i-3C-3C], {#>>}[link:RIO/IF/Grande.html#method-i-3E-3E], and {#>}[link:RIO/IF/Grande.html#method-i-3E] 
+      # are all implemented in terms of {#each}[rdoc-ref:IF::Grande#each].
       #
-      # While IF::Grande#each is fundamental to a \Rio, it rarely needs 
+      # While {#each}[rdoc-ref:IF::Grande#each] is fundamental to a \Rio, it rarely needs 
       # actually be called because all the grande configuration methods will also take a block 
-      # and call IF::Grande#each if one is given. 
+      # and call {#each}[rdoc-ref:IF::Grande#each] if one is given. 
       # So the existance of a block after many methods is taken as an implied
-      # IF::Grande#each
+      # {#each}[rdoc-ref:IF::Grande#each]
       #
       # For \Rios that refer to files, the item passed to the block is a String containing
-      # the line or block as selected by IF::GrandeStream#lines, or IF::GrandeStream#bytes. 
+      # the line or block as selected by {#lines}[rdoc-ref:IF::GrandeStream#lines], or {#bytes}[rdoc-ref:IF::GrandeStream#bytes]. 
       # +lines+ is the default.
       #  rio('afile').lines.each { |line| ...}
       # 
@@ -274,7 +274,7 @@ module RIO
       #    end
       #  end
       #
-      # IF::Grande#each returns the \Rio which called it.
+      # {#each}[rdoc-ref:IF::Grande#each] returns the \Rio which called it.
       #
       # Here are a few illustrative examples
       # 
@@ -342,11 +342,11 @@ module RIO
       #
       def delete() target.delete(); self end
 
-      # See IF::Grande#delete
+      # See {#delete}[rdoc-ref:IF::Grande#delete]
       def unlink() target.unlink(); self end
 
-      # For a file IF::Grande#delete! calls FileUtils#rm. 
-      # For a directory IF::Grande#delete! calls FileUtils#rmtree.
+      # For a file {#delete!}[rdoc-ref:IF::Grande#delete!] calls FileUtils#rm. 
+      # For a directory {#delete!}[rdoc-ref:IF::Grande#delete!] calls FileUtils#rmtree.
       # Returns the \Rio. If the rio does not exist, simply returns itself.
       #
       #  rio('afile,txt').delete! # delete f.txt
@@ -356,11 +356,11 @@ module RIO
       #  rio('adir/asubdir').delete!.mkpath 
       #
       # ==== Deleting Summary
-      # * To delete something only if it is not a directory use IF::File#rm
-      # * To delete an empty directory use IF::Dir#rmdir
-      # * To delete an entire directory tree use IF::Dir#rmtree
-      # * To delete anything except a populated directory use IF::Grande#delete
-      # * To delete anything use IF::Grande#delete!
+      # * To delete something only if it is not a directory use {#rm}[rdoc-ref:IF::File#rm]
+      # * To delete an empty directory use {#rmdir}[rdoc-ref:IF::Dir#rmdir]
+      # * To delete an entire directory tree use {#rmtree}[rdoc-ref:IF::Dir#rmtree]
+      # * To delete anything except a populated directory use {#delete}[rdoc-ref:IF::Grande#delete]
+      # * To delete anything use {#delete!}[rdoc-ref:IF::Grande#delete!]
       #
       # In all cases, deleting something that does not exist is considered successful.
       #
@@ -427,7 +427,7 @@ module RIO
       # file on a web site into a local gzipped csv file that uses semi-colons as separators
       #  rio('http://host/file.csv.gz').columns(0,7..9).gzip.csv[0..9] > rio('localfile.csv.gz').csv(';').gzip
       #
-      # See also IF::Grande#>>, IF::Grande#|
+      # See also {#>>}[link:RIO/IF/Grande.html#method-i-3E-3E], {#|}[link:RIO/IF/Grande.html#method-i-7C]
       #
       def >(destination) 
         RIO::no_warn {
@@ -436,13 +436,13 @@ module RIO
         self 
       end
 
-      # Alias for IF::Grande#> (copy-to grande operator)
+      # Alias for {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to grande operator)
       def copy_to(destination) target.copy_to(destination); self end
 
 
       # \Grande Pipe Operator
       # 
-      # The \Rio pipe operator is actually an alternative syntax for calling the IF::Grande#> (copy-to) 
+      # The \Rio pipe operator is actually an alternative syntax for calling the {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to) 
       # operator, designed to 
       # allow several copy operation to be performed in one line of code, with behavior that mimics
       # the pipe operator commonly available in shells.
@@ -487,17 +487,17 @@ module RIO
 
       # \Grande Append-To Operator
       # 
-      # The append-to grande-operator is the same as IF::Grande#> (copy-to) except that it opens the destination
+      # The append-to grande-operator is the same as {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to) except that it opens the destination
       # for append.
       # The destination can be a kind of:
       # IO::     Each record of the \Rio is written to the IO using IO#print. The IO must be opened for writing.
       # Array::  Each record or entry of the \Rio is appended to the destination array
       # String:: Appends the entire contents of the \Rio to destination
-      # Rio::    Just like IF::Grande#> (copy-to) except the unopened object are 
+      # Rio::    Just like {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to) except the unopened object are 
       #          opened for append. If the destination is already opened for writing or is a 
-      #          directory, this is identical to IF::Grande#> (copy-to) 
+      #          directory, this is identical to {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to) 
       #
-      # See IF::Grande#> (copy-to)
+      # See {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to)
       # 
       #  rio('afile') >> rio('anotherfile') # append the contents of 'afile' to 'anotherfile'
       #  rio('afile') >> rio('adir') # copies 'afile' to the directory 'adir'
@@ -506,26 +506,26 @@ module RIO
       def >>(destination) target >> destination; self end
 
       
-      # Alias for IF::Grande#>> (append-to grande operator)
+      # Alias for {#>>}[link:RIO/IF/Grande.html#method-i-3E-3E] (append-to grande operator)
       def append_to(destination) target.append_to(destination); self end
 
 
       # \Grande Append-From Operator
       # 
       # The append-from grande-operator copies a \Rio from another \Rio or another ruby object. This
-      # behaves like IF::Grande#< (copy-from) except unopened \Rios are opened for append.
+      # behaves like {#<}[link:RIO/IF/Grande.html#method-i-3C] (copy-from) except unopened \Rios are opened for append.
       #
       # The following summarizes how objects are copied:
       # IO::       IO#each is used to iterate through the source with each record appended to the \Rio
       # Array::    Each element of the Array is appended individually to the \Rio.
-      # String::   The string is appended to the \Rio using IF::RubyIO#print
-      # Rio::      The source \Rio is appended using its IF::Grande#>> (append-to) operator
+      # String::   The string is appended to the \Rio using {#print}[rdoc-ref:IF::RubyIO#print]
+      # Rio::      The source \Rio is appended using its {#>>}[link:RIO/IF/Grande.html#method-i-3E-3E] (append-to) operator
       # 
-      # See IF::Grande#< (copy-from)
+      # See {#<}[link:RIO/IF/Grande.html#method-i-3C] (copy-from)
       def <<(source) target << source; self end
 
 
-      # Alias for IF::Grande#<< (append-from grande operator)
+      # Alias for {#<<}[link:RIO/IF/Grande.html#method-i-3C-3C] (append-from grande operator)
       def append_from(source) target.append_from(source); self end
 
 
@@ -611,7 +611,7 @@ module RIO
       #  rio('skeldir') < rio('adir').dirs # copy only the directory structure
       #  rio('destdir') < rio('adir').dirs.files(/^\./) # copy the directory structure and all dot files
       #  
-      # See also IF::Grande#> (copy-to), IF::Grande#each, IF::Grande#[]
+      # See also {#>}[link:RIO/IF/Grande.html#method-i-3E] (copy-to), {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       #
       def <(source) 
         RIO::no_warn {
@@ -620,7 +620,7 @@ module RIO
         self 
       end
 
-      # Alias for IF::Grande#< (copy-from grande operator)
+      # Alias for {#<}[link:RIO/IF/Grande.html#method-i-3C] (copy-from grande operator)
       def copy_from(source) target.copy_from(source); self end
 
 
@@ -629,7 +629,7 @@ module RIO
       #
       # Returns nil on end of file.
       #
-      # See also IF::GrandeStream#records, IF::GrandeStream#lines, IF::Grande#each, IF::Grande#[]
+      # See also {#records}[rdoc-ref:IF::GrandeStream#records], {#lines}[rdoc-ref:IF::GrandeStream#lines], {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D]
       #
       #  ario = rio('afile').lines(10..12)
       #  line10 = ario.get 
@@ -665,8 +665,8 @@ module RIO
       #
       # ==== skip with arguments
       #
-      # When called with arguments it acts like IF::GrandeEntry#skipentries for directory 
-      # \Rios and like IF::GrandeStream#skiprecords for stream \Rios.
+      # When called with arguments it acts like {#skipentries}[rdoc-ref:IF::GrandeEntry#skipentries] for directory 
+      # \Rios and like {#skiprecords}[rdoc-ref:IF::GrandeStream#skiprecords] for stream \Rios.
       #
       #  rio('afile').lines(/Rio/).skip[0..4] # lines containg 'Rio' excluding the
       #                                       # first five lines
@@ -678,8 +678,8 @@ module RIO
       #
       # Returns the \Rio.
       #
-      # See IF::GrandeStream#skiplines, IF::GrandeStream#skiprecords, IF::GrandeStream#skiprows, 
-      # IF::GrandeEntry#skipfiles, IF::GrandeEntry#skipdirs, and IF::GrandeEntry#skipentries.
+      # See {#skiplines}[rdoc-ref:IF::GrandeStream#skiplines], {#skiprecords}[rdoc-ref:IF::GrandeStream#skiprecords], {#skiprows}[rdoc-ref:IF::GrandeStream#skiprows], 
+      # {#skipfiles}[rdoc-ref:IF::GrandeEntry#skipfiles], {#skipdirs}[rdoc-ref:IF::GrandeEntry#skipdirs], and {#skipentries}[rdoc-ref:IF::GrandeEntry#skipentries].
       #
       def skip(*args,&block) target.skip(*args,&block); self end 
 
@@ -693,7 +693,7 @@ module RIO
       #
       def empty?() target.empty? end
 
-      # IF::Grande#split has two distinct behaviors depending on 
+      # {#split}[rdoc-ref:IF::Grande#split] has two distinct behaviors depending on 
       # whether or not it is called with an argument.
       #
       # ==== split with no aruments:
@@ -713,7 +713,7 @@ module RIO
       #  ary[1] = rio('d')
       #  ary.to_rio                 #=> rio('a/d/c')
       #
-      # See also IF::Path#join, IF::Path#/, IF::Path#splitpath
+      # See also {#join}[rdoc-ref:IF::Path#join], IF::Path#/, {#splitpath}[rdoc-ref:IF::Path#splitpath]
       #
       # ==== split with an argument:
       #

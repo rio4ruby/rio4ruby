@@ -76,7 +76,7 @@ module RIO
       #
       # Uses ::Find#find to find all entries recursively for a Rio that 
       # specifies a directory. Note that there are other ways to recurse through
-      # a directory structure using a Rio. See IF::Grande#each and IF::GrandeEntry#all.
+      # a directory structure using a Rio. See {#each}[rdoc-ref:IF::Grande#each] and {#all}[rdoc-ref:IF::GrandeEntry#all].
       #
       # Calls the block passing a Rio for each entry found. The Rio inherits
       # file attrubutes from the directory Rio.
@@ -111,7 +111,7 @@ module RIO
       # Raises a subclass of SystemCallError if the directory isn�t empty.
       # Returns the Rio. If the directory does not exist, just returns the Rio.
       #
-      # See also #rmtree, IF::Grande#delete, IF::Grande#delete!
+      # See also #rmtree, {#delete}[rdoc-ref:IF::Grande#delete], {#delete!}[rdoc-ref:IF::Grande#delete!]
       #
       #    rio('adir').rmdir # remove the empty directory 'adir'
       #
@@ -125,7 +125,7 @@ module RIO
       #
       # If called with a block, behaves as if <tt>rmtree.each(&block)</tt> had been called
       # 
-      # See also IF::Grande#delete!
+      # See also {#delete!}[rdoc-ref:IF::Grande#delete!]
       #
       #  rio('adir').rmtree # removes the directory 'adir' recursively
       #

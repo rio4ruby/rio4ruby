@@ -54,18 +54,18 @@ module RIO
       # undocumented
       def open(m,*args,&block) target.open(m,*args,&block); self end
 
-      # Creates a symbolic link _dest_ which points to the Rio's IF::Path#fspath.  
+      # Creates a symbolic link _dest_ which points to the Rio's {#fspath}[rdoc-ref:IF::Path#fspath].  
       # Raises a NotImplementedError exception on platforms that do not support symbolic links.
       # _dest_ may be a Rio, a String, or anything that will create an appropriate Rio 
       # when passed to Rio#new .
       # If _dest_ already exists and is a directory, creates a symbolic link in the _dest_ directory,
-      # named with the name returned by IF::Path#filename.
+      # named with the name returned by {#filename}[rdoc-ref:IF::Path#filename].
       # If _dest_ already exists and it is not a directory, raises Errno::EEXIST.
       # 
       # Returns the Rio (not the symlink).
       #
-      # IF::FileOrDir#symlink differs from File#symlink when the Rio or the _dest_ path has directory information.
-      # In this case IF::FileOrDir#symlink creates a symlink that actually refers to the Rio's location 
+      # {#symlink}[rdoc-ref:IF::FileOrDir#symlink] differs from File#symlink when the Rio or the _dest_ path has directory information.
+      # In this case {#symlink}[rdoc-ref:IF::FileOrDir#symlink] creates a symlink that actually refers to the Rio's location 
       # from the perspective of the link's location.
       #
       # For example: Given an existing file 'adir/afile' and a _dest_ of 'adir/alink'
@@ -103,8 +103,8 @@ module RIO
       #                           # the old path
       # ===== Rename Mode
       #
-      # In rename mode, changes to a Rio's path using IF::Path#dirname=, IF::Path#filename=, 
-      # IF::Path#basename=, and IF::Path#extname= also cause the object on the filesystem
+      # In rename mode, changes to a Rio's path using {#dirname=}[rdoc-ref:IF::Path#dirname=], {#filename=}[rdoc-ref:IF::Path#filename=], 
+      # {#basename=}[rdoc-ref:IF::Path#basename=], and {#extname=}[rdoc-ref:IF::Path#extname=] also cause the object on the filesystem
       # to be renamed.
       #
       # Change the extension of all'.cpp' files in 'adir' to '.cxx'
@@ -117,12 +117,12 @@ module RIO
       #    gzfile.ext('.tar.gz').ext = '.tgz'
       #  end
       #
-      # See IF::Path#dirname=, IF::Path#filename=, IF::Path#basename=, and IF::Path#extname=
+      # See {#dirname=}[rdoc-ref:IF::Path#dirname=], {#filename=}[rdoc-ref:IF::Path#filename=], {#basename=}[rdoc-ref:IF::Path#basename=], and {#extname=}[rdoc-ref:IF::Path#extname=]
       #
       def rename(*args,&block) target.rename(*args,&block); self end
       
 
-      # Behaves like IF::FileOrDir#rename, but also changes the calling Rio to 
+      # Behaves like {#rename}[rdoc-ref:IF::FileOrDir#rename], but also changes the calling Rio to 
       # refer to the renamed path
       def rename!(*args,&block) target.rename!(*args,&block); self end
       
@@ -201,7 +201,7 @@ module RIO
       # For directories calls Dir#seek
       #     ario.seek( integer ) => ario
       # Seeks to a particular location in _ario_. _integer_ must be a value
-      # returned by IF::FileOrDir#tell.
+      # returned by {#tell}[rdoc-ref:IF::FileOrDir#tell].
       #
       #  d = rio("testdir")       #=> #<RIO::Rio:0x401b3c40>
       #  d.read                   #=> rio(".")
@@ -230,7 +230,7 @@ module RIO
       # For directories calls Dir#pos
       #     ario.pos => integer
       #     ario.tell => integer
-      # Returns the current position in _dir_. See also IF::FileOrDir#seek.
+      # Returns the current position in _dir_. See also {#seek}[rdoc-ref:IF::FileOrDir#seek].
       #
       #     d = rio("testdir")
       #     d.pos   #=> 0
@@ -239,7 +239,7 @@ module RIO
       #
       def pos() target.pos end
 
-      # See IF::FileOrDir#pos
+      # See {#pos}[rdoc-ref:IF::FileOrDir#pos]
       def tell() target.tell end
 
       # For directories calls Dir#pos=, otherwise calls IO#pos=
@@ -257,7 +257,7 @@ module RIO
       #
       # ---
       #
-      # Synonym for IF::FileOrDir#seek, but returns the position parameter.
+      # Synonym for {#seek}[rdoc-ref:IF::FileOrDir#seek], but returns the position parameter.
       #
       #        d = rio("testdir")       #=> d
       #        d.read                   #=> rio(".")

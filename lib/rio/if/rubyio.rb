@@ -62,13 +62,13 @@ module RIO
       #
       def gets(sep_string=$/) target.gets(sep_string) end
 
-      # IF::Grande#each_record
+      # {#each_record}[rdoc-ref:IF::Grande#each_record]
       # 
       #
       #def each_record(&block) target.each_record(&block); self end
 
 
-      # IF::Grande#each_row
+      # {#each_row}[rdoc-ref:IF::Grande#each_row]
       #
       #
       #def each_row(&block) target.each_row(&block); self end
@@ -81,9 +81,9 @@ module RIO
       # The Rio will be opened for reading if not already.
       # lineno counts the number of times gets is called, rather than the number of newlines encountered --
       # so lineno will only be accurate if the file is read exclusively with line-oriented methods 
-      # (IF::RubyIO#readline, IF::GrandeStream#each_line, IF::RubyIO#gets etc.)
+      # ({#readline}[rdoc-ref:IF::RubyIO#readline], {#each_line}[rdoc-ref:IF::GrandeStream#each_line], {#gets}[rdoc-ref:IF::RubyIO#gets] etc.)
       # 
-      # See also the $. variable and IF::RubyIO#recno
+      # See also the $. variable and {#recno}[rdoc-ref:IF::RubyIO#recno]
       #  f = rio("testfile")
       #  f.lineno   #=> 0
       #  f.gets     #=> "This is line one\n"
@@ -113,7 +113,7 @@ module RIO
       # used by the grande selection methods. It represents the zero-based index of the
       # last record read. Returns nil until a record has been read.
       # 
-      # see IF::GrandeStream#lines IF::GrandeStream#bytes and IF::GrandeStream#records
+      # see {#lines}[rdoc-ref:IF::GrandeStream#lines] {#bytes}[rdoc-ref:IF::GrandeStream#bytes] and {#records}[rdoc-ref:IF::GrandeStream#records]
       #
       # To illustrate: Given a file containing three lines "L0\n","L1\n","L2\n"
       # and a Range (0..1)
@@ -131,11 +131,11 @@ module RIO
       #
       #  anarray = rio('afile').lines[0..1] # anarray == ["L0\n", "L1\n"]
       #
-      # +recno+ counts the number of times IF::GrandeStream#getrec or IF::Grande#each is used to get a record. 
+      # +recno+ counts the number of times {#getrec}[rdoc-ref:IF::GrandeStream#getrec] or {#each}[rdoc-ref:IF::Grande#each] is used to get a record. 
       # so +recno+ will only concern parts of the file read with grande methods 
-      # IF::Grande#each, IF::Grande#[], IF::GrandeStream#getrec 
+      # {#each}[rdoc-ref:IF::Grande#each], {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D], {#getrec}[rdoc-ref:IF::GrandeStream#getrec] 
       # 
-      # See also IF::RubyIO#lineno
+      # See also {#lineno}[rdoc-ref:IF::RubyIO#lineno]
       def recno() target.recno() end
 
 
@@ -168,7 +168,7 @@ module RIO
       def each_byte(*args,&block) target.each_byte(*args,&block); self end
 
 
-      # IF::RubyIO#each_bytes
+      # {#each_bytes}[rdoc-ref:IF::RubyIO#each_bytes]
       #
       #
       #def each_bytes(nb,*args,&block) target.each_bytes(nb,*args,&block); self end
@@ -275,7 +275,7 @@ module RIO
       # 
       def print(*args,&block) target.print(*args,&block); self end
 
-      # Writes the given objects to the rio as with IF::RubyIO#print and then closes the Rio. 
+      # Writes the given objects to the rio as with {#print}[rdoc-ref:IF::RubyIO#print] and then closes the Rio. 
       # Returns the Rio.
       #
       # Equivalent to rio.print(*args).close
@@ -285,7 +285,7 @@ module RIO
       def print!(*args,&block) target.print!(*args,&block); self end
 
 
-      # Writes the given objects to the rio as with IF::RubyIO#printf and then closes the rio. 
+      # Writes the given objects to the rio as with {#printf}[rdoc-ref:IF::RubyIO#printf] and then closes the rio. 
       # Returns the rio.
       #
       # Equivalent to rio.printf(*args).close
@@ -301,7 +301,7 @@ module RIO
       def printf(*argv) target.printf(*argv); self end
 
 
-      # Writes the given objects to the rio as with IF::RubyIO#putc and then closes the rio. 
+      # Writes the given objects to the rio as with {#putc}[rdoc-ref:IF::RubyIO#putc] and then closes the rio. 
       # Returns the rio.
       #
       # Equivalent to rio.putc(*args).close
@@ -328,14 +328,14 @@ module RIO
 
       # Calls IO#puts
       #
-      # Writes the given objects to the rio as with IF::RubyIO#print. 
+      # Writes the given objects to the rio as with {#print}[rdoc-ref:IF::RubyIO#print]. 
       # Writes a record separator (typically a newline) after any that do not already end with a newline sequence. 
       # If called with an array argument, writes each element on a new line. 
       # If called without arguments, outputs a single record separator.
       # Returns the rio.
       def puts(*args) target.puts(*args); self end
 
-      # Writes the given objects to the rio as with IF::RubyIO#puts and then closes the rio. 
+      # Writes the given objects to the rio as with {#puts}[rdoc-ref:IF::RubyIO#puts] and then closes the rio. 
       # Returns the rio.
       #
       # Equivalent to rio.puts(*args).close
@@ -345,7 +345,7 @@ module RIO
       def puts!(*args) target.puts!(*args); self end
 
 
-      # Writes the given objects to the rio as with IF::RubyIO#write and then closes the rio. 
+      # Writes the given objects to the rio as with {#write}[rdoc-ref:IF::RubyIO#write] and then closes the rio. 
       #
       # Equivalent to
       #  ario.write(*args)
@@ -372,17 +372,17 @@ module RIO
 
       # Provides direct access to the IO handle (as would be returned by ::IO#new) *with* filtering. 
       # Reading from and writing to this handle will be affected
-      # by such things as IF::GrandeStream#gzip and IF::GrandeStream#chomp if they were specified for the Rio. 
+      # by such things as {#gzip}[rdoc-ref:IF::GrandeStream#gzip] and {#chomp}[rdoc-ref:IF::GrandeStream#chomp] if they were specified for the Rio. 
       # 
-      # Compare this with IF::RubyIO#ios
+      # Compare this with {#ios}[rdoc-ref:IF::RubyIO#ios]
       #
       def ioh(*args) target.ioh() end
 
       # Provides direct access to the IO handle (as would be returned by ::IO#new) 
       # Reading from and writing to this handle 
-      # is *not* affected by such things as IF::GrandeStream#gzip and IF::GrandeStream#chomp.
+      # is *not* affected by such things as {#gzip}[rdoc-ref:IF::GrandeStream#gzip] and {#chomp}[rdoc-ref:IF::GrandeStream#chomp].
       #
-      # Compare this with IF::RubyIO#ioh
+      # Compare this with {#ioh}[rdoc-ref:IF::RubyIO#ioh]
       #
       def ios(*args) target.ios() end
 
@@ -391,14 +391,14 @@ module RIO
       # Explicitly set the mode with which a Rio will be opened.
       #   ario.mode('r+')   => ario
       # Normally one needs never open a Rio or specify its mode -- the mode is determined by the
-      # operation the Rio is asked to perform. (i.e. IF::RubyIO#print requires write access, IF::RubyIO#readlines requires
+      # operation the Rio is asked to perform. (i.e. {#print}[rdoc-ref:IF::RubyIO#print] requires write access, {#readlines}[rdoc-ref:IF::RubyIO#readlines] requires
       # read access). However there are times when one wishes to be specific about the mode with which a Rio
       # will be opened. Note that explicitly setting the mode overrides all of Rio's internal mode
-      # logic. If a mode is specified via IF::RubyIO#mode or IF::FileOrDir#open that mode will be used. Period.
+      # logic. If a mode is specified via {#mode}[rdoc-ref:IF::RubyIO#mode] or {#open}[rdoc-ref:IF::FileOrDir#open] that mode will be used. Period.
       #
       # Returns the Rio.
       #
-      # See also IF::RubyIO#mode?
+      # See also {#mode?}[rdoc-ref:IF::RubyIO#mode?]
       # 
       # If the mode is given as a String, it must be one of the values listed in the following table.
       #
@@ -438,15 +438,15 @@ module RIO
       # Query a Rio's mode
       #    ario.mode?      #=> a mode string
       #
-      # See IF::RubyIO#mode
+      # See {#mode}[rdoc-ref:IF::RubyIO#mode]
       #
       #  ario = rio('afile')
       #  ario.puts("Hello World") 
-      #  ario.mode?      #=> 'w' IF::RubyIO#puts requires write access
+      #  ario.mode?      #=> 'w' {#puts}[rdoc-ref:IF::RubyIO#puts] requires write access
       #
       #  ario = rio('afile')
       #  ario.gets
-      #  ario.mode?      #=> 'r' IF::RubyIO#gets requires read access
+      #  ario.mode?      #=> 'r' {#gets}[rdoc-ref:IF::RubyIO#gets] requires read access
       #
       #  ario = rio('afile').mode('w+').nocloseoneof
       #  ario.gets
@@ -505,7 +505,7 @@ module RIO
       # Immediately writes all buffered data in _ario_ to disk and
       # return _ario_. 
       # Does nothing if the underlying operating system does not support
-      # _fsync(2)_. Note that +fsync+ differs from using IF::RubyIO#sync. The
+      # _fsync(2)_. Note that +fsync+ differs from using {#sync}[rdoc-ref:IF::RubyIO#sync]. The
       # latter ensures that data is flushed from Ruby's buffers, but
       # doesn't not guarantee that the underlying operating system actually
       # writes it to disk.
@@ -643,7 +643,7 @@ module RIO
       # it immediately if already open. When sync mode is
       # true, all output is immediately flushed to the underlying operating
       # system and is not buffered internally. Returns the rio. See
-      # also IF::RubyIO#fsync, IF::RubyIO#nosync, IF::RubyIO#sync?.
+      # also {#fsync}[rdoc-ref:IF::RubyIO#fsync], {#nosync}[rdoc-ref:IF::RubyIO#nosync], {#sync?}[rdoc-ref:IF::RubyIO#sync?].
       #
       # If a block is given behaves like <tt>ario.sync(arg).each(&block)</tt>
       #
@@ -658,7 +658,7 @@ module RIO
       # it immediately if already open. When sync mode is
       # true, all output is immediately flushed to the underlying operating
       # system and is not buffered internally. Returns the rio. See
-      # also IF::RubyIO#fsync, IF::RubyIO#sync, IF::RubyIO#sync?.
+      # also {#fsync}[rdoc-ref:IF::RubyIO#fsync], {#sync}[rdoc-ref:IF::RubyIO#sync], {#sync?}[rdoc-ref:IF::RubyIO#sync?].
       #
       # If a block is given behaves like <tt>ario.nosync.each(&block)</tt>
       #
@@ -673,8 +673,8 @@ module RIO
       #      ario.sync?    => true or false
       # Returns the current "sync mode" of _ario_. When sync mode is true,
       # all output is immediately flushed to the underlying operating
-      # system and is not buffered by Ruby internally. See also IF::RubyIO#fsync,
-      # IF::RubyIO#sync, IF::RubyIO#nosync
+      # system and is not buffered by Ruby internally. See also {#fsync}[rdoc-ref:IF::RubyIO#fsync],
+      # {#sync}[rdoc-ref:IF::RubyIO#sync], {#nosync}[rdoc-ref:IF::RubyIO#nosync]
       #
       #  f = rio("testfile")
       #  f.sync?   #=> false

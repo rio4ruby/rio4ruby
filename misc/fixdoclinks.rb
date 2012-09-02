@@ -1,28 +1,36 @@
 require 'rio'
 
+def meth_str(str)
+  nca = []
+  ca = str
+  str.each_byte do |el|
+    nca << case el
+           when 0x23
+             '#method-i'
+           else
+             sprintf("%02X",el)
+           end
+  end
+  nca.join('-')
+end
+
+
 devroot = rio(__FILE__).dirname.dirname
-devroot.all.files('*.rb') do |file|
-  newlines = []
-  chcnt = 0
-  file.lines do |line|
-    unless line =~ /^#/
-      newlines << line
-      next
-    end
-    unless line =~ /^#/ && line =~ /IF::/
-      newlines << line
-      next
-    end
-    re = /(IF::\w+(#(([a-z]+[a-z?=!]?)|[\/\|\+\-]|>>?|<<?|\[\])))/
-    if re =~ line
-      newlines << line.gsub(re,'{\2}[rdoc-ref:\1]')
-      chcnt += 1
-    end
+rio(devroot,'lib/rio/if').files('*.rb') do |file|
+ 
+  contents = file.contents
+  
+  newcont = contents.gsub(/(IF::\w+(#([a-z_]+[a-z?=!]?)))/,'{\2}[rdoc-ref:\1]')
+
+  newcont = newcont.gsub(/((IF::\w+)(#(\[\]|<<?|>>?|\|)))/) do |match|
+    # puts "1: #{$1} 2: #{$2} 3: #{$3}"
+    mth = $3
+    link_str = 'RIO/' + $2.sub('::','/') + '.html'
+    "{#{mth}}[link:#{link_str}#{meth_str(mth)}]"
   end
 
-  if chcnt > 0
+  if newcont != contents
     puts file
-    rio(file) < newlines
+    rio(file) < newcont
   end
-
 end

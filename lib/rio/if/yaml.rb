@@ -63,7 +63,7 @@ module RIO
       # +lines+ is the default.
       #
       # The YAML extension distingishes between items selected using
-      # IF::GrandeStream#records, IF::GrandeStream#rows and IF::GrandeStream#lines. 
+      # {#records}[rdoc-ref:IF::GrandeStream#records], {#rows}[rdoc-ref:IF::GrandeStream#rows] and {#lines}[rdoc-ref:IF::GrandeStream#lines]. 
       # Rio returns objects loaded via
       # YAML#load when +records+ or #objects is used; returns the YAML text as a String
       # when +rows+ or #documents is used; and returns lines as Strings as normal when
@@ -105,20 +105,20 @@ module RIO
       #  rio('afile.yaml').yaml.dump(anobject)
       #
       #
-      # Single objects can be written using IF::GrandeStream#putrec (aliased to IF::YAML#putobj
-      # and IF::YAML#dump)
+      # Single objects can be written using {#putrec}[rdoc-ref:IF::GrandeStream#putrec] (aliased to {#putobj}[rdoc-ref:IF::YAML#putobj]
+      # and {#dump}[rdoc-ref:IF::YAML#dump])
       #
       #  rio('afile.yaml').yaml.putobj(anobject)
       #
-      # Single objects can be loaded using IF::GrandeStream#getrec (aliased to IF::YAML#getobj
-      # and IF::YAML#load)
+      # Single objects can be loaded using {#getrec}[rdoc-ref:IF::GrandeStream#getrec] (aliased to {#getobj}[rdoc-ref:IF::YAML#getobj]
+      # and {#load}[rdoc-ref:IF::YAML#load])
       #
       #  anobject = rio('afile.yaml').yaml.getobj
       #
       # A Rio in yaml-mode is just
       # like any other Rio. And all the things you can do with any Rio come
-      # for free.  They can be iterated over using IF::Grande#each and read into an
-      # array using IF::Grande#[] just like any other Rio. All the selection criteria
+      # for free.  They can be iterated over using {#each}[rdoc-ref:IF::Grande#each] and read into an
+      # array using {#[]}[link:RIO/IF/Grande.html#method-i-5B-5D] just like any other Rio. All the selection criteria
       # are identical also.
       #
       # Get the first three objects into an array:
@@ -155,7 +155,7 @@ module RIO
       def objects(*selectors,&block) target.objects(*selectors,&block); self end
 
 
-      # Reject objects from a YAML file. Calls IF::GrandeStream#skiprecords. See #yaml and RIO::Doc::INTRO
+      # Reject objects from a YAML file. Calls {#skiprecords}[rdoc-ref:IF::GrandeStream#skiprecords]. See #yaml and RIO::Doc::INTRO
       def skipobjects(*selectors,&block) target.skipobjects(*selectors,&block); self end
 
 
@@ -163,14 +163,14 @@ module RIO
       def documents(*selectors,&block) target.documents(*selectors,&block); self end
 
 
-      # Reject documents from a YAML file. Calls IF::GrandeStream#skiprows. See #yaml and RIO::Doc::INTRO
+      # Reject documents from a YAML file. Calls {#skiprows}[rdoc-ref:IF::GrandeStream#skiprows]. See #yaml and RIO::Doc::INTRO
       def skipdocuments(*selectors,&block) target.skipdocuments(*selectors,&block); self end
 
-      # Select a single object. See #objects, IF::GrandeStream#line and #yaml.
+      # Select a single object. See #objects, {#line}[rdoc-ref:IF::GrandeStream#line] and #yaml.
       def object(*args,&block) target.object(*args,&block); self end
 
 
-      # Select a single yaml document. See #documents, IF::GrandeStream#line and #yaml.
+      # Select a single yaml document. See #documents, {#line}[rdoc-ref:IF::GrandeStream#line] and #yaml.
       def document(*args,&block) target.document(*args,&block); self end
       
 
@@ -201,7 +201,7 @@ module RIO
       # Calls YAML.dump, leaving the Rio open.
       def putobj(obj) target.putobj(obj); self end
 
-      # Dumps an object to a Rio as with IF::YAML#putobj, and closes the Rio.
+      # Dumps an object to a Rio as with {#putobj}[rdoc-ref:IF::YAML#putobj], and closes the Rio.
       #
       #  rio('afile.yaml').yaml.putobj!(anobject)
       #
@@ -211,7 +211,7 @@ module RIO
       #
       def putobj!(obj) target.putobj!(obj); self end
 
-      # Alias for IF::YAML#putobj!
+      # Alias for {#putobj!}[rdoc-ref:IF::YAML#putobj!]
       def dump(obj) target.dump(obj); self end
 
     end

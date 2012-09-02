@@ -55,7 +55,7 @@ module RIO
       #
       # Deletes the referenced file, returning the Rio. Raises an exception on any error. 
       #
-      # See also IF::Grande#delete, IF::Grande#delete!, IF::Dir#rmdir.
+      # See also {#delete}[rdoc-ref:IF::Grande#delete], {#delete!}[rdoc-ref:IF::Grande#delete!], {#rmdir}[rdoc-ref:IF::Dir#rmdir].
       def rm() target.rm(); self end
       
       
@@ -78,7 +78,7 @@ module RIO
       #  f.size()                   #=> 5
       #
       # If called with no arguments, truncates the Rio at the
-      # value returned by IF::FileOrDir#pos().
+      # value returned by {#pos}[rdoc-ref:IF::FileOrDir#pos]().
       #  f.read(2)
       #  f.truncate.size            #=> 2
       #  f.contents                 #=> "12"
@@ -87,7 +87,7 @@ module RIO
       #
       def truncate(sz=pos()) target.truncate(sz); self end
       
-      # Calls IF::File#truncate(0)
+      # Calls {#truncate}[rdoc-ref:IF::File#truncate](0)
       #
       def clear() target.clear(); self end
 
