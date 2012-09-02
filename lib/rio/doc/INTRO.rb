@@ -260,15 +260,15 @@ module Doc
 # ==== Creating a Rio from a Rio's component parts.
 #
 # The Rio methods for creating a Rio from a Rio's component parts are
-# IF::Path#dirname, IF::Path#filename, IF::Path#basename, and IF::Path#extname.  The
-# behavior of IF::Path#basename depends on the setting of the +ext+
+# {#dirname}[rdoc-ref:IF::Path#dirname], {#filename}[rdoc-ref:IF::Path#filename], {#basename}[rdoc-ref:IF::Path#basename], and {#extname}[rdoc-ref:IF::Path#extname].  The
+# behavior of {#basename}[rdoc-ref:IF::Path#basename] depends on the setting of the +ext+
 # configuration variable and is different from its counterpart in the
 # File class. The default value of the +ext+ configuration variable is
 # the string returned File#extname. The +ext+ configuration variable can
-# be changed using IF::Path#ext and IF::Path#noext and can be queried using
-# IF::Path#ext?. This value is used by calls to IF::Path#basename.
+# be changed using {#ext}[rdoc-ref:IF::Path#ext] and {#noext}[rdoc-ref:IF::Path#noext] and can be queried using
+# {#ext?}[rdoc-ref:IF::Path#ext?]. This value is used by calls to {#basename}[rdoc-ref:IF::Path#basename].
 #
-# IF::Path#filename returns the last component of a path, and is basically
+# {#filename}[rdoc-ref:IF::Path#filename] returns the last component of a path, and is basically
 # the same as +basename+ without consideration of an extension.
 #
 #    rio('afile.txt').basename       #=> rio('afile')
@@ -283,8 +283,8 @@ module Doc
 # ==== Changing a path's component parts.
 #
 # Rio also provides methods for changing the component parts of its
-# path.  They are IF::Path#dirname=, IF::Path#filename=, IF::Path#basename=, and
-# IF::Path#extname=. These methods replace the part extracted as described
+# path.  They are {#dirname=}[rdoc-ref:IF::Path#dirname=], {#filename=}[rdoc-ref:IF::Path#filename=], {#basename=}[rdoc-ref:IF::Path#basename=], and
+# {#extname=}[rdoc-ref:IF::Path#extname=]. These methods replace the part extracted as described
 # above with their argument.
 #
 #    ario = rio('dirA/dirB/afile.rb')
@@ -299,7 +299,7 @@ module Doc
 #
 # ==== Splitting a Rio
 #
-# IF::Grande#split (or IF::Path#splitpath) returns an array of Rios, one 
+# {#split}[rdoc-ref:IF::Grande#split] (or {#splitpath}[rdoc-ref:IF::Path#splitpath]) returns an array of Rios, one 
 # for each path element. (Note that this behavior differs from File#split.)
 #
 #    rio('a/b/c').split   #=> [rio('a'),rio('b'),rio('c')]
@@ -319,7 +319,7 @@ module Doc
 #    ario = rio('adir')
 #    rio(ario,'b')    #=> rio('adir/b')
 #
-# IF::Path#join and IF::Path#/ do the same thing, but the operator version
+# {#join}[rdoc-ref:IF::Path#join] and {#/}[rdoc-ref:IF::Path#/] do the same thing, but the operator version
 # <tt>/</tt> can take only one argument.
 #
 #    a = rio('a')
@@ -327,7 +327,7 @@ module Doc
 #    c = a.join(b)    #=> rio('a/b')
 #    c = a/b          #=> rio('a/b')
 #
-# The arguments to IF::Path#join and IF::Path#/ do not need to be Rios, of course
+# The arguments to {#join}[rdoc-ref:IF::Path#join] and {#/}[rdoc-ref:IF::Path#/] do not need to be Rios, of course
 #    ario = rio('adir')
 #    ario/'afile.rb'           #=> rio('adir/afile.rb')
 #    ario.join('b','c','d')    #=> rio('adir/b/c/d')
@@ -336,8 +336,8 @@ module Doc
 #
 # ==== Manipulating a Rio path by treating it as a string.
 #
-# The Rio methods which treat a Rio as a string are IF::String#sub, IF::String#gsub
-# and IF::String#+.  These methods create a new Rio using the string created by
+# The Rio methods which treat a Rio as a string are {#sub}[rdoc-ref:IF::String#sub], {#gsub}[rdoc-ref:IF::String#gsub]
+# and {#+}[rdoc-ref:IF::String#+].  These methods create a new Rio using the string created by
 # forwarding the method to the String returned by Rio#to_s.
 #
 #    ario = rio('dirA/dirB/afile') + '-1.1.1'   # rio('dirA/dirB/afile-1.1.1')
@@ -346,7 +346,7 @@ module Doc
 #
 # ==== Creating a Rio based on its relationship to another
 #
-# IF::Path#abs creates a new rio whose path is the absolute path of a Rio.
+# {#abs}[rdoc-ref:IF::Path#abs] creates a new rio whose path is the absolute path of a Rio.
 # If called with an argument, it uses it as the base path, otherwise
 # it uses an internal base path (usually the current working directory
 # when it was created).
@@ -356,14 +356,14 @@ module Doc
 #      rio('a').abs('/usr')    #=> rio('/usr/a')
 #    end
 #
-# IF::Path#rel creates a new rio with a path relative to a Rio.
+# {#rel}[rdoc-ref:IF::Path#rel] creates a new rio with a path relative to a Rio.
 #
 #    rio('/tmp').chdir do
 #      rio('/tmp/a').rel       #=> rio('a')
 #    end
 #    rio('/tmp/b').rel('/tmp') #=> rio('b')
 #
-# IF::Path#route_to and IF::Path#route_from creates a new rio with a path
+# {#route}[rdoc-ref:IF::Path#route]_to and {#route}[rdoc-ref:IF::Path#route]_from creates a new rio with a path
 # representing the route to get to/from a Rio. They are based on the
 # methods of the same names in the ::URI class
 #
@@ -393,7 +393,7 @@ module Doc
 #   grande I/O methods
 #
 # All of Rio's configuration and selection methods can be passed a
-# block, which will cause the Rio to behave as if IF::Grande#each had been called
+# block, which will cause the Rio to behave as if {#each}[rdoc-ref:IF::Grande#each] had been called
 # with the block after the method.
 #
 # ==== IO manipulators
@@ -509,13 +509,13 @@ module Doc
 # is closed.
 #
 # In some cases the result is modified before being returned, as when a
-# Rio is configured with IF::GrandeStream#chomp.
+# Rio is configured with {#chomp}[rdoc-ref:IF::GrandeStream#chomp].
 #
 # In all cases, if the result returned by the underlying object, could
 # itself be used for further I/O operations it is returned as a Rio. For
-# example: where File#dirname returns a string, IF::Path#dirname returns a
+# example: where File#dirname returns a string, {#dirname}[rdoc-ref:IF::Path#dirname] returns a
 # Rio; where Dir#read returns a string representing a directory entry,
-# IF::FileOrDir#read returns a Rio.
+# {#read}[rdoc-ref:IF::FileOrDir#read] returns a Rio.
 #
 # With some noteable exceptions, most of the operations available if one
 # were using the underlying Ruby I/O class are available to the Rio and
@@ -543,7 +543,7 @@ module Doc
 #
 #   * +dirname+, and +readlink+ return Rios instead of strings
 #
-#   * Rio has its own IF::Path#basename, IF::Path#join and IF::FileOrDir#symlink, which
+#   * Rio has its own {#basename}[rdoc-ref:IF::Path#basename], {#join}[rdoc-ref:IF::Path#join] and {#symlink}[rdoc-ref:IF::FileOrDir#symlink], which
 #     provide similar functionality.
 #
 #   * The class methods which take multiple filenames
@@ -590,7 +590,7 @@ module Doc
 # * the class methods +mkdir+, +delete+, +rmdir+ are provided as
 #   instance methods.
 #
-# * +chdir+ is provided as an instance method. IF::Dir#chdir returns a Rio
+# * +chdir+ is provided as an instance method. {#chdir}[rdoc-ref:IF::Dir#chdir] returns a Rio
 #   and passes a Rio to a block if one is provided.
 #
 # * +glob+ is provided as an instance method, but returns an array of
@@ -612,7 +612,7 @@ module Doc
 #
 # ==== Grande operators
 #
-# The primary grande operator is IF::Grande#each. +each+ is used to iterate
+# The primary grande operator is {#each}[rdoc-ref:IF::Grande#each]. +each+ is used to iterate
 # through Rios. When applied to a file it iterates through records in
 # the file. When applied to a directory it iterates through the entries
 # in the directory. Its behavior is modified by configuring the Rio
@@ -629,7 +629,7 @@ module Doc
 #  rio('adir').all.files('*.rb') { |f| ... } 
 #
 # Because a Rio is an Enumerable, it supports +to_a+, which is the basis
-# for the grande subscript operator.  IF::Grande#[] with no arguments simply
+# for the grande subscript operator.  {#[]}[rdoc-ref:IF::Grande#[]] with no arguments simply
 # calls to_a. With arguments it behaves as if those arguments had been
 # passed to the most recently called of the grande selection methods
 # listed above, and then calls to_a. For example to get the first ten
@@ -690,11 +690,11 @@ module Doc
 # === Renaming and Moving
 #
 # Rio provides two methods for directly renaming objects on the
-# filesystem: IF::FileOrDir#rename and IF::FileOrDir#rename!. 
+# filesystem: {#rename}[rdoc-ref:IF::FileOrDir#rename] and {#rename!}[rdoc-ref:IF::FileOrDir#rename!]. 
 # Both of these use File#rename. 
 # The difference between them is the returned Rio. 
-# IF::FileOrDir#rename leaves the path of the Rio unchanged, 
-# while IF::FileOrDir#rename! changes the path of the Rio to refer 
+# {#rename}[rdoc-ref:IF::FileOrDir#rename] leaves the path of the Rio unchanged, 
+# while {#rename!}[rdoc-ref:IF::FileOrDir#rename!] changes the path of the Rio to refer 
 # to the renamed path.
 #
 #    ario = rio('a')
@@ -702,10 +702,10 @@ module Doc
 #    ario.rename!('b')  # file 'a' has been renamed to 'b' and 'ario' => rio('b')
 #
 # Rio also has a +rename+ mode, which causes the path manipulation
-# methods IF::Path#dirname=, IF::Path#filename=, IF::Path#basename= and
-# IF::Path#extname= to rename an object on the filesystem when they are
+# methods {#dirname=}[rdoc-ref:IF::Path#dirname=], {#filename=}[rdoc-ref:IF::Path#filename=], {#basename=}[rdoc-ref:IF::Path#basename=] and
+# {#extname=}[rdoc-ref:IF::Path#extname=] to rename an object on the filesystem when they are
 # used to change a Rio's path. A Rio is put in +rename+ mode by calling
-# IF::FileOrDir#rename with no arguments.
+# {#rename}[rdoc-ref:IF::FileOrDir#rename] with no arguments.
 #
 #    rio('adir/afile.txt').rename.filename = 'bfile.rb' # adir/afile.txt => adir/bfile.rb
 #    rio('adir/afile.txt').rename.basename = 'bfile'    # adir/afile.txt => adir/bfile.txt
@@ -721,20 +721,20 @@ module Doc
 #
 # === Deleting 
 #
-# The Rio methods for deleting filesystem objects are IF::File#rm, IF::Dir#rmdir,
-# IF::Dir#rmtree, IF::Grande#delete, and IF::Grande#delete!. +rm+, +rmdir+ and +rmtree+
-# are passed the like named methods in the FileUtils module. IF::Grande#delete
+# The Rio methods for deleting filesystem objects are {#rm}[rdoc-ref:IF::File#rm], {#rmdir}[rdoc-ref:IF::Dir#rmdir],
+# {#rmtree}[rdoc-ref:IF::Dir#rmtree], {#delete}[rdoc-ref:IF::Grande#delete], and {#delete!}[rdoc-ref:IF::Grande#delete!]. +rm+, +rmdir+ and +rmtree+
+# are passed the like named methods in the FileUtils module. {#delete}[rdoc-ref:IF::Grande#delete]
 # calls +rmdir+ for directories and +rm+ for anything else, while
-# IF::Grande#delete!  calls IF::Dir#rmtree for directories.
+# {#delete!}[rdoc-ref:IF::Grande#delete!]  calls {#rmtree}[rdoc-ref:IF::Dir#rmtree] for directories.
 #
-# * To delete something only if it is not a directory use IF::File#rm
-# * To delete an empty directory use IF::Dir#rmdir
-# * To delete an entire directory tree use IF::Dir#rmtree
-# * To delete anything except a populated directory use IF::Grande#delete
-# * To delete anything use IF::Grande#delete!
+# * To delete something only if it is not a directory use {#rm}[rdoc-ref:IF::File#rm]
+# * To delete an empty directory use {#rmdir}[rdoc-ref:IF::Dir#rmdir]
+# * To delete an entire directory tree use {#rmtree}[rdoc-ref:IF::Dir#rmtree]
+# * To delete anything except a populated directory use {#delete}[rdoc-ref:IF::Grande#delete]
+# * To delete anything use {#delete!}[rdoc-ref:IF::Grande#delete!]
 #
 # It is not an error to call any of the deleting methods on something
-# that does not exist. Rio provides IF::Test#exist? and IF::Test#symlink? to check
+# that does not exist. Rio provides {#exist?}[rdoc-ref:IF::Test#exist?] and {#symlink?}[rdoc-ref:IF::Test#symlink?] to check
 # if something exists (<tt>exist?</tt> returns false for symlinks to
 # non-existant object even though the symlink itself exists).  The
 # deleting methods' purpose is to make things not exist, so calling one
@@ -756,7 +756,7 @@ module Doc
 # ==== Using Symbolic Links
 #
 # To create a symbolic link (symlink) to the file-system entry refered
-# to by a Rio, use IF::FileOrDir#symlink.  IF::FileOrDir#symlink differs from File#symlink
+# to by a Rio, use {#symlink}[rdoc-ref:IF::FileOrDir#symlink].  {#symlink}[rdoc-ref:IF::FileOrDir#symlink] differs from File#symlink
 # in that it calculates the path from the symlink location to the Rio's
 # position.
 #
@@ -776,11 +776,11 @@ module Doc
 # Rio refering to the symlink.  This is done for consistency with the
 # rest of Rio.
 #
-# IF::Test#symlink? can be used to test if a file-system object is a
-# symlink. A Rio is extended with IF::FileOrDir#readlink, and
-# IF::Test#lstat only if IF::Test#symlink? returns true. So for
+# {#symlink?}[rdoc-ref:IF::Test#symlink?] can be used to test if a file-system object is a
+# symlink. A Rio is extended with {#readlink}[rdoc-ref:IF::FileOrDir#readlink], and
+# {#lstat}[rdoc-ref:IF::Test#lstat] only if {#symlink?}[rdoc-ref:IF::Test#symlink?] returns true. So for
 # non-symlinks, these will raise a NoMethodError. These are both passed
-# to their counterparts in File. IF::FileOrDir#readlink returns a Rio
+# to their counterparts in File. {#readlink}[rdoc-ref:IF::FileOrDir#readlink] returns a Rio
 # refering to the result of File#readlink.
 #
 #
@@ -795,7 +795,7 @@ module Doc
 # Even in cases where Rio supports the required IO interface, A Rio
 # feature that seems to cause the most incompatibility, is its automatic
 # closing of files. To turn off all of Rio's automatic closing use
-# IF::GrandeStream#noautoclose.
+# {#noautoclose}[rdoc-ref:IF::GrandeStream#noautoclose].
 #
 # For example:
 #  require 'yaml'
@@ -811,8 +811,8 @@ module Doc
 # When reading from an IO it is closed when the end of file is
 # reached. While this is a reasonable thing to do in many cases,
 # sometimes this is not desired.  To turn Rio's automatic closing on end
-# of file use IF::GrandeStream#nocloseoneof (it can be turned back on via
-# IF::GrandeStream#closeoneof)
+# of file use {#nocloseoneof}[rdoc-ref:IF::GrandeStream#nocloseoneof] (it can be turned back on via
+# {#closeoneof}[rdoc-ref:IF::GrandeStream#closeoneof])
 #
 #  ario = rio('afile').nocloseoneof
 #  lines = ario[]
@@ -828,10 +828,10 @@ module Doc
 #
 # Another time a Rio will be closed atomatically is when writing to it
 # with one of the copy operators (<tt><, <<, >, >></tt>).  This behavior
-# can be turned off with IF::GrandeStream#nocloseoncopy.
+# can be turned off with {#nocloseoncopy}[rdoc-ref:IF::GrandeStream#nocloseoncopy].
 #
 # To turn off both of thes types of automatic closing use
-# IF::GrandeStream#noautoclose.
+# {#noautoclose}[rdoc-ref:IF::GrandeStream#noautoclose].
 #
 # The third instance when Rio will close a file automatically is when a
 # file opened for one type of access receives a method which that access
@@ -852,12 +852,12 @@ module Doc
 # rethought.
 #
 # That being said, Rio support several ways to explicitly close a
-# file. IF::RubyIO#close will close any open Rio. 
+# file. {#close}[rdoc-ref:IF::RubyIO#close] will close any open Rio. 
 # The output methods 
-# IF::RubyIO#puts!, IF::RubyIO#putc!, IF::RubyIO#printf!, IF::RubyIO#print!, and IF::RubyIO#write!  
+# {#puts!}[rdoc-ref:IF::RubyIO#puts!], {#putc!}[rdoc-ref:IF::RubyIO#putc!], {#printf!}[rdoc-ref:IF::RubyIO#printf!], {#print!}[rdoc-ref:IF::RubyIO#print!], and {#write!}[rdoc-ref:IF::RubyIO#write!]  
 # behave as if their
 # counterparts without the exclamation point had been called and then
-# call IF::RubyIO#close or IF::RubyIO#close_write if the underlying IO object is
+# call {#close}[rdoc-ref:IF::RubyIO#close] or {#close}[rdoc-ref:IF::RubyIO#close]_write if the underlying IO object is
 # opened for duplex access.
 #
 #
@@ -867,7 +867,7 @@ module Doc
 # automatically when an input or output methed is called. For output
 # methods Rio opens a file with mode 'w', and otherwise opens a file
 # with mode 'r'. This behavior can be modified using the tersely named
-# methods IF::GrandeStream#a, IF::GrandeStream#a!, IF::GrandeStream#r, IF::GrandeStream#r!, IF::GrandeStream#w, and IF::GrandeStream#w!, which cause
+# methods {#a}[rdoc-ref:IF::GrandeStream#a], {#a!}[rdoc-ref:IF::GrandeStream#a!], {#r}[rdoc-ref:IF::GrandeStream#r], {#r!}[rdoc-ref:IF::GrandeStream#r!], {#w}[rdoc-ref:IF::GrandeStream#w], and {#w!}[rdoc-ref:IF::GrandeStream#w!], which cause
 # the Rio to use modes 'a','a+','r','r+','w',and 'w+' respectively.
 #
 # One way to append a string to a file and close it in one line is
@@ -879,13 +879,13 @@ module Doc
 #  ans = rio(?-,'cat').w!.puts!("Hello Kitty").readline
 #
 # The automatic selection of mode can be bypassed entirely using
-# IF::RubyIO#mode and IF::FileOrDir#open.
+# {#mode}[rdoc-ref:IF::RubyIO#mode] and {#open}[rdoc-ref:IF::FileOrDir#open].
 #
 # If a mode is specified using +mode+, the file will still be opened
 # automatically, but the mode specified in the +mode+ method will be
 # used regardless of whether it makes sense.
 #
-# A Rio can also be opened explicitly using IF::FileOrDir#open. +open+ takes one
+# A Rio can also be opened explicitly using {#open}[rdoc-ref:IF::FileOrDir#open]. +open+ takes one
 # parameter, a mode.  This also will override all of Rio's automatic
 # mode selection.
 #
@@ -905,7 +905,7 @@ module Doc
 #  rio('afile').lines.records(1..2)
 #
 # The CSV extension distingishes between items selected using
-# IF::GrandeStream#records and those selected using IF::GrandeStream#lines. Rio returns records
+# {#records}[rdoc-ref:IF::GrandeStream#records] and those selected using {#lines}[rdoc-ref:IF::GrandeStream#lines]. Rio returns records
 # parsed into Arrays by the CSV library when +records+ is used, and
 # returns Strings as normal when +lines+ is used.  +records+ is the
 # default.
@@ -948,7 +948,7 @@ module Doc
 #  array_of_lines[0].to_a                          #==>["f0", "f1"]
 #  array_of_records[0].to_s                        #==>"f0,f1"
 #
-# IF::CSV#csv takes two optional parameters, which are passed on to the CSV
+# {#csv}[rdoc-ref:IF::CSV#csv] takes two optional parameters, which are passed on to the CSV
 # library. They are the +field_separator+ and the +record_separator+.
 #
 #  rio('semisep').puts!(["h0;h1","f0;f1"])                 
@@ -962,8 +962,8 @@ module Doc
 #  rio('colonsep').contents  #==>"h0:h1\nf0:f1\n"
 #
 # Rio provides two methods for selecting fields from CSV records in a
-# manner similar to that provided for selecting lines -- IF::CSV#columns and
-# IF::CSV#skipcolumns.
+# manner similar to that provided for selecting lines -- {#columns}[rdoc-ref:IF::CSV#columns] and
+# {#skipcolumns}[rdoc-ref:IF::CSV#skipcolumns].
 #
 #  rio('f.csv').puts!(["h0,h1,h2,h3","f0,f1,f2,f3"])
 #
@@ -972,7 +972,7 @@ module Doc
 #  rio('f.csv').csv.columns(1..2).to_a    #==>[["h1", "h2"], ["f1", "f2"]]
 #  rio('f.csv').csv.skipcolumns(1..2).to_a  #==>[["h0", "h3"], ["f0", "f3"]]
 #
-# IF::CSV#columns can, of course be used with the +each+ and the copy
+# {#columns}[rdoc-ref:IF::CSV#columns] can, of course be used with the +each+ and the copy
 # operators:
 #
 #  rio('f.csv').csv.columns(0..1) > rio('out').csv
@@ -988,7 +988,7 @@ module Doc
 # +lines+ is the default. 
 #
 # The YAML extension distingishes between items selected using
-# IF::GrandeStream#records, IF::GrandeStream#rows and IF::GrandeStream#lines. Rio returns objects
+# {#records}[rdoc-ref:IF::GrandeStream#records], {#rows}[rdoc-ref:IF::GrandeStream#rows] and {#lines}[rdoc-ref:IF::GrandeStream#lines]. Rio returns objects
 # loaded via YAML#load when +records+ is used; returns the YAML text
 # as a String when +rows+ is used; and
 # returns lines as Strings as normal when +lines+ is used.  
@@ -1032,23 +1032,23 @@ module Doc
 #  rio('afile.yaml').yaml.dump(anobject)
 #
 #
-# IF::Grande#> (copy-to) and IF::Grande#>> (append-to) will fill an array with with all selected
+# {#>}[rdoc-ref:IF::Grande#>] (copy-to) and {#>>}[rdoc-ref:IF::Grande#>>] (append-to) will fill an array with with all selected
 # YAML documents in the Rio. For non-arrays, the yaml text is copied. (This may change
 # if a useful reasonable alternative can be found)
 #
 #  rio('afile.yaml').yaml > anarray # load all YAML documents from 'afile.yaml'
 #
-# Single objects can be written using IF::GrandeStream#putrec (aliased to IF::YAML#putobj and IF::YAML#dump)
+# Single objects can be written using {#putrec}[rdoc-ref:IF::GrandeStream#putrec] (aliased to {#putobj}[rdoc-ref:IF::YAML#putobj] and {#dump}[rdoc-ref:IF::YAML#dump])
 #
 #  rio('afile.yaml').yaml.putobj(anobject)
 #
-# Single objects can be loaded using IF::GrandeStream#getrec (aliase to IF::YAML#getobj and IF::YAML#load)
+# Single objects can be loaded using {#getrec}[rdoc-ref:IF::GrandeStream#getrec] (aliase to {#getobj}[rdoc-ref:IF::YAML#getobj] and {#load}[rdoc-ref:IF::YAML#load])
 #
 #  anobject = rio('afile.yaml').yaml.getobj
 #
 # A Rio in yaml-mode is just like any other Rio. And all the things you
 # can do with any Rio come for free.  They can be iterated over using
-# IF::Grande#each and read into an array using IF::Grande#[] just like
+# {#each}[rdoc-ref:IF::Grande#each] and read into an array using {#[]}[rdoc-ref:IF::Grande#[]] just like
 # any other Rio. All the selection criteria are identical also.
 #
 # Get the first three objects into an array:

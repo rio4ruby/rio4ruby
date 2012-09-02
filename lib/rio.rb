@@ -203,7 +203,7 @@ module RIO
     
     if USE_IF
       include Enumerable
-     require 'rio/if'
+      require 'rio/if'
       include RIO::IF::Grande
       require 'rio/ext/if'
       include RIO::IF::Ext
