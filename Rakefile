@@ -9,7 +9,7 @@ Rake::RDocTask.new do |rdoc|
   # p $:
   require 'rdoc/rdoc'
   # require 'rdoc/generator/parts'
-  rdoc.main = 'RIO::Doc::SYNOPSIS'
+  rdoc.main = 'README'
   rdoc.rdoc_files.include("README", 
                           "lib/rio.rb", 
                           "lib/rio/doc/*.rb",
@@ -17,9 +17,9 @@ Rake::RDocTask.new do |rdoc|
                           "lib/rio/kernel.rb",
                           "lib/rio/constructor.rb")
 
+  rdoc.title    = 'Rio'
   # #p $:[0]
   # rdoc.rdoc_dir = 'doc'
-  # rdoc.title    = PKG::TITLE
   # rdoc.options = PKG::RDOC_OPTIONS + ['--format=parts']
   # rdoc.inline_source = false
   #rdoc.show_hash = true

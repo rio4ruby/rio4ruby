@@ -29,14 +29,6 @@ Tempfile, StringIO, OpenURI and others. Rio also provides an
 application level interface which allows many common I/O idioms to be
 expressed succinctly.
 
-===== Suggested Reading
-
-* RIO::Doc::SYNOPSIS
-* RIO::Doc::INTRO
-* RIO::Doc::HOWTO
-* RIO::Doc::EXAMPLES
-* RIO::Rio
-
 ==== Installation
 
 
@@ -54,9 +46,14 @@ Or install it yourself as:
 
 ==== Usage
 
-TODO: Write usage instructions here
+* RIO::Doc::SYNOPSIS
+* RIO::Doc::INTRO
+* RIO::Doc::HOWTO
+* RIO::Doc::EXAMPLES
+* RIO::Rio
 
-===== Contributing
+
+==== Contributing
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
