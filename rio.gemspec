@@ -18,6 +18,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = RIO::VERSION
 
+  gem.has_rdoc      = true
+  gem.extra_rdoc_files = ['README']
+  gem.rdoc_options << '--title' << 'Rio' <<
+                       '--main' << 'README'
+  gem.rubyforge_project = 'rio'
+
   gem.required_ruby_version = '>= 1.9.1'
 
   gem.add_dependency "test-unit"

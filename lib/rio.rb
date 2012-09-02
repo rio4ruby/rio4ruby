@@ -19,7 +19,6 @@
 # along with Rio; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # =========================================================================== 
-#++
 #
 #
 # ==== Rio - Ruby I/O Facilitator
@@ -45,10 +44,11 @@
 # Blog::          http://rio4ruby.blogspot.com/
 # Email::         rio4ruby@rubyforge.org
 #
-
+#++
+#
 require 'rio/version'
 unless RUBY_VERSION > "1.9"
-  raise LoadError, "This version of Rio(#{RIO::VERSION}) requires Ruby 1.9+. Ruby version is #{RUBY_VERSION}"
+  raise LoadError, "This version of Rio(#{RIO::VERSION}) requires Ruby 1.9+. Ruby version is #{RUBY_VERSION}. Use rio-0.4.2 for ruby 1.8.x"
 end
 #FS_ENCODING = Dir.pwd.encoding
 #p "FS_ENCODING=#{FS_ENCODING}"
