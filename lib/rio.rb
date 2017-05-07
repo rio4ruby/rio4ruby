@@ -49,6 +49,8 @@ require 'rio/const'
 require 'rio/local'
 require 'rio/factory'
 
+require 'rio/undef_rake_dsl'
+
 module RIO
   class Rio #:doc:
     include Local
@@ -109,7 +111,7 @@ module RIO
       self.class.new(self.rl)
     end
 
-    # needed for 1.9.2+ problem with to_ary and method_missing
+    # Returns nil. Needed for 1.9.2+ problem with to_ary and method_missing.
     def to_ary
       nil
     end
