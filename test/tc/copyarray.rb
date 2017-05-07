@@ -127,7 +127,7 @@ class TC_copyarray < Test::Unit::TestCase
     out = rio('out').delete!
     assert!(out.exist?)
     out < rio(@d[1]).lines[1]
-    assert_equal([@l[0][1],@l[1][1]],out[])
+    assert_equal([@l[0][1],@l[1][1]].sort,out[].sort)
 
     out = rio('out').delete!
     assert!(out.exist?)
@@ -146,7 +146,7 @@ class TC_copyarray < Test::Unit::TestCase
     out = rio('out').delete!.touch
     assert(out.exist?)
     out < rio(@d[1]).lines[1]
-    assert_equal([@l[0][1],@l[1][1]],out[])
+    assert_equal([@l[0][1],@l[1][1]].sort,out[].sort)
 
     out = rio('out').delete!.touch
     assert(out.exist?)
@@ -168,7 +168,7 @@ class TC_copyarray < Test::Unit::TestCase
     out < @f
     $trace_states = false
     assert(out.directory?)
-    assert_equal(smap(@f.map { |el| el.rel(@d[0]) }),smap(out.map { |el| el.rel(out) }))
+    assert_equal(smap(@f.map { |el| el.rel(@d[0]) }).sort,smap(out.map { |el| el.rel(out) }).sort)
     assert_equal(@l[0],rio(out,@f[0].filename).to_a)
     assert_equal(@l[1],rio(out,@f[1].filename).to_a)
     #assert_equal(@l[0]+@l[1],out[])
@@ -179,6 +179,6 @@ class TC_copyarray < Test::Unit::TestCase
     out < @d[0].files.lines
     assert(out.file?)
     assert(out.closed?)
-    assert_equal(@l[0]+@l[1],out[])
+    assert_equal((@l[0]+@l[1]).sort,out[].sort)
   end
 end

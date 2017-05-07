@@ -1,12 +1,10 @@
-#!/usr/bin/ruby -KU
+#!/usr/bin/env ruby
 # encoding: UTF-8
 Dir.chdir File.dirname(__FILE__)
 $devlib=File.expand_path('../lib/')
 $:.unshift $devlib unless $:[0] == $devlib
 $testlib=File.expand_path('../test/')
 $:.unshift $testlib unless $:[0] == $testlib
-
-
 
 require 'platform'
 
@@ -56,6 +54,7 @@ def run(options)
   
   options.keys.each do |opt|
     case opt
+
     when :std
       require 'tc/all'
       require 'alturi/tests'
@@ -63,11 +62,14 @@ def run(options)
       find_tests(ms)
       ms.add(:URI,Alt)
       ms.add(:URIRef)
+
     when :http
       require 'http/tests'
+      require 'lib/temp_server'
       ms.add(:HTTP)
-      #require 'lib/temp_server.rb'
-      #TempServer.new.run('runhttptests.rb')
+      runtestpath = File.expand_path('runhttptests.rb')
+      TempServer.run(runtestpath)
+
     when :ftp
       require 'ftp/tests'
       ms.add(:FTP)

@@ -1,9 +1,10 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 Dir.chdir File.dirname(__FILE__)
 $:.unshift File.expand_path('../lib/')
 $:.unshift File.expand_path('../test/')
 
 require 'rio'
+p "[#{RUBY_PLATFORM}] - Ruby(#{RUBY_VERSION}) - Rio(#{RIO::VERSION})"
 require 'lib/temp_server'
 require 'pp'
 

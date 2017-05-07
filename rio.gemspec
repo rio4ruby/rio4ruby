@@ -28,4 +28,5 @@ Gem::Specification.new do |gem|
 
   # gem.add_dependency "test-unit"
   # gem.add_dependency "rdoc"
+  gem.add_dependency "power_assert"
 end

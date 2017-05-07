@@ -28,16 +28,6 @@ require 'rio/local'
 module RIO
   module RRL
     CHMAP = { 
-      '_'    => 'sysio',
-      '-'    => 'stdio',
-      '='    => 'stderr',
-      '"'    => 'strio',
-      '?'    => 'temp',
-      '['    => 'aryio',
-      '`'    => 'cmdio',
-      '|'    => 'cmdpipe',
-      '#'    => 'fd',
-
       ?_    => 'sysio',
       ?-    => 'stdio',
       ?=    => 'stderr',

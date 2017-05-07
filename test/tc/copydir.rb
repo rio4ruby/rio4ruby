@@ -122,7 +122,7 @@ class TC_copydir < Test::RIO::TestCase
     dst = rio('files_a_fi').delete!.touch
     dst < @d0.files[]
     exp = %w[f0 f1].inject([]) { |lines,f| lines + rio(@d0,f).readlines }
-    assert_equal(exp,dst.readlines)
+    assert_equal(exp.sort,dst.readlines.sort)
   end
   def test_files_a_nonex
     dst = rio('files_a_nonex').delete!
