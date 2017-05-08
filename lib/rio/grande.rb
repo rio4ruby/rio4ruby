@@ -62,7 +62,7 @@ module RIO
 
       #p args[0].class,ss_type?(_ss_keys())
       ss_args = cx['ss_args'] = args
-      if ss_args.length == 1 and ss_args[0].kind_of?(Fixnum) and !cx.has_key?('dirlines')
+      if ss_args.length == 1 and ss_args[0].kind_of?(Integer) and !cx.has_key?('dirlines')
         ans = nil
         ss_type = ss_type?(_ss_keys())
 

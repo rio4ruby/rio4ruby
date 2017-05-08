@@ -1,4 +1,4 @@
-require 'forwardable'
+require 'rio/fwd'
 
 module RIO
   module FS
@@ -27,102 +27,92 @@ module RIO
   module FS #:nodoc: all
     module Fwd
       module Str
-        extend Forwardable
-        def_delegators :@file,
-        
-        :fnmatch?,
-        :extname,
-
-        :basename,
-        :dirname,
-        :join,
-        :cleanpath
+        extend ::RIO::Fwd
+        fwd_readers :@file,
+                    :fnmatch?,
+                    :extname,
+                    :basename,
+                    :dirname,
+                    :join,
+                    :cleanpath
       end
       module File
-        extend Forwardable
-        def_delegators :@file,
-        :expand_path,
-
-
-        :ftype,
-        :symlink,
-
-        :stat,
-
-        :atime,
-        :ctime,
-        :mtime,
-
-        :chmod,
-        :chown,
-
-        :readlink,
-        :lstat,
-
-        :truncate
+        extend ::RIO::Fwd
+        fwd_readers :@file,
+                        :expand_path,
+                        :ftype,
+                        :symlink,
+                        :stat,
+                        :atime,
+                        :ctime,
+                        :mtime,
+                        :chmod,
+                        :chown,
+                        :readlink,
+                        :lstat,
+                        :truncate
 
       end
       module Dir
-        extend Forwardable
-        def_delegators :@dir,
-
-        :rmdir,
-        :mkdir,
-        :chdir,
-        :foreach,
-        :entries,
-        :glob,
-        :pwd,
-        :getwd
+        extend ::RIO::Fwd
+        fwd_readers :@dir,
+                    :rmdir,
+                    :mkdir,
+                    :chdir,
+                    :foreach,
+                    :entries,
+                    :glob,
+                    :pwd,
+                    :getwd
       end
       module Test
-        extend Forwardable
-        def_delegators :@test,
-        :blockdev?,
-        :chardev?,
-        :directory?,
-        :dir?,
-        :executable?,
-        :executable_real?,
-        :exist?,
-        :file?,
-        :grpowned?,
-        :owned?,
-        :pipe?,
-        :readable?,
-        :readable_real?,
-        :setgid?,
-        :setuid?,
-        :size,
-        :size?,
-        :socket?,
-        :sticky?,
-        :symlink?,
-        :writable?,
-        :writable_real?,
-        :zero?
+        extend ::RIO::Fwd
+        fwd_readers :@test,
+                    :blockdev?,
+                    :chardev?,
+                    :directory?,
+                    :dir?,
+                    :executable?,
+                    :executable_real?,
+                    :exist?,
+                    :file?,
+                    :grpowned?,
+                    :owned?,
+                    :pipe?,
+                    :readable?,
+                    :readable_real?,
+                    :setgid?,
+                    :setuid?,
+                    :size,
+                    :size?,
+                    :socket?,
+                    :sticky?,
+                    :symlink?,
+                    :writable?,
+                    :writable_real?,
+                    :zero?
       end
       module Path
-        extend Forwardable
+        extend ::RIO::Fwd
         require 'pathname'
-        def_delegators :@path,
-        :root?,
-        :mountpoint?,
-        :realpath
+        fwd_readers :@path,
+                    :root?,
+                    :mountpoint?,
+                    :realpath
       end
       module Util
-        extend Forwardable
+        extend ::RIO::Fwd
         # Directory stuff
-        def_delegators :@util,
-        :cp_r,
-        :rmtree,
-        :mkpath,
-        :mv,
-        :touch
-
+        fwd_readers :@util,
+                    :cp_r,
+                    :rmtree,
+                    :mkpath,
+                    :mv,
+                    :touch
+        
         # file
-        def_delegator :@file, 
-        :delete 
+        fwd_readers :@file, 
+                    :delete 
       end
     end
   end
@@ -149,8 +139,7 @@ module RIO
         require 'rio/local'
         ::RIO::Local::ROOT_DIR        
       end
-      extend Forwardable
-      # 'def_delegators :@test,:directory?,:file?,:exist?
+
       include RIO::FS::Fwd::Str
       include RIO::FS::Fwd::Test
       include RIO::FS::Fwd::Path

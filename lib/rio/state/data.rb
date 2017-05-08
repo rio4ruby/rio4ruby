@@ -22,8 +22,6 @@
 #++
 #
 
-require 'forwardable'
-
 module RIO
   module State
 
@@ -38,8 +36,9 @@ module RIO
       def initialize_copy(other)
         @store = other.store.clone
       end
-      extend Forwardable
-      def_delegators :@store,:[],:[]=,:keys
+      extend RIO::Fwd
+      fwd :@store,:[]
+      fwd_readers :@store,:keys
         
       def method_missing(sym,*args,&block)
         if sym.to_s.end_with?('=')

@@ -65,13 +65,6 @@ module RIO
       kiosyms << :eql?
       kiosyms << :load
       kiosyms << :to_a
-      #kiosyms << :split
-      #kiosyms << :sub
-      #kiosyms << :sub!
-      #kiosyms << :gsub
-      #kiosyms << :gsub!
-      #kiosyms << :chop
-      #kiosyms << :getc
 
       # In 1.8 #to_a is inherited from Object
       # For 1.9 we create this -- only to undef it immediatly.
@@ -111,12 +104,9 @@ module RIO
         data.ioh = other.data.ioh.clone if other.data.ioh
       end
 
-      extend Forwardable
-      def_instance_delegators(:rl,:path,:netpath,:to_s,:fspath,:length)
-
       extend RIO::Fwd
-      fwd :data,:rl,:cx
-      fwd :data,:ioh
+      fwd_readers :rl,:path,:netpath,:to_s,:fspath,:length
+      fwd :data,:rl,:cx,:ioh
       alias :ior :ioh
       alias :iow :ioh
 
@@ -242,7 +232,7 @@ module RIO
       def ensure_cmd_rio(arg)
         case arg
         when ::String then new_rio("cmdio:"+arg)
-        when ::Fixnum then new_rio(arg)
+        when ::Integer then new_rio(arg)
         when Rio then arg.clone
         else ensure_rio(arg)
         end

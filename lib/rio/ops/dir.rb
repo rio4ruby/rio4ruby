@@ -191,8 +191,9 @@ module RIO
         def rewind() ioh.rewind(); self end
         def seek(integer) ioh.seek(integer); self end
 
-        extend Forwardable
-        def_instance_delegators(:ioh,:tell,:pos,:pos=)
+        extend RIO::Fwd
+        fwd_reader :ioh,:tell
+        fwd :ioh, :pos
 
         protected
         require 'rio/entrysel'

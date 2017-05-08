@@ -60,8 +60,15 @@ module RIO
         include Ops::Path::Status
         include Ops::Path::URI
         include Ops::Path::Query
-        extend Forwardable
-        def_instance_delegators(:ioh,:meta,:status,:charset,:content_encoding,:content_type,:last_modified,:base_uri)
+        extend RIO::Fwd
+        fwd_readers :ioh,
+                    :meta,
+                    :status,
+                    :charset,
+                    :content_encoding,
+                    :content_type,
+                    :last_modified,
+                    :base_uri
       end
 
     end

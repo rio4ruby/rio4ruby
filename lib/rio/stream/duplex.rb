@@ -48,7 +48,6 @@ module RIO
   module Stream
     module Duplex
       module Ops
-        extend Forwardable
         extend RIO::Fwd
         def base_state() 'Stream::Duplex::Close' end
         #def ior() fibproc.pipe.rd end

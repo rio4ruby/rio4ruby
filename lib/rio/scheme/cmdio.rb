@@ -52,8 +52,8 @@ module RIO
           self.query = a
         end
       end
-      extend Forwardable
-      def_delegators :uri, :path=, :path
+      extend RIO::Fwd
+      fwd :uri, :path
       def query
         uri.query
       end

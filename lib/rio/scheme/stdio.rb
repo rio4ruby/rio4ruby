@@ -34,8 +34,8 @@ module RIO
       def initialize(u)
         super(u)
       end
-      extend Forwardable
-      def_delegators :uri, :path=, :path
+      extend RIO::Fwd
+      fwd :uri, :path
       require 'rio/iomode'
       def open(m)
         case 

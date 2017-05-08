@@ -128,7 +128,6 @@ module RIO
           rl.base(b)
           self
         end
-        extend Forwardable
         extend Fwd
         fwd :rl,:scheme,:host,:user,:password
         fwd :rl,:query,:fragment,:userinfo

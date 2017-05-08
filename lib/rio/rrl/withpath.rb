@@ -22,8 +22,6 @@
 #++
 #
 
-
-
 require 'rio/alturi'
 require 'rio/uriref'
 require 'rio/fwd'
@@ -109,7 +107,6 @@ end
 module RIO
   module RRL
     class WithPath < RIO::RRL::Base
-      extend Forwardable
       extend Fwd
 
       # The value of urlpath() with any trailing slash removed
@@ -128,9 +125,9 @@ module RIO
         pth.count('/')
       end
 
-      def_delegators :uri,:netpath, :netpath=, :fspath, :fspath=
-      def_delegators :uri, :abs, :rel, :route_to, :route_from
-      def_delegators :uri, :join, :rel, :route_to, :route_from
+      fwd :uri,:netpath, :fspath
+      fwd_readers :uri, :abs, :rel, :route_to, :route_from
+      fwd_readers :uri, :join, :rel, :route_to, :route_from
       fwd :uri, :dirname, :basename, :extname, :filename
       fwd :uri, :scheme, :authority, :path, :query, :fragment
       fwd :uri, :host, :port, :userinfo, :netpath, :user, :password
@@ -139,7 +136,6 @@ module RIO
         #p 'rrl/withpath.rb absolute?'
         uri.absolute?
       end
-      # Marty Cell 319-210-3284
       #def abs?
       #  p 'rrl/withpath.rb abs?'
       #  uri.absolute?

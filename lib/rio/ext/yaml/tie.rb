@@ -24,7 +24,6 @@
 
 
 require 'yaml'
-require 'forwardable'
 require 'delegate'
 
 module RIO
@@ -32,7 +31,6 @@ module RIO
     module YAML #:nodoc: all
       module Tie
         class Doc
-          extend Forwardable
           def initialize(fn)
             @filename = fn
             @io = nil
@@ -55,7 +53,8 @@ module RIO
             end
           end
 
-          def_instance_delegators(:@root,:inspect)
+          fwd_readers :@root, :inspect
+          
           def method_missing(sym,*args)
             @root.__send__(sym,*args)
           end
@@ -78,7 +77,6 @@ module RIO
           end
         end
         class Root < Base
-          extend Forwardable
           attr_accessor :dirty
           def initialize(doc)
             @doc = doc
@@ -91,7 +89,7 @@ module RIO
           def dirty?()
             @dirty
           end
-          def_instance_delegators(:@root,:inspect)
+          fwd_readers :@root,:inspect
           def method_missing(sym,*args)
             @root.__send__(sym,*args)
           end

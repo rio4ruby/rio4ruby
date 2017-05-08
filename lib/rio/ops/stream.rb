@@ -59,9 +59,9 @@ module RIO
         def flush() rtn_self { self.ioh.flush } end
         def fsync() rtn_self { self.ioh.fsync } end
         def seek(amount,whence=IO::SEEK_SET) rtn_self { self.ioh.seek(amount,whence) } end
-        extend Forwardable
-        def_instance_delegators(:ioh,:pos,:pos=,:fileno,:to_i,
-                                :fcntl,:ioctl)
+        extend RIO::Fwd
+        fwd :ioh,:pos
+        fwd_readers :ioh, :fileno, :to_i, :fcntl, :ioctl
       end
     end
     module Stream

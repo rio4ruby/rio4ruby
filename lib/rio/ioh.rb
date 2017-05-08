@@ -90,16 +90,39 @@ module RIO
         end
         self
       end
-      extend Forwardable
-      def_instance_delegators(:handle,:binmode,:stat,:rewind,
-                              :each,:each_byte,:gets,:getc,
-                              :each_line,
-                              :read,:readlines,:readline,:sysread,
-                              :<<,:print,:printf,:putc,:write,:syswrite,
-                              :pos,:pos=,:lineno,:lineno=,
-                              :fileno,
-                              :close_read,:close_write,
-                              :fsync,:sync,:sync=,:fcntl,:ioctl)
+      extend RIO::Fwd
+      
+      fwd_readers :handle,
+                  :binmode,
+                  :stat,
+                  :rewind,
+                  :each,
+                  :each_byte,
+                  :gets,
+                  :getc,
+                  :each_line,
+                  :read,
+                  :readlines,
+                  :readline,
+                  :sysread,
+                  :print,
+                  :printf,
+                  :putc,
+                  :write,
+                  :syswrite,
+                  :fileno,
+                  :close_read,
+                  :close_write,
+                  :fsync,
+                  :fcntl,
+                  :ioctl,
+                  :<<
+
+      fwd :handle,
+          :pos,
+          :lineno,
+          :sync
+          
       def set_encoding(*args)
         handle.set_encoding(*args)
       end
@@ -148,15 +171,14 @@ module RIO
           yield filename
         end
       end
-      def each0(&block)
-        handle.each { |filename|
-          yield filename
-        }
-      end
-      extend Forwardable
-      def_instance_delegators(:handle,
-                              :read,
-                              :pos,:pos=,:tell,:seek,:rewind)
+
+      extend RIO::Fwd
+      fwd :handle, :pos
+      fwd_readers :handle,
+                  :read,
+                  :tell,
+                  :seek,
+                  :rewind
     end
   end
 end

@@ -1,4 +1,3 @@
-require 'forwardable'
 require 'rio/alturi/uri_parts'
 require 'rio/alturi/algorithm'
 require 'rio/fwd'
@@ -163,7 +162,6 @@ end
 module Alt
   module URI
     class Generic < ::Alt::URI::Base
-      extend Forwardable
       extend Builders
       def initialize(parts=nil)
         prts = parts || Alt::URI::Gen::URIParts.new
@@ -188,7 +186,7 @@ module Alt
       fwd :parts, :host,:port
       fwd :parts, :userinfo
       fwd :parts, :user,:password
-      def_delegators :parts, :to_s
+      fwd_readers :parts, :to_s
       
 
       def netpath
@@ -221,7 +219,6 @@ end
 module Alt
   module URI
     class File < ::Alt::URI::Base
-      extend Forwardable
       extend Builders
 
       def initialize(parts=nil)
@@ -239,7 +236,7 @@ module Alt
       fwd :parts, :authority
       fwd :parts, :netpath
       fwd :parts, :host
-      def_delegators :parts, :to_s
+      fwd_reader :parts, :to_s
       
       def normalize
         hst = self.host if self.host and !(self.host == 'localhost' or self.host.empty?)
@@ -285,7 +282,6 @@ end
 module Alt
   module URI
     class HTTP < ::Alt::URI::Base
-      extend Forwardable
       extend Builders
 
       def initialize(parts=nil)
@@ -303,7 +299,7 @@ module Alt
       fwd :parts, :authority
       fwd :parts, :netpath
       fwd :parts, :host,:port
-      def_delegators :parts, :to_s
+      fwd_readers :parts, :to_s
       
       def netpath
         parts.path
@@ -341,7 +337,6 @@ end
 module Alt
   module URI
     class FTP < ::Alt::URI::Base
-      extend Forwardable
       extend Builders
 
       def initialize(parts=nil)
@@ -361,7 +356,7 @@ module Alt
       fwd :parts, :host,:port
       fwd :parts, :userinfo
       fwd :parts, :user,:password
-      def_delegators :parts, :to_s
+      fwd_reader :parts, :to_s
       
 
       def fspath() self.path end
@@ -407,15 +402,6 @@ module Alt
       def uri=(val)
         parts.uri = val
       end
-
-      
-      
-
-
-
-
-
-
 
       def normalize
         if self.port == '21'

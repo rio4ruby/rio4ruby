@@ -24,16 +24,17 @@
 
 
 require 'mp3info'
-require 'forwardable'
+
 module RIO
   module Ext
     module Mp3Info
         def mp3info() ::Mp3Info.new(self.fspath) end
 
-        extend Forwardable
+        extend RIO::Fwd
 
-        def_instance_delegators(:mp3info,:tag,:bitrate,:samplerate)
-        def_instance_delegators(:tag,:tracknum)
+        fwd_readers :mp3info,:tag,:bitrate,:samplerate
+        fwd_readers :tag,:tracknum
+
         def title() _chop0(tag.title) end
         def album() _chop0(tag.album) end
         def artist() _chop0(tag.artist) end

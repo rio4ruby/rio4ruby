@@ -1,4 +1,3 @@
-require 'forwardable'
 require 'rio/alturi/escape'
 require 'rio/alturi/parse'
 require 'rio/alturi/algorithm'
@@ -7,12 +6,13 @@ require 'rio/alturi/algorithm'
 module Alt
   module URI
     class FieldStore
-      extend Forwardable
+      extend RIO::Fwd
       def initialize(hash)
         @hash = hash
       end
 
-      def_delegators :@hash, :[]=, :[], :values_at
+      fwd_readers :@hash, :values_at
+      fwd :@hash, :[]
 
       def method_missing(sym,*args,&block)
         if sym.to_s.end_with? '='

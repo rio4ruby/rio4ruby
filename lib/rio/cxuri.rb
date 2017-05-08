@@ -22,7 +22,6 @@
 #++
 #
 
-require 'forwardable'
 require 'rio/alturi'
 
 module RIO
@@ -52,12 +51,17 @@ module RIO
       YAML.load(@parts.fragment) unless @parts.fragment.nil?
     end
 
-    extend Forwardable
+    extend RIO::Fwd
 
-    def_delegators :@parts, :authority,:scheme,:path
-    def_delegators :@parts, :authority=,:scheme=,:path=,:query=,:query
-    def_delegators :@parts, :userinfo,:host
-    def_delegators :@parts, :userinfo=,:host=,:port=, :port
+    fwd :@parts,
+        :authority,
+        :scheme,
+        :path,
+        :query,
+        :userinfo,
+        :host,
+        :port
+
     def to_s
       @parts.uri
     end

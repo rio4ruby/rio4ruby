@@ -93,20 +93,7 @@ module RIO
         @eof = true unless ans = handle.sysread(*args)
         ans
       end
-#       extend Forwardable
-#       def_instance_delegators(:handle,
-#                               :binmode,
-#                               :stat,
-#                               :rewind,
-#                               :<<,:print,:printf,:puts,:putc,:write,:syswrite,
-#                               :pos,:pos=,:lineno,:lineno=,
-#                               :fileno,
-#                               :close_read,:close_write,
-#                               :fsync,:sync,:sync=,:fcntl,:ioctl)
 
-      #def puts(*args)
-      #  handle.puts(*args)
-      #end
       def method_missing(sym,*args,&block)
         #p callstr('method_missing',sym,*args)
         handle.__send__(sym,*args,&block)

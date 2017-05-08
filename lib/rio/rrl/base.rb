@@ -58,8 +58,6 @@ module RIO
       def ===(other) self == other end
       def =~(other) other =~ self.to_str end
       def length() self.to_s.length end
-
-      extend Forwardable
       def url() uri.to_s end
       
       def close() 

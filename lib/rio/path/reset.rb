@@ -22,8 +22,6 @@
 #++
 #
 
-
-# cell phone number: 954-6752.
 require 'rio/state'
 module RIO
 
@@ -50,8 +48,6 @@ module RIO
         end
       end
 
-#      extend Forwardable
-#      def_instance_delegators(:path,:empty?)
     end 
   end 
     

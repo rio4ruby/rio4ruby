@@ -91,8 +91,8 @@ module RIO
       end
       def create(arg)
         case arg
-        when ::Fixnum     then Depth.new(arg)
-        when ::Range     then Depth.new(arg)
+        when ::Integer    then Depth.new(arg)
+        when ::Range      then Depth.new(arg)
         when ::String     then Glob.new(arg)
         when ::Regexp     then Regexp.new(arg)
         when ::Proc       then Proc.new(arg)
@@ -129,8 +129,8 @@ module RIO
         def =~(el)
           el.__send__(@sym) and (@list.empty? or @list.detect { |sel| sel =~ el })
         end
-        extend Forwardable
-        def_instance_delegators(:@list,:each)
+        extend RIO::Fwd
+        fwd_readers :@list,:each
         def callstr(func,*args)
           self.class.to_s+'['+self.to_s+']'+'.'+func.to_s+'('+args.join(',')+')'
         end

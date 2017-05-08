@@ -121,15 +121,7 @@ module RIO
       self
     end
     def to_s() ref.to_s end
-    #extend Forwardable
-    #extend Fwd
-    #fwd :ref, :scheme, :authority, :path, :query, :fragment
-    #fwd :ref, :host, :port, :userinfo, :user, :password
-    #fwd :ref, :typecode
-    #def_delegators :ref, :to_s, :normalize, :absolute?, :len gth
-    #fwd :ref, :dirname,:basename,:filename,:extname
-    #fwd :ref, :netpath,:fspath
-    #fwd :ref, :ext
+
     def method_missing(sym,*args,&block)
       ref.__send__(sym,*args,&block)
     end

@@ -113,8 +113,13 @@ module RIO
         str
       end
 
-      extend Forwardable
-      def_instance_delegators(:@values,:[],:has_key?,:values_at,:keys)
+      extend RIO::Fwd
+      fwd_readers :@values,
+                  :has_key?,
+                  :values_at,
+                  :keys,
+                  :[]
+      
     end
   end
 end  

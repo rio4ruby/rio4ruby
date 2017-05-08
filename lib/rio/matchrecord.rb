@@ -59,7 +59,7 @@ module RIO
           @select_arg === recno
         end
       end
-      class Fixnum < Base
+      class Integer < Base
         def match?(val,recno)
           #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           @select_arg === recno
@@ -112,8 +112,8 @@ module RIO
           Match::Record::Proc.new(arg,therio)
         when ::Symbol
           Match::Record::Symbol.new(arg)
-        when ::Fixnum
-          Match::Record::Fixnum.new(arg)
+        when ::Integer
+          Match::Record::Integer.new(arg)
         when ::Array
           Match::Record::And.new(arg,therio)
         else
@@ -148,7 +148,7 @@ module RIO
         end
         def size() @list.size unless @list.nil? end
         def only_one_fixnum?()
-          @list && @list.size == 1 && @list[0].kind_of?(Match::Record::Fixnum)
+          @list && @list.size == 1 && @list[0].kind_of?(Match::Record::Integer)
         end
         def delete_at(index)
           @list.delete_at(index)

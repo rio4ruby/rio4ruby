@@ -54,8 +54,10 @@ module RIO
         self.query = prefix
       end
 
-      extend Forwardable
-      def_delegators :uri, :path=, :path, :query, :query=, :scheme
+      extend RIO::Fwd
+      fwd :uri, :path, :query
+      fwd_reader :uri, :scheme
+
       alias :prefix :query
       alias :tmpdir :path
 
@@ -88,8 +90,8 @@ module RIO
           #self.query = file_prefix.to_s
           #self.path = temp_dir.to_s
         end
-        extend Forwardable
-        def_delegators :uri, :path=, :path, :query, :query=
+        extend RIO::Fwd
+        fwd :uri, :path, :query
         alias :prefix :query
         alias :tmpdir :path
 
@@ -139,8 +141,8 @@ module RIO
           #self.query = file_prefix
           #self.path = temp_dir
         end
-        extend Forwardable
-        def_delegators :uri, :path=, :path, :query, :query=
+        extend RIO::Fwd
+        fwd :uri, :path, :query
         def file_rl() 
           RIO::File::RRL.new(self.uri,{:fs => self.fs})
         end
@@ -205,7 +207,6 @@ module RIO
           mode_('w+').open_.inout()
         end
       end
-
     end
   end
 end

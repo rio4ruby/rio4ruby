@@ -60,8 +60,8 @@ module RIO
       def allows_write?()
         primarily_write? or allows_both?
       end
-      extend Forwardable
-      def_instance_delegators(:@mode,:=~,:==,:===)
+      extend RIO::Fwd
+      fwd_readers :@mode,:=~,:==,:===
     end
   end
   module Mode

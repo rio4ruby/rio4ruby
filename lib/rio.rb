@@ -37,8 +37,6 @@ require 'rio/fs'
 #require 'rio/def'
 #require 'rio/exception'
 
-require 'forwardable'
-
 $trace_states = false
 
 require 'rio/kernel'
