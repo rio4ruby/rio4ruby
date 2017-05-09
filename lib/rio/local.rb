@@ -37,15 +37,3 @@ if $0 == __FILE__
 end
 
 __END__
-
-require 'test/unit'
-
-class TC_FS_Local < Test::Unit::TestCase
-
-  def test_to_a
-    require 'rio/log'
-    RIO::Log.init
-    raise 'RuntimeError',"No tests defined for RIO::Args",callee
-  end
-
-end

@@ -42,27 +42,20 @@ module RIO
       args.map{ |pth| fs2url(pth) }
     end
     def fs2url(pth, esc=ESCAPE)
-      #pth.sub!(/^[a-zA-Z]:/,'')
       pth = URI.escape(pth,esc)
       pth = '/' + pth if pth =~ /^[a-zA-Z]:/
       pth
-      #      (Local::SEPARATOR == '/' ? pth : pth.gsub(Local::SEPARATOR,%r|/|))
     end
 
     def url2fs(pth)
-#      pth = pth.chop if pth.length > 1 and pth[-1] == ?/      cwd = RIO::RL.fs2url(::Dir.getwd)
-
-      #pth = pth.chop if pth != '/' and pth[-1] == ?/
       pth = ::URI.unescape(pth)
       if pth =~ %r#^/[a-zA-Z]:#
         pth = pth[1..-1] 
       end
       pth
-#      (Local::SEPARATOR == '/' ? pth : pth.gsub(%r|/|,Local::SEPARATOR))
     end
 
     def getwd()
-      #::URI::FILE.build({:path => fs2url(::Dir.getwd)+'/'})
       ::URI::FILE.build({:path => fs2url(::Dir.getwd)})
     end
 

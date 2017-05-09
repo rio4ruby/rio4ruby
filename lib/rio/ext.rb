@@ -22,12 +22,6 @@
 #++
 #
 
-
-#require 'rio/ext/csv'
-#require 'rio/ext/splitlines'
-#require 'rio/ext/yaml'
-#require 'rio/ext/zipfile'
-
 require 'rio/util'
 module RIO
   module Ext
@@ -98,7 +92,6 @@ module RIO
     end
   end
 end
-
 
 module RIO
   module Ext #:nodoc: all

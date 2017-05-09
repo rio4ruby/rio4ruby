@@ -22,26 +22,6 @@
 #++
 #
 
-
-# begin
-#   require 'faster_csv'  # first choice--for speed
-
-#   # A CSV compatible interface for FasterCSV.
-#   module CSV  # :nodoc:
-#     def self.parse_line( line, field_sep=nil, row_sep=nil )
-#       FasterCSV.parse_line( line, :col_sep => field_sep || ",",
-#                                   :row_sep => row_sep   || :auto )
-#     end
-    
-#     def self.generate_line( array, field_sep=nil, row_sep=nil )
-#       FasterCSV.generate_line( array, :col_sep => field_sep || ",",
-#                                       :row_sep => row_sep   || "" )
-#     end
-#   end
-# rescue LoadError
-#   require 'csv'         # second choice--slower but standard
-# end
-
 module RIO
   module Ext
     module SplitLines
@@ -87,8 +67,6 @@ module RIO
         protected
 
         def to_rec_(raw_rec)
-          #_init_cols_from_line(raw_rec) if @recno == 0
-          #p "#{callstr('to_rec_',raw_rec.inspect,@recno)} ; itertype=#{cx['stream_itertype']}"
           case cx['stream_itertype']
           when 'lines' 
             raw_rec

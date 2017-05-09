@@ -34,17 +34,13 @@ module RIO
       def when_missing(sym,*args) self end
       def method_missing(sym,*args,&block)
         emsg = sprintf("Can't Handle %s[%s].%s(%s)",@obj.class.to_s,@obj.to_s,sym.to_s,args.join(','))
- #       emsg += "\n  "+@msg unless @msg.nil? or @msg.empty?
- #       emsg = @msg
         raise Exception::CantHandle.new(@obj,sym,*args),emsg
       end
       def self.error(emsg,obj,sym,*args)
         require 'rio/exception'
         msg = sprintf("%s[%s].%s(%s)",obj.class.to_s,obj.to_s,sym.to_s,args.join(','))
         msg += "\n  "+emsg unless emsg.nil? or emsg.empty?
-        state = new(obj: obj, sym: sym, msg: msg)
-        state
-#        raise CantHandle.new(obj,sym,*args),emsg
+        new(obj: obj, sym: sym, msg: msg)
       end
     end
   end 

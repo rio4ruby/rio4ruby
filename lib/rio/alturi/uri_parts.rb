@@ -34,7 +34,6 @@ module Alt
             str.encode('UTF-8')
 
             Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
-            #Alt::URI::Escape.escape(str,fld) 
           end
         end
         def _do_unesc(str)
@@ -274,13 +273,6 @@ module Alt
         def initialize(opts={})
           @store = { :path => "" }
           @encoding = opts[:encoding]
-          # p "@encoding=#{@encoding.inspect}"
-          # p caller[0]
-          # @encoding = @store[:path].encoding
-          # p "URIParts",__ENCODING__
-          # @encoding = Encoding.default_internal
-          # @encoding = Encoding.find('UTF-8')
-          # @encoding = __ENCODING__
         end
 
         def initialize_copy(other)
@@ -308,14 +300,6 @@ module Alt
           end
           u
         end
-
-#         def [](sym)
-#           __send__(sym)
-#         end
-
-#         def []=(sym,val)
-#           __send__(sym.to_s+'=',val)
-#         end
 
         def [](sym)
           @store[sym]
@@ -443,16 +427,7 @@ module Alt
             @store.clear
             @store[:path] = ""
           else
-            #Alt::URI::Parse::RE_GENERIC.match(val) { |m|
-            #  p "URI_PARTS: #{m.inspect}"
-            #  self.scheme = m[:scheme]
-            #  self.authority = m[:authority]
-            #  @store[:path] = m[:path]
-            #  @store[:query] = m[:query]
-            #  @store[:fragment] = m[:fragment]
-            #}
             Alt::URI::Parse::RE_GENERIC.match(val) { |m|
-              #p "URI_PARTS: #{m.inspect}"
               self.scheme = m[1]
               self.authority = m[2]
               @store[:path] = m[3]
@@ -470,10 +445,6 @@ module Alt
             self.authority = nil
             self.path = ""
           else
-            #Alt::URI::Parse::RE_GENERIC.match(val) { |m|
-            #  self.authority = m[:authority]
-            #  self.path = m[:path]
-            #}
             Alt::URI::Parse::RE_GENERIC.match(val) { |m|
               self.authority = m[2]
               self.path = m[3]

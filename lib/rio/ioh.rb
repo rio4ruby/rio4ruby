@@ -35,7 +35,6 @@ module RIO
       def initialize_copy(other)
         #p callstr('ioh:initialize_copy',other)
         super
-        #p @ios
         @ios = other.ios.clone unless other.ios.nil?
       end
       def callstr(func,*args)
@@ -164,10 +163,7 @@ module RIO
       end
       def closed?() ios.nil? end
       def each(&block)
-        #p handle
         while filename = handle.read
-          #p "IOH: #{filename.inspect} FS_ENCODING=#{FS_ENCODING}"
-          #yield filename.force_encoding(FS_ENCODING)
           yield filename
         end
       end

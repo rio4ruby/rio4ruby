@@ -22,7 +22,6 @@
 #++
 #
 
-
 require 'rio/context/cxx.rb'
 require 'rio/iomode'
 
@@ -192,9 +191,6 @@ module RIO
         _set_sstype('skiprows')
         _rows(args,false,&block)
       end
-
-
-
       def bytes(nb=1,*args,&block)
         _set_sstype('bytes')
         _set_bytes(nb)
@@ -210,9 +206,6 @@ module RIO
         each(&block) if block_given?
         self
       end
-
-
-
     end
   end
 end

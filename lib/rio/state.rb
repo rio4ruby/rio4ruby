@@ -22,14 +22,6 @@
 #++
 #
 
-
-#require 'rio/context'
-#require 'rio/context/methods'
-#require 'rio/ext'
-#require 'rio/filter'
-#require 'rio/fs/native'
-#require 'rio/fwd'
-
 require 'rio/exception/state'
 require 'rio/state/data'
 require 'rio/symantics'
@@ -88,7 +80,6 @@ module RIO
       
       attr_reader :data
       def initialize(iv)
-        #p "State#initialize(#{iv.keys.inspect})"
         @data = State::Data.new
         iv.keys.each do |k|
           @data[k] = iv[k]
@@ -117,10 +108,6 @@ module RIO
         new(other.data)
       end
 
-
-
-
-
       # Section: State Switching
 
       # the method for changing states
@@ -128,7 +115,6 @@ module RIO
       # and change the value in the handle that is shared with the rio object
       def become(new_class,*args)
         p "become : #{self.class.to_s} => #{new_class.to_s} (#{self.mode?})" if $trace_states
-        #p "BECOME #{new_class}: #{cx['ss_type']}"
         return self if new_class == self.class
 
         new_state = try_state[new_class,*args]
@@ -136,12 +122,9 @@ module RIO
         new_state
       end
       def became(obj)
-        #RIO::Ext.became(obj)
       end
       def method_missing_trace_str(sym,*args)
-        # "missing: "+self.class.to_s+'['+self.to_url+" {#{self.rl.fs}}"+']'+'.'+sym.to_s+'('+args.join(',')+')'
           "missing: "+self.class.to_s+'['+self.to_url+']'+'.'+sym.to_s+'('+args.join(',')+')'
-        #"missing: "+self.class.to_s+'['+self.to_url+""+']'+'.'+sym.to_s+'('+args.join(',')+')'
       end
 
       def method_missing(sym,*args,&block)
@@ -149,7 +132,6 @@ module RIO
 
         obj = when_missing(sym,*args)
         raise RuntimeError,"when_missing returns nil" if obj.nil?
-        #p "STATE: METHOD_MISSING",obj.to_s,sym,args
         obj.__send__(sym,*args,&block) #unless obj == self
       end
       
@@ -159,12 +141,10 @@ module RIO
       def base_state() Factory.instance.reset_state(rl) end
 
       def softreset 
-        #p "softreset(#{self.class}) => #{self.base_state}"
         cx['retrystate'] = nil
         become(self.base_state) 
       end
       def retryreset 
-        #p "retryreset(#{self.class}) => #{self.base_state}"
         become(self.base_state) 
       end
       def reset
@@ -186,8 +166,6 @@ module RIO
       def to_rl() self.rl.rl end
       def fs() self.rl.fs end
 
-      #def_instance_delegators(:uri,:path,:netpath,:to_s,:fspath,:length)
-
       def ==(other) rl == other end
       def ===(other) self == other end
       def =~(other) other =~ self.to_str end
@@ -199,7 +177,6 @@ module RIO
       def to_ary() nil end
 
       def hash() rl.to_s.hash end
-      #def eql?(other) @rl.to_s.eql?(other.to_s) end
 
       def stream?() false end
 
@@ -217,7 +194,6 @@ module RIO
       def clone_rio()
         cp = Rio.new(self.rl)
         cp.cx = self.cx.clone
-        #cp.ioh = self.ioh.clone unless self.ioh.nil?
         cp.rl = self.rl.clone
         cp
       end

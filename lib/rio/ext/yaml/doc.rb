@@ -68,11 +68,6 @@ module RIO
           end
           
           def ystream() 
-            #cl = 'Dir::Stream'
-            #p "LOOP: retry: #{cx['retrystate'].inspect} => #{cl}" 
-            #return nil if cx['retrystate'] == cl
-            #cx['retrystate'] = cl
-            
             become('Ext::YAML::Doc::Stream')
           end
         end

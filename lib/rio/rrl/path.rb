@@ -25,10 +25,6 @@
 
 module RIO
   autoload :Stream, 'rio/stream'
-  #autoload :Ops, 'rio/ops'
-  #require 'rio/stream'
-  #require 'rio/stream/open'
-  #require 'rio/ops/symlink'
 end
 
 require 'rio/rrl/withpath'
@@ -63,10 +59,6 @@ module RIO
       def dir_rl()
         RIO::Dir::RRL.new(self.uri, {:fs => self.fs})
       end
-      #def absolute?
-      #  p "Path::RRL (rrl/path.rb) absolute?"
-      #  false
-      #end
     end
   end
   module File
@@ -86,8 +78,6 @@ module RIO
 
     class RRL < RIO::Path::RRL
       def open()
-        #IOH::Dir.new(fs.dir.open(self.fspath, :encoding => 'UTF-8'))
-        #p "Dir::RRL #{self.path},#{self.fspath}"
         IOH::Dir.new(fs.dir.open(self.fspath))
       end
       def dir_rl()

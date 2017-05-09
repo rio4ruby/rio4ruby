@@ -38,4 +38,3 @@ module RIO
   end
 end
 
-#require 'rio'

@@ -55,13 +55,11 @@ module RIO
       end
       class Range < Base
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           @select_arg === recno
         end
       end
       class Integer < Base
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           @select_arg === recno
         end
       end
@@ -71,14 +69,12 @@ module RIO
           @therio = therio
         end
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           args = [val,recno,@therio]
           @select_arg.call(*args[0,@select_arg.arity])
         end
       end
       class Symbol < Base
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           val.__send__(@select_arg)
         end
       end
@@ -92,13 +88,11 @@ module RIO
           @therio = therio
         end
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           @select_arg.all? { |sel| sel.match?(val,recno) }
         end
       end
       class Case < Base
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) select_arg=#{@select_arg}"
           @select_arg === val
         end
       end
@@ -141,7 +135,6 @@ module RIO
               @list << create_sel(therio,arg)
             end
           end
-          #p "SelList(#{args.inspect},#{@list.inspect})"
         end
         def inspect
           @list.inspect
@@ -172,33 +165,14 @@ module RIO
         end
         def create_sel(therio,arg)
           Match::Record.create(therio,arg)
-#           case arg
-#           when ::Regexp
-#             Match::Record::RegExp.new(arg)
-#           when ::Range
-#             Match::Record::Range.new(arg)
-#           when ::Proc
-#             Match::Record::Proc.new(arg,therio)
-#           when ::Symbol
-#             Match::Record::Symbol.new(arg)
-#           when ::Fixnum
-#             Match::Record::Fixnum.new(arg)
-#           when ::Array
-#             Match::Record::And.new(arg)
-#           else
-#             raise ArgumentError,"Argument must be a Regexp,Range,Fixnum,Proc, or Symbol"
-#           end
         end
         def match?(val,recno)
-          # !@list.nil? && (@list.empty? || @list.detect { |sel| sel.match?(val,recno) } || false) && true
           return false unless @list
           return true if @list.empty?
           as = nil
           al = @list.detect { |sel| as = sel.match?(val,recno)
-            #p "1: #{$1} as[match?]: #{as.inspect}"
             as
           }
-          #p "[SelList.match?] as:#{as.inspect} al:#{al.inspect}"
           return as if al
           return false
         end
@@ -256,11 +230,8 @@ module RIO
           @always == false
         end
         def match?(val,recno)
-          #p "match?(#{val},#{recno}) #{self.inspect}"
           return @always if @always
-          #return @always unless @always.nil?
           as = nil
-          #ok = ((!@sel.nil? && (as = @sel.match?(val,recno))) && !(!@rej.nil? && @rej.match?(val,recno)))
           ok = ((@sel && (as = @sel.match?(val,recno))) && !(@rej && @rej.match?(val,recno)))
           return (ok ? as : ok)
         end

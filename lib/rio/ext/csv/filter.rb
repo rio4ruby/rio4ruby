@@ -38,7 +38,6 @@ module RIO
             require 'rio/arraynge'
             ycols = _fields_to_columns(row,cx['col_args']) unless cx['col_args'].nil?
             ncols = _fields_to_columns(row,cx['nocol_args'])  unless cx['nocol_args'].nil?
-            #p "ycols=#{ycols.inspect} ncols=#{ncols.inspect}"
             if ncols and ncols.empty?
               cx['csv_columns'] = []
             elsif ycols.nil? and ncols.nil?
@@ -48,7 +47,6 @@ module RIO
               ycols = [(0..-1)] if ycols.nil? or ycols.empty?
               ncols = Arraynge.ml_arraynge(num_cols,ncols)
               ycols = Arraynge.ml_arraynge(num_cols,ycols)
-              #p "ccf: ncols=#{ncols.inspect} ycols=#{ycols.inspect}"
               cx['csv_columns'] = Arraynge.ml_diff(ycols,ncols)
             end
           end
@@ -65,7 +63,6 @@ module RIO
               ycols = [(0..-1)] if ycols.nil? or ycols.empty?
               ncols = Arraynge.ml_arraynge(num_cols,ncols)
               ycols = Arraynge.ml_arraynge(num_cols,ycols)
-              #p "ccc: ncols=#{ncols.inspect} ycols=#{ycols.inspect}"
               cx['csv_columns'] = Arraynge.ml_diff(ycols,ncols)
             end
           end
@@ -81,21 +78,9 @@ module RIO
             end
           end
           def _trim_row(row)
-            #p "ncols=#{cx['nocol_args'].inspect} ycols=#{cx['col_args'].inspect}"
-            # unless cx['fields_args'].nil?
-#               ftc = _fields_to_columns(row,cx['fields_args'])
-#               p "ftc=#{ftc.inspect}"
-#               unless ftc.empty?
-#                 cx['csv_columns'] ||= []
-#                 cx['csv_columns'] += ftc
-#               end
-#             end
-#             p "csv_columns=#{cx['csv_columns'].inspect}"
-
             _calc_csv_fields(row)
             return row if cx['csv_columns'].nil?
 
-            #cols = _trim_col(row.size-1,cx['csv_columns'])
             cols = cx['csv_columns']
             case row
             when ::CSV::Row
@@ -132,9 +117,7 @@ module RIO
 
 
           def each_line(*args,&block)
-            # p self
             while raw_rec = self.shift()
-              # p "RAW_REC=#{raw_rec}"
               case cx['stream_itertype']
               when 'lines' 
                 yield _trim(raw_rec).to_csv(*cx['csv_args'])
@@ -175,7 +158,6 @@ module RIO
       end
       module Output
         def add_csv_filter
-          #p "add_csv_filter(#{self.ioh.ios})"
           csvio = ::CSV.new(self.ioh.ios,*cx['csv_args'])
           self.ioh.ios = csvio
         end

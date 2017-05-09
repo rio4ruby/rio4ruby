@@ -22,11 +22,7 @@
 #++
 #
 
-
-#require 'rio/ioh'
 require 'rio/stream/base'
-#require 'rio/ops/stream'
-#require 'rio/ops/path'
 require 'rio/cp'
 require 'rio/piper/cp'
 require 'rio/util'
@@ -39,7 +35,6 @@ module RIO
       include Ops::Path::URI
       include Cp::Open::Output
       include Cp::Open::Input
-      ##include Piper::Cp::Input
 
       def check?() true end
 
@@ -72,9 +67,6 @@ module RIO
 
       public
 
-      #def size() self.contents.size end
-      #def empty?() self.eof? end
-
       def iostate(sym)
         if mode? && mode?.allows_both?
           open_.inout()
@@ -98,7 +90,6 @@ module RIO
 
       def stream_state(cl)
         #p callstr('stream_state',cl)
-        #p "LOOP: retry:#{cx['retrystate']} => #{cl}" 
         return nil if cx['retrystate'] == cl
         cx['retrystate'] = cl
 
@@ -172,7 +163,6 @@ module RIO
       def close_() 
         #p callstr('close_')+" mode='#{mode?}' ioh=#{self.ioh} open?=#{open?}"
         return self unless self.open? 
-        #clear_selection
         self.ioh.close 
         self.ioh = nil
         self.rl.close

@@ -70,7 +70,6 @@ module RIO
           end
         end
         def each(&block)
-          p "Hello Mr. Phelps"
           names.each { |ent|
             @entidx += 1
             yield entpath(ent)

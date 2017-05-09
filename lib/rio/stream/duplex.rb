@@ -32,7 +32,6 @@ module RIO
       module Ops
         module Output
           def wclose()
-            p "wclose #{self}"
             ioh.close_write
             return self.close.softreset if ioh.closed?
             self
@@ -50,8 +49,6 @@ module RIO
       module Ops
         extend RIO::Fwd
         def base_state() 'Stream::Duplex::Close' end
-        #def ior() fibproc.pipe.rd end
-        #def iow() fibproc.pipe.wr end
         def ior() ioh() end
         def iow() ioh end
       end
@@ -62,13 +59,11 @@ module RIO
         def output() stream_state('Stream::Duplex::Output') end
         def input()  stream_state('Stream::Duplex::Input')  end
         def inout()  stream_state('Stream::Duplex::InOut')  end
-        #def fibproc() input.fibproc() end
         protected
 
         def open_(*args)
           #p callstr('open_',args.inspect)+" mode='#{mode?}' (#{mode?.class}) ioh=#{self.ioh} open?=#{open?}"
           self.ioh = self.rl.open(mode?,*args) unless open?
-          #p data
           self
         end
       end
@@ -82,28 +77,19 @@ module RIO
         include Ops
         fwd :data,:fibproc
         def base_state() 'Stream::Duplex::Close' end
-        #include Ops::Output
       end
       
       class InOut < RIO::Stream::InOut
         include Ops
         fwd :data,:fibproc
         def base_state() 'Stream::Duplex::Close' end
-        #include Ops::Output
-        #include Ops::Input
         def get()
           until self.eof?
             raw_rec = self._get_rec
             return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
           end
-          #loop do
-          #  raw_rec = self._get_rec
-          #  return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
-          #  break if self.eof?
-          #end
           self.close if closeoneof?
           nil
-#          (closeoneof? ? self.on_eof_close{ nil } : nil)
         end
 
       end

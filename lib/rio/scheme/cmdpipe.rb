@@ -130,9 +130,6 @@ module RIO
           nrio = new_rio(self,ario)
           has_output_dest?(nrio) ? nrio.run :  nrio
         end
-        #def last_rio(r)
-        #  r.scheme == 'cmdpipe' ? last_rio(r.rl.query[-1]) : r
-        #end
         def last_rio(r)
           r = r.rl.query[-1] while r.scheme == 'cmdpipe'
           r
@@ -159,7 +156,6 @@ module RIO
           orio.touch if orio && orio.scheme.nil? # TODO: is this right???
           output = Cmd::ToOutput.new(orio)
           output.resume procs + [input]
-          #p "RUN orio.scheme=#{orio.scheme}"
           orio
         end
 

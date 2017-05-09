@@ -36,15 +36,6 @@ module RIO
       def autoclosed?
         @autoclosed
       end
-#       def close_on_eof_raise(&block)
-#         begin
-#           rtn = yield
-#         rescue EOFError
-#           close_on_eof_(rtn)
-#           raise
-#         end
-#         rtn
-#       end
       def close_on_eof(&block)
         #p callstr('close_on_eof',rtn)
         rtn = yield

@@ -14,8 +14,6 @@ module RIO
       end
 
       def method_missing(sym,*args,&block)
-        #a = convert_args(args)
-        # puts "FS::Handle:method_missing(#{sym.inspect},#{args.inspect}) #{@fs.inspect}"
         @fs.__send__(sym,*args,&block)
       end
     end
@@ -123,7 +121,6 @@ module RIO
       FS_ENCODING = Dir.pwd.encoding
       attr_reader :file,:dir
       def initialize(*args)
-        #p "RIO::FS::Local.initialize(#{args}) pwdenc=#{}"
         @file = ::File
         @test = ::FileTest
         @dir  = ::Dir
@@ -147,13 +144,10 @@ module RIO
       include RIO::FS::Fwd::Dir
       include RIO::FS::Fwd::Util
 
-
-
     end
-
-
   end
 end
+
 module RIO
   module FS
     LOCAL = Handle.new(Local.new)

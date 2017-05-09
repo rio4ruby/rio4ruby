@@ -22,26 +22,6 @@
 #++
 #
 
-
-# begin
-#   require 'faster_csv'  # first choice--for speed
-
-#   # A CSV compatible interface for FasterCSV.
-#   module CSV  # :nodoc:
-#     def self.parse_line( line, field_sep=nil, row_sep=nil )
-#       FasterCSV.parse_line( line, :col_sep => field_sep || ",",
-#                                   :row_sep => row_sep   || :auto )
-#     end
-
-#     def self.generate_line( array, field_sep=nil, row_sep=nil )
-#       FasterCSV.generate_line( array, :col_sep => field_sep || ",",
-#                                       :row_sep => row_sep   || "" )
-#     end
-#   end
-# rescue LoadError
-#   require 'csv'         # second choice--slower but standard
-# end
-
 class StringIO
   def to_io() self end
 end
@@ -154,7 +134,6 @@ module RIO
           self.ior.gets
         end
         def cpto_string_(arg)
-          #p "CSV: cpto_string_(#{arg}) itertype=#{cx['stream_itertype']}"
           if cx['stream_itertype'].nil?
             get_type('lines') { super }
           else
@@ -347,8 +326,6 @@ module RIO
         def _ary_to_line(ary,*csv_args)
           rs ||= $/
           _csv_options(csv_args)
-          #h = {:col_sep => fs, :row_sep => rs}
-          #p 'HERE',csv_args
           ::CSV.generate_line(ary,*csv_args)
         end
         public

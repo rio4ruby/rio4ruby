@@ -35,7 +35,6 @@ module RIO
         super(::Alt::URI.parse(u))
       end
       def open(*args)
-        #self.ios = $stderr
         super($stderr)
       end
     end

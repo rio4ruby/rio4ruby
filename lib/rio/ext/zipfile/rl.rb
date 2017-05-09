@@ -30,7 +30,6 @@ module RIO
   module ZipFile #:nodoc: all
     module RootDir
       RESET_STATE = 'ZipFile::State::Reset'
-      #RESET_STATE = RIO::RL::PathBase::RESET_STATE
       
       require 'rio/rl/base'
       class RL < RIO::RL::Base 
@@ -57,7 +56,6 @@ module RIO
           IOH::Dir.new(ZipFile::Wrap::Stream::Root.new(@zipfile))
         end
         def close()
-          p "CLOSING ZIPFILE RL"
         end
         def path()
           @infilepath
@@ -66,7 +64,6 @@ module RIO
           @infilepath
         end
         def base(*args) 
-          #p "base: #{args.inspect}"
           '' 
         end
         def path_no_slash() self.path.to_s.sub(/\/$/,'') end
@@ -114,127 +111,3 @@ end
 
 
 __END__
-    module Dir
-      require 'rio/rl/path'
-      RESET_STATE = RIO::RL::PathBase::RESET_STATE
-      require 'tmpdir'
-      class RL < RIO::RL::PathBase 
-        RIOSCHEME = 'tempdir'
-        DFLT_PREFIX = Temp::RL::DFLT_PREFIX
-        DFLT_TMPDIR = Temp::RL::DFLT_TMPDIR
-        attr_reader :prefix,:tmpdir,:tmprl
-        def initialize(file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-          #puts "initialize(#{file_prefix.inspect},#{temp_dir.inspect})"
-          @prefix = file_prefix || DFLT_PREFIX
-          @tmpdir = temp_dir || DFLT_TMPDIR
-          require 'rio/tempdir'
-          @td = ::Tempdir.new( @prefix.to_s, @tmpdir.to_s)
-          super(@td.to_s)
-        end
-        def dir_rl() 
-          RIO::Dir::RL.new(self.uri, {:fs => self.fs})
-          #self 
-        end
-        SPLIT_RE = Temp::RL::SPLIT_RE
-        def self.splitrl(s)
-          Temp::RL.splitrl(s)
-        end
-      end
-    end
-    module File
-      require 'rio/rl/path'
-      RESET_STATE = 'Temp::Stream::Open'
-      class RL < RIO::RL::PathBase 
-        RIOSCHEME = 'tempfile'
-        DFLT_PREFIX = Temp::RL::DFLT_PREFIX
-        DFLT_TMPDIR = Temp::RL::DFLT_TMPDIR
-        attr_reader :prefix,:tmpdir,:tmprl
-        def initialize(file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-          #puts "initialize(#{file_prefix.inspect},#{temp_dir.inspect})"
-          @prefix = file_prefix || DFLT_PREFIX
-          @tmpdir = temp_dir || DFLT_TMPDIR
-          require 'tempfile'
-          @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
-          super(@tf.path)
-        end
-        def file_rl() 
-        RIO::File::RL.new(self.uri,{:fs => self.fs})
-          #self 
-        end
-        def open(mode='ignored')
-          #p callstr('open',mode)
-          @tf
-        end
-        def close 
-          super
-          @tf = nil
-        end
-        SPLIT_RE = Temp::RL::SPLIT_RE
-        def self.splitrl(s)
-          Temp::RL.splitrl(s)
-        end
-      end
-    end
-    require 'rio/state'
-    class Reset < State::Base
-      def initialize(*args)
-        super
-        #p args
-        @tempobj = nil
-      end
-      #def self.default_cx
-      #  Cx::Vars.new( { 'closeoneof' => false, 'closeoncopy' => false } )
-      #end
-
-      def check?() true end
-      def mkdir(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::Dir::RL.new(prefix, tmpdir)
-        become 'Dir::Existing'
-      end
-#      def mkdir()
-#        dir()
-#      end
-      def chdir(&block)
-        self.mkdir.chdir(&block)
-      end
-      def file(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        self.rl = RIO::Temp::File::RL.new(prefix, tmpdir)
-        become 'Temp::Stream::Open'
-      end
-      def scheme() rl.scheme() end
-      def host() rl.host() end
-      def opaque() rl.opaque() end
-      def to_s() rl.url() end
-      def exist?() false end
-      def file?() false end
-      def dir?() false end
-      def open?() false end
-      def closed?() true end
-      def when_missing(sym,*args)
-        #p @rl.scheme
-        if @tempobj.nil?
-          file()
-        else
-          gofigure(sym,*args)
-        end
-      end
-    end
-    require 'rio/stream/open'
-    module Stream
-      class Open < RIO::Stream::Open
-        def iostate(sym)
-          mode_('w+').open_.inout()
-        end
-#        def inout() stream_state('Temp::Stream::InOut') end
-      end
-#      require 'rio/stream'
-#      class InOut < RIO::Stream::InOut
-#        def base_state() 'Temp::Stream::Close' end
-#      end
-#      class Close < RIO::Stream::Close
-#        def base_state() 'Temp::Reset' end
-#      end
-
-    end
-  end
-end

@@ -22,15 +22,6 @@
 #++
 #
 
-
-# 
-# = open3.rb
-#
-# = Rio
-#
-#
-
-
 require 'rio'
 require 'open3'
 

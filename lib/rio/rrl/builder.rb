@@ -35,7 +35,6 @@ module RIO
         return rl
       end
       def self.build(*a)
-        #puts "build: #{a.inspect} (#{a.map(&:class).inspect})" 
         a.flatten!
         a.push('') if a.empty?
         case a[0]
@@ -46,7 +45,6 @@ module RIO
         when ?$
           a[0] = 'rio:strio:'
         when ::String
-          #p a[0].encoding,a[0]
           case a[0]
           when /^[a-zA-Z]:/
             a[0] = 'rio:file:///'+a[0]
@@ -55,10 +53,8 @@ module RIO
           when %r|^//|
             a[0] = 'rio:file:'+a[0]
           when %r|^/|
-              a[0] = 'file://'+a[0]
-#            return Factory.instance.riorl_class('file').new(*a)
+            a[0] = 'file://'+a[0]
           else
-            #a[0] = 'path:'+a[0]
             return Factory.instance.riorl_class('path').new(*a)
           end
         when RIO::Rio
@@ -110,9 +106,7 @@ module RIO
         a0 = a.shift
         sch = /^(rio:)?([^:]+):/.match(a0)[2]
 
-        #sch = Base.subscheme(a0)
         cl = Factory.instance.riorl_class(sch)
-        #p "cl=#{cl} a=#{a.inspect}"
         cl.parse(a0,*a)  unless cl.nil?
 
       end

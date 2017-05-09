@@ -59,7 +59,6 @@ module RIO
     end
 
     def self.arraynge(mx,rng)
-      #p "arraynge(#{mx},#{rng})"
       begr = rng.begin
       mxlim = (rng.exclude_end? ? mx.succ : mx)
       endr = (rng.end > mxlim ? mxlim : rng.end)
@@ -78,7 +77,6 @@ module RIO
     def self.reduce(rl)
       return rl if rl.empty?
       rl = rl.sort {|a,b| a.begin <=> b.begin}
-      #p rl
       (1...rl.size).inject([rl[0]]) do |ans,i|
         ans[0...ans.size-1] + reduce_ranges(ans[-1],rl[i])
       end

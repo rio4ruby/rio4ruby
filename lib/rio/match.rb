@@ -28,7 +28,6 @@ module RIO
     module Common
 
       def ss_type?(keys)
-        #p cx,keys
         case cx['ss_type']
         when nil
           keys[0]

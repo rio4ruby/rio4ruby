@@ -55,7 +55,6 @@ module RIO
         def to_io() ioh ? ioh.to_io : nil end
         def tty?() ioh ? ioh.tty? : false end
         def isatty() ioh ? ioh.isatty : false end
-        # def binmode() rtn_self { self.ioh.binmode } end
         def flush() rtn_self { self.ioh.flush } end
         def fsync() rtn_self { self.ioh.fsync } end
         def seek(amount,whence=IO::SEEK_SET) rtn_self { self.ioh.seek(amount,whence) } end

@@ -41,7 +41,6 @@ module RIO
         @explicit = @explicit.clone
       end
       BEQUEATH_KEYS = %w[chomp strip rename closeoneof closeoncopy]
-      #BEQUEATH_KEYS = %w[chomp strip rename]
       def bequeath(oldcx)
         keys = BEQUEATH_KEYS
         ncx = oldcx.clone

@@ -28,12 +28,10 @@ module Alt
 
       def self.escape(str,arg)
         tmp = ""
-        # p "escape: #{es(str)}"
         table = (::Symbol === arg ? CHAR_TABLE[arg] : arg)
         str.each_byte do |b|
           tmp << table[b]
         end
-        #p "escape: tmp=#{es(str)} str.enc=#{str.encoding}"
         tmp.encode(str.encoding)
       end
 
@@ -52,12 +50,10 @@ module Alt
       UNESCAPE_HASH = build_unescape_hash
 
       def self.unescape(estr)
-        #p "ESTR: #{estr}"
         ustr = ""
         pos = 0
         while npos = estr.index('%',pos)
           uh = UNESCAPE_HASH[estr[npos,3].upcase]
-          #p "UH: #{uh.inspect} npos:#{npos} pos:#{pos}"
           ustr << estr[pos,npos-pos] << uh
           pos = npos +3
         end

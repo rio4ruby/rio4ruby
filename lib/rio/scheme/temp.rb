@@ -34,10 +34,7 @@ module RIO
       RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
       DFLT_PREFIX = 'rio'
       DFLT_TMPDIR = ::Dir::tmpdir
-      # p 'DFLT_TMPDIR=' + DFLT_TMPDIR 
       def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
-        # p "Temp::RRL::initialize u=#{u} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
-        # puts "Temp::RRL CALLER: ",caller[0..8]
         alturi = case u
                  when ::Alt::URI::Base then u
                  else ::Alt::URI.parse(u.to_s)
@@ -45,11 +42,7 @@ module RIO
         prefix = alturi.query || file_prefix.to_s
         tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
           temp_dir.to_s : alturi.path
-        #alturi = ::Alt::URI.create(:scheme => 'temp', :path => temp_dir,
-        #                           :query => file_prefix)
-        # p 'HERE'
         super(alturi)
-        # p "alturi=#{alturi}"
         self.path = tmpdir
         self.query = prefix
       end
@@ -73,7 +66,6 @@ module RIO
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'rio/tempdir'
-          # p "Temp::Dir u=#{u.inspect} file_prefix=#{file_prefix} temp_dir=#{temp_dir}"
           alturi = case u
                    when ::Alt::URI::Base then u
                    else ::Alt::URI.parse(u.to_s)
@@ -81,14 +73,9 @@ module RIO
           prefix = alturi.query || file_prefix.to_s
           tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
              temp_dir.to_s : alturi.path
-          #p "Temp::Dir prefix=#{prefix} tmpdir=#{tmpdir}"
           td = ::Tempdir.new( prefix, tmpdir)
-          #td = "file:///" + td if td.to_s =~ /^[a-zA-Z]:/
-          #p "Temp::Dir td=#{td.to_s.inspect}"
           td = "file:///" + td.to_s if td.to_s =~ /^[a-zA-Z]:/
           super(td.to_s)
-          #self.query = file_prefix.to_s
-          #self.path = temp_dir.to_s
         end
         extend RIO::Fwd
         fwd :uri, :path, :query
@@ -110,8 +97,6 @@ module RIO
 
         def initialize(u,file_prefix=DFLT_PREFIX,temp_dir=DFLT_TMPDIR)
           require 'tempfile'
-           #p "Temp::File::initialize u=#{u.inspect} file_prefix=#{file_prefix.inspect} temp_dir=#{temp_dir.inspect}"
-          # puts "Temp::File CALLER: ",caller[0..8]
           # FIXME: Temporary fix for jruby 1.4 - make tmpdir absolute
           #tmpdir_rio = rio(@tmpdir).abs
           alturi = case u
@@ -121,25 +106,15 @@ module RIO
           prefix = alturi.query || file_prefix.to_s
           tmpdir = (alturi.path.nil? || alturi.path.empty?) ? 
              temp_dir.to_s : alturi.path
-          # p "Temp::File::initialize alturi=#{alturi} prefix=#{prefix} tmpdir=#{tmpdir}"
 
           @tf = ::Tempfile.new( prefix, tmpdir)
-
-          #puts "TF=#{@tf.inspect}"
-          # @tf = ::Tempfile.new( @prefix.to_s, @tmpdir.to_s)
 
           # FIXME: Temporary fix for jruby 1.4 - fix slashes
           pth =  @tf.path
           pth.gsub!("\\","/")
           pth = "file:///" + pth if pth =~ /^[a-zA-Z]:/
 
-          #p "PTH=#{pth}"
-          # @tf = "file:///" + @tf if @tf.to_s =~ /^[a-zA-Z]:/
-          #
-          #p "Temp::File pth=#{pth.inspect}"
           super(::Alt::URI.parse(pth))
-          #self.query = file_prefix
-          #self.path = temp_dir
         end
         extend RIO::Fwd
         fwd :uri, :path, :query
@@ -159,7 +134,6 @@ module RIO
     class Reset < State::Base
       def initialize(*args)
         super
-        #p args
         @tempobj = nil
       end
       def self.default_cx
@@ -168,13 +142,9 @@ module RIO
 
       def check?() true end
       def mkdir(prefix=rl.prefix,tmpdir=rl.tmpdir)
-        # p "scheme/temp.rb mkdir(): prefix="+prefix+" tmpdir="+tmpdir
         self.rl = RIO::Temp::Dir::RRL.new("",prefix, tmpdir)
         become 'Dir::Existing'
       end
-#      def mkdir()
-#        dir()
-#      end
       def chdir(&block)
         self.mkdir.chdir(&block)
       end

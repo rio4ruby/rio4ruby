@@ -15,20 +15,6 @@ module Alt
         }
       end
 
-      #RE_PARTS = /^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/
-    #   RE_GENERIC0 = %r{
-    #  (?<scheme>      [^:/?#]+   ){0}
-    #  (?<authority>   [^/?#]*    ){0}
-    #  (?<path>        [^?#]*     ){0}
-    #  (?<query>       [^#]*      ){0}
-    #  (?<fragment>    .*         ){0}
-
-    #  (      \g<scheme>     :   )?
-    #  (  //  \g<authority>      )?
-    #         \g<path>
-    #  (  \?  \g<query>          )?
-    #  (  \#  \g<fragment>       )?
-    # }x
       RE_GENERIC = %r{
      (?:      (  [^:/?#]+  )  :  )?
      (?:  //  (  [^/?#]*   )     )?
@@ -36,21 +22,6 @@ module Alt
      (?:  \?  (  [^#]*     )     )?
      (?:  \#  (  .*        )     )?
      }x
-
-      #def self.parse(ustr)
-      #  parse_re(ustr,RE_GENERIC)
-      #end
-
-      #authority   = [ userinfo "@" ] host [ ":" port ]
-      #RE_AUTHORITY0 = %r{
-      #(?<userinfo>      [^@]+   ){0}
-      #(?<host>          [^:]*   ){0}
-      #(?<port>          .*      ){0}
-      #
-      #(      \g<userinfo> @   )?
-      #      \g<host>
-      #(   :  \g<port>         )?
-      #}x
 
       RE_AUTHORITY = %r{
      (?:      (  [^@]+  )   @   )?

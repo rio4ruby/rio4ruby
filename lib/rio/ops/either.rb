@@ -61,7 +61,6 @@ module RIO
           else
             rtn_reset { 
               dst = args.shift.to_s
-              #p "rename: #{self} => #{dst}"
               fs.mv(uri.path,dst,*args) unless uri.path == dst
             } 
           end
@@ -73,7 +72,6 @@ module RIO
             rtn_reset { 
               cpath = uri.path
               uri.path = args.shift.to_s
-              #p "rename!: #{cpath} => #{uri.path}"
               fs.mv(cpath,uri.path,*args) unless uri.path == cpath
             } 
           end

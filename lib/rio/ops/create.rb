@@ -32,13 +32,11 @@ module RIO
             uri.clone.join(*args)
           }
         end
-        #alias :catpath :join
         def join!(*args)
           rtn_reset {
             uri.join(*args)
           }
         end
-        #alias :catpath! :join!
         def /(arg)
           join(arg)
         end

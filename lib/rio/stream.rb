@@ -38,17 +38,12 @@ require 'rio/ops/stream/input'
 require 'rio/ops/stream/output'
 require 'rio/ext'
 require 'rio/filter/gzip'
-#require 'rio/filter/yaml'
-#require 'rio/filter/chomp'
-#require 'rio/filter/strip'
-#require 'rio/filter/closeoneof'
 
 module RIO
 
   module Stream #:nodoc: all
     class Reset < Base
       # Mixin the appropriate ops
-      #include Ops::Path::Str
       include Ops::Stream::Reset
 
       def check?() true end
@@ -56,8 +51,6 @@ module RIO
     end
 
     class IOBase < Base
-
-
       # Mixin the appropriate ops
       include Ops::Path::Str
       include Ops::Stream::Status
@@ -84,9 +77,6 @@ module RIO
           ioh.extend(mod)
         end
       end
-#      def open_(*args)
-#        self
-#      end
       def rectype_mod
         case cx['stream_rectype']
         when 'lines' then RIO::RecType::Lines
@@ -103,7 +93,6 @@ module RIO
         super
         @recno = -1
         @get_selrej,@get_rangetops = create_selrej()
-        # @cursor = io_enum
         self
       end
     end
@@ -112,13 +101,11 @@ module RIO
       include Ini
       include Filters
 
-
       def add_extensions()
         #p callstr('add_extensions')
         Ext::Input.add_extensions(self)
       end
       def add_filters
-        #p "IN stream#add_filters"
         if gzip?
           gz = Zlib::GzipReader.new(self.ioh.ios)
           gz.extend Filter::GZipMissing
@@ -130,16 +117,8 @@ module RIO
           require 'rio/ext/csv/filter' if $USE_FASTER_CSV
           self.extend(::RIO::Ext::CSV::Input)
           add_csv_filter() if $USE_FASTER_CSV
-#          csvio = CSV.new(self.ioh.ios,*cx['csv_args'])
-#          self.ioh.ios = csvio
         end
-       #add_filter(Filter::YAML) if yaml?
         add_line_filters()
-#        add_filter(Filter::FasterCSV) if csv?
-#        if closeoneof?
-#          add_filter(Filter::CloseOnEOF)
-#          ioh.oncloseproc = proc { self.on_closeoneof }
-#        end
         self
       end
       def add_rec_methods()
@@ -167,11 +146,7 @@ module RIO
           require 'rio/ext/csv/filter'  if $USE_FASTER_CSV
           self.extend(::RIO::Ext::CSV::Output)
           add_csv_filter() if $USE_FASTER_CSV
-#          csvio = CSV.new(self.ioh.ios,*cx['csv_args'])
-#          self.ioh.ios = csvio
         end
-        #add_filter(Filter::FasterCSV) if csv?
-        #add_filter(Filter::YAML) if yaml?
         self
       end
 
@@ -194,11 +169,6 @@ module RIO
 
       def add_filters
         add_line_filters()
-
- #       if closeoneof?
- #         add_filter(Filter::CloseOnEOF)
- #         ioh.oncloseproc = proc { self.on_closeoneof }
- #       end
         self
       end
 

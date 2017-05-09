@@ -22,7 +22,6 @@
 #++
 #
 
-
 require 'yaml'
 require 'delegate'
 

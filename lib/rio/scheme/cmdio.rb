@@ -40,7 +40,6 @@ module RIO
       
       attr_reader :ior,:iow
       def initialize(u,*a)
-        # p "CMDIO initialize: u=#{u.inspect} a=#{a.inspect}"
         super(u)
         a = a.map(&:to_s)
         com = case c = a.shift
@@ -67,8 +66,6 @@ module RIO
       alias :cmd :path
       alias :args :query
       def fib_proc(m)
-        #fibproc
-        #p "CMD=#{cmd},args=#{args.inspect}"
         poargs = args.nil? ? cmd : [cmd,args]
         if m.allows_write?
           Cmd::FibPipeProc.new(poargs,m.to_s)
@@ -82,7 +79,6 @@ module RIO
       end
       def open(m)
         poarg = args.nil? ? cmd : [cmd,args].flatten
-        #p "CMDIO poarg=#{poarg.inspect}"
         io = IO.popen(poarg,m.to_s)
         super(io)
       end
@@ -97,14 +93,6 @@ module RIO
         
         def cmd() rl.path end
         def cmd_args() rl.query end
-        #def cmd_str() [cmd,cmd_args].flatten.join(' ') end
-        #def |(arg)
-        #  #p "CMDIO#| #{self}|#{arg}"
-        #  nrio = new_rio(:cmdpipe,self,arg)
-        #  end_rio = nrio.rl.query[-1]
-        #  p "CmdIO#end_rio=#{end_rio}"
-        #  nrio
-        #end
       end
     end
   end

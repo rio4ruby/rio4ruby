@@ -62,19 +62,14 @@ module RIO
       def each_line(sep_string=$/,&block) self end
       def each_byte(sep_string=$/,&block) self end
       def eof?() true end
-      #def fcntl(integer_cmd,arg) notsupported(:fcntl) end
-      #def fileno() notsupported(:fileno) end
-      #def to_i() notsupported(:to_i) end
       def flush() nil end
       def fsync() nil end
       def getc() nil end
       def gets(sep_string=$/) nil end
-      #def ioctl(integer_cmd,arg) notsupported(:ioctl) end
       def tty?() false end
       def isatty() tty? end
       def lineno() @lineno end
       def lineno=(a) @lineno = a; lineno() end
-      #def pid() notsupported(:pid) end
       def pos() 0 end
       def tell() pos() end
       def pos=(v) @pos = v; pos end
@@ -90,13 +85,6 @@ module RIO
       def reopen(*args) self end
       def rewind() 0 end
       def seek(amount,whence) 0 end
-      #def stat() notsupported(:stat) end
-      #def sync() notsupported(:sync) end
-      #def sync=(v) notsupported(:sync=) end
-      #def sysread() notsupported(:sysread) end
-      #def sysseek() notsupported(:sysseek) end
-      #def syswrite() notsupported(:syswrite) end
-      #def ungetc() notsupported(:ungetc) end
       def write(str) str.length end
       
       def callstr(func,*args)

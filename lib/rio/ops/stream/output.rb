@@ -22,7 +22,6 @@
 #++
 #
 
-
 require 'rio/cp'
 
 module RIO
@@ -76,7 +75,6 @@ module RIO
 
         def copyclose()
           #p "#{callstr('copyclose')} closeoncopy=#{cx['closeoncopy']} iow=#{iow}"
-          #raise RuntimeError,"copclose"
           if cx['closeoncopy']
             wclose
           else

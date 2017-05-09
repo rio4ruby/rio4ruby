@@ -39,13 +39,10 @@ module RIO
         _init_connection()
       end
       def remote_root
-        #p "conncache: remote_root=#{@remote_root.inspect}"
         @remote_root
       end
       def _init_connection
-        #p "_init_connection: uri=#{@uri.inspect}"
         @netftp = ::Net::FTP.new()
-        #p @uri.host,@uri.port
         @netftp.connect(@uri.host,@uri.port||21)
         if @uri.user
           @netftp.login(@uri.user,@uri.password)
@@ -54,8 +51,6 @@ module RIO
         end
         @remote_root = @netftp.pwd
         @encoding = @remote_root.encoding
-        #p "FTP._init_connection @remote_root=#{remote_root} enc=#{@remote_root.encoding}"
-        # @remote_root = '' if @remote_root == '/'
       end
       def method_missing(sym,*args,&block)
         @netftp.__send__(sym,*args,&block)
@@ -76,14 +71,6 @@ module RIO
         key = urikey(uri)
         unless @conns.has_key?(key)
           @conns[key] = Connection.new(uri)
-#          c = @conns[key]
-#          ObjectSpace.define_finalizer(c,proc { 
-#                                         p "Quit and Close #{uri}"
-#                                         if c and !c.closed?
-#                                           c.quit 
-#                                           c.close
-#                                         end
-#                                       })
           @count[key] = 0
         end
         @count[key] += 1
@@ -92,7 +79,6 @@ module RIO
       def close(uri)
         key = urikey(uri)
         @count[key] -= 1
-        #p "Closed #{uri} count=#{@count[key]}"
       end
     end
   end

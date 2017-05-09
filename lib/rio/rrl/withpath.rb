@@ -25,13 +25,7 @@
 require 'rio/alturi'
 require 'rio/uriref'
 require 'rio/fwd'
-
-#require 'rio/local'
-#require 'rio/rrl/chmap'
-#require 'rio/rrl/base'
-
 require 'rio/exception/notimplemented'
-#require 'rio/rrl/builder'
 require 'rio/fs'
 
 module RIO
@@ -51,22 +45,12 @@ module RIO
       # returns an appriate FS object for the scheme
       def openfs_() nodef() end
 
-      # returns the path portion of a URL. All spaces would be %20
-      # returns a String
-      #def urlpath() nodef() end
-      #def urlpath=(arg) nodef(arg) end
-
       # For RLs that are on the file system this is fspath()
       # For RLs that are remote (http,ftp) this is urlpath()
       # For RLs that have no path this is nil
       # returns a String
       def path() nodef{} end
       def path=(arg) nodef(arg) end
-
-      # returns A URI object representation of the RL if one exists
-      # otherwise it returns nil
-      # returns a URI
-      #def uri() nodef() end
 
       # when the URL is legal it is the URI scheme
       # otherwise it is one of Rio's schemes
@@ -121,7 +105,6 @@ module RIO
       end
       def pathdepth()
         pth = self.path_no_slash
-        #is_root?(pth) ? 0 : pth.count('/')
         pth.count('/')
       end
 
@@ -133,21 +116,13 @@ module RIO
       fwd :uri, :host, :port, :userinfo, :netpath, :user, :password
 
       def absolute?
-        #p 'rrl/withpath.rb absolute?'
         uri.absolute?
       end
-      #def abs?
-      #  p 'rrl/withpath.rb abs?'
-      #  uri.absolute?
-      #nd
-      #fwd :uri, :base
       def base
-        #p "IN BASE: uri=#{uri.inspect}" 
         uri.base
       end
 
       def base=(other)
-        #p "IN BASE: uri=#{uri.inspect}" 
         uri.base = other
       end
 
@@ -165,16 +140,13 @@ module RIO
         pparts = pathpart.split("/")
         
         rootpath = ::Alt::URI.create(:scheme => scheme, :authority => authpart, :path => rootpathpart).to_s
-        #p "ROOTPATH=#{rootpath}"
         sparts = [rootpath,pparts].flatten
-        #p "SPARTS=#{sparts.inspect}"
-        #p ::Dir.getwd
         basepart = if rootpath.empty?
                      ::Alt::URI.create(:scheme => 'file', :authority => "", :path => ::Dir.getwd + "/").to_s
                    else
                      rootpath
                    end
-        #p "basepart=#{basepart}"
+
         bparts = [basepart]
         bparts << basepart.clone
 
@@ -182,7 +154,7 @@ module RIO
           basepart += sparts[n] + "/"
           bparts << basepart.clone
         end
-        #p "BPARTS=#{bparts.inspect}"
+
         if sparts[0].empty?
           sparts.shift
           bparts.shift
@@ -204,11 +176,7 @@ module RIO
       def initialize(u,*args)
         # u should be a ::URI or something that can be parsed to one
         #p callstr('initialize',u,*args)
-        #p "URIBASE u=#{u} (#{u.class}) args=#{args.inspect} "
         args,opts = _get_opts_from_args(args)
-        #opts[:fs] ||= openfs_
-        #opts[:encoding] = opts[:fs] ? opts[:fs].encoding : nil
-        #p "URIBase OPTS=#{opts.inspect} U=#{u.inspect}"
         uriref = case u
                  when ::Alt::URI::Base
                    _uriref_from_alturi(u,opts,*args)
@@ -222,10 +190,10 @@ module RIO
                  else
                    _uriref_from_alturi(::Alt::URI.parse(u.to_s,opts),opts,*args)
                  end
-        #p "URIBASE uriref=#{uriref} (#{uriref.inspect}) "
+
         super(uriref,opts[:fs])
         opts[:fs] ||= openfs_
-        #p opts[:fs]
+
         self.uri.parts.encoding ||= opts[:fs].encoding
       end
 
@@ -233,8 +201,6 @@ module RIO
 
       def _uriref_from_alturi(alturi,opts,*args)
         alturi.join(*args)
-        #p "ZIPPY #{alturi.absolute?} #{alturi.inspect} opts=#{opts.inspect}"
-        #p "withpath: _uriref_from_alturi enc=#{opts[:encoding].inspect}"
         ::RIO::URIRef.build(alturi,opts)
       end
       def _get_opts_from_args(args)
@@ -249,7 +215,6 @@ module RIO
 
       def self.parse(*a)
         u = a.shift.sub(/^rio:/,'')
-        #p "URIBASE#parse u=#{u} (#{u.class}) args=#{a.inspect} "
         new(u,*a)
       end
       def initialize_copy(other)
@@ -257,7 +222,6 @@ module RIO
       end
       def openfs_()
         #p callstr('openfs_')
-        #p "URIBase: openfs_  enc=#{::Dir.pwd.encoding}"
         self.fs || RIO::FS::LOCAL
       end
     end

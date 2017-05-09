@@ -22,14 +22,9 @@
 #++
 #
 
-
-#require 'rio/context/cxx.rb'
-#require 'rio/iomode'
-
 require 'rio/context/stream'   
 require 'rio/context/dir'   
 require 'rio/context/skip'   
-#require 'rio/filter'   
 require 'rio/context/autoclose'   
 require 'rio/context/gzip'   
 require 'rio/context/copying'   
@@ -58,6 +53,5 @@ module RIO
       protected :binmode_
     end
   end
-
 
 end

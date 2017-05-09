@@ -22,7 +22,6 @@
 #++
 #
 
-
 require 'yaml'
 
 module RIO
@@ -33,7 +32,6 @@ module RIO
           cxx('yaml',true,&block) 
         end
         def yamldoc(&block) 
-          #@yamldoc = YAML::Tie::Doc.new(self.fspath).open
           become('Ext::YAML::Doc::Existing')
         end
         def yaml?() cxx?('yaml') end 
@@ -111,25 +109,12 @@ module RIO
         protected
 
         def cpfrom_(arg)
-          #p "yaml#cpfrom_(#{arg})"
           case arg
-          #when ::Array then cpfrom_array_(arg)
           when Rio,::IO,::StringIO then super
           else self.put_(arg)
           end
           self
         end
-#        def cpfrom_array_(array)
-#          array.each { |el|
-#            self.put_(el)
-#          }
-#          self
-#        end
-#        def cpfrom_rio_(ario)
-#          p "yaml#cpfrom_rio_(#{ario})"
-#          ioh.puts(::YAML.dump_stream(*ario[]))
-#          self
-#        end
         def put_(obj)
           #p callstr('put_',obj)
           ioh.puts(obj.to_yaml)

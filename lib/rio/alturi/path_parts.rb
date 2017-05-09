@@ -48,9 +48,7 @@ module Alt
         private
 
         def _en_pos(path,extnm=nil)
-          # p "en_pos(#{path},#{extnm.inspect})"
           en = extnm || ::File.extname(path)
-          # p "en = #{en.inspect}"
           [path.rindex(en),en.length]
         end
         def _bn_pos(path,exnam=nil)

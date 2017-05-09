@@ -22,7 +22,6 @@
 #++
 #
 
-
 module RIO
   module Piper #:nodoc: all
     module Cp
@@ -62,35 +61,21 @@ module RIO
       end
       module Input
         include Util
-        #def last_rio(r)
-        #  r.scheme == 'cmdpipe' ? last_rio(r.rl.query[-1]) : r
-        #end
         def last_rio(r)
           r = r.rl.query[-1] while r.scheme == 'cmdpipe'
           r
         end
-        #define_method(:last_rio) do |r|
-        #  if r.scheme == 'cmdpipe'
-        #    r = r.rl.query[-1]
-        #    redo
-        #  else
-        #    r
-        #  end
-        #end
         def has_output_dest?(nrio)
           !%w[cmdio cmdpipe].include?(last_rio(nrio).scheme)
         end
 
         def |(arg)
-          #p 'HERE 3'
           ario = ensure_cmd_rio(arg)
           nrio = new_rio(:cmdpipe,self.clone_rio,ario)
           
           if has_output_dest?(nrio) 
-            #p 'nrio.run'
             nrio.run 
           else
-            #p 'nrio'
             nrio
           end
 

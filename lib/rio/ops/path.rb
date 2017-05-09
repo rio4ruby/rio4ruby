@@ -24,7 +24,6 @@
 
 
 require 'rio/fwd'
-#require 'rio/impl/path'
 require 'rio/ops/create'
 require 'rio/ops/construct'
 module RIO
@@ -85,20 +84,14 @@ module RIO
             nrio = new_rio(rl.abs)
             nrio
           else
-            #new_rio(rl,{:base => ensure_rio(base).abs.to_uri}).abs
             brio = ensure_rio(base)
             new_rio(rl.abs(ensure_rio(base).to_s))
           end
         end
         def absolute?
-          #p "ops/path.rb absolute?"
           rl.absolute?
         end
         alias :abs? :absolute?
-        #def abs?
-        #  p "ops/path.rb abs?"
-        #  rl.abs?
-        #end
         def route_from(other)
           this_uri = rl.uri.abs
           other_uri = ensure_rio(other).rl.uri.abs
@@ -121,7 +114,6 @@ module RIO
           new_rio(rl.merge(ensure_rio(other).rl))
         end
         def base()
-          #p "BASE: " + rl.class.to_s
           new_rio(rl.base())
         end
         def setbase(b)
@@ -158,12 +150,6 @@ module RIO
             parts << new_rio(sparts[n], {:base => bparts[n]})
           end
           parts.extend(ToRio::Array)
-          #parts.each do |part|
-          #  p "part=#{part.uri} abs=#{part.abs.uri}"
-          #end
-          # map to rios and extend the array with to_array
-          #parts.map { |arl| new_rio(arl) }.extend(ToRio::Array)
-          #parts.map { |arl| new_rio(arl) }
         end
         def basename(*args)
           unless args.empty?
@@ -184,7 +170,6 @@ module RIO
             softreset
             uri.ref.sub(re,arg.to_s)
           }
-          #new_rio(softreset.to_s.sub(re,arg.to_s))
         end
         def gsub(re,arg)
           new_rio(softreset.to_s.gsub(re,arg.to_s))
@@ -291,7 +276,6 @@ module RIO
             if self.abs?
               fs.symlink(self,dst) 
             else
-              #p "symlink(#{dst.route_to(self)},#{dst})"
               fs.symlink(dst.route_to(self).to_s,dst.to_s) 
             end
             dst.reset

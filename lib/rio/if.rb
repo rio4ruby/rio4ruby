@@ -37,16 +37,10 @@ require 'rio/if/internal'
 
 module RIO
   module IF
-    #autoload :Grande,           'rio/if/grande' 
     require 'rio/if/grande' 
-
-    #autoload :GrandeEntry,      'rio/if/grande_entry' 
     require 'rio/if/grande_entry' 
-    #autoload :GrandeStream,     'rio/if/grande_stream' 
     require 'rio/if/grande_stream' 
-    #autoload :Test,             'rio/if/test'
     require 'rio/if/test'
-
     require 'rio/if/path'
     require 'rio/if/fileordir'
     require 'rio/if/file'

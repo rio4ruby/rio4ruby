@@ -41,7 +41,6 @@ module RIO
       end
       require 'socket'
       def open(*args)
-        #          @host = 'localhost' if @host.nil? or @host.empty?
         super(::TCPSocket.new(@host || 'localhost',@port))
       end
       def to_s() self.url end

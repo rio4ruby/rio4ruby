@@ -25,40 +25,8 @@
 
 require 'rio/grande'
 require 'rio/cp'
-#require 'rio/ops/either'
 
 module RIO
-#   module Impl
-#     module U
-#       def self.rmdir(s) ::Dir.rmdir(s.to_s) end
-#       def self.mkdir(s,*args) ::Dir.mkdir(s.to_s,*args) end
-#       def self.chdir(s,&block) ::Dir.chdir(s.to_s,&block) end
-#       def self.foreach(s,&block) ::Dir.foreach(s.to_s,&block) end
-#       def self.entries(s) ::Dir.entries(s.to_s) end
-#       def self.cp_r(s,d)
-#         require 'fileutils'
-#         ::FileUtils.cp_r(s.to_s,d.to_s)
-#       end
-#       def self.find(s,&block) 
-#         require 'find'
-#         Find.find(s.to_s) do |f|
-#           yield f
-#         end
-#       end
-#       def self.glob(gstr,*args,&block) 
-#         ::Dir.glob(gstr,*args,&block) 
-#       end
-#       def self.rmtree(s)
-#         require 'fileutils'
-#         ::FileUtils.rmtree(s.to_s)
-#       end
-#       def self.mkpath(s) 
-#         require 'fileutils'
-#         ::FileUtils.mkpath(s.to_s) 
-#       end
-#     end
-#   end
-
   module Ops
     module Dir
       module ExistOrNot
@@ -72,15 +40,11 @@ module RIO
         include ExistOrNot
         include ::RIO::Ops::FileOrDir::NonExisting
         def mkdir(*args)
-          #p "ops/dir/mkdir: self=#{self.to_s}"
-          #p "ops/dir/mkdir: self.path=#{self.path.inspect}"
           fs.mkdir(self.path,*args); 
           softreset() 
         end
         def mkpath(*args) 
-          #          p callstr('mkpath',*args)
           fs.mkpath(self.path,*args); 
-          #fs.mkpath(self,*args); 
           softreset()
         end
         def rmdir(*args) self end
@@ -122,7 +86,6 @@ module RIO
           softreset()
         end
         def rmtree(*args) fs.rmtree(self.path,*args); softreset() end
-        # def rm(*args) fs.rm(self.path,*args); softreset() end
         
         alias :delete :rmdir
         alias :unlink :delete
@@ -217,13 +180,11 @@ module RIO
           end
         end
         def handle_skipped
-          #return unless cx.has_key?('skip_args') or cx['skipping']
           return self unless cx.has_key?('skip_args')
           args = cx['skip_args'] || []
           self.skipentries(*args)
         end
         def ent_to_rio_(ent,indir)
-          #p "ent_to_rio: ent=#{ent.inspect} indir=#{indir}"
           if ent.kind_of?(RIO::Rio)
             oldpath = ent.to_s
             ent.rl.urlpath = indir.to_s
@@ -241,9 +202,6 @@ module RIO
         end
         def handle_ent_(ent,indir,sel,&block)
           begin
-            #p "ENT=#{ent.inspect}"
-            #p "FS=#{rl.fs.inspect}"
-            #p "FS.ENCODING=#{rl.fs.encoding}"
             ent.force_encoding(rl.fs.encoding)
             erio = ent_to_rio_(ent,indir)
             if stream_iter?
@@ -252,7 +210,6 @@ module RIO
             else
               yield _add_iter_cx(erio) if sel.match?(erio)
             end
-            #p "handle_ent_2: #{erio.cx.inspect}"
             
             if cx.has_key?('all') and erio.directory?
               rsel = Match::Entry::SelectorClassic.new(cx['r_sel'],cx['r_nosel'])

@@ -173,6 +173,7 @@ module RIO
 
   end # class Rio
 end # module RIO
+
 module RIO
   class Rio
     USE_IF = true #:nodoc:

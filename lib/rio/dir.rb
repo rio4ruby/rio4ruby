@@ -126,7 +126,7 @@ module RIO
 
       def check?() true end
       def when_missing(sym,*args) 
-#        p callstr('when_missing',sym,*args)
+        # p callstr('when_missing',sym,*args)
         self.close_.retryreset()
       end
     end

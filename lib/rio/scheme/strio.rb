@@ -37,7 +37,6 @@ module RIO
       RIOPATH = RIO::RRL::CHMAP.invert[RIOSCHEME].to_s.freeze
       attr_accessor :str
       def initialize(u,str="")
-        #p "StrIO::RRL initialize: u=#{u.inspect} str=#{str.inspect}"
         alturi = ::Alt::URI.parse(u.to_s)
         super(alturi)
         self.query ||= str
@@ -62,7 +61,6 @@ module RIO
       alias :stringio :query
       alias :stringio= :query=
       def open(m,*args)
-        #p "STRIO open: m=#{m} args=#{args.inspect}"
         strio = self.stringio
         str = strio.string
         nstrio = self.stringio.reopen(str,m.to_s)

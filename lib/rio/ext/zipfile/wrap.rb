@@ -48,8 +48,6 @@ module RIO
             super
           end
           def close()
-            p "CLOSE: #{@zipstream.inspect}"
-            #p self.__getobj__.methods.sort
             super
             @closed = true
           end
@@ -60,7 +58,6 @@ module RIO
           def initialize(zipfile)
             @zipfile = zipfile
             @infs = RIO::ZipFile::InFile::FS.new(@zipfile)
-            #puts @zipfile.methods.sort
             @topents = get_topents_
             @entidx = 0
           end
@@ -83,7 +80,6 @@ module RIO
             }
           end
           def close
-            p "JERE"
             @zipfile.commit if @zipfile.commit_required?
           end
         end
@@ -110,84 +106,3 @@ module RIO
   end
 end
 __END__
-
-
-
-    class CentralDir
-      include Enumerable
-
-      def initialize(zipfilepath)
-        @zipfilepath = zipfilepath
-        @zipfile = Zip::ZipFile.new(@zipfilepath)
-        #puts @zipfile.methods.sort
-        topents = {}
-        @zipfile.entries.map{ |ent|
-          top = ent.to_s.match(%r|^(/?[^/]+(/)?)|)[1]
-          topents[top] = ent if top == ent.to_s
-        }
-        fs = RIO::ZipFile::FS::InFile.new(@zipfile)
-        @topents = topents.values.map{ |v| rio(RIO::Path::RL.new(v.to_s,{:fs => fs})) }
-        @entidx = 0
-      end
-#      def method_missing(sym,*args,&block)
-#        @zipfile.__send__(sym,*args,&block)
-#      end
-      def read
-        return nil if @entidx >= @topents.size
-        @entidx += 1
-        @topents[@entidx-1]
-      end
-      def rewind
-        @entidx = 0
-      end
-      def each(&block)
-        @topents.each { |ent|
-          yield ent
-        }
-      end
-      def close
-      end
-    end
-    module FS
-      class Base < RIO::FS::Base
-      end
-      class InFile < Base
-        attr_reader :file,:dir
-        def initialize(zipfile)
-          @zipfile = zipfile
-          @file = @zipfile.file
-          @dir = @zipfile.dir
-          @test = @zipfile.file
-        end
-        include RIO::FS::File
-        include RIO::FS::Dir
-        include RIO::FS::Test
-        include RIO::FS::Str
-      end
-      
-      class CentralDir < RIO::FS::Native
-        def initialize(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          super
-        end
-        def mkdir(path)
-          @zipfile.mkdir(path)
-        end
-        def rmdir(path)
-          @zipfile.remove(path)
-        end
-        def file()
-          self
-        end
-        def open(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          RIO::ZipFile::CentralDir.new(@zipfile)
-        end
-
-      end
-
-    end
-  end
-end

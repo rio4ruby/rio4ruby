@@ -23,9 +23,5 @@
 #
 module RIO
   class Rio
-
-    #def to_rl() target.to_rl end
-    
-      
   end
 end

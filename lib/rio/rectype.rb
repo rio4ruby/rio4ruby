@@ -38,7 +38,6 @@ module RIO
         def each_rec_(&block) 
           ih = self.ior
           ih.each_line { |line|
-          #self.ior.each { |line|
             yield line
           }
           self
@@ -47,7 +46,6 @@ module RIO
       module Output
         def put_(rec,*args)
           #p callstr('put_',rec,*args)
-          #p self.ioh.ios
           self.iow.print(rec.to_s)
         end  
       end
@@ -62,7 +60,6 @@ module RIO
         end
         def each_rec_(&block) 
           #p callstr('each_rec_ (EachIter::Bytes)')
-          #        p 'each_rec_ => each_line'
           self.ior.each_bytes(cx['bytes_n']) { |b|
             yield b
           }

@@ -38,23 +38,8 @@ module RIO
       end
     end
     module GZipRead
-#       def self.extend_object(ioh_stream)
-#         super
-#         gz = Zlib::GzipReader.new(ioh_stream.ios)
-#         gz.extend Filter::GZipMissing
-#         gz.extend Filter::GZipWin32MissingEachLine
-#         #ioh_stream.iostack.push(gz)
-#         ioh_stream.ios = gz
-#       end
     end
     module GZipWrite
-#       def self.extend_object(ioh_stream)
-#         super
-#         gz = Zlib::GzipWriter.new(ioh_stream.ios)
-#         gz.extend Filter::GZipMissing
-#         #ioh_stream.iostack.push(gz)
-#         ioh_stream.ios = gz
-#       end
     end
   end
 end

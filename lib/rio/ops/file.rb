@@ -22,29 +22,6 @@
 #++
 #
 
-
-#require 'rio/cp'
-#require 'rio/piper/cp'
-#require 'rio/ops/either'
-
-# module RIO
-#   module Impl
-#     module U
-#       def self.copy(s,d)
-#         require 'fileutils'
-#         ::FileUtils.cp(s.to_s,d.to_s)
-#       end
-#       def self.rm(s)
-#         require 'fileutils'
-#         ::FileUtils.rm(s.to_s)
-#       end
-#       def self.touch(s)
-#         require 'fileutils'
-#         ::FileUtils.touch(s.to_s)
-#       end
-#     end
-#   end
-# end
 module RIO
   module Ops
     module File
@@ -91,7 +68,6 @@ module RIO
         alias :delete! :delete
         def touch(*args) 
           rtn_reset { 
-            # fs.touch(self,*args) 
             ::File.open(self.to_s, 'a') {
               ;
             }

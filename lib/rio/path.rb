@@ -31,9 +31,6 @@ require 'rio/cp'
 module RIO
   
   module Path #:nodoc: all
-
-
-
     # Empty: 
     #  nil? or empty? => Emp
     #  else => Sin

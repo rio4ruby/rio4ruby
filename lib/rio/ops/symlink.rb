@@ -22,15 +22,6 @@
 #++
 #
 
-
-# module RIO
-#   module Impl
-#     module U
-#       def self.readlink(s,*args) ::File.readlink(s,*args) end
-#       def self.lstat(s,*args) ::File.lstat(s,*args) end
-#     end
-#   end
-# end
 module RIO
   module Ops
     module Symlink

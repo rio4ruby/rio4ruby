@@ -22,27 +22,6 @@
 #++
 #
 
-
-# begin
-#   require 'faster_csv'  # first choice--for speed
-
-#   # A CSV compatible interface for FasterCSV.
-#   module CSV  # :nodoc:
-#     def self.parse_line( line, field_sep=nil, row_sep=nil )
-#       FasterCSV.parse_line( line, :col_sep => field_sep || ",",
-#                                   :row_sep => row_sep   || :auto )
-#     end
-    
-#     def self.generate_line( array, field_sep=nil, row_sep=nil )
-#       FasterCSV.generate_line( array, :col_sep => field_sep || ",",
-#                                       :row_sep => row_sep   || "" )
-#     end
-#   end
-# rescue LoadError
-#   require 'csv'         # second choice--slower but standard
-# end
-
-
 $EXTEND_CSV_RESULTS = false
 module RIO
   module Ext
@@ -106,26 +85,7 @@ module RIO
       module Input
 
         protected
-#        def ior()
-#          p cx['stream_itertype']
-#          case cx['stream_itertype']
-#          when 'lines',nil
-#            self.ioh.iostack[-2]
-#          else
-#            self.ioh
-#          end
-#        end
-#         def each_rec_(&block)
-#           self.ior.each { |line|
-#             yield line
-#           }
-#           self
-#         end
-
         def to_rec_(raw_rec)
-          #return raw_rec
-          #_init_cols_from_line(raw_rec) if @recno == 0
-          #p "#{callstr('to_rec_',raw_rec.inspect,@recno)} ; itertype=#{cx['stream_itertype']}"
           case cx['stream_itertype']
           when 'lines' 
             if $EXTEND_CSV_RESULTS
@@ -182,9 +142,7 @@ module RIO
           tfields
         end
         def parse_line_(line)
-          #h = {:col_sep => fs, :row_sep => rs}
           line.chomp!
-          #p line
           ::CSV.parse_line(line,*cx['csv_args'])
         end
         def _l2a(line)
@@ -199,10 +157,6 @@ module RIO
               fields.csv_rec_to_s = _rec_to_s_proc(*cx['csv_args'])
             end
           end
-#          p "csv#fields: #{fields}"
-#          fields.each do |f|
-#            p f
-#          end
           fields.map{ |f| f.to_s }
         end
         def cnames(num)
@@ -332,8 +286,6 @@ module RIO
 
         def _ary_to_line(ary,*csv_args)
           rs ||= $/
-          #h = {:col_sep => fs, :row_sep => rs}
-          #p 'HERE',csv_args
           ::CSV.generate_line(ary,*csv_args)
         end
         public

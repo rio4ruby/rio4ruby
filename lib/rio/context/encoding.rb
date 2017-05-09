@@ -30,7 +30,6 @@ module RIO
 
     module Methods
       def enc(*args,&block) 
-        #ioh.set_encoding(*args) if ioh
         _set_enc_from_args(*args)
         cxx(:enc_args,args,&block) 
       end

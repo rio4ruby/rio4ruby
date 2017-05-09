@@ -70,7 +70,6 @@ module RIO
 
         def each_row(*args,&block) 
           #p callstr('each_row',*args)
-          #rows(*args).each_row_(*args,&block)
           rows(*args,&block)
           self
         end
@@ -99,14 +98,8 @@ module RIO
             raw_rec = self._get_rec
             return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
           end
-          #loop do
-          #  raw_rec = self._get_rec
-          #  return to_rec_(raw_rec) if @get_selrej.match?(raw_rec,@recno)
-          #  break if self.eof?
-          #end
           self.close if closeoneof?
           nil
-#          (closeoneof? ? self.on_eof_close{ nil } : nil)
         end
 
         private
@@ -164,7 +157,6 @@ module RIO
                 end
               end
             end
-            #return closeoneof? ? self.close : self
             throw :stop_iter
           end
           closeoneof? ? self.close : self
@@ -236,7 +228,6 @@ module RIO
         end
 
         def on_closeoneof()
-          #p "on_closeoneof #{self.object_id} #{self.ior.object_id}"
           self.close
         end
 

@@ -30,7 +30,6 @@ module RIO
     # For now this is all states, but that could change
     class Reset < State::Base
       def base_state() 
-        #p "RETURNING WIERD BASE STATE"
         'Path::Reset' 
       end
 

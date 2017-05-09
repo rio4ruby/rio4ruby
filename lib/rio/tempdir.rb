@@ -29,8 +29,6 @@ it apart in tempdir.rb.
 =end
 require 'tmpdir'
 
-
-
 module AutoRemoval #:nodoc: all
   MAX_TRY = 10
   @@cleanlist = []

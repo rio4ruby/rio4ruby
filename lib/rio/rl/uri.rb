@@ -32,9 +32,6 @@ require 'rio/alturi'
 module RIO
   module RL
     class URIBase < WithPath
-      #SCHEME = URI::REGEXP::PATTERN::SCHEME
-      #HOST = URI::REGEXP::PATTERN::HOST
-
       attr_accessor :uri
       def initialize(u,*args)
         # u should be a ::URI or something that can be parsed to one
@@ -50,7 +47,6 @@ module RIO
         @uri.path = '/' if @uri.absolute? and @uri.path == ''
       end
       def arg0_info_(arg0,*args)
-        #p "arg0_info_(#{arg0.inspect},#{args.inspect})"
         vuri,vbase,vfs = nil,nil,nil
         case arg0
         when RIO::Rio
@@ -64,7 +60,6 @@ module RIO
         else
           raise(ArgumentError,"'#{arg0}'[#{arg0.class}] can not be used to create a Rio")
         end
-        #puts "uri.rb arg0_info_: vuri=#{vuri}"
         [vuri,vbase,vfs]
       end
       def init_from_args_(arg0,*args)
@@ -75,7 +70,6 @@ module RIO
         fs = vfs if vfs 
       end
       def _get_base_from_arg(arg)
-        #p "_get_base: #{arg.inspect}"
         case arg
         when RIO::Rio
           arg.abs.to_uri
@@ -94,7 +88,6 @@ module RIO
           opts = args.pop
           if b = opts[:base]
             @base = _get_base_from_arg(b)
-            #@base.path.sub!(%r{/*$},'/')
           end
           if fs = opts[:fs]
             @fs = fs
@@ -123,7 +116,6 @@ module RIO
       end
       def urlpath() uri.path end
       def urlpath=(arg) 
-        #p uri,arg
         uri.path = arg 
       end
       def path()
@@ -149,7 +141,6 @@ module RIO
       end
       def pathroot()
         u = uri.clone
-        #u.query = nil
         case scheme
         when 'file'
           if self.urlpath =~ %r'^(/[a-zA-Z]):' then $1+':/'
@@ -170,7 +161,6 @@ module RIO
         @base || self.uri
       end
       def base=(arg)
-        #p "uri.rb:base= arg=#{arg.inspect}"
         @base = _uri(arg)
       end
       def join(*args)

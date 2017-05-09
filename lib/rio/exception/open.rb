@@ -33,17 +33,6 @@ module RIO
         @syserr = syse
       end
       def explain()
-#         s = "#{self.class}: failed copying '#{@src}' => #{@dst}"
-#         s += submsg("Err: #{@syserr}") if @syserr
-#         s += submsg("Src: '#{@src}' " + finfo(@src))
-#         s += submsg("Dst: '#{@dst}' " + finfo(@dst))
-#         target = ::RIO::rio(@dst,@src.filename) if @dst.dir?
-#         p target
-#         if target.exist?
-#           s += submsg("Tgt: '#{target} " + finfo(target))
-#         end
-                              
-#         s += "\n"
       end
     end
   end

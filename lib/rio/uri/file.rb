@@ -20,7 +20,6 @@ module URI
   #
   class FILE < Generic
     include REGEXP
-    #DEFAULT_PORT = 80
 
     COMPONENT = [
       :scheme, 
@@ -78,7 +77,7 @@ module URI
         if @registry || @opaque
           raise InvalidURIError, 
                 "can not set host with registry or opaque"
-          #      elsif v != '' and @parser.regexp[:HOST] !~ v
+        #      elsif v != '' and @parser.regexp[:HOST] !~ v
         elsif v != '' and HOST !~ v
           raise InvalidComponentError,
                 "bad component(expected host component): #{v}"
@@ -114,22 +113,6 @@ module URI
       self.host = '' if self.host.nil?
     end
 
-    #
-    # == Description
-    #
-    # Returns the full path for an HTTP request, as required by Net::HTTP::Get.
-    #
-    # If the URI contains a query, the full path is URI#path + '?' + URI#query.
-    # Otherwise, the path is simply URI#path.
-    #
-#     def request_uri
-#       r = path_query
-#       if r[0] != ?/
-#         r = '/' + r
-#       end
-
-#       r
-#     end
   end
 
   @@schemes['FILE'] = FILE

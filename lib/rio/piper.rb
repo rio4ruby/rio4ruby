@@ -80,13 +80,10 @@ module RIO
       def wr() @rios[0] end
       
       def run
-        #dups = @rios.map { |r| r.clone }
         dups = @rios
         (1...dups.size-1).each { |i| dups[i].w! }
         (1...dups.size).each { |i|
-          #p "#{dups[i-1].cx.inspect} > #{dups[i].cx.inspect}"
           dups[i-1] > dups[i]
-          #p dups[i-1].closed?
         }
         dups.each { |r| r.close.softreset }
         dups[-1]

@@ -32,6 +32,7 @@ module Alt
     end
   end
 end
+
 module Alt
   module URI
     module Ops
@@ -111,12 +112,8 @@ module Alt
           other.rel(self)
         end
         def join(*a)
-          #p "A=#{a.inspect}"
           pthstr = a.map(&:to_s).join('/')
-          #p "DODODODOD",a.map{ |ar| ar.is_a?(::String) ? "#{ar.encoding} #{ar}" : "#{ar}" }
-          #p pthstr.encoding,pthstr
           newpth = (self.path + (a.empty? || self.path.empty? ? '' : '/') + pthstr).squeeze('/')
-          #p "NEWPATH:",newpth.encoding,newpth
           self.path = newpth
         end
 
@@ -124,7 +121,9 @@ module Alt
     end
   end
 end
+
 require 'rio/alturi/path_parts'
+
 module Alt
   module URI
     class Base
@@ -159,6 +158,7 @@ module Alt
     end
   end
 end
+
 module Alt
   module URI
     class Generic < ::Alt::URI::Base
@@ -171,10 +171,6 @@ module Alt
         super
       end
       def normalize
-        
-        #if self.host
-        #  self.host = self.scheme ? "" : nil
-        #end
         super
       end
       include Ops::Generic
@@ -205,12 +201,6 @@ module Alt
       alias :fspath :netpath
       def fspath=(val) netpath = val end
 
-      #      def abs(base)
-      #        Alt::URI::Generic.new(parts.abs(base.parts))
-      #      end
-      #      def rel(base)
-      #        Alt::URI::Generic.new(parts.rel(base.parts))
-      #      end
     end
 
   end
@@ -331,9 +321,6 @@ module Alt
   end
 end
 
-
-
-
 module Alt
   module URI
     class FTP < ::Alt::URI::Base
@@ -373,15 +360,11 @@ module Alt
         [pth,typ]
       end
       def path
-        #p parts[:path]
         pth = parts._do_unesc(split_path_type[0])[1..-1]
-        #Alt::URI.unescape(split_path_type[0])[1..-1]
-        #parts.path
         pth
       end
       def path=(val)
         pth = parts._do_esc(val,:path).sub(%r{^/},'%2F')
-        #pth = Alt::URI.escape(val,:path).sub(%r{^/},'%2F')
         typ = self.typecode
         escpath = "/#{pth}" + (typ ? ";type=#{typ}" : "")
         parts[:path] = escpath
@@ -423,16 +406,6 @@ module Alt
   end
 end
 
-
-
-
-
-
-
-
-
-
-
 module Alt
   module URI
     module Factory
@@ -450,7 +423,6 @@ module Alt
       end
 
       def self.parse(str,opts={})
-        #str = "file:///" + str if str =~ /^[a-zA-Z]:/
         u = Alt::URI::Gen::URIParts.parse(str,opts)
         from_parts(u)
       end
@@ -462,32 +434,15 @@ module Alt
     end
   end
 end
+
 module Alt
   module URI
     def self.parse(str,opts={})
-      #p "Alt::URI.parse str=#{str}"
-      ans = Factory.parse(str,opts)
-      #p "   ans=#{ans.inspect}"
-      ans
+      Factory.parse(str,opts)
     end
     def self.create(hash)
       Factory.create(hash)
     end
-#    def self.escape(str,fld)
-#      if str
-#        # str.encode('UTF-8')
-#        Alt::URI::Escape.escape(str.force_encoding('US-ASCII'),fld) 
-#      end
-#    end
-#    def self.unescape(str)
-#      if str
-#        ustr = Alt::URI::Escape.unescape(str)
-#        @encoding ? ustr.force_encoding(@encoding) : ustr
-#      end
-#    end
   end
 end
 
-if __FILE__ == $0
-  # TODO Generated stub
-end

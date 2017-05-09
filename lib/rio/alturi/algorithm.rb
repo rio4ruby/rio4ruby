@@ -42,8 +42,6 @@ module Alt
         return out.join("/")
       end
 
-
-
       # 7) The resulting URI components, including any inherited from the
       #     base URI, are recombined to give the absolute form of the URI
       #     reference.  Using pseudocode, this would be
@@ -70,16 +68,6 @@ module Alt
 
       #        return result
 
-
-
-
-
-
-
-
-
-
-
       def self.uri_string(r)
         ( defined(r.scheme) ? r.scheme + ":"  : "") + 
           ( defined(r.authority) ? "//" + r.authority : "") + 
@@ -87,14 +75,12 @@ module Alt
           ( defined(r.query) ? "?" + r.query : "") +
           ( defined(r.fragment) ? "#" + r.fragment : "") 
       end
+
       def self.authority_string(r)
         ( defined(r.userinfo) ? r.userinfo + "@"  : "") + 
           r.host +
           ( defined(r.port) ? ":" + r.port : "") 
       end
-
-
-
 
       def self.defined(el)
         !el.nil?
@@ -307,7 +293,4 @@ module Alt
   end
 end
 
-if __FILE__ == $0
-  # TODO Generated stub
-end
 

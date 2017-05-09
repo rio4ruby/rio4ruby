@@ -41,13 +41,11 @@ module RIO
         fib.resume(*args)
       end
       def source_resume(*args)
-        # $stdout.printf("\n%s%-9s resumes-> %-12s (%s) ... ","  "*@@depth,self.fib.name,source.fib.name,args.join(","))
         @@depth += 1
         source.resume(*args)
       end
       def fiber_yield(*args)
         @@depth -= 1
-        # $stdout.printf("%s%s yields (%s)\n","  "*@@depth,self.fib.name,args.join(","))
         Fiber.yield(*args)
       end
       def dest_wait_for_reader
@@ -104,7 +102,6 @@ module RIO
       def duplex?() @is_duplex end
       def put(rec)
         data.out.write(rec)
-        #data.out.flush
       end
       def process_loop
         loop do 
@@ -117,14 +114,12 @@ module RIO
           rescue Errno::EINTR
             break
           rescue EOFError
-            # p "ToOutput: Loop Closing"
             data.in.close_read
             if duplex?
               data.out.close_write
             else
               data.out.close
             end
-            # p data.out.closed?
             dest_report_data_done unless dest?
             break
           end
@@ -256,9 +251,7 @@ module RIO
 
     class FibSourceProc < FromInput
       def initialize(*args)
-        #p "FibSourceProc args=#{args.inspect}"
         super(IO.popen(*args))
-        # @to_proc = ToProc.new(data.in)
       end
     end
 
@@ -278,96 +271,5 @@ module RIO
 
   end
 end
-
-__END__
-ior = File.open('lines10.txt')
-iow = $stdout
-#input = RIO::Cmd::FromInput.new(ior)
-#input = RIO::Cmd::FromFile.new('lines10.txt')
-input = RIO::Cmd::FromEnum.new(ior.to_enum)
-#to_out = RIO::Cmd::ToStdout.new
-output = RIO::Cmd::ToOutput.new($stdout)
-cat = RIO::Cmd::FibPipeProc.new(['cat','-n'],'w+')
-cat2 = RIO::Cmd::FibPipeProc.new(['cat','-n'],'w+')
-
-output.resume [cat,cat2,input]
-puts
-puts
-
-ls = RIO::Cmd::FibSourceProc.new(['ls','-l'])
-grepc = RIO::Cmd::FibPipeProc.new(['grep','2010-02-06'],'w+')
-output = RIO::Cmd::ToOutput.new($stdout)
-
-output.resume [grepc,ls]
-
-__END__
-__END__
-
-ls = RIO::Cmd::FibSourceProc.new(['ls','-l'])
-output = RIO::Cmd::ToOutput.new($stdout)
-output.resume [ls]
-
-
-__END__
-cat = RIO::Cmd::FibPipeProc.new(['cat','-n'],'w+')
-
-p '--------------------------------------------------------->>>>>>>>>>>'
-to_stdout.resume [cat,from_file]
-
-
-__END__
-from_file = RIO::Cmd::FromFile.new("lines10.txt")
-cat = RIO::Cmd::FibPipeProc.new(['cat','-n'],'w+')
-to_stdout = RIO::Cmd::ToStdout.new
-
-p '--------------------------------------------------------->>>>>>>>>>>'
-to_stdout.resume [cat,from_file]
-
-
-__END__
-from_file = FromFile.new("lines10.txt")
-
-ioproc = IO.popen(['cat','-n'],'w+')
-to_proc = ToProc.new(ioproc)
-from_proc = FromProc.new(ioproc)
-
-ioproc2 = IO.popen(['cat','-n'],'w+')
-to_proc2 = ToProc.new(ioproc2)
-from_proc2 = FromProc.new(ioproc2)
-
-to_stdout = ToStdout.new
-
-
-to_stdout.resume [from_proc,to_proc,from_proc2,to_proc2,from_file]
-
-
-__END__
-from_proc = FromProc.new(IO.popen(['ls','-l']))
-fpi = ToStdout.new
-fpi.resume [from_proc]
-
-
-__END__
-#from_file = FromFile.new("lines10.txt")
-from_file = FromFile.new("lines10.txt")
-#from_procy = FromProc.new(IO.popen(['yes','what is the deal']))
-from_proc = FromProcSelect.new(['cat','-n'])
-to_stdout = ToStdout.new
-
-
-to_stdout.resume [from_proc,from_file]
-
-
-__END__
-feeder = FromFile.new("lines10.txt")
-fpi = ToStdout.new
-fpi.resume [feeder]
-
-__END__
-
-
-feeder = FromFile.new("lines10.txt")
-fpi = ToStdout.new
-fpi.resume [feeder]
 
 __END__

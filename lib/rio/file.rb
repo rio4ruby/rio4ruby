@@ -22,16 +22,7 @@
 #++
 #
 
-
-#require 'rio/state'
-#require 'rio/ops/path'
-#require 'rio/ops/file'
-
-
-
 module RIO
-
-
   module File #:nodoc: all
     class Base < State::Base
       include Ops::Path::Str
@@ -39,14 +30,12 @@ module RIO
       protected
 
       def stream_rl_
-        #RIO::File::RL.new(self.to_uri,{:fs => self.fs})
         self.rl.file_rl
       end
 
       public
 
       def fstream() 
-        #p self.rl.class
         self.rl = self.stream_rl_
         become 'Path::Stream::Open'
       end

@@ -8,8 +8,6 @@ module RIO
     def initialize(u,b=nil)
       @ref = u
       @base = b
-      #p "URIRef#initialize u=#{u} (#{u.class}),b=#{b} (#{b.class})"
-      #puts caller[0,6]
       raise ArgumentError, "Either uri(#{u}) or base(#{b.inspect}) must be absolute" unless
         @ref.absolute? or @base.absolute?
     end
@@ -66,14 +64,12 @@ module RIO
 
     def self.path_str_to_uri(pth,opts={})
       cr_args = opts[:encoding] ? {:encoding => opts[:encoding]} : {} 
-      #p cr_args
       case
       when pth.start_with?("//")
         ::Alt::URI.create(cr_args.merge(:netpath => pth))
       when (pth.start_with?("/") or (pth =~ %r{^[a-zA-Z]:}))
         ::Alt::URI.create(cr_args.merge(:path => pth))
       when pth =~ %r{^[a-zA-Z][a-zA-Z]+:}
-        #pth = "/" + pth if pth =~ /^[a-zA-Z]:/
         ::Alt::URI.parse(pth,opts)
       else
         ::Alt::URI.create(cr_args.merge(:path => pth))
@@ -86,7 +82,6 @@ module RIO
       when (pth.start_with?("/") or (pth =~ %r{^[a-zA-Z]:}))
         ::Alt::URI.create(:scheme => 'file', :authority => "", :path => pth)
       when (pth =~ %r{^[a-zA-Z0-9-][a-zA-Z0-9-]+:})
-        #pth = "/" + pth if pth =~ /^[a-zA-Z]:/
         ::Alt::URI.parse(pth)
       else
         raise ArgumentError, "Base(#{pth.inspect}) must be absolute"
@@ -100,7 +95,6 @@ module RIO
       end
     end
     def rel(b=nil)
-      # p "uriref (#{self}).rel(#{b.inspect})"
       if b.nil?
        self.class.build(ref.rel(base),:base => base)
       else
@@ -108,12 +102,9 @@ module RIO
       end
     end
     def route_from(b)
-      # p "uriref (#{self}).route_from(#{b.inspect})"
-      #self.class.build(abs.ref,b).rel
       self.class.build(abs.ref.route_from(b.ref),:base => b)
     end
     def route_to(b)
-      #self.class.build(b,abs.ref).rel
       self.class.build(self.abs.ref.route_to(b.ref),:base => self.ref)
     end
     def join(*args)

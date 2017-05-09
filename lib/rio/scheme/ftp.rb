@@ -32,18 +32,11 @@ require 'rio/ftp/ftpfile'
 
 module RIO
   module FTP #:nodoc: all
-    #RESET_STATE = 'FTP::State::Reset'
     RESET_STATE = RIO::RRL::PathBase::RESET_STATE
     
     require 'rio/rrl/withpath'
 
     class RRL < RIO::RRL::URIBase
-    #  def initialize(arg0,*args)
-    #    p callstr('initialize',arg0.inspect,args.inspect)
-    #    super(*_sup_args(arg0,*args))
-    #    @ftype = nil
-    #    @names = nil
-    #  end
       def _sup_args(arg0,*args)
         if arg0 == 'ftp:'
           hn = args.shift || 'localhost'
@@ -58,39 +51,9 @@ module RIO
           return [arg0] + args
         end
       end
-#       def arg0_info_(arg0,*args)
-#         #p "arg0_info_(#{arg0.inspect},#{args.inspect})"
-#         vuri,vbase,vfs = nil,nil,nil
-#         case arg0
-#         when RIO::Rio
-#           return _init_from_arg(arg0.rl)
-#         when RIO::RRL::URIBase,RIO::FTP::RL
-#           vuri,vbase,vfs = arg0.uri,arg0.base,arg0.fs
-#         when ::URI 
-#           vuri = arg0
-#         when ::String 
-#           vuri = uri_from_string_(arg0) || ::URI.parse(arg0)
-#         else
-#           raise(ArgumentError,"'#{arg0}'[#{arg0.class}] can not be used to create a Rio")
-#         end
-#         [vuri,vbase,vfs]
-#       end
-#       def build_arg0_(path_str)
-#         path_str
-#       end
-#      def join(*args)
-#        return self if args.empty?
-#        join_(args.map{ |arg| RIO::RL.fs2url(arg.to_s)})
-#      end
       def typecode() uri.typecode end
       def typecode=(val) uri.typecode = val end
 
-#      def self.splitrl(s)
-#        #p "splitrl(#{s})"
-#        sub,opq,whole = split_riorl(s)
-#        #p sub,opq,whole
-#        [whole] 
-#      end
       def openfs_
         #p callstr('openfs_',self.uri)
         RIO::FTP::FS.create(self.uri)
@@ -119,9 +82,7 @@ module RIO
           when m.primarily_write?
             RIO::IOH::Stream.new(RIO::FTP::FTPFile.new(fs.remote_path(@uri.to_s),fs.conn))
           else
-            #p "scheme/ftp uri=#{@uri.inspect}"
             u = URI.parse(@uri.to_s)
-            #p "scheme/ftp u=#{u.inspect}"
             hndl = u.open
             RIO::IOH::Stream.new(hndl)
           end

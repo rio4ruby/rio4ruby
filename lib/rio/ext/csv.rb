@@ -22,37 +22,15 @@
 #++
 #
 
-
-# begin
-#   require 'faster_csv'  # first choice--for speed
-
-#   # A CSV compatible interface for FasterCSV.
-#   module CSV  # :nodoc:
-#     def self.parse_line( line, field_sep=nil, row_sep=nil )
-#       FasterCSV.parse_line( line, :col_sep => field_sep || ",",
-#                                   :row_sep => row_sep   || :auto )
-#     end
-    
-#     def self.generate_line( array, field_sep=nil, row_sep=nil )
-#       FasterCSV.generate_line( array, :col_sep => field_sep || ",",
-#                                       :row_sep => row_sep   || "" )
-#     end
-#   end
-# rescue LoadError
-#   require 'csv'         # second choice--slower but standard
-# end
-
 $USE_FASTER_CSV = false
 if RUBY_VERSION[0,3] >= '1.9'
   require 'csv'
   require 'rio/ext/csv/csv'
   $USE_FASTER_CSV = true
-  # p 'FASTER CSV 1.9'
 else
   begin 
     CSV.const_defined?('Reader')
     require 'rio/ext/csv/csv-legacy'
-    # p 'LEGACY CSV'
   rescue NameError
     begin
       require 'faster_csv'
@@ -60,11 +38,9 @@ else
       end
       require 'rio/ext/csv/csv'
       $USE_FASTER_CSV = true
-      # p 'FASTER CSV'
     rescue LoadError
       require 'csv'
       require 'rio/ext/csv/csv-legacy'
-      # p 'LEGACY CSV'
     end
   end
 end

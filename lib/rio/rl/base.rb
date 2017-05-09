@@ -68,9 +68,6 @@ module RIO
       end
 
       def rl() SCHC+self.url end
-
-#      def riorl() SCHC+self.url end
-
       def to_s() self.fspath || '' end
       def ==(other) self.to_s == other.to_s end
       def ===(other) self == other end
@@ -84,18 +81,8 @@ module RIO
 
       def url() self.scheme+SUBSEPAR+self.opaque end
       def close() 
-        #p "Closing RL #{self}"
         nil 
       end
-
-      #def fs2url(pth) RL.fs2url(pth) end
-      #def url2fs(pth) RL.url2fs(pth) end
-      #def escape(pth,esc=RL::ESCAPE)
-      #  RL.escape(pth,esc)
-      #end
-      #def unescape(pth)
-      #  RL.unescape(pth)
-      #end
 
       def callstr(func,*args)
         self.class.to_s+'['+self.to_s+']'+'.'+func.to_s+'('+args.join(',')+')'

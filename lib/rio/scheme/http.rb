@@ -29,10 +29,6 @@ module RIO
     
     require 'rio/rrl/withpath'
     class RRL < RIO::RRL::URIBase
-      #def self.splitrl(s) 
-      #  sub,opq,whole = split_riorl(s)
-      #  [whole] 
-      #end
       require 'uri'
       require 'open-uri'
       def open(*args)

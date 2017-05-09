@@ -28,7 +28,7 @@ class ::Object #:nodoc: all
   def true?() true end
   def false?() false end
 end
-# 2314
+
 module RIO
   module Match  #:nodoc: all
     module Entry

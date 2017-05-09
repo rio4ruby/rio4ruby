@@ -63,7 +63,6 @@ module RIO
       
       def pwd() conn.pwd end
       def getwd()
-        #p "GETWD self.pwd=#{self.pwd}"
         self.pwd
       end
       def cwd()
@@ -74,11 +73,9 @@ module RIO
         wduri.to_s
       end
       def remote_path(url)
-        #p "remote_path: url=#{url.inspect}"
         uri = Alt::URI.parse(url)
         path = uri.path
         wd = self.pwd
-        #p "remote_path remote_root=#{self.remote_root} path=#{path} wd=#{wd}"
         rpth = if path.start_with?('/') 
                  path 
                else
@@ -87,7 +84,6 @@ module RIO
         rpth
       end
       def chdir(url,&block)
-        #p "ftp::fs chdir url=#{url}"
         if block_given?
           wd = conn.pwd
           conn.chdir(remote_path(url))
@@ -102,11 +98,7 @@ module RIO
         end
       end
       def mkdir(url)
-        #p "ftp/fs/mkdir: url=#{url}"
         rp = remote_path(url)
-        #p "ftp/fs/mkdir: rp=#{rp}"
-        #wd = conn.pwd
-        #p "ftp/fs/mkdir: wd=#{wd}"
         conn.mkdir(rp)
       end
       def mv(src_url,dst_url)
@@ -132,9 +124,7 @@ module RIO
       end
 
       def get_ftype(url)
-        #p "get_ftype(#{url})"
         pth = remote_path(url)
-        #p "URL=#{url},PTH=#{pth}"
         ftype = nil
         begin
           conn.mdtm(pth)
@@ -165,7 +155,6 @@ module RIO
         false
       end
       def mkpath(url)
-        #p "mkpath: #{url.inspect}"
         pathparts = url.split('/')
         pathparts.shift if pathparts[0] == ""
         pathparts[0] = '/' + pathparts[0] if url.start_with?('/')
@@ -182,7 +171,6 @@ module RIO
       private
 
       def _rment(url)
-        #p "_rment(#{url})"
         ftype = get_ftype(url)
         case ftype
         when :file

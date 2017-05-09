@@ -63,7 +63,6 @@ module RIO
           @file = RIO::ZipFile::Wrap::File.new(@zipfile.file)
           @dir = RIO::ZipFile::Wrap::Dir.new(@zipfile.dir)
           @test = @file
-          #p "InFile: #{@file.class}"
         end
         include RIO::FS::File
         include RIO::FS::Dir
@@ -75,31 +74,3 @@ module RIO
 end
 
 __END__
-
-      
-      class CentralDir < RIO::FS::Native
-        def initialize(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          super
-        end
-        def mkdir(path)
-          @zipfile.mkdir(path)
-        end
-        def rmdir(path)
-          @zipfile.remove(path)
-        end
-        def file()
-          self
-        end
-        def open(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          RIO::ZipFile::CentralDir.new(@zipfile)
-        end
-
-      end
-
-    end
-  end
-end

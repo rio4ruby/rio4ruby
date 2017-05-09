@@ -36,7 +36,6 @@ module RIO
       def initialize(zipfilepath)
         @zipfilepath = zipfilepath
         @zipfile = Zip::ZipFile.new(@zipfilepath)
-        #puts @zipfile.methods.sort
         @topents = get_topents_
         @entidx = 0
       end
@@ -76,31 +75,3 @@ module RIO
 end
 
 __END__
-
-      
-      class CentralDir < RIO::FS::Native
-        def initialize(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          super
-        end
-        def mkdir(path)
-          @zipfile.mkdir(path)
-        end
-        def rmdir(path)
-          @zipfile.remove(path)
-        end
-        def file()
-          self
-        end
-        def open(zipfilepath)
-          @zipfilepath = zipfilepath
-          @zipfile = Zip::ZipFile.new(@zipfilepath)
-          RIO::ZipFile::CentralDir.new(@zipfile)
-        end
-
-      end
-
-    end
-  end
-end

@@ -33,8 +33,6 @@ module RIO
       RESET_STATE = 'Path::Reset'
 
       def arg0_info_(arg0,*args)
-        #p "arg0_info_(#{arg0.inspect},#{args.inspect})"
-        #p callstr('init_from_args_',arg0.inspect,args)
         vuri,vbase,vfs = nil,nil,nil
         case arg0
         when RIO::Rio, URIBase, ::Alt::URI::Base, ::Alt::URI::File
@@ -44,7 +42,6 @@ module RIO
         else
           raise(ArgumentError,"'#{arg0}'[#{arg0.class}] can not be used to create a Rio")
         end
-        #puts "path.rb arg0_info_: vuri=#{vuri}"
         [vuri,vbase,vfs]
       end
       def build_arg0_(path_str)
@@ -67,27 +64,11 @@ module RIO
         return self if args.empty?
         join_(args.map{ |arg| arg.to_s})
       end
-      #def fspath() 
-      #  if use_host?
-      #    '//' + uri.host + RL.url2fs(self.urlpath)
-      #  else 
-      #    RL.url2fs(self.urlpath)
-      #  end
-      #end
-#      def fspath=(pt)
-#        if pt =~ %r|^//(#{HOST})(/.*)?$|
-#          @host = $1
-#          @fspath = $2 || '/'
-#        else
-#          @fspath = pt
-#        end
-#      end
       def to_s()
         self.fspath
       end
       def self.splitrl(s)
         sch,opq,whole = split_riorl(s)
-        #p sch,opq,whole
         case sch
         when 'file' then [whole]
         else [opq]

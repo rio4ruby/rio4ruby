@@ -100,9 +100,6 @@ end
 module RIO
   module RL
     class WithPath < RIO::RL::Base
-      #SCHEME = URI::REGEXP::PATTERN::SCHEME
-      #HOST = URI::REGEXP::PATTERN::HOST
-
       # returns the path as the file system sees it. Spaces are spaces and not
       # %20 etc. This is the path that would be passed to the fs object.
       # For windows RLs this includes the '//host' part and the 'C:' part
@@ -112,7 +109,6 @@ module RIO
       end
 
       def fspath=(fpth)
-        #p "FSPATH= #{fpth} => #{RL.fs2url(fpth)}"
         uri.netpath = fpth
       end
       
@@ -132,7 +128,6 @@ module RIO
       end
       def pathdepth()
         pth = self.path_no_slash
-        #is_root?(pth) ? 0 : pth.count('/')
         pth.count('/')
       end
 
@@ -147,14 +142,11 @@ module RIO
         thebase ||= self.base
         base_uri = _uri(thebase)
         path_uri = self.uri.clone
-        #p "abs: base_uri=#{base_uri.inspect}"
-        #p "abs: path_uri=#{path_uri.inspect}"
         if path_uri.scheme == 'file' and base_uri.scheme != 'file'
           abs_uri = path_uri.abs(base_uri)
         else
           abs_uri = path_uri.abs(base_uri)
         end
-        #p "abs: abs_uri=#{abs_uri.inspect}"
         _build(abs_uri,{:fs => self.fs})
       end
 
@@ -194,11 +186,10 @@ module RIO
 
       end
 
-      # changes this RLs path so that is consists of this RL's path
+      # changes this RLs path so that it consists of this RL's path
       # combined with those of its arguments.
       def join(*args)
         return self if args.empty?
-        #sa = args.map { |arg| ::URI.escape(arg.to_s,ESCAPE) }
         sa = args.map { |arg| arg.to_s }
         join_(sa)
       end
@@ -213,15 +204,6 @@ module RIO
       # like File#dirname
       # returns a RL
       def dirname() 
-        #u = uri.clone
-        #u.path = fs.dirname(uri.path).sub(%r{/*$},'/')
-        #puts
-        #if uri.scheme == 'file'
-        #  u.host = self.host
-        #else
-        #  u.scheme = uri.scheme
-        #  u.host = uri.host
-        #end
         RIO::RL::Builder.build(uri.dirname)
       end
         
@@ -260,17 +242,7 @@ module RIO
       def _build(*args) RIO::RL::Builder.build(*args) end
 
       def uri_from_string_(str)
-        #p "uri_from_string(#{str})"
         ::Alt::URI.parse(str)
-        #case str
-        #when %r%^file://(#{HOST})?(/.*)?$% then ::URI.parse(str)
-        #when %r/^[a-zA-Z]:/ then 
-        #  ::URI.parse(str)
-        #when %r/^#{SCHEME}:/ then ::URI.parse(str)
-        #when %r{^/} then ::URI.parse('file://'+str+( ( str[-1,0] == '/' ) ? "" : "/"))
-        #when %r{^/} then ::URI.parse('file://'+RL.fs2url(str))
-        #else ::URI.parse(str)
-        #end
       end
     end
   end
