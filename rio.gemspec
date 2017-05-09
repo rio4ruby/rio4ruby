@@ -24,9 +24,7 @@ Gem::Specification.new do |gem|
                        '--main' << 'README'
   gem.rubyforge_project = 'rio'
 
-  gem.required_ruby_version = '>= 1.9.2'
+  gem.required_ruby_version = '>= 2.3.1'
+  gem.licenses = ['GPL-2.0']
 
-  # gem.add_dependency "test-unit"
-  # gem.add_dependency "rdoc"
-  gem.add_dependency "power_assert"
 end
