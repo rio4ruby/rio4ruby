@@ -1,6 +1,6 @@
 #--
 # ===========================================================================
-# Copyright (c) 2005-2012 Christopher Kleckner
+# Copyright (c) 2005-2017 Christopher Kleckner
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.
@@ -26,7 +26,7 @@
 # :title: Rio
 
 module RIO
-# Copyright (c) 2005-2012 Christopher Kleckner.
+# Copyright (c) 2005-2017 Christopher Kleckner.
 # All rights reserved
 #
 # This file is part of the Rio library for ruby.

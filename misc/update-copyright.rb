@@ -1,7 +1,7 @@
 require 'rio'
 
-old_cr = 'Copyright (c) 2005,2006,2007,2008,2009,2010 Christopher Kleckner'
-new_cr = 'Copyright (c) 2005-2012 Christopher Kleckner'
+old_cr = 'Copyright (c) 2005-2012 Christopher Kleckner'
+new_cr = 'Copyright (c) 2005-2017 Christopher Kleckner'
 
 old_cr_re = Regexp.new(Regexp.escape(old_cr))
 
