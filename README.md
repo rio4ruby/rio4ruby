@@ -18,9 +18,9 @@ along with Rio; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
-= Rio - Ruby I/O Facilitator
+# Rio - Ruby I/O Facilitator
 
-fa-cil-i-tate:  To make easy or easier 
+**fa-cil-i-tate**:  _To make easy or easier_ 
 
 Rio is a facade for most of the standard ruby classes that deal with
 I/O; providing a simple, intuitive, succinct interface to the
@@ -29,8 +29,7 @@ Tempfile, StringIO, OpenURI and others. Rio also provides an
 application level interface which allows many common I/O idioms to be
 expressed succinctly.
 
-==== Installation
-
+### Installation
 
 Add this line to your application's Gemfile:
 
@@ -44,28 +43,12 @@ Or install it yourself as:
 
     $ gem install rio
 
-==== Usage
+### Usage
 
-* RIO::Doc::SYNOPSIS
-* RIO::Doc::INTRO
-* RIO::Doc::HOWTO
-* RIO::Doc::EXAMPLES
-* RIO::Rio
+Rio is extensively documented at http://rio4ruby.com
 
-
-==== Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-
-Project::       http://rubyforge.org/projects/rio/
 Documentation:: http://rio4ruby.com/
-Bugs::          http://rubyforge.org/tracker/?group_id=821
-Blog::		http://rio4ruby.blogspot.com/
-Email::         rio4ruby@rubyforge.org
+Project::       https://github.com/rio4ruby/rio4ruby
+Email::         rio4ruby@rio4ruby.com
 
 
