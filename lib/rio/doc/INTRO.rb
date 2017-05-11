@@ -850,7 +850,7 @@ module Doc
 #
 # Run a cmd that must be opened for read and write
 #
-#  ans = rio(?-,'cat').w!.puts!("Hello Kitty").readline
+#  ans = rio(?-,'cat').w!.puts("Hello Kitty").chomp.readline
 #
 # The automatic selection of mode can be bypassed entirely using
 # {#mode}[rdoc-ref:IF::RubyIO#mode] and {#open}[rdoc-ref:IF::FileOrDir#open].
