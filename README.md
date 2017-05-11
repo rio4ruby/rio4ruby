@@ -11,10 +11,13 @@ expressed succinctly.
 
 ### Examples
 
+Visit http://rio4ruby.com for documentation and more examples. 
+
 Iterate over the .rb files in a directory.
 ```ruby
 rio('adir').files('*.rb') { |entrio| ... }
 ```
+
 Return an array of the .rb files in a directory.
 ```ruby
 rio('adir').files['*.rb']
@@ -55,7 +58,6 @@ Read a web-page into a string
 astring = rio('http://rubydoc.org/').read
 ```
 
-
 Ways to get the chomped lines of a file into an array
 ```ruby
 anarray = rio('afile').chomp[]         # subscript operator
@@ -70,63 +72,76 @@ Iterate over selected lines of a file
  rio('adir').lines(/re/) { |aline| ... }       # by regular expression
  rio('adir').lines(0..3,/re/) { |aline| ... }  # or both
 ```
-# 
+
 Return selected lines of a file as an array
 ```ruby
  rio('adir').lines[0..3]       # a range of lines
  rio('adir').lines[/re/]       # by regular expression
  rio('adir').lines[0..3,/re/]  # or both
 ```
+
 Iterate over selected chomped lines of a file
 ```ruby
  rio('adir').chomp.lines(0..3) { |aline| ... }       # a range of lines
  rio('adir').chomp.lines(/re/) { |aline| ... }       # by regular expression
 ```
+
 Return selected chomped lines of a file as an array
 ```ruby
  rio('adir').chomp[0..3]  # a range of lines
  rio('adir').chomp[/re/]  # by regular expression
 ```
+
 Copy a gzipped file un-gzipping it
 ```ruby
  rio('afile.gz').gzip > rio('afile')
 ```
+
 Copy a plain file, gzipping it
 ```ruby
  rio('afile.gz').gzip < rio('afile')
 ```
+
 Copy a file from a ftp server into a local file un-gzipping it
 ```ruby
  rio('ftp://host/afile.gz').gzip > rio('afile')
 ```
+
 Return an array of .rb files excluding symlinks to .rb files
 ```ruby
  rio('adir').files('*.rb').skip[:symlink?]
 ```
+
 Put the first 10 chomped lines of a gzipped file into an array
 ```ruby
  anarray =  rio('afile.gz').chomp.gzip[0...10] 
 ```
+
 Copy lines 0 and 3 thru 5 of a gzipped file on an ftp server to stdout
 ```ruby
  rio('ftp://host/afile.gz').gzip.lines(0,3..5) > ?-
 ```
+
 Return an array of files in a directory and its subdirectories, without descending into .svn directories. 
 ```ruby
  rio('adir').norecurse(/^\.svn$/).files[]
 ```
+
 Iterate over the non-empty, non-comment chomped lines of a file
 ```ruby
  rio('afile').chomp.skip(:empty?,/^\s*#/) { |line| ... }
 ```
+
 Copy the output of th ps command into an array, skipping the header line and the ps command entry
 ```ruby
  rio(?-,'ps -a').skiplines(0,/ps$/) > anarray 
 ```
+
 Prompt for input and return what was typed
 ```ruby
  ans = rio(?-).print("Type Something: ").chomp.gets 
 ```
+
 Change the extension of all .htm files in a directory and its subdirectories to .html
 ```ruby
  rio('adir').rename.all.files('*.htm') do |htmfile|
