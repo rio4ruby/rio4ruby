@@ -11,12 +11,14 @@ expressed succinctly.
 
 ### Examples
 
-# Iterate over the .rb files in a directory.
-#  rio('adir').files('*.rb') { |entrio| ... }
-#
-# Return an array of the .rb files in a directory.
-#  rio('adir').files['*.rb']
-#
+Iterate over the .rb files in a directory.
+```ruby
+rio('adir').files('*.rb') { |entrio| ... }
+```
+Return an array of the .rb files in a directory.
+```ruby
+rio('adir').files['*.rb']
+```
 
 
 ### Installation
